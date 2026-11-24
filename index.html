@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0a6b5c">
+<title>صحتي</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eef6f3;--card:#fff;--tx:#10241f;--mu:#62786f;--pr:#0d8f7a;--pd:#074f46;--ac:#ff6b5e;--soft:#e1f2ed;--bd:#dbe9e4;--sh:0 4px 18px rgba(7,79,70,.09);--c1:#0d8f7a;--c2:#3b82c4;--c3:#8b5cf6;--c4:#e08a00;--c5:#d94f8a;--c6:#0891b2;--c7:#5468d4;--c8:#d63b3b;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0a1512;--card:#13211d;--tx:#e6f2ee;--mu:#93aba2;--pr:#3fc9ad;--pd:#0c3a34;--soft:#1a2f2a;--bd:#233a34;--sh:0 4px 18px rgba(0,0,0,.35);--c1:#3fc9ad;--c2:#6aaee8;--c3:#a98bf5;--c4:#f2b04a;--c5:#f08bb5;--c6:#3ec5e0;--c7:#8a9bf0;--c8:#f27a7a;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0a1512;--card:#13211d;--tx:#e6f2ee;--mu:#93aba2;--pr:#3fc9ad;--pd:#0c3a34;--soft:#1a2f2a;--bd:#233a34;--sh:0 4px 18px rgba(0,0,0,.35);--c1:#3fc9ad;--c2:#6aaee8;--c3:#a98bf5;--c4:#f2b04a;--c5:#f08bb5;--c6:#3ec5e0;--c7:#8a9bf0;--c8:#f27a7a;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:"Tajawal",system-ui,-apple-system,"Segoe UI",Tahoma,Arial,sans-serif;line-height:1.55}
+.hero{position:relative;overflow:hidden;color:#fff;padding:18px 18px 70px;background:linear-gradient(150deg,#053f38 0%,#0a7a69 55%,#27b59b 100%);border-radius:0 0 34px 34px}
+.hero svg.bg{position:absolute;inset:0;width:100%;height:100%;opacity:.5;pointer-events:none}
+.top{position:relative;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.brand{display:flex;align-items:center;gap:10px}
+.logo{width:44px;height:44px;border-radius:14px;background:rgba(255,255,255,.18);display:grid;place-items:center;backdrop-filter:blur(6px)}
+.brand b{font-size:1.5rem;font-weight:800;display:block;line-height:1.1}
+.brand small{opacity:.85;font-size:.78rem}
+.tools{display:flex;gap:6px;align-items:center}
+.seg{display:flex;background:rgba(255,255,255,.16);border-radius:12px;padding:3px}
+.seg button{border:0;background:transparent;color:#fff;font:inherit;font-size:.78rem;padding:5px 9px;border-radius:9px;font-weight:700}
+.seg button{display:grid;place-items:center}.seg button svg{display:block}.ecg{stroke-dasharray:180 820;animation:dr 3.600s linear infinite}@keyframes dr{from{stroke-dashoffset:1000}to{stroke-dashoffset:0}}@media (prefers-reduced-motion:reduce){.ecg{animation:none}}.seg button.on{background:#fff;color:#074f46}
+.ico{width:36px;height:36px;border:0;border-radius:12px;background:rgba(255,255,255,.16);color:#fff;display:grid;place-items:center}
+.stats{position:relative;display:flex;gap:8px;margin-top:20px}
+.stats div{flex:1;background:rgba(255,255,255,.14);border-radius:14px;padding:8px 6px;text-align:center;backdrop-filter:blur(6px)}
+.stats b{display:block;font-size:1.25rem;font-weight:800}
+.stats span{font-size:.68rem;opacity:.9}
+main{padding:0 14px 120px;max-width:720px;margin:-48px auto 0;position:relative}
+.search{display:flex;align-items:center;gap:8px;background:var(--card);border-radius:18px;padding:6px 14px;box-shadow:var(--sh);border:1px solid var(--bd)}
+.search input{flex:1;border:0;background:transparent;color:var(--tx);font:inherit;padding:10px 0;outline:0;min-width:0}
+.search select{border:0;background:var(--soft);color:var(--pr);font:inherit;font-size:.82rem;font-weight:700;border-radius:10px;padding:6px 8px;max-width:38%}
+.sos{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}
+.sos a{display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 4px;border-radius:16px;text-decoration:none;color:#fff;font-weight:800;font-size:.8rem;box-shadow:var(--sh)}
+.sos a b{font-size:1.4rem;line-height:1}
+.sos a:nth-child(1){background:linear-gradient(135deg,#ff6b5e,#e6483b)}
+.sos a:nth-child(2){background:linear-gradient(135deg,#f5a524,#e07b00)}
+.sos a:nth-child(3){background:linear-gradient(135deg,#3b82c4,#2563a8)}
+.chips{display:flex;gap:7px;overflow-x:auto;padding:2px 0 10px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chips button{flex:none;border:1px solid var(--bd);background:var(--card);color:var(--tx);font:inherit;font-size:.82rem;padding:6px 13px;border-radius:20px}
+.chips button.on{background:var(--pr);color:#fff;border-color:var(--pr);font-weight:700}
+.card{display:flex;gap:12px;background:var(--card);border:1px solid var(--bd);border-radius:20px;padding:14px;margin-bottom:11px;box-shadow:var(--sh)}
+.ci{flex:none;width:50px;height:50px;border-radius:16px;display:grid;place-items:center;color:#fff}
+.cb{flex:1;min-width:0}
+.cb h3{margin:0;font-size:1rem;font-weight:800;line-height:1.35}
+.tag{display:inline-block;background:var(--soft);color:var(--pr);font-size:.74rem;font-weight:700;border-radius:8px;padding:1px 8px;margin:4px 0}
+.mu{color:var(--mu);font-size:.85rem}
+.acts{display:flex;gap:7px;margin-top:9px;flex-wrap:wrap}
+.acts a,.acts button{display:inline-flex;align-items:center;gap:5px;padding:7px 12px;border-radius:11px;border:0;background:var(--soft);color:var(--pr);font:inherit;font-size:.82rem;font-weight:700;text-decoration:none}
+.acts .go{background:var(--pr);color:#fff}
+.acts .del{background:transparent;color:var(--ac)}
+.fav{flex:none;align-self:flex-start;border:0;background:transparent;color:var(--mu);padding:2px}
+.fav.on{color:var(--ac)}
+.empty{text-align:center;color:var(--mu);padding:34px 14px}
+.empty svg{opacity:.5}
+.note{text-align:center;color:var(--mu);font-size:.78rem;padding:6px 10px}
+nav{position:fixed;bottom:0;inset-inline:0;background:var(--card);border-top:1px solid var(--bd);display:flex;overflow-x:auto;scrollbar-width:none;padding:8px 6px calc(8px + env(safe-area-inset-bottom,0px));z-index:5;box-shadow:0 -4px 18px rgba(0,0,0,.07)}
+nav button{flex:1 0 62px;border:0;background:transparent;color:var(--mu);font:inherit;font-size:.66rem;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 0}
+nav button.on{color:var(--pr)}
+nav button.on i{background:var(--soft)}
+nav i{width:40px;height:28px;border-radius:14px;display:grid;place-items:center;font-style:normal}
+.fab{position:fixed;inset-inline-end:16px;bottom:calc(86px + env(safe-area-inset-bottom,0px));z-index:6;background:linear-gradient(135deg,#ff7a6c,#e6483b);color:#fff;border:0;border-radius:30px;padding:13px 20px;font:inherit;font-weight:800;box-shadow:0 6px 18px rgba(230,72,59,.45);display:flex;gap:6px;align-items:center}
+dialog{border:1px solid var(--bd);border-radius:22px;background:var(--card);color:var(--tx);width:92%;max-width:430px;padding:18px;font-family:inherit}
+dialog::backdrop{background:rgba(5,30,26,.55)}
+dialog label{display:block;margin:10px 0 4px;font-size:.84rem;color:var(--mu);font-weight:700}
+dialog input,dialog select,dialog textarea{width:100%;padding:11px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);border-radius:12px;font:inherit}
+dialog .acts{margin-top:16px}
+dialog .acts button{flex:1;justify-content:center;padding:11px}
+.grp{margin:16px 2px 8px;font-weight:800;color:var(--pr);font-size:.92rem;display:flex;justify-content:space-between}.grp span{background:var(--soft);border-radius:10px;padding:0 9px;font-size:.78rem}dialog textarea{min-height:130px;direction:ltr;font-size:.82rem}.ph{direction:ltr;unicode-bidi:plaintext;font-weight:700;color:var(--tx)}</style>
+</head>
+<body>
+<section class="hero">
+<svg class="bg" viewBox="0 0 400 260" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><pattern id="pl" width="72" height="72" patternUnits="userSpaceOnUse"><g transform="translate(20 18) scale(1.2)" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" opacity=".15"><path d="M11 2v2M5 2v2M5 3H4a2 2 0 0 0-2 2v4a6 6 0 0 0 12 0V5a2 2 0 0 0-2-2h-1M8 15a6 6 0 0 0 12 0v-3"/><circle cx="20" cy="10" r="2"/></g></pattern></defs><rect width="400" height="260" fill="url(#pl)"/><circle cx="360" cy="30" r="90" fill="#fff" opacity=".07"/><circle cx="30" cy="250" r="110" fill="#fff" opacity=".06"/><path d="M0 205h95l9-9 9 9h13l8-42 13 78 12-60 8 24h24l8-7 7 7h194" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity=".25"/><path class="ecg" pathLength="1000" d="M0 205h95l9-9 9 9h13l8-42 13 78 12-60 8 24h24l8-7 7 7h194" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity=".95"/></svg>
+<div class="top">
+<div class="brand"><div class="logo" style="background:none"><img src="icon-192.png" width="46" height="46" alt="" style="display:block;border-radius:13px"></div><div><b id="app"></b><small id="tag"></small></div></div>
+<div class="tools"><div class="seg" id="langs"></div><button class="ico" id="imp" aria-label="import"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3M7 8l5-5 5 5M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/></svg></button><div class="seg" id="mode"></div></div>
+</div>
+<div class="stats" id="stats"></div>
+</section>
+<main>
+<div class="search"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--pr)" stroke-width="2.200" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.300-4.300"/></svg><input id="q" type="search"><select id="w"></select></div>
+<div class="sos" id="sos"></div>
+<div class="chips" id="chips"></div>
+<div id="list"></div>
+<div class="note" id="note"></div>
+</main>
+<button class="fab" id="add"></button>
+<nav id="nav"></nav>
+<dialog id="dlg"><b id="dt" style="font-size:1.1rem"></b>
+<label id="l1"></label><input id="f_n">
+<label id="l2" class="spec"></label><select id="f_s" class="spec"></select>
+<label id="l3"></label><input id="f_w">
+<label id="l4"></label><input id="f_a">
+<label id="l5"></label><input id="f_p" type="tel" dir="ltr">
+<div class="acts"><button class="go" id="ok"></button><button id="cx"></button></div></dialog>
+<dialog id="dlg2"><b id="d2t" style="font-size:1.1rem"></b><p class="mu" id="d2h"></p><textarea id="im_t" style="width:100%"></textarea><input type="file" id="im_f" accept=".csv,.txt" style="margin-top:8px"><div class="acts"><button class="go" id="im_ok"></button><button id="im_ex"></button><button id="im_cx"></button></div></dialog>
+<script>
+var T={
+ar:{app:"صحتي",tag:"دليلك الصحي في الجزائر",h:"المستشفيات",c:"العيادات",d:"الأطباء",l:"المخابر",p:"الصيدليات",lt:"الوضع العادي",nt:"الوضع الليلي",g:"الأسنان",r:"الأشعة",e:"الطوارئ",choose:"اختر التخصص",im:"استيراد وتصدير",imh:"الصق سطراً لكل جهة: النوع;الاسم;التخصص;الولاية;العنوان;الهاتف. الأنواع: h مستشفى، c عيادة، d طبيب، g أسنان، l مخبر، r أشعة، p صيدلية، e طوارئ. أو اختر ملف CSV.",imok:"استيراد",imex:"نسخ بياناتي",imcx:"إغلاق",imd:"تم استيراد: ",f:"المفضلة",s:"ابحث بالاسم أو التخصص",all:"كل الولايات",add:"إضافة",call:"اتصال",map:"الخريطة",share:"مشاركة",del:"حذف",none:"لا توجد نتائج هنا بعد",note:"البيانات الأولية تشمل كبرى المستشفيات الجامعية فقط. أضف العيادات والأطباء بنفسك وتحقق من الأرقام قبل الاعتماد عليها.",nm:"الاسم",sp:"التخصص",wl:"الولاية",ad:"العنوان",ph:"الهاتف",ok:"حفظ",cx:"إلغاء",sos:["الإسعاف","الحماية المدنية","الشرطة"],allsp:"الكل",cp:"تم النسخ"},
+fr:{app:"Sihhati",tag:"Votre guide santé en Algérie",h:"Hôpitaux",c:"Cliniques",d:"Médecins",l:"Labos",p:"Pharmacies",lt:"Mode clair",nt:"Mode nuit",g:"Dentistes",r:"Imagerie",e:"Urgences",choose:"Spécialité",im:"Import / export",imh:"Une ligne par entrée : type;nom;spécialité;wilaya;adresse;téléphone. Types : h hôpital, c clinique, d médecin, g dentiste, l labo, r imagerie, p pharmacie, e urgences. Ou choisissez un fichier CSV.",imok:"Importer",imex:"Copier mes données",imcx:"Fermer",imd:"Importés : ",f:"Favoris",s:"Nom ou spécialité",all:"Toutes les wilayas",add:"Ajouter",call:"Appeler",map:"Carte",share:"Partager",del:"Supprimer",none:"Aucun résultat pour l’instant",note:"Les données initiales ne couvrent que les grands CHU. Ajoutez cliniques et médecins vous-même et vérifiez les numéros avant de vous y fier.",nm:"Nom",sp:"Spécialité",wl:"Wilaya",ad:"Adresse",ph:"Téléphone",ok:"Enregistrer",cx:"Annuler",sos:["SAMU","Protection civile","Police"],allsp:"Tout",cp:"Copié"},
+en:{app:"Sihhati",tag:"Your health guide in Algeria",h:"Hospitals",c:"Clinics",d:"Doctors",l:"Labs",p:"Pharmacies",lt:"Light mode",nt:"Night mode",g:"Dentists",r:"Imaging",e:"Urgent",choose:"Specialty",im:"Import / export",imh:"One line per entry: type;name;specialty;wilaya;address;phone. Types: h hospital, c clinic, d doctor, g dentist, l lab, r imaging, p pharmacy, e emergency. Or pick a CSV file.",imok:"Import",imex:"Copy my data",imcx:"Close",imd:"Imported: ",f:"Favorites",s:"Search name or specialty",all:"All wilayas",add:"Add",call:"Call",map:"Map",share:"Share",del:"Delete",none:"Nothing here yet",note:"Initial data covers only major university hospitals. Add clinics and doctors yourself and verify numbers before relying on them.",nm:"Name",sp:"Specialty",wl:"Wilaya",ad:"Address",ph:"Phone",ok:"Save",cx:"Cancel",sos:["Ambulance","Civil protection","Police"],allsp:"All",cp:"Copied"}
+};
+var W={"الجزائر":"Alger","وهران":"Oran","قسنطينة":"Constantine","عنابة":"Annaba","تيزي وزو":"Tizi Ouzou","البليدة":"Blida","تلمسان":"Tlemcen","سطيف":"Sétif","باتنة":"Batna","بجاية":"Béjaïa","سيدي بلعباس":"Sidi Bel Abbès"};
+var H=[
+["مستشفى مصطفى باشا الجامعي","CHU Mustapha Pacha","الجزائر","Sidi M’Hamed, Alger"],
+["مستشفى بني مسوس الجامعي","CHU Béni Messous","الجزائر","Béni Messous, Alger"],
+["مستشفى بارني","CHU Nafissa Hamoud (ex-Parnet)","الجزائر","Hussein Dey, Alger"],
+["المستشفى المركزي للجيش","Hôpital Central de l’Armée","الجزائر","Aïn Naâdja, Alger"],
+["مركز بيار وماري كوري لمكافحة السرطان","Centre Pierre et Marie Curie","الجزائر","Mustapha, Alger"],
+["المستشفى الجامعي بوهران","CHU Oran","وهران","Oran"],
+["المؤسسة الاستشفائية الجامعية 1 نوفمبر","EHU 1er Novembre 1954","وهران","Oran"],
+["المستشفى الجامعي ابن باديس","CHU Ibn Badis","قسنطينة","Constantine"],
+["المستشفى الجامعي ابن رشد","CHU Ibn Rochd","عنابة","Annaba"],
+["المستشفى الجامعي ندير محمد","CHU Nedir Mohamed","تيزي وزو","Tizi Ouzou"],
+["المستشفى الجامعي فرانتز فانون","CHU Frantz Fanon","البليدة","Blida"],
+["المستشفى الجامعي تيجاني دمرجي","CHU Tidjani Damerdji","تلمسان","Tlemcen"],
+["المستشفى الجامعي سعادنة عبد النور","CHU Saadna Abdennour","سطيف","Sétif"],
+["المستشفى الجامعي بباتنة","CHU Batna","باتنة","Batna"]
+].map(function(r,i){return {id:"h"+i,t:"h",ar:r[0],fr:r[1],w:r[2],a:r[3],p:""}});
+H.push({id:"l0",t:"l",ar:"معهد باستور الجزائر",fr:"Institut Pasteur d’Algérie",w:"الجزائر",a:"Alger",s:"مخبر مرجعي",p:""});
+H.push({id:"h14",t:"h",ar:"مستشفى لامين دباغين",fr:"Hôpital Lamine Debaghine (ex-Maillot)",w:"الجزائر",a:"Bab El Oued, Alger",p:""},{id:"h15",t:"h",ar:"المؤسسة الاستشفائية المتخصصة سليم زميرلي",fr:"EHS Salim Zemirli",w:"الجزائر",a:"El Harrach, Alger",p:""},{id:"h16",t:"h",ar:"المستشفى الجامعي خليل عمران",fr:"CHU Khelil Amrane",w:"بجاية",a:"Béjaïa",p:""},{id:"h17",t:"h",ar:"المستشفى الجامعي حساني عبد القادر",fr:"CHU Hassani Abdelkader",w:"سيدي بلعباس",a:"Sidi Bel Abbès",p:""},{id:"e0",t:"e",ar:"الإسعاف الطبي المستعجل",fr:"SAMU",w:"",a:"Numéro national",s:"طب الطوارئ",p:"115"},{id:"e1",t:"e",ar:"الحماية المدنية",fr:"Protection civile",w:"",a:"Numéro national",s:"طب الطوارئ",p:"14"});
+var SP=[["طب عام", "Médecine générale", "General medicine"], ["طب الأطفال", "Pédiatrie", "Pediatrics"], ["النساء والتوليد", "Gynécologie-obstétrique", "Gynecology & obstetrics"], ["القلب والشرايين", "Cardiologie", "Cardiology"], ["الطب الباطني", "Médecine interne", "Internal medicine"], ["الجراحة العامة", "Chirurgie générale", "General surgery"], ["العظام", "Orthopédie-traumatologie", "Orthopedics"], ["الأعصاب", "Neurologie", "Neurology"], ["الأمراض الصدرية", "Pneumologie", "Pulmonology"], ["الجهاز الهضمي", "Gastro-entérologie", "Gastroenterology"], ["الغدد والسكري", "Endocrinologie-diabétologie", "Endocrinology & diabetes"], ["الكلى", "Néphrologie", "Nephrology"], ["المسالك البولية", "Urologie", "Urology"], ["الجلدية", "Dermatologie", "Dermatology"], ["العيون", "Ophtalmologie", "Ophthalmology"], ["الأنف والأذن والحنجرة", "ORL", "ENT"], ["طب الأسنان", "Chirurgie dentaire", "Dentistry"], ["الأمراض النفسية", "Psychiatrie", "Psychiatry"], ["الأورام", "Oncologie", "Oncology"], ["أمراض الدم", "Hématologie", "Hematology"], ["الروماتيزم", "Rhumatologie", "Rheumatology"], ["الأمراض المعدية", "Maladies infectieuses", "Infectious diseases"], ["التخدير والإنعاش", "Anesthésie-réanimation", "Anesthesiology"], ["جراحة القلب", "Chirurgie cardiaque", "Cardiac surgery"], ["جراحة الأعصاب", "Neurochirurgie", "Neurosurgery"], ["الأشعة", "Radiologie", "Radiology"], ["التحاليل الطبية", "Biologie médicale", "Medical biology"], ["إعادة التأهيل", "Médecine physique", "Physical medicine"], ["التغذية", "Nutrition", "Nutrition"], ["طب الطوارئ", "Médecine d’urgence", "Emergency medicine"]];
+var SPI={},SPN={},WR={};SP.forEach(function(x,i){SPI[x[0]]=i;x.forEach(function(n){SPN[n.toLowerCase()]=i})});for(var kk in W)WR[W[kk].toLowerCase()]=kk;
+function spn(v){var k=SPI[v];return k==null?v:SP[k][L==="ar"?0:L==="fr"?1:2]}
+function spi(v){var k=SPI[v];return k==null?999:k}
+var L="ar",tab="h",sp="",U=[],F=[],dk=null;
+function ld(k,d){try{return JSON.parse(localStorage.getItem(k))||d}catch(e){return d}}
+function sv(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+U=ld("sh_u",[]);F=ld("sh_f",[]);var sl=ld("sh_l","ar");if(T[sl])L=sl;dk=ld("sh_t",null);
+function $(i){return document.getElementById(i)}
+function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function wn(w){return L==="ar"?w:(W[w]||w)}
+var I={
+g:'<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.800" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3C4.500 3 3.500 5 4 7.500c.5 2.500 1.500 4 2 6.500.4 2 .7 7 2.200 7 1.500 0 1.200-4 3.800-4s2.300 4 3.800 4c1.500 0 1.800-5 2.200-7 .5-2.500 1.500-4 2-6.500C20.500 5 19.500 3 17 3c-2 0-3 1-5 1S9 3 7 3z"/></svg>',
+r:'<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.800" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2M7 12h10"/></svg>',
+e:'<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.800" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v2M5.600 5.600 7 7M18.400 5.600 17 7M5 17a7 7 0 0 1 14 0M3 21h18"/></svg>',
+l:'<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.800" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v6l-5.500 9.500A2 2 0 0 0 6.200 21h11.600a2 2 0 0 0 1.700-2.500L14 9V3M7.500 15h9"/></svg>',
+p:'<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.800" stroke-linecap="round" stroke-linejoin="round"><path d="m10.500 20.500 10-10a4.950 4.950 0 1 0-7-7l-10 10a4.950 4.950 0 1 0 7 7ZM8.500 8.500l7 7"/></svg>',
+h:'<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.800" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V7l9-4 9 4v14M9 21v-5h6v5M12 8v4M10 10h4"/></svg>',
+c:'<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.800" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="4"/><path d="M12 8v8M8 12h8"/></svg>',
+d:'<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.800" stroke-linecap="round" stroke-linejoin="round"><path d="M11 2v2M5 2v2M5 3H4a2 2 0 0 0-2 2v4a6 6 0 0 0 12 0V5a2 2 0 0 0-2-2h-1M8 15a6 6 0 0 0 12 0v-3"/><circle cx="20" cy="10" r="2"/></svg>',
+f:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7.500-4.600-9.300-9.300C1.500 8.300 3.400 5 6.700 5c2 0 3.500 1.100 5.300 3.200C13.800 6.100 15.300 5 17.300 5c3.300 0 5.200 3.300 4 6.700C19.500 16.400 12 21 12 21z"/></svg>',
+ph:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.900v3a2 2 0 0 1-2.200 2A19.800 19.800 0 0 1 2.100 4.200 2 2 0 0 1 4.100 2h3a2 2 0 0 1 2 1.700c.1 1 .4 1.900.7 2.800a2 2 0 0 1-.5 2.100L8.100 9.900a16 16 0 0 0 6 6l1.300-1.300a2 2 0 0 1 2.100-.4c.9.3 1.800.6 2.800.7a2 2 0 0 1 1.700 2z"/></svg>',
+mp:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>',
+sh:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.600 13.500l6.800 4M15.400 6.500l-6.800 4"/></svg>'
+};
+var CL={h:"var(--c1)",c:"var(--c2)",d:"var(--c3)",l:"var(--c4)",p:"var(--c5)",g:"var(--c6)",r:"var(--c7)",e:"var(--c8)"};
+function setLang(l){L=l;sv("sh_l",l);ui()}
+function isDark(){var c=document.documentElement.getAttribute("data-theme");return c?c==="dark":matchMedia("(prefers-color-scheme:dark)").matches}
+function setTheme(m){dk=m;sv("sh_t",m);document.documentElement.setAttribute("data-theme",m);var tc=document.querySelector("meta[name=theme-color]");if(tc)tc.setAttribute("content",m==="dark"?"#053f38":"#0a6b5c");mode()}
+function mode(){var d=isDark(),t=T[L];$("mode").innerHTML='<button class="'+(d?"":"on")+'" onclick="setTheme(\'light\')" title="'+t.lt+'" aria-label="'+t.lt+'"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.900 4.900l1.400 1.400M17.700 17.700l1.400 1.400M2 12h2M20 12h2M4.900 19.100l1.400-1.400M17.700 6.300l1.400-1.400"/></svg></button><button class="'+(d?"on":"")+'" onclick="setTheme(\'dark\')" title="'+t.nt+'" aria-label="'+t.nt+'"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.800A9 9 0 1 1 11.200 3a7 7 0 0 0 9.800 9.800z"/></svg></button>'}
+if(dk)document.documentElement.setAttribute("data-theme",dk);
+function ui(){
+var t=T[L];document.documentElement.lang=L;document.documentElement.dir=L==="ar"?"rtl":"ltr";
+document.title=t.app;$("app").textContent=t.app;$("tag").textContent=t.tag;mode();
+$("langs").innerHTML=[["ar","ع"],["fr","FR"],["en","EN"]].map(function(l){return '<button class="'+(l[0]===L?"on":"")+'" onclick="setLang(\''+l[0]+'\')">'+l[1]+"</button>"}).join("");
+var all=H.concat(U);
+$("stats").innerHTML=["h","c","d","l","p"].map(function(k){return "<div><b>"+all.filter(function(x){return x.t===k}).length+"</b><span>"+t[k]+"</span></div>"}).join("");
+$("sos").innerHTML=[["115",0],["14",1],["17",2]].map(function(o){return '<a href="tel:'+o[0]+'"><b>'+o[0]+"</b>"+t.sos[o[1]]+"</a>"}).join("");
+$("nav").innerHTML=["h","c","d","g","l","r","p","e","f"].map(function(k){return '<button class="'+(k===tab?"on":"")+'" onclick="tab=\''+k+'\';sp=\'\';ui()"><i>'+I[k]+"</i>"+t[k]+"</button>"}).join("");
+$("q").placeholder=t.s;$("add").innerHTML="+ "+t.add;$("note").textContent=t.note;
+$("dt").textContent=t.add;$("d2t").textContent=t.im;$("d2h").textContent=t.imh;$("im_ok").textContent=t.imok;$("im_ex").textContent=t.imex;$("im_cx").textContent=t.imcx;$("l1").textContent=t.nm;$("l2").textContent=t.sp;$("l3").textContent=t.wl;$("l4").textContent=t.ad;$("l5").textContent=t.ph;$("ok").textContent=t.ok;$("cx").textContent=t.cx;
+var ws=[];all.forEach(function(r){if(r.w&&ws.indexOf(r.w)<0)ws.push(r.w)});
+var cur=$("w").value;
+$("w").innerHTML='<option value="">'+t.all+"</option>"+ws.map(function(w){return '<option value="'+esc(w)+'">'+esc(wn(w))+"</option>"}).join("");
+$("w").value=ws.indexOf(cur)<0?"":cur;
+$("add").style.display=tab==="f"?"none":"flex";
+render();
+}
+function items(){return H.concat(U).filter(function(x){return tab==="f"?F.indexOf(x.id)>=0:x.t===tab})}
+function render(){
+var t=T[L],q=$("q").value.trim().toLowerCase(),w=$("w").value,base=items();
+var sps=[],cnt={};base.forEach(function(x){if(x.s&&sps.indexOf(x.s)<0)sps.push(x.s);if(x.s)cnt[x.s]=(cnt[x.s]||0)+1});
+sps.sort(function(a,b){return spi(a)-spi(b)});
+if(sps.indexOf(sp)<0)sp="";
+$("chips").innerHTML=sps.length?['<button class="'+(sp?"":"on")+'" onclick="sp=\'\';render()">'+t.allsp+"</button>"].concat(sps.map(function(s,i){return '<button class="'+(s===sp?"on":"")+'" data-i="'+i+'">'+esc(spn(s))+"</button>"})).join(""):"";
+Array.prototype.forEach.call($("chips").querySelectorAll("[data-i]"),function(b){b.onclick=function(){sp=sps[+b.getAttribute("data-i")];render()}});
+var r=base.filter(function(x){
+if(w&&x.w!==w)return false;if(sp&&x.s!==sp)return false;
+var k=SPI[x.s],sn=k==null?(x.s||""):SP[k].join(" ");
+return !q||((x.ar||"")+" "+(x.fr||"")+" "+sn+" "+(x.a||"")+" "+(x.p||"")).toLowerCase().indexOf(q)>=0});
+r.sort(function(a,b){return spi(a.s)-spi(b.s)||(a.fr||a.ar).localeCompare(b.fr||b.ar)});
+var last="~",out="";
+r.forEach(function(x){
+var nm=L==="ar"?(x.ar||x.fr):(x.fr||x.ar),f=F.indexOf(x.id)>=0;
+if(tab!=="f"&&sps.length>1&&(x.s||"")!==last){last=x.s||"";if(last)out+='<div class="grp">'+esc(spn(last))+"<span>"+cnt[last]+"</span></div>"}
+var mq=encodeURIComponent((x.fr||x.ar)+" "+(x.a||"")+" "+(W[x.w]||x.w||"")+" Algérie");
+out+='<div class="card"><div class="ci" style="background:'+CL[x.t]+'">'+I[x.t]+'</div><div class="cb"><h3>'+esc(nm)+"</h3>"+
+(x.w?'<span class="tag">'+esc(wn(x.w))+"</span> ":"")+(x.s?'<span class="tag">'+esc(spn(x.s))+"</span>":"")+
+(x.a?'<div class="mu">'+esc(x.a)+"</div>":"")+(x.p?'<div class="ph">'+esc(x.p)+"</div>":"")+'<div class="acts">'+
+(x.p?'<a class="go" href="tel:'+esc(x.p)+'">'+I.ph+t.call+"</a>":"")+
+'<a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query='+mq+'">'+I.mp+t.map+"</a>"+
+'<button data-s="'+x.id+'">'+I.sh+t.share+"</button>"+
+(x.u?'<button class="del" data-d="'+x.id+'">'+t.del+"</button>":"")+"</div></div>"+
+'<button class="fav'+(f?" on":"")+'" data-f="'+x.id+'" aria-label="fav"><svg width="24" height="24" viewBox="0 0 24 24" fill="'+(f?"currentColor":"none")+'" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 21s-7.5-4.6-9.3-9.3C1.5 8.3 3.4 5 6.7 5c2 0 3.5 1.1 5.3 3.2C13.8 6.1 15.3 5 17.3 5c3.3 0 5.200 3.300 4 6.700C19.500 16.400 12 21 12 21z"/></svg></button></div>'});
+$("list").innerHTML=out||'<div class="empty"><svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.500" stroke-linecap="round"><rect x="3" y="4" width="18" height="16" rx="4"/><path d="M12 8v8M8 12h8"/></svg><p>'+t.none+"</p></div>";
+Array.prototype.forEach.call($("list").querySelectorAll("[data-f]"),function(b){b.onclick=function(){var id=b.getAttribute("data-f"),i=F.indexOf(id);if(i<0)F.push(id);else F.splice(i,1);sv("sh_f",F);render()}});
+Array.prototype.forEach.call($("list").querySelectorAll("[data-d]"),function(b){b.onclick=function(){var id=b.getAttribute("data-d");U=U.filter(function(x){return x.id!==id});F=F.filter(function(x){return x!==id});sv("sh_u",U);sv("sh_f",F);ui()}});
+Array.prototype.forEach.call($("list").querySelectorAll("[data-s]"),function(b){b.onclick=function(){
+var id=b.getAttribute("data-s"),x=H.concat(U).filter(function(y){return y.id===id})[0];
+var txt=(x.fr||x.ar)+(x.s?" - "+spn(x.s):"")+(x.a?" - "+x.a:"")+(x.p?" - "+x.p:"");
+if(navigator.share){navigator.share({title:"Sihhati",text:txt}).catch(function(){})}
+else if(navigator.clipboard){navigator.clipboard.writeText(txt).then(function(){b.textContent=T[L].cp}).catch(function(){})}}});
+}
+$("q").oninput=render;$("w").onchange=render;
+$("add").onclick=function(){
+["f_n","f_w","f_a","f_p"].forEach(function(i){$(i).value=""});
+$("f_s").innerHTML='<option value="">'+T[L].choose+'</option>'+SP.map(function(x){return '<option value="'+x[0]+'">'+x[L==="ar"?0:L==="fr"?1:2]+'</option>'}).join("");
+Array.prototype.forEach.call(document.querySelectorAll(".spec"),function(e){e.style.display=(tab==="h"||tab==="p"||tab==="e")?"none":""});
+$("dlg").showModal();
+};
+$("cx").onclick=function(){$("dlg").close()};
+$("ok").onclick=function(){
+var n=$("f_n").value.trim();if(!n)return;
+U.push({id:"u"+Date.now(),u:1,t:tab,ar:n,fr:n,s:$("f_s").value.trim(),w:$("f_w").value.trim(),a:$("f_a").value.trim(),p:$("f_p").value.trim()});
+sv("sh_u",U);$("dlg").close();ui();
+};
+function norm(x){return String(x||"").trim().toLowerCase()}
+function doImport(txt){var n=0;txt.split(/\r?\n/).forEach(function(l){if(!l.trim())return;var sep=l.indexOf("\t")>=0?"\t":l.indexOf(";")>=0?";":",";var f=l.split(sep).map(function(z){return z.trim().replace(/^"|"$/g,"")});
+var ty=norm(f[0]);if(ty.length!==1||"hcdglrpe".indexOf(ty)<0||!f[1])return;
+var k=SPN[norm(f[2])];
+U.push({id:"u"+Date.now()+"_"+n,u:1,t:ty,ar:f[1],fr:f[1],s:f[2]?(k!=null?SP[k][0]:f[2]):"",w:f[3]?(WR[norm(f[3])]||f[3]):"",a:f[4]||"",p:f[5]||""});n++});
+sv("sh_u",U);return n}
+$("imp").onclick=function(){$("im_t").value="";$("dlg2").showModal()};
+$("im_cx").onclick=function(){$("dlg2").close()};
+$("im_ok").onclick=function(){var n=doImport($("im_t").value);$("im_t").value=T[L].imd+n;ui()};
+$("im_f").onchange=function(){var f=this.files[0];if(!f)return;var r=new FileReader();r.onload=function(){var n=doImport(String(r.result));$("im_t").value=T[L].imd+n;ui()};r.readAsText(f)};
+$("im_ex").onclick=function(){var txt=U.map(function(x){return [x.t,x.fr,x.s,x.w,x.a,x.p].join(";")}).join("\n");$("im_t").value=txt;if(navigator.clipboard)navigator.clipboard.writeText(txt).catch(function(){})};
+ui();
+try{if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js")}catch(e){}
+</script>
+</body>
+</html>
