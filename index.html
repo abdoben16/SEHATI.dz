@@ -738,6 +738,45 @@
   initAdSystem();
 })();
 </script>
+<script>
+(() => {
+  const modal = document.getElementById("sehatiAdSys_modal");
+  if (!modal) return;
+
+  function attachLongPressToSehatiAds() {
+    const candidates = document.querySelectorAll("div, span, button, a, p, h1, h2, h3, strong");
+    candidates.forEach((el) => {
+      if (el.dataset.sehatiAdBound) return;
+      const txt = (el.textContent || "").trim();
+      if (txt === "SEHATI ADS") {
+        el.dataset.sehatiAdBound = "1";
+        el.style.cursor = "pointer";
+        let pressTimer = null;
+
+        const startPress = () => {
+          pressTimer = setTimeout(() => {
+            modal.style.display = "block";
+          }, 700);
+        };
+        const cancelPress = () => {
+          if (pressTimer) clearTimeout(pressTimer);
+        };
+
+        el.addEventListener("pointerdown", startPress);
+        el.addEventListener("pointerup", cancelPress);
+        el.addEventListener("pointerleave", cancelPress);
+        el.addEventListener("touchstart", startPress, { passive: true });
+        el.addEventListener("touchend", cancelPress);
+        el.addEventListener("touchcancel", cancelPress);
+      }
+    });
+  }
+
+  attachLongPressToSehatiAds();
+  const observer = new MutationObserver(attachLongPressToSehatiAds);
+  observer.observe(document.body, { childList: true, subtree: true });
+})();
+</script>
 
 </body>
 </html>
