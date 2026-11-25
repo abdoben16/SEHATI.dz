@@ -170,6 +170,37 @@
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.85) !important;
 }
 
+/* إخفاء شارة مساحة إعلانية مميزة */
+.promo-tag {
+  display: none !important;
+}
+
+/* جعل صورة الإعلان واضحة وغير مظللة */
+.ads-showcase img,
+.ads-showcase picture,
+.ads-showcase canvas {
+  opacity: 1 !important;
+  filter: none !important;
+  -webkit-filter: none !important;
+}
+
+.ads-showcase::before,
+.ads-showcase::after,
+.ads-body::before,
+.ads-body::after {
+  display: none !important;
+  background: none !important;
+  opacity: 0 !important;
+}
+
+/* وضوح الكتابة داخل الإعلان */
+.ads-body {
+  color: #ffffff !important;
+  opacity: 1 !important;
+  position: relative !important;
+  z-index: 2 !important;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.85) !important;
+}
   </style>
 </head>
 <body>
