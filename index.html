@@ -90,7 +90,86 @@
     .status-active{background:#dcfce7;color:#15803d}
     .vip-pitch-box{background:linear-gradient(135deg,rgba(15,118,110,.12),rgba(245,158,11,.14));border:1.5px solid var(--primary);padding:14px;border-radius:14px;font-size:.88rem;margin-bottom:12px;line-height:1.65}
     .vip-pitch-box ul{margin:8px 18px}
-    .toast{position:fixed;bottom:115px;left:50%;transform:translateX(-50%);background:#0f172a;color:#fff;padding:10px 20px;border-radius:30px;font-size:.88rem;font-weight:700;z-index:300;display:none;box-shadow:0 4px 14px rgba(0,0,0,.3);text-align:center;max-width:90%}
+    .toast{position:fixed;bottom:115px;left:50%;transform:translateX(-50%);background:#0f172a;color:#fff;padding:10px 20px;border-radius:30px;font-size:.88rem;font-weight:700;z-index:300;display:none;box-shadow:0 4px 14px rgba(0,0,0,.3);text-align:center;max-width:90%}/* تصغير أزرار وأيقونات أرقام الطوارئ */
+.emergency-section,
+.emergency-grid,
+.emergency-box,
+.emergency-card,
+.emergency-btn {
+  padding: 5px 6px !important;
+  gap: 5px !important;
+  border-radius: 10px !important;
+}
+
+.emergency-btn,
+.emergency-card,
+.emergency-box {
+  min-height: 40px !important;
+  padding: 6px 6px !important;
+  font-size: 11px !important;
+  line-height: 1.2 !important;
+}
+
+.emergency-btn svg,
+.emergency-card svg,
+.emergency-box svg,
+.emergency-btn i,
+.emergency-card i,
+.emergency-box i {
+  width: 14px !important;
+  height: 14px !important;
+  font-size: 13px !important;
+}
+
+/* تكبير مساحة الإعلان وجعل الصورة واضحة تماماً بدون تعتيم */
+#sehatiAdBox,
+.ad-banner,
+.ad-container,
+.ad-card,
+.sehati-ad-box {
+  min-height: 175px !important;
+  padding: 12px !important;
+  border-radius: 14px !important;
+  overflow: hidden !important;
+  position: relative !important;
+}
+
+#sehatiAdBox img,
+.ad-banner img,
+.ad-container img,
+.ad-card img,
+.sehati-ad-box img {
+  width: 100% !important;
+  max-height: 190px !important;
+  object-fit: cover !important;
+  opacity: 1 !important;
+  filter: none !important;
+  -webkit-filter: none !important;
+  display: block !important;
+}
+
+/* إلغاء أي طبقة تعتيم فوق الصورة وضمان وضوح الكتابة */
+#sehatiAdBox::before,
+#sehatiAdBox::after,
+.ad-banner::before,
+.ad-banner::after,
+.ad-container::before,
+.ad-container::after {
+  display: none !important;
+  opacity: 0 !important;
+  background: none !important;
+}
+
+.ad-title,
+.ad-desc,
+.ad-text,
+#sehatiAdTitle,
+#sehatiAdDesc {
+  color: #ffffff !important;
+  opacity: 1 !important;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.85) !important;
+}
+
   </style>
 </head>
 <body>
@@ -1517,6 +1596,133 @@
   }, true);
 
 </script>
+(function () {
+  const AD_JSON_PATH = "ad.json";
+  const TOKEN_KEY = "sehati_gh_token";
+  let adsList = [];
+  let currentAdIdx = 0;
+  let defaultDurationSec = 5;
+  let adTimer = null;
+
+  function cleanPromoLabels() {
+    document.querySelectorAll("*").forEach((el) => {
+      if (el.children.length === 0) {
+        const txt = (el.textContent || "").trim();
+        if (txt.includes("مساحة إعلانية مميزة")) {
+          el.style.display = "none";
+        }
+      }
+    });
+  }
+
+  function findAdContainer() {
+    return (
+      document.getElementById("sehatiAdBox") ||
+      document.querySelector(".ad-banner") ||
+      document.querySelector(".ad-container") ||
+      document.querySelector(".ad-card")
+    );
+  }
+
+  function renderCurrentAd() {
+    cleanPromoLabels();
+    const box = findAdContainer();
+    if (!box) return;
+
+    if (!adsList.length) {
+      box.innerHTML = "";
+      box.style.display = "none";
+      return;
+    }
+
+    const ad = adsList[currentAdIdx % adsList.length];
+    box.style.display = "block";
+    box.style.opacity = "1";
+    box.style.filter = "none";
+
+    const title = (ad.title || "").trim();
+    const desc = (ad.description || "").trim();
+    const img = (ad.image || "").trim();
+    const btnText = (ad.buttonText || "تواصل الآن").trim();
+    const btnLink = (ad.buttonLink || "#").trim();
+
+    box.innerHTML = `
+      <div style="display:flex;flex-direction:column;gap:8px;opacity:1;filter:none;">
+        ${
+          img
+            ? `<img src="${img}?v=${Date.now()}" alt="${title}" style="width:100%;max-height:190px;object-fit:cover;border-radius:10px;opacity:1;filter:none;display:block;">`
+            : ""
+        }
+        <div style="background:rgba(10,25,18,0.88);padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.14);">
+          ${
+            title
+              ? `<div style="font-size:15px;font-weight:800;color:#ffffff;margin-bottom:4px;line-height:1.3;">${title}</div>`
+              : ""
+          }
+          ${
+            desc
+              ? `<div style="font-size:13px;color:#e8f5ee;margin-bottom:8px;line-height:1.45;">${desc}</div>`
+              : ""
+          }
+          ${
+            btnLink && btnLink !== "#"
+              ? `<a href="${btnLink}" target="_blank" rel="noopener" style="display:inline-block;background:#16a34a;color:#ffffff;text-decoration:none;padding:6px 12px;border-radius:8px;font-size:12px;font-weight:700;">${btnText}</a>`
+              : ""
+          }
+        </div>
+      </div>
+    `;
+  }
+
+  function scheduleNextAd() {
+    if (adTimer) clearTimeout(adTimer);
+    if (adsList.length <= 1) return;
+    const currentAd = adsList[currentAdIdx % adsList.length];
+    const sec = Math.max(1, Number(currentAd.durationSec || defaultDurationSec || 5));
+    adTimer = setTimeout(() => {
+      currentAdIdx = (currentAdIdx + 1) % adsList.length;
+      renderCurrentAd();
+      scheduleNextAd();
+    }, sec * 1000);
+  }
+
+  async function loadSehatiAds() {
+    try {
+      const res = await fetch(`${AD_JSON_PATH}?v=${Date.now()}`, { cache: "no-store" });
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.defaultDurationSec) {
+          defaultDurationSec = Math.max(1, Number(data.defaultDurationSec) || 5);
+        }
+        if (Array.isArray(data.ads)) {
+          adsList = data.ads;
+        } else if (data && data.active !== false && (data.title || data.description || data.image)) {
+          adsList = [
+            {
+              id: "legacy_ad",
+              title: data.title || "",
+              description: data.description || "",
+              image: data.image || "",
+              buttonText: data.buttonText || "تواصل الآن",
+              buttonLink: data.buttonLink || "#",
+              durationSec: defaultDurationSec
+            }
+          ];
+        } else {
+          adsList = [];
+        }
+      }
+    } catch (_) {}
+    currentAdIdx = 0;
+    renderCurrentAd();
+    scheduleNextAd();
+  }
+
+  window.addEventListener("DOMContentLoaded", () => {
+    cleanPromoLabels();
+    loadSehatiAds();
+  });
+})();
 
 </body>
 </html>
