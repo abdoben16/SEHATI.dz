@@ -201,6 +201,53 @@
   z-index: 2 !important;
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.85) !important;
 }
+/* 1. إخفاء بطاقة الإعلان السفلية المكررة بالكامل (تُبقي فقط البطاقة العلوية .ads-showcase) */
+body > div:not(.hero):not(.emerg-sec):not(.ads-showcase):not(.bottom-cats):not(.modal):has(img[src]),
+#list ~ div:has(.ads-cta),
+.list ~ div:has(.ads-cta),
+div:not(.ads-showcase):has(> .ads-header) {
+  display: none !important;
+}
+
+/* 2. إخفاء زر "اتصل الآن" داخل الإعلان نهائياً */
+.ads-cta,
+.ads-showcase a,
+.ads-showcase button {
+  display: none !important;
+}
+
+/* 3. جعل صورة الإعلان واضحة ومشرقة تماماً بدون طبقة سوداء أو تعتيم */
+.ads-showcase {
+  background-image: none !important;
+  min-height: 200px !important;
+}
+.ads-showcase img {
+  opacity: 1 !important;
+  filter: brightness(1.05) contrast(1.02) !important;
+}
+.ads-showcase [style*="linear-gradient"],
+.ads-showcase [style*="rgba(0, 0, 0"],
+.ads-showcase [style*="rgba(0,0,0"] {
+  background: transparent !important;
+}
+
+/* 4. تصغير أزرار أرقام الطوارئ لتكون مدمجة وأنيقة */
+.emerg-sec {
+  padding: 4px 12px !important;
+}
+.emerg-grid {
+  gap: 4px !important;
+}
+.emerg-card {
+  padding: 4px 2px !important;
+  min-height: 36px !important;
+  border-radius: 8px !important;
+  font-size: 10px !important;
+}
+.emerg-card b {
+  font-size: 12px !important;
+  margin-top: 1px !important;
+}
   </style>
 </head>
 <body>
