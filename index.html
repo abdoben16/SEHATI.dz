@@ -1431,91 +1431,286 @@
     styleEmerg();
   }
 
-  function loopAds(){
-    if(timer)clearTimeout(timer);
-    if(!ads.length)return;
-    const s=Math.max(1,Number(ads[idx]?.durationSec||dur)||5);
-    timer=setTimeout(()=>{idx=ads.length>1?(idx+1)%ads.length:0;drawAd();loopAds();},s*1000);
+  <div id="sehatiQuickBox" style="margin:12px 0;"></div>
+
+<div id="sehatiQuickModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:999999;padding:14px;overflow-y:auto;">
+  <div style="max-width:440px;margin:24px auto;background:#102521;color:#fff;border:2px solid #1de9b6;border-radius:14px;padding:14px;font-size:13px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+      <strong style="color:#1de9b6;">إدارة إعلانات صحتي (الجديدة)</strong>
+      <button id="sehatiQuickClose" type="button" style="background:#c62828;color:#fff;border:none;border-radius:6px;padding:4px 10px;">✕</button>
+    </div>
+
+    <label style="display:block;margin-bottom:8px;">GitHub Token:
+      <input id="sehatiQuickToken" type="password" style="width:100%;margin-top:4px;padding:7px;border-radius:7px;border:1px solid #37474f;background:#091614;color:#fff;box-sizing:border-box;">
+    </label>
+
+    <label style="display:block;margin-bottom:8px;">المدة (ثواني):
+      <input id="sehatiQuickSec" type="number" min="1" max="120" value="5" style="width:100%;margin-top:4px;padding:7px;border-radius:7px;border:1px solid #37474f;background:#091614;color:#fff;box-sizing:border-box;">
+    </label>
+
+    <label style="display:block;margin-bottom:8px;">الصورة:
+      <input id="sehatiQuickFile" type="file" accept="image/*" style="width:100%;margin-top:4px;color:#fff;">
+    </label>
+
+    <label style="display:block;margin-bottom:8px;">العنوان:
+      <input id="sehatiQuickTitle" type="text" style="width:100%;margin-top:4px;padding:7px;border-radius:7px;border:1px solid #37474f;background:#091614;color:#fff;box-sizing:border-box;">
+    </label>
+
+    <label style="display:block;margin-bottom:8px;">الوصف:
+      <input id="sehatiQuickDesc" type="text" style="width:100%;margin-top:4px;padding:7px;border-radius:7px;border:1px solid #37474f;background:#091614;color:#fff;box-sizing:border-box;">
+    </label>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
+      <input id="sehatiQuickBtnText" type="text" value="اتصل الآن" placeholder="نص الزر" style="padding:7px;border-radius:7px;border:1px solid #37474f;background:#091614;color:#fff;">
+      <input id="sehatiQuickBtnLink" type="text" placeholder="tel:0550000000" style="padding:7px;border-radius:7px;border:1px solid #37474f;background:#091614;color:#fff;">
+    </div>
+
+    <button id="sehatiQuickAdd" type="button" style="width:100%;background:#00bfa5;color:#051613;font-weight:bold;border:none;border-radius:9px;padding:9px;">إضافة ونشر الإعلان</button>
+    <div id="sehatiQuickStatus" style="margin-top:8px;color:#ffd54f;font-size:12px;"></div>
+    <div id="sehatiQuickList" style="margin-top:10px;display:flex;flex-direction:column;gap:6px;"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var OWNER="abdoben16", REPO="SEHATI.dz", BRANCH="main", PATH="ad.json", TKEY="sehatiAdSys_gh_token";
+  var box=document.getElementById("sehatiQuickBox");
+  var modal=document.getElementById("sehatiQuickModal");
+  var closeB=document.getElementById("sehatiQuickClose");
+  var addB=document.getElementById("sehatiQuickAdd");
+  var tokI=document.getElementById("sehatiQuickToken");
+  var secI=document.getElementById("sehatiQuickSec");
+  var filI=document.getElementById("sehatiQuickFile");
+  var titI=document.getElementById("sehatiQuickTitle");
+  var desI=document.getElementById("sehatiQuickDesc");
+  var btxtI=document.getElementById("sehatiQuickBtnText");
+  var blnkI=document.getElementById("sehatiQuickBtnLink");
+  var stE=document.getElementById("sehatiQuickStatus");
+  var lstE=document.getElementById("sehatiQuickList");
+
+  var ads=[], dur=5, idx=0, timer=null, lpTimer=null;
+
+  function hideOldModals(){
+    var divs=document.querySelectorAll("div");
+    for(var i=0;i<divs.length;i++){
+      var d=divs[i];
+      if(d.id!=="sehatiQuickModal" && d.style && d.style.position==="fixed" && (d.textContent||"").indexOf("إدارة إعلانات صحتي")!==-1){
+        d.style.display="none";
+      }
+    }
   }
 
-  function drawList(){
-    if(!lstE)return;
-    if(!ads.length){lstE.innerHTML=`<div style="color:#90a4ae;">لا توجد إعلانات</div>`;return;}
-    lstE.innerHTML=ads.map((a,i)=>`<div style="display:flex;justify-content:space-between;align-items:center;gap:6px;background:#091815;padding:7px 9px;border-radius:8px;border:1px solid #1f453e;">
-      <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">#${i+1} ${a.title||"إعلان"} (${a.durationSec||dur}ث)</span>
-      <button data-del="${i}" type="button" style="background:#c62828;color:#fff;border:none;border-radius:6px;padding:4px 8px;font-size:11px;">حذف</button>
-    </div>`).join("");
-    lstE.querySelectorAll("button[data-del]").forEach(b=>{
-      b.onclick=async()=>{
-        const tok=(tokI.value||localStorage.getItem(TKEY)||"").trim();
-        if(!tok){stE.textContent="أدخل Token أولاً";return;}
-        const i=Number(b.getAttribute("data-del"));
-        try{stE.textContent="جاري الحذف..."; await saveAll(ads.filter((_,x)=>x!==i),secI.value||dur,tok); stE.textContent="تم الحذف";}
-        catch(e){stE.textContent="خطأ: "+e.message;}
-      };
+  function openM(){
+    hideOldModals();
+    tokI.value=localStorage.getItem(TKEY)||"";
+    secI.value=dur;
+    stE.textContent="";
+    drawList();
+    if(modal) modal.style.display="block";
+  }
+
+  if(closeB) closeB.onclick=function(){ if(modal) modal.style.display="none"; };
+
+  function isAdsLabel(el){
+    if(!el) return false;
+    var t=(el.textContent||"").replace(/\s+/g," ").trim();
+    return t==="SEHATI ADS" || (el.parentElement && (el.parentElement.textContent||"").replace(/\s+/g," ").trim()==="SEHATI ADS");
+  }
+
+  document.addEventListener("touchstart",function(e){
+    if(isAdsLabel(e.target)){
+      clearTimeout(lpTimer);
+      lpTimer=setTimeout(openM,600);
+    }
+  },true);
+
+  document.addEventListener("touchend",function(){ clearTimeout(lpTimer); },true);
+  document.addEventListener("touchcancel",function(){ clearTimeout(lpTimer); },true);
+
+  document.addEventListener("mousedown",function(e){
+    if(isAdsLabel(e.target)){
+      clearTimeout(lpTimer);
+      lpTimer=setTimeout(openM,600);
+    }
+  },true);
+
+  document.addEventListener("mouseup",function(){ clearTimeout(lpTimer); },true);
+
+  function styleEmerg(){
+    var rules=[
+      {w:["الحماية المدنية","14"],bg:"#e65100",bd:"#ff9800"},
+      {w:["الشرطة","1548"],bg:"#0d47a1",bd:"#42a5f5"},
+      {w:["الدرك الوطني","1055"],bg:"#1b5e20",bd:"#66bb6a"},
+      {w:["الإسعاف","115"],bg:"#b71c1c",bd:"#ef5350"}
+    ];
+    var els=document.querySelectorAll("a,button,div,span");
+    for(var i=0;i<els.length;i++){
+      var el=els[i];
+      if(el.closest && (el.closest("#sehatiQuickModal")||el.closest("#sehatiQuickBox"))) continue;
+      var txt=(el.textContent||"").trim();
+      if(!txt||txt.length>50) continue;
+      for(var r=0;r<rules.length;r++){
+        var hit=false;
+        for(var k=0;k<rules[r].w.length;k++){
+          if(txt.indexOf(rules[r].w[k])!==-1){hit=true;break;}
+        }
+        if(hit && el.offsetHeight>=30 && el.offsetHeight<=115 && el.offsetWidth<360){
+          el.style.background=rules[r].bg;
+          el.style.border="1px solid "+rules[r].bd;
+          el.style.color="#fff";
+          el.style.padding="5px";
+          el.style.minHeight="42px";
+          el.style.fontSize="11px";
+          el.style.borderRadius="9px";
+        }
+      }
+    }
+  }
+
+  function toB64(f){
+    return new Promise(function(res,rej){
+      var r=new FileReader();
+      r.onload=function(){res(String(r.result||"").split(",")[1]||"");};
+      r.onerror=rej;
+      r.readAsDataURL(f);
     });
   }
 
-  addB.onclick=async()=>{
-    const tok=tokI.value.trim();
+  function utf8B64(s){
+    var b=new TextEncoder().encode(s),o="";
+    for(var i=0;i<b.length;i++) o+=String.fromCharCode(b[i]);
+    return btoa(o);
+  }
+
+  function getSha(p,tok){
+    return fetch("https://api.github.com/repos/"+OWNER+"/"+REPO+"/contents/"+p+"?ref="+BRANCH,{
+      headers:{Authorization:"Bearer "+tok}
+    }).then(function(r){return r.ok?r.json():null;}).then(function(j){return j&&j.sha?j.sha:null;}).catch(function(){return null;});
+  }
+
+  function putF(p,b64,msg,tok){
+    return getSha(p,tok).then(function(sha){
+      var body={message:msg,content:b64,branch:BRANCH};
+      if(sha) body.sha=sha;
+      return fetch("https://api.github.com/repos/"+OWNER+"/"+REPO+"/contents/"+p,{
+        method:"PUT",
+        headers:{Authorization:"Bearer "+tok,"Content-Type":"application/json"},
+        body:JSON.stringify(body)
+      });
+    }).then(function(r){
+      if(!r.ok) return r.json().catch(function(){return{};}).then(function(e){throw new Error(e.message||"فشل الرفع");});
+      return r.json();
+    });
+  }
+
+  function saveAll(nextAds,nextDur,tok){
+    var dSec=Math.max(1,Number(nextDur)||5);
+    var payload={active:nextAds.length>0,defaultDurationSec:dSec,ads:nextAds};
+    return putF(PATH,utf8B64(JSON.stringify(payload,null,2)),"Update ads",tok).then(function(){
+      ads=nextAds; dur=dSec; idx=0;
+      drawAd(); loopAds(); drawList();
+    });
+  }
+
+  function drawAd(){
+    if(!box) return;
+    if(!ads.length){box.innerHTML="";return;}
+    if(idx>=ads.length) idx=0;
+    var a=ads[idx];
+    var s=Math.max(1,Number(a.durationSec||dur)||5);
+    var img=a.image?(a.image+"?v="+Date.now()):"";
+    box.innerHTML='<div style="border:1px solid #1de9b6;border-radius:14px;overflow:hidden;background:#0d2622;min-height:240px;">'+
+      '<div style="display:flex;justify-content:space-between;padding:7px 12px;background:#081815;font-size:11px;">'+
+      '<span style="background:#e53935;color:#fff;padding:2px 8px;border-radius:12px;">إعلان '+(idx+1)+'/'+ads.length+' • '+s+'ث</span>'+
+      '<span style="color:#80cbc4;font-weight:bold;">SEHATI ADS</span></div>'+
+      (img?'<img src="'+img+'" style="display:block;width:100%;max-height:280px;object-fit:cover;opacity:1;filter:none;">':'')+
+      '<div style="padding:10px 12px;background:#0e2924;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">'+
+      '<div><div style="color:#fff;font-weight:bold;font-size:14px;">'+(a.title||"")+'</div><div style="color:#d0ece7;font-size:12px;">'+(a.description||"")+'</div></div>'+
+      (a.buttonText?'<a href="'+(a.buttonLink||"#")+'" style="background:#00bfa5;color:#051613;text-decoration:none;padding:7px 12px;border-radius:9px;font-weight:bold;font-size:12px;">'+a.buttonText+'</a>':'')+
+      '</div></div>';
+    styleEmerg();
+  }
+
+  function loopAds(){
+    if(timer) clearTimeout(timer);
+    if(!ads.length) return;
+    var s=Math.max(1,Number((ads[idx]&&ads[idx].durationSec)||dur)||5);
+    timer=setTimeout(function(){
+      idx=ads.length>1?(idx+1)%ads.length:0;
+      drawAd(); loopAds();
+    },s*1000);
+  }
+
+  function drawList(){
+    if(!lstE) return;
+    if(!ads.length){lstE.innerHTML='<div style="color:#90a4ae;">لا توجد إعلانات</div>';return;}
+    var html="";
+    for(var i=0;i<ads.length;i++){
+      var a=ads[i];
+      html+='<div style="display:flex;justify-content:space-between;align-items:center;gap:6px;background:#091815;padding:7px 9px;border-radius:8px;border:1px solid #1f453e;">'+
+        '<span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">#'+(i+1)+' '+(a.title||"إعلان")+' ('+(a.durationSec||dur)+'ث)</span>'+
+        '<button data-del="'+i+'" type="button" style="background:#c62828;color:#fff;border:none;border-radius:6px;padding:4px 8px;font-size:11px;">حذف</button></div>';
+    }
+    lstE.innerHTML=html;
+    var dels=lstE.querySelectorAll("button[data-del]");
+    for(var j=0;j<dels.length;j++){
+      dels[j].onclick=function(){
+        var tok=(tokI.value||localStorage.getItem(TKEY)||"").trim();
+        if(!tok){stE.textContent="أدخل Token أولاً";return;}
+        var delIdx=Number(this.getAttribute("data-del"));
+        var next=[];
+        for(var k=0;k<ads.length;k++) if(k!==delIdx) next.push(ads[k]);
+        stE.textContent="جاري الحذف...";
+        saveAll(next,secI.value||dur,tok).then(function(){stE.textContent="تم الحذف";}).catch(function(e){stE.textContent="خطأ: "+e.message;});
+      };
+    }
+  }
+
+  if(addB) addB.onclick=function(){
+    var tok=(tokI.value||"").trim();
     if(!tok){stE.textContent="أدخل GitHub Token أولاً";return;}
     localStorage.setItem(TKEY,tok);
-    const chosenDur=Math.max(1,Number(secI.value)||5);
+    var chosenDur=Math.max(1,Number(secI.value)||5);
     addB.disabled=true; stE.textContent="جاري الرفع...";
-    try{
-      let imgPath="";
-      const f=filI.files&&filI.files[0];
-      if(f){
-        const ext=(f.name.split(".").pop()||"jpg").toLowerCase();
-        imgPath=`ad-${Date.now()}.${ext}`;
-        await putF(imgPath,await toB64(f),`Upload ${imgPath}`,tok);
-      }
-      const next=[...ads,{title:titI.value.trim(),description:desI.value.trim(),image:imgPath,buttonText:btxtI.value.trim()||"اتصل الآن",buttonLink:blnkI.value.trim()||"#",durationSec:chosenDur}];
-      await saveAll(next,chosenDur,tok);
+    var f=filI.files&&filI.files[0];
+    var upPromise=Promise.resolve("");
+    if(f){
+      var ext=(f.name.split(".").pop()||"jpg").toLowerCase();
+      var imgPath="ad-"+Date.now()+"."+ext;
+      upPromise=toB64(f).then(function(b64){return putF(imgPath,b64,"Upload "+imgPath,tok);}).then(function(){return imgPath;});
+    }
+    upPromise.then(function(imgPath){
+      var next=ads.concat([{
+        title:(titI.value||"").trim(),
+        description:(desI.value||"").trim(),
+        image:imgPath,
+        buttonText:(btxtI.value||"").trim()||"اتصل الآن",
+        buttonLink:(blnkI.value||"").trim()||"#",
+        durationSec:chosenDur
+      }]);
+      return saveAll(next,chosenDur,tok);
+    }).then(function(){
       titI.value=""; desI.value=""; filI.value="";
       stE.textContent="تم النشر بنجاح";
-    }catch(e){stE.textContent="خطأ: "+e.message;}
-    finally{addB.disabled=false;}
+    }).catch(function(e){
+      stE.textContent="خطأ: "+e.message;
+    }).finally(function(){
+      addB.disabled=false;
+    });
   };
 
-  (async function start(){
-    hookTriggers(); styleEmerg();
-    new MutationObserver(()=>{hookTriggers();styleEmerg();}).observe(document.body,{childList:true,subtree:true});
-    try{
-      const r=await fetch(`${PATH}?v=${Date.now()}`,{cache:"no-store"});
-      if(r.ok){
-        const d=await r.json();
-        if(d.defaultDurationSec)dur=Math.max(1,Number(d.defaultDurationSec)||5);
-        if(Array.isArray(d.ads))ads=d.ads;
-        else if(d && d.active!==false && (d.title||d.description||d.image))ads=[{title:d.title||"",description:d.description||"",image:d.image||"",buttonText:d.buttonText||"اتصل الآن",buttonLink:d.buttonLink||"#",durationSec:dur}];
-      }
-    }catch(_){}
-    drawAd(); loopAds();
-  })();
-})();  document.addEventListener("touchstart", function(ev) {
-    const t = ev.target && ev.target.closest ? ev.target : null;
-    if (!t) return;
-    if ((t.textContent || "").trim() === "SEHATI ADS" || (t.parentElement && (t.parentElement.textContent || "").trim() === "SEHATI ADS")) {
-      clearTimeout(window.__sehatiForceTimer);
-      window.__sehatiForceTimer = setTimeout(function() {
-        document.querySelectorAll("div").forEach(function(d) {
-          if (d.id !== "sehatiQuickModal" && (d.textContent || "").includes("إدارة إعلانات صحتي") && d.style && d.style.position === "fixed") {
-            d.style.display = "none";
-          }
-        });
-        openM();
-      }, 650);
+  styleEmerg();
+  setInterval(styleEmerg,1500);
+  fetch(PATH+"?v="+Date.now(),{cache:"no-store"}).then(function(r){return r.ok?r.json():null;}).then(function(d){
+    if(!d) return;
+    if(d.defaultDurationSec) dur=Math.max(1,Number(d.defaultDurationSec)||5);
+    if(Array.isArray(d.ads)) ads=d.ads;
+    else if(d.active!==false && (d.title||d.description||d.image)){
+      ads=[{title:d.title||"",description:d.description||"",image:d.image||"",buttonText:d.buttonText||"اتصل الآن",buttonLink:d.buttonLink||"#",durationSec:dur}];
     }
-  }, true);
-
-  document.addEventListener("touchend", function() {
-    clearTimeout(window.__sehatiForceTimer);
-  }, true);
-
-  document.addEventListener("touchcancel", function() {
-    clearTimeout(window.__sehatiForceTimer);
-  }, true);
-
+    drawAd(); loopAds();
+  }).catch(function(){});
+})();
 </script>
 
 </body>
