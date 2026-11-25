@@ -1,9 +1,9 @@
 {
-  "active": false,
+  "active": true,
   "badge": "📢 مساحة إعلانية مميزة",
-  "title": "",
-  "description": "",
-  "image": "ad-banner.jpeg",
+  "title": "سبيطار الكرطوس للمهابل",
+  "description": "تجي صحيح تخرج مهبول",
+  "image": "ad-banner.jpg",
   "buttonText": "📞 اتصل الآن",
   "buttonLink": "#"
 }
