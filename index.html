@@ -827,6 +827,474 @@
   setTimeout(syncOldCardWithAdJson, 1200);
 })();
 </script>
+<!-- حاوية عرض الإعلانات المتعددة -->
+<div id="sehatiAllInOne_box" style="margin: 14px 0;"></div>
+
+<!-- نافذة إدارة الإعلانات -->
+<div id="sehatiAllInOne_modal" style="
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.82);
+  z-index: 99999;
+  padding: 14px;
+  overflow-y: auto;
+">
+  <div style="
+    max-width: 470px;
+    margin: 20px auto;
+    background: #102521;
+    color: #ffffff;
+    border: 1px solid #1de9b6;
+    border-radius: 16px;
+    padding: 16px;
+    box-sizing: border-box;
+  ">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+      <strong style="font-size: 15px; color: #1de9b6;">📢 إدارة إعلانات صحتي</strong>
+      <button id="sehatiAllInOne_close" type="button" style="
+        background: #263238; color: #fff; border: none; border-radius: 8px; padding: 4px 10px; cursor: pointer;
+      ">✕</button>
+    </div>
+
+    <!-- التحكم في المدة العامة -->
+    <div style="
+      background: #091b18; border: 1px solid #234740; border-radius: 12px;
+      padding: 10px; margin-bottom: 10px; font-size: 12.5px;
+    ">
+      <div style="color: #80cbc4; font-weight: bold; margin-bottom: 6px;">⏱️ مدة عرض الإعلان (بالثواني):</div>
+      <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+        <button id="sehatiAllInOne_minusSec" type="button" style="
+          background: #1c313a; color: #fff; border: 1px solid #455a64; border-radius: 7px;
+          padding: 4px 10px; font-weight: bold; cursor: pointer;
+        ">-1 ث</button>
+
+        <input id="sehatiAllInOne_globalSec" type="number" min="1" max="120" value="5" style="
+          width: 64px; padding: 5px; border-radius: 7px; border: 1px solid #37474f;
+          background: #061311; color: #fff; text-align: center; font-weight: bold;
+        ">
+        <span>ثانية</span>
+
+        <button id="sehatiAllInOne_plusSec" type="button" style="
+          background: #1c313a; color: #fff; border: 1px solid #455a64; border-radius: 7px;
+          padding: 4px 10px; font-weight: bold; cursor: pointer;
+        ">+1 ث</button>
+
+        <button id="sehatiAllInOne_saveSecBtn" type="button" style="
+          margin-right: auto; background: #00897b; color: #fff; border: none;
+          border-radius: 7px; padding: 5px 10px; font-size: 11.5px; font-weight: bold; cursor: pointer;
+        ">💾 حفظ المدة</button>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 9px; font-size: 12.5px;">
+      <label>
+        رمز GitHub Token (يُحفظ محلياً على هاتفك):
+        <input id="sehatiAllInOne_token" type="password" placeholder="ghp_xxxxxxxxxxxx" style="
+          width: 100%; margin-top: 4px; padding: 8px; border-radius: 8px;
+          border: 1px solid #37474f; background: #091614; color: #fff; box-sizing: border-box;
+        ">
+      </label>
+
+      <label>
+        صورة الإعلان من الهاتف (تظهر واضحة غير مظللة):
+        <input id="sehatiAllInOne_file" type="file" accept="image/*" style="
+          width: 100%; margin-top: 4px; padding: 6px; border-radius: 8px;
+          border: 1px solid #37474f; background: #091614; color: #fff; box-sizing: border-box;
+        ">
+      </label>
+
+      <label>
+        عنوان الإعلان:
+        <input id="sehatiAllInOne_title" type="text" placeholder="مثال: عيادة الشفاء - طب عام" style="
+          width: 100%; margin-top: 4px; padding: 8px; border-radius: 8px;
+          border: 1px solid #37474f; background: #091614; color: #fff; box-sizing: border-box;
+        ">
+      </label>
+
+      <label>
+        الوصف / التخصص / العنوان:
+        <textarea id="sehatiAllInOne_desc" rows="2" placeholder="مثال: طريق الساقية - استشارات وتحاليل" style="
+          width: 100%; margin-top: 4px; padding: 8px; border-radius: 8px;
+          border: 1px solid #37474f; background: #091614; color: #fff; box-sizing: border-box;
+        "></textarea>
+      </label>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr 85px; gap: 7px;">
+        <label>
+          نص الزر:
+          <input id="sehatiAllInOne_btnText" type="text" value="📞 اتصل الآن" style="
+            width: 100%; margin-top: 4px; padding: 7px; border-radius: 8px;
+            border: 1px solid #37474f; background: #091614; color: #fff; box-sizing: border-box;
+          ">
+        </label>
+        <label>
+          الرابط أو الهاتف:
+          <input id="sehatiAllInOne_btnLink" type="text" placeholder="tel:0550000000" style="
+            width: 100%; margin-top: 4px; padding: 7px; border-radius: 8px;
+            border: 1px solid #37474f; background: #091614; color: #fff; box-sizing: border-box;
+          ">
+        </label>
+        <label>
+          مدة خاصة (ث):
+          <input id="sehatiAllInOne_itemSec" type="number" min="1" max="120" placeholder="افتراضي" style="
+            width: 100%; margin-top: 4px; padding: 7px; border-radius: 8px;
+            border: 1px solid #37474f; background: #091614; color: #fff; box-sizing: border-box;
+          ">
+        </label>
+      </div>
+
+      <button id="sehatiAllInOne_addBtn" type="button" style="
+        margin-top: 4px; background: #00bfa5; color: #061412; font-weight: bold;
+        border: none; border-radius: 10px; padding: 10px; font-size: 13.5px; cursor: pointer;
+      ">➕ إضافة الإعلان ونشر القائمة</button>
+
+      <div id="sehatiAllInOne_status" style="font-size: 12px; color: #ffd54f; min-height: 18px;"></div>
+
+      <div style="margin-top: 6px; border-top: 1px solid #23423c; padding-top: 10px;">
+        <div style="font-weight: bold; color: #80cbc4; margin-bottom: 6px;">📋 الإعلانات المنشورة:</div>
+        <div id="sehatiAllInOne_list" style="display: flex; flex-direction: column; gap: 7px;"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+  const OWNER = "abdoben16";
+  const REPO = "SEHATI.dz";
+  const BRANCH = "main";
+  const AD_JSON_PATH = "ad.json";
+  const TOKEN_KEY = "sehatiAdSys_gh_token";
+
+  const box = document.getElementById("sehatiAllInOne_box");
+  const modal = document.getElementById("sehatiAllInOne_modal");
+  const closeBtn = document.getElementById("sehatiAllInOne_close");
+
+  const minusSecBtn = document.getElementById("sehatiAllInOne_minusSec");
+  const plusSecBtn = document.getElementById("sehatiAllInOne_plusSec");
+  const globalSecInput = document.getElementById("sehatiAllInOne_globalSec");
+  const saveSecBtn = document.getElementById("sehatiAllInOne_saveSecBtn");
+
+  const tokenInput = document.getElementById("sehatiAllInOne_token");
+  const fileInput = document.getElementById("sehatiAllInOne_file");
+  const titleInput = document.getElementById("sehatiAllInOne_title");
+  const descInput = document.getElementById("sehatiAllInOne_desc");
+  const btnTextInput = document.getElementById("sehatiAllInOne_btnText");
+  const btnLinkInput = document.getElementById("sehatiAllInOne_btnLink");
+  const itemSecInput = document.getElementById("sehatiAllInOne_itemSec");
+  const addBtn = document.getElementById("sehatiAllInOne_addBtn");
+  const statusEl = document.getElementById("sehatiAllInOne_status");
+  const listEl = document.getElementById("sehatiAllInOne_list");
+
+  let adsList = [];
+  let defaultDurationSec = 5;
+  let activeIndex = 0;
+  let rotationTimeout = null;
+
+  function clampSec(val, fallback = 5) {
+    const n = Number(val);
+    if (!Number.isFinite(n) || n < 1) return fallback;
+    return Math.min(120, Math.round(n));
+  }
+
+  function getAdDurationMs(ad) {
+    const sec = ad && ad.durationSec ? clampSec(ad.durationSec, defaultDurationSec) : defaultDurationSec;
+    return sec * 1000;
+  }
+
+  function openModal() {
+    tokenInput.value = localStorage.getItem(TOKEN_KEY) || "";
+    globalSecInput.value = defaultDurationSec;
+    statusEl.style.color = "#ffd54f";
+    statusEl.textContent = "";
+    renderAdminList();
+    modal.style.display = "block";
+  }
+
+  closeBtn.addEventListener("click", () => {
+    modal.style.display = "none";
+  });
+
+  minusSecBtn.addEventListener("click", () => {
+    globalSecInput.value = clampSec(Number(globalSecInput.value) - 1, 1);
+  });
+
+  plusSecBtn.addEventListener("click", () => {
+    globalSecInput.value = clampSec(Number(globalSecInput.value) + 1, 5);
+  });
+
+  function bindLongPress(el) {
+    if (!el || el.dataset.sehatiAioBound) return;
+    el.dataset.sehatiAioBound = "1";
+    el.style.cursor = "pointer";
+    let t = null;
+    const start = () => { t = setTimeout(openModal, 700); };
+    const cancel = () => { if (t) clearTimeout(t); };
+    el.addEventListener("pointerdown", start);
+    el.addEventListener("pointerup", cancel);
+    el.addEventListener("pointerleave", cancel);
+    el.addEventListener("touchstart", start, { passive: true });
+    el.addEventListener("touchend", cancel);
+    el.addEventListener("touchcancel", cancel);
+  }
+
+  function scanTriggers() {
+    document.querySelectorAll("div, span, button, a, p, h1, h2, h3, strong").forEach((el) => {
+      if ((el.textContent || "").trim() === "SEHATI ADS") {
+        bindLongPress(el);
+      }
+    });
+  }
+
+  function styleEmergencyAndAdSpace() {
+    const stylesByKeyword = [
+      { keys: ["الحماية المدنية", "14"], bg: "linear-gradient(135deg, #1b2838, #e65100)", border: "#ff9800", color: "#ffffff" },
+      { keys: ["الشرطة", "1548"], bg: "linear-gradient(135deg, #0d2342, #1565c0)", border: "#42a5f5", color: "#ffffff" },
+      { keys: ["الدرك الوطني", "1055"], bg: "linear-gradient(135deg, #162619, #2e4d32)", border: "#66bb6a", color: "#ffffff" },
+      { keys: ["الإسعاف", "115"], bg: "linear-gradient(135deg, #0f2e2b, #c62828)", border: "#ef5350", color: "#ffffff" }
+    ];
+
+    document.querySelectorAll("a, button, div, span").forEach((el) => {
+      if (el.closest("#sehatiAllInOne_box") || el.closest("#sehatiAllInOne_modal")) return;
+      const text = (el.textContent || "").trim();
+      if (!text || text.length > 60) return;
+
+      const matched = stylesByKeyword.find((item) => item.keys.some((k) => text.includes(k)));
+      if (matched) {
+        const isCard = el.offsetHeight >= 34 && el.offsetHeight <= 115 && el.offsetWidth < 360;
+        if (isCard) {
+          el.style.background = matched.bg;
+          el.style.borderColor = matched.border;
+          el.style.borderWidth = "1px";
+          el.style.borderStyle = "solid";
+          el.style.color = matched.color;
+          el.style.padding = "6px 6px";
+          el.style.minHeight = "44px";
+          el.style.borderRadius = "10px";
+          el.style.fontSize = "11.5px";
+          el.style.lineHeight = "1.25";
+        }
+      }
+    });
+
+    if (box) {
+      const adImg = box.querySelector("img");
+      if (adImg) {
+        adImg.style.maxHeight = "290px";
+        adImg.style.height = "auto";
+        adImg.style.objectFit = "cover";
+        adImg.style.opacity = "1";
+        adImg.style.filter = "none";
+      }
+    }
+  }
+
+  function fileToBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(String(reader.result || "").split(",")[1] || "");
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function utf8ToBase64(str) {
+    const bytes = new TextEncoder().encode(str);
+    let bin = "";
+    bytes.forEach((b) => { bin += String.fromCharCode(b); });
+    return btoa(bin);
+  }
+
+  async function getFileSha(path, token) {
+    const res = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${path}?ref=${BRANCH}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    if (!res.ok) return null;
+    const data = await res.json();
+    return data.sha || null;
+  }
+
+  async function putFile(path, base64Content, message, token) {
+    const sha = await getFileSha(path, token);
+    const body = { message, content: base64Content, branch: BRANCH };
+    if (sha) body.sha = sha;
+    const res = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${path}`, {
+      method: "PUT",
+      headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+      body: JSON.stringify(body)
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.message || `فشل حفظ ${path}`);
+    }
+    return res.json();
+  }
+
+  async function saveStateToGitHub(newAds, newDefaultSec, token) {
+    const payload = {
+      active: newAds.length > 0,
+      defaultDurationSec: clampSec(newDefaultSec, 5),
+      ads: newAds
+    };
+    await putFile(
+      AD_JSON_PATH,
+      utf8ToBase64(JSON.stringify(payload, null, 2)),
+      "Update ads list and durations in ad.json",
+      token
+    );
+    adsList = newAds;
+    defaultDurationSec = payload.defaultDurationSec;
+    activeIndex = 0;
+    renderCurrentAd();
+    scheduleNextAd();
+    renderAdminList();
+  }
+
+  function scheduleNextAd() {
+    if (rotationTimeout) clearTimeout(rotationTimeout);
+    if (!adsList.length) return;
+    const currentAd = adsList[activeIndex] || adsList[0];
+    const delay = getAdDurationMs(currentAd);
+
+    rotationTimeout = setTimeout(() => {
+      activeIndex = adsList.length > 1 ? (activeIndex + 1) % adsList.length : 0;
+      renderCurrentAd();
+      scheduleNextAd();
+    }, delay);
+  }
+
+  function renderCurrentAd() {
+    if (!box) return;
+    if (!adsList.length) {
+      box.innerHTML = "";
+      return;
+    }
+
+    if (activeIndex >= adsList.length) activeIndex = 0;
+    const ad = adsList[activeIndex];
+    const secShown = ad && ad.durationSec ? clampSec(ad.durationSec, defaultDurationSec) : defaultDurationSec;
+    const imgSrc = ad.image ? `${ad.image}?v=${Date.now()}` : "";
+
+    box.innerHTML = `
+      <div style="
+        min-height: 250px;
+        border-radius: 16px;
+        overflow: hidden;
+        border: 1px solid rgba(29, 233, 182, 0.35);
+        background: #0d2622;
+      ">
+        <div style="
+          display: flex; justify-content: space-between; align-items: center;
+          padding: 8px 12px; background: #091b18;
+        ">
+          <span style="background: #e53935; color: #fff; font-size: 11px; font-weight: bold; padding: 2px 9px; border-radius: 20px;">
+            📢 إعلان (${activeIndex + 1}/${adsList.length}) • ${secShown}ث
+          </span>
+          <span class="sehati-aio-trigger" style="color: #80cbc4; font-size: 11px; font-weight: 700; user-select: none;">
+            SEHATI ADS
+          </span>
+        </div>
+
+        ${imgSrc ? `
+          <div style="width: 100%; background: #071412;">
+            <img src="${imgSrc}" alt="${ad.title || ""}" style="
+              display: block;
+              width: 100%;
+              max-height: 290px;
+              object-fit: cover;
+              opacity: 1;
+              filter: none;
+            ">
+          </div>
+        ` : ""}
+
+        <div style="padding: 12px 14px; background: #0e2924; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap;">
+          <div style="flex: 1; min-width: 180px;">
+            <div style="color: #fff; font-size: 14.5px; font-weight: bold; margin-bottom: 3px;">${ad.title || ""}</div>
+            <div style="color: #d0ece7; font-size: 12px; line-height: 1.4;">${ad.description || ""}</div>
+          </div>
+          ${ad.buttonText ? `
+            <a href="${ad.buttonLink || "#"}" style="
+              background: #00bfa5; color: #051613; text-decoration: none;
+              font-size: 12.5px; font-weight: bold; padding: 8px 14px; border-radius: 10px; white-space: nowrap;
+            ">${ad.buttonText}</a>
+          ` : ""}
+        </div>
+      </div>
+    `;
+
+    box.querySelectorAll(".sehati-aio-trigger").forEach(bindLongPress);
+    styleEmergencyAndAdSpace();
+  }
+
+  function renderAdminList() {
+    if (!listEl) return;
+    if (!adsList.length) {
+      listEl.innerHTML = `<div style="color: #90a4ae;">لا توجد إعلانات منشورة حالياً.</div>`;
+      return;
+    }
+
+    listEl.innerHTML = adsList.map((item, idx) => {
+      const itemSec = item.durationSec ? clampSec(item.durationSec, defaultDurationSec) : defaultDurationSec;
+      return `
+        <div style="
+          display: flex; justify-content: space-between; align-items: center; gap: 6px;
+          background: #091815; border: 1px solid #1f453e; border-radius: 10px; padding: 8px 10px;
+        ">
+          <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1;">
+            <strong>#${idx + 1}</strong> ${item.title || "بدون عنوان"}
+            <span style="color: #80cbc4; font-size: 11px;">(${itemSec}ث)</span>
+          </div>
+          <button data-sec-idx="${idx}" type="button" style="
+            background: #263238; color: #fff; border: 1px solid #546e7a; border-radius: 7px;
+            padding: 4px 8px; font-size: 11px; cursor: pointer; flex-shrink: 0;
+          ">⏱ مدة</button>
+          <button data-del-idx="${idx}" type="button" style="
+            background: #c62828; color: #fff; border: none; border-radius: 7px;
+            padding: 4px 9px; font-size: 11.5px; cursor: pointer; flex-shrink: 0;
+          ">🗑 حذف</button>
+        </div>
+      `;
+    }).join("");
+
+    listEl.querySelectorAll("button[data-sec-idx]").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        const token = (tokenInput.value || localStorage.getItem(TOKEN_KEY) || "").trim();
+        if (!token) {
+          statusEl.style.color = "#ff8a80";
+          statusEl.textContent = "⚠️ أدخل رمز GitHub Token أولاً لحفظ المدة.";
+          return;
+        }
+        const idx = Number(btn.getAttribute("data-sec-idx"));
+        const currentSec = adsList[idx]?.durationSec || defaultDurationSec;
+        const inputVal = prompt("أدخل مدة عرض هذا الإعلان بالثواني:", String(currentSec));
+        if (inputVal === null) return;
+
+        const nextSec = clampSec(inputVal, defaultDurationSec);
+        const updatedAds = adsList.map((ad, i) => i === idx ? { ...ad, durationSec: nextSec } : ad);
+
+        btn.disabled = true;
+        statusEl.style.color = "#ffd54f";
+        statusEl.textContent = `⏳ جاري تحديث المدة إلى ${nextSec} ثوانٍ...`;
+        try {
+          await saveStateToGitHub(updatedAds, defaultDurationSec, token);
+          statusEl.style.color = "#69f0ae";
+          statusEl.textContent = `✅ تم تحديث المدة إلى ${nextSec} ثوانٍ.`;
+        } catch (e) {
+          statusEl.style.color = "#ff8a80";
+          statusEl.textContent = "❌ خطأ: " + e.message;
+        } finally {
+          btn.disabled = false;
+        }
+      });
+    });
+
+    listEl.querySelectorAll("button[data-del-idx]").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        const token = (tokenInput.value || localStorage.getItem(TOKEN_KEY) || "").trim();
+        if (!token) {
+          statusEl.style.color =
 
 </body>
 </html>
