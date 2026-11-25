@@ -1,9 +1,9 @@
 {
   "active": true,
   "badge": "📢 مساحة إعلانية مميزة",
-  "title": "عيادة الهف",
-  "description": "فحوصات حيوانية",
+  "title": "",
+  "description": "",
   "image": "ad-banner.jpg",
-  "buttonText": "📞 اتصل الآن .",
-  "buttonLink": "0550319361"
+  "buttonText": "📞 اتصل الآن",
+  "buttonLink": "#"
 }
