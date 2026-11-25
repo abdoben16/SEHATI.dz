@@ -384,6 +384,360 @@
     window.render = function() { const box = document.getElementById('listContainer'), q = document.getElementById('searchInput').value.toLowerCase().trim(), t = T[lang], publicPlaces = window.placesData.filter(item => item.approved !== false), sorted = [...publicPlaces].sort((a, b) => (b.feat === true) - (a.feat === true)), filtered = sorted.filter(item => { if (currentCat === 'fav' && !favs.includes(item.id)) return false; if (currentCat !== 'all' && currentCat !== 'fav' && item.tp !== currentCat) return false; const hay = `${item.nm_ar} ${item.nm_fr} ${item.sp_ar} ${item.sp_fr} ${item.srv_ar || ''} ${item.ad_ar} ${item.ad_fr}`.toLowerCase(); return !q || hay.includes(q); }); document.getElementById('totalCounter').textContent = `(${filtered.length})`; if (!filtered.length) { box.innerHTML = `<p style="text-align:center;color:var(--muted);padding:30px;">${t.empty}</p>`; return; } box.innerHTML = filtered.slice(0, 100).map(item => { const name = lang === 'ar' ? item.nm_ar : item.nm_fr, spec = lang === 'ar' ? item.sp_ar : item.sp_fr, srv = lang === 'ar' ? (item.srv_ar || '') : (item.srv_fr || ''), addr = lang === 'ar' ? item.ad_ar : item.ad_fr, hours = lang === 'ar' ? item.hr_ar : item.hr_fr, isFav = favs.includes(item.id), allowBook = item.canBook !== false && item.tp !== 'p' && item.tp !== 'h', hasPhone = item.ph && item.ph.trim().length > 3, mapLink = (typeof item.lat === 'number' && typeof item.lng === 'number') ? `https://maps.google.com/?q=${item.lat},${item.lng}` : `https://maps.google.com/?q=${encodeURIComponent(name + ' ' + addr + ' Algerie')}`, cols = [allowBook, hasPhone, true].filter(Boolean).length, gridCols = cols === 3 ? '1fr 1fr 1fr auto' : (cols === 2 ? '1fr 1fr auto' : '1fr auto'); return `<div class="item-card ${item.feat ? 'featured' : ''}">${item.feat ? `<span class="badge-feat">${t.feat}</span>` : ''}<div class="item-title">${name}</div><div class="item-sub">${spec}</div>${srv ? `<div class="item-services">🩺 ${srv}</div>` : ''}<div class="item-meta"><span>📍 ${addr}</span><span><i class="dot-open"></i>🕒 ${hours}</span></div><div class="actions" style="grid-template-columns:${gridCols};">${allowBook ? `<button onclick="openBooking('${item.id}')" class="act-btn act-book">${t.book}</button>` : ''}${hasPhone ? `<a href="tel:${item.ph}" class="act-btn act-call">${t.call}</a>` : ''}<a href="${mapLink}" class="act-btn act-map">${t.map}</a><button onclick="toggleFav('${item.id}')" class="act-btn act-fav ${isFav ? 'saved' : ''}">${isFav ? '❤️' : '🤍'}</button></div></div>`; }).join(''); };
     if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(() => {});
     render();
-  </script>
+  </script><!-- حاوية عرض الإعلان الديناميكي -->
+<div id="sehatiAdSys_liveBox" style="margin: 14px 0;"></div>
+
+<!-- نافذة الإدارة المخفية (تُفتح بالضغط المطول على SEHATI ADS) -->
+<div id="sehatiAdSys_modal" style="
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.78);
+  z-index: 99999;
+  padding: 16px;
+  overflow-y: auto;
+">
+  <div style="
+    max-width: 460px;
+    margin: 24px auto;
+    background: #102521;
+    color: #ffffff;
+    border: 1px solid #1de9b6;
+    border-radius: 16px;
+    padding: 18px;
+    box-sizing: border-box;
+  ">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+      <strong style="font-size: 15px; color: #1de9b6;">⚙️ إدارة إعلانات صحتي</strong>
+      <button id="sehatiAdSys_closeBtn" type="button" style="
+        background: #263238;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        padding: 4px 10px;
+        cursor: pointer;
+      ">✕</button>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 10px; font-size: 13px;">
+      <label>
+        رمز GitHub Token (يُحفظ على هاتفك فقط):
+        <input id="sehatiAdSys_tokenInput" type="password" placeholder="ghp_xxxxxxxxxxxx" style="
+          width: 100%; margin-top: 4px; padding: 8px; border-radius: 8px;
+          border: 1px solid #37474f; background: #091614; color: #fff; box-sizing: border-box;
+        ">
+      </label>
+
+      <label>
+        صورة الإعلان من الهاتف:
+        <input id="sehatiAdSys_fileInput" type="file" accept="image/*" style="
+          width: 100%; margin-top: 4px; padding: 6px; border-radius: 8px;
+          border: 1px solid #37474f; background: #091614; color: #fff; box-sizing: border-box;
+        ">
+      </label>
+
+      <label>
+        عنوان الإعلان (اسم العيادة أو الطبيب):
+        <input id="sehatiAdSys_titleInput" type="text" placeholder="مثال: عيادة الشفاء - طب عام" style="
+          width: 100%; margin-top: 4px; padding: 8px; border-radius: 8px;
+          border: 1px solid #37474f; background: #091614; color: #fff; box-sizing: border-box;
+        ">
+      </label>
+
+      <label>
+        وصف الإعلان والتخصص والعنوان:
+        <textarea id="sehatiAdSys_descInput" rows="2" placeholder="مثال: فحوصات طبية وتحاليل - وسط المدينة" style="
+          width: 100%; margin-top: 4px; padding: 8px; border-radius: 8px;
+          border: 1px solid #37474f; background: #091614; color: #fff; box-sizing: border-box;
+        "></textarea>
+      </label>
+
+      <label>
+        نص الزر:
+        <input id="sehatiAdSys_btnTextInput" type="text" value="📞 اتصل الآن" style="
+          width: 100%; margin-top: 4px; padding: 8px; border-radius: 8px;
+          border: 1px solid #37474f; background: #091614; color: #fff; box-sizing: border-box;
+        ">
+      </label>
+
+      <label>
+        رقم الهاتف أو الرابط (مثال: tel:0550000000 أو https://...):
+        <input id="sehatiAdSys_btnLinkInput" type="text" placeholder="tel:0550000000" style="
+          width: 100%; margin-top: 4px; padding: 8px; border-radius: 8px;
+          border: 1px solid #37474f; background: #091614; color: #fff; box-sizing: border-box;
+        ">
+      </label>
+
+      <label style="display: flex; align-items: center; gap: 8px; margin-top: 4px;">
+        <input id="sehatiAdSys_activeCheck" type="checkbox" checked>
+        تفعيل وعرض الإعلان للمستخدمين
+      </label>
+
+      <button id="sehatiAdSys_publishBtn" type="button" style="
+        margin-top: 6px;
+        background: #00bfa5;
+        color: #061412;
+        font-weight: bold;
+        border: none;
+        border-radius: 10px;
+        padding: 10px;
+        font-size: 14px;
+        cursor: pointer;
+      ">🚀 رفع الصورة ونشر الإعلان</button>
+
+      <div id="sehatiAdSys_status" style="font-size: 12px; color: #ffd54f; min-height: 18px;"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+  const OWNER = "abdoben16";
+  const REPO = "SEHATI.dz";
+  const BRANCH = "main";
+  const AD_JSON_PATH = "ad.json";
+  const TOKEN_KEY = "sehatiAdSys_gh_token";
+
+  const liveBox = document.getElementById("sehatiAdSys_liveBox");
+  const modal = document.getElementById("sehatiAdSys_modal");
+  const closeBtn = document.getElementById("sehatiAdSys_closeBtn");
+  const tokenInput = document.getElementById("sehatiAdSys_tokenInput");
+  const fileInput = document.getElementById("sehatiAdSys_fileInput");
+  const titleInput = document.getElementById("sehatiAdSys_titleInput");
+  const descInput = document.getElementById("sehatiAdSys_descInput");
+  const btnTextInput = document.getElementById("sehatiAdSys_btnTextInput");
+  const btnLinkInput = document.getElementById("sehatiAdSys_btnLinkInput");
+  const activeCheck = document.getElementById("sehatiAdSys_activeCheck");
+  const publishBtn = document.getElementById("sehatiAdSys_publishBtn");
+  const statusEl = document.getElementById("sehatiAdSys_status");
+
+  let currentAdData = {
+    active: true,
+    badge: "📢 مساحة إعلانية مميزة",
+    title: "أعلن عن عيادتك أو صيدليتك أو مخبرك",
+    description: "احجز مساحة إعلانية بارزة للوصول إلى الباحثين عن الخدمات الصحية.",
+    image: "",
+    buttonText: "📢 احجز مساحتك الإعلانية",
+    buttonLink: "#contact"
+  };
+
+  function renderAdCard(ad) {
+    if (!liveBox) return;
+    if (!ad || ad.active === false) {
+      liveBox.innerHTML = "";
+      return;
+    }
+
+    const bgImg = ad.image
+      ? `linear-gradient(to left, rgba(10, 25, 22, 0.92) 45%, rgba(10, 25, 22, 0.45) 100%), url('${ad.image}?v=${Date.now()}')`
+      : "linear-gradient(135deg, #0d2b26, #13423a)";
+
+    liveBox.innerHTML = `
+      <div style="
+        position: relative;
+        width: 100%;
+        min-height: 170px;
+        border-radius: 16px;
+        overflow: hidden;
+        border: 1px solid rgba(29, 233, 182, 0.35);
+        background-color: #0d2622;
+        background-image: ${bgImg};
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 14px 16px;
+        box-sizing: border-box;
+      ">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span style="
+            background: #e53935;
+            color: #fff;
+            font-size: 11px;
+            font-weight: bold;
+            padding: 3px 10px;
+            border-radius: 20px;
+          ">${ad.badge || "📢 مساحة إعلانية مميزة"}</span>
+          <span id="sehatiAdSys_trigger" title="اضغط مطولاً للإدارة" style="
+            color: rgba(255,255,255,0.75);
+            font-size: 11px;
+            font-weight: 700;
+            user-select: none;
+            cursor: pointer;
+          ">SEHATI ADS</span>
+        </div>
+
+        <div style="margin: 10px 0;">
+          <h3 style="color: #fff; font-size: 15px; margin: 0 0 4px 0; font-weight: bold;">${ad.title || ""}</h3>
+          <p style="color: #e0f2f1; font-size: 12.5px; margin: 0; line-height: 1.5;">${ad.description || ""}</p>
+        </div>
+
+        <div style="text-align: center;">
+          <a href="${ad.buttonLink || "#"}" style="
+            display: inline-block;
+            background: #0d5c4d;
+            border: 1px solid #1de9b6;
+            color: #fff;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: bold;
+            padding: 7px 20px;
+            border-radius: 10px;
+          ">${ad.buttonText || "تواصل الآن"}</a>
+        </div>
+      </div>
+    `;
+
+    const trigger = document.getElementById("sehatiAdSys_trigger");
+    if (trigger) {
+      let timer = null;
+      const start = () => {
+        timer = setTimeout(() => {
+          openAdminModal();
+        }, 850);
+      };
+      const cancel = () => {
+        if (timer) clearTimeout(timer);
+      };
+      trigger.addEventListener("pointerdown", start);
+      trigger.addEventListener("pointerup", cancel);
+      trigger.addEventListener("pointerleave", cancel);
+    }
+  }
+
+  function openAdminModal() {
+    tokenInput.value = localStorage.getItem(TOKEN_KEY) || "";
+    titleInput.value = currentAdData.title || "";
+    descInput.value = currentAdData.description || "";
+    btnTextInput.value = currentAdData.buttonText || "📞 اتصل الآن";
+    btnLinkInput.value = currentAdData.buttonLink || "";
+    activeCheck.checked = currentAdData.active !== false;
+    statusEl.textContent = "";
+    modal.style.display = "block";
+  }
+
+  closeBtn.addEventListener("click", () => {
+    modal.style.display = "none";
+  });
+
+  function fileToBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const res = String(reader.result || "");
+        resolve(res.split(",")[1] || "");
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function utf8ToBase64(str) {
+    const bytes = new TextEncoder().encode(str);
+    let bin = "";
+    bytes.forEach((b) => { bin += String.fromCharCode(b); });
+    return btoa(bin);
+  }
+
+  async function getFileSha(path, token) {
+    const res = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${path}?ref=${BRANCH}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    if (!res.ok) return null;
+    const data = await res.json();
+    return data.sha || null;
+  }
+
+  async function putFileToGitHub(path, base64Content, message, token) {
+    const sha = await getFileSha(path, token);
+    const body = { message, content: base64Content, branch: BRANCH };
+    if (sha) body.sha = sha;
+
+    const res = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${path}`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(body)
+    });
+
+    if (!res.ok) {
+      const errData = await res.json().catch(() => ({}));
+      throw new Error(errData.message || `فشل حفظ الملف ${path}`);
+    }
+    return res.json();
+  }
+
+  publishBtn.addEventListener("click", async () => {
+    const token = tokenInput.value.trim();
+    if (!token) {
+      statusEl.textContent = "⚠️ يرجى إدخال رمز GitHub Token أولاً.";
+      return;
+    }
+
+    localStorage.setItem(TOKEN_KEY, token);
+    publishBtn.disabled = true;
+    statusEl.textContent = "⏳ جاري رفع البيانات وتحديث الإعلان...";
+
+    try {
+      let imageName = currentAdData.image || "";
+      const selectedFile = fileInput.files && fileInput.files[0];
+
+      if (selectedFile) {
+        const ext = (selectedFile.name.split(".").pop() || "jpg").toLowerCase();
+        imageName = `ad-banner.${ext}`;
+        const imgBase64 = await fileToBase64(selectedFile);
+        await putFileToGitHub(imageName, imgBase64, `Upload ad image ${imageName}`, token);
+      }
+
+      const updatedAd = {
+        active: activeCheck.checked,
+        badge: "📢 مساحة إعلانية مميزة",
+        title: titleInput.value.trim(),
+        description: descInput.value.trim(),
+        image: imageName,
+        buttonText: btnTextInput.value.trim() || "📞 اتصل الآن",
+        buttonLink: btnLinkInput.value.trim() || "#"
+      };
+
+      await putFileToGitHub(
+        AD_JSON_PATH,
+        utf8ToBase64(JSON.stringify(updatedAd, null, 2)),
+        "Update ad.json via admin",
+        token
+      );
+
+      currentAdData = updatedAd;
+      renderAdCard(currentAdData);
+      statusEl.style.color = "#69f0ae";
+      statusEl.textContent = "✅ تم نشر الإعلان بنجاح! سيظهر للمستخدمين خلال ثوانٍ.";
+    } catch (err) {
+      statusEl.style.color = "#ff8a80";
+      statusEl.textContent = "❌ خطأ: " + err.message;
+    } finally {
+      publishBtn.disabled = false;
+    }
+  });
+
+  async function initAdSystem() {
+    try {
+      const res = await fetch(`${AD_JSON_PATH}?t=${Date.now()}`, { cache: "no-store" });
+      if (res.ok) {
+        const data = await res.json();
+        if (data && typeof data === "object") {
+          currentAdData = { ...currentAdData, ...data };
+        }
+      }
+    } catch (_) {}
+    renderAdCard(currentAdData);
+  }
+
+  window.sehatiRefreshAdCard = () => renderAdCard(currentAdData);
+  initAdSystem();
+})();
+</script>
+
 </body>
 </html>
