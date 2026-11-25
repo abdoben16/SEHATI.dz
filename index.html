@@ -1,1717 +1,1032 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>صحتي - SEHATI.dz</title><link rel="manifest" href="./manifest.webmanifest" />
-<link rel="icon" type="image/png" href="./icon-192.png" />
-<meta name="theme-color" content="#0f766e" />
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>صحتي | SEHATI - دليل الخدمات الصحية والطوارئ</title>
   <style>
-    :root{--bg:#f1f5f9;--card:#fff;--text:#0f172a;--muted:#64748b;--primary:#0f766e;--primary-light:#14b8a6;--danger:#dc2626;--accent:#f59e0b;--blue:#0284c7;--border:#e2e8f0;--shadow:0 6px 18px rgba(15,23,42,.06)}
-    body.dark{--bg:#0b1120;--card:#1e293b;--text:#f8fafc;--muted:#94a3b8;--primary:#14b8a6;--primary-light:#2dd4bf;--danger:#ef4444;--accent:#fbbf24;--blue:#38bdf8;--border:#334155;--shadow:0 6px 18px rgba(0,0,0,.35)}
-    *{box-sizing:border-box;margin:0;padding:0;font-family:'Tajawal',system-ui,-apple-system,sans-serif;-webkit-tap-highlight-color:transparent}
-    body{background:var(--bg);color:var(--text);line-height:1.55;padding-bottom:110px;transition:background .3s,color .3s}
-    .hero{position:relative;overflow:hidden;background:linear-gradient(135deg,#0f766e 0%,#0d9488 55%,#0284c7 100%);color:#fff;padding:18px 16px 32px;border-radius:0 0 28px 28px;box-shadow:var(--shadow)}
-    .hero::before{content:"";position:absolute;inset:0;opacity:.08;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3'/%3E%3Cpath d='M8 15v1a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6v-4'/%3E%3Ccircle cx='20' cy='10' r='2'/%3E%3C/svg%3E");background-size:85px 85px;transform:rotate(-12deg)}
-    .top{position:relative;z-index:2;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
-    .brand{display:flex;align-items:center;justify-content:space-between;width:100%;cursor:pointer;user-select:none;margin-bottom:4px}
-    .logo{width:56px;height:56px;border-radius:16px;background:rgba(255,255,255,.18);display:grid;place-items:center;backdrop-filter:blur(6px);box-shadow:0 4px 12px rgba(0,0,0,.12);flex-shrink:0}
-    .logo svg{width:38px;height:38px;stroke:#fff;fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
-    .ecg{stroke-dasharray:120;stroke-dashoffset:240;animation:draw 2.4s linear infinite}
-    @keyframes draw{to{stroke-dashoffset:0}}
-    .bottom-ecg-wave{position:absolute;bottom:2px;left:0;width:100%;height:22px;pointer-events:none;z-index:1;opacity:.65}
-    .bottom-ecg-wave svg{width:100%;height:100%;fill:none;stroke:#ffffff;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
-    .ecg-bottom-line{stroke-dasharray:600;stroke-dashoffset:1200;animation:drawBottom 4.5s linear infinite}
-    @keyframes drawBottom{to{stroke-dashoffset:0}}
-    .brand b{font-size:1.38rem;font-weight:800;display:block;line-height:1.1}
-    .brand small{display:block;opacity:.9;font-size:.8rem;margin-top:2px}
-    .tools{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
-    .seg{display:flex;background:rgba(255,255,255,.18);border-radius:11px;padding:3px}
-    .seg button{border:0;background:transparent;color:#fff;font-weight:700;font-size:.78rem;padding:4px 8px;border-radius:8px;cursor:pointer}
-    .seg button.on{background:#fff;color:#0f766e}
-    .tool-btn{border:0;background:rgba(255,255,255,.22);color:#fff;padding:6px 10px;border-radius:11px;font-weight:700;font-size:.8rem;cursor:pointer}
-    .portal-btn{background:#fff;color:#0f766e;font-weight:800}
-    .search-wrap input{width:100%;padding:11px 14px;border-radius:14px;border:none;outline:none;font-size:.95rem;background:#fff;color:#0f172a}
-    .emergency-sec{padding:14px 16px 6px}
-    .sec-head{font-size:.9rem;font-weight:700;color:var(--muted);margin-bottom:8px;display:flex;justify-content:space-between}
-    .emerg-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-    .emerg-card{background:var(--danger);color:#fff;text-decoration:none;padding:8px 4px;border-radius:12px;text-align:center;font-size:.76rem;font-weight:700;box-shadow:0 3px 8px rgba(220,38,38,.25)}
-    .emerg-card b{display:block;font-size:1.02rem;margin-top:2px}
-    .ads-showcase{margin:12px 16px 16px;padding:16px;border-radius:18px;background:linear-gradient(135deg,rgba(245,158,11,.16),rgba(2,132,199,.14));border:1.5px solid var(--accent);box-shadow:var(--shadow);position:relative}
-    .ads-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-    .promo-tag{background:var(--accent);color:#000;font-size:.75rem;font-weight:800;padding:3px 9px;border-radius:7px}
-    .ads-body{font-size:.95rem;font-weight:800;margin-bottom:10px;line-height:1.5}
-    .ads-cta{background:var(--primary);color:#fff;border:none;padding:8px 16px;border-radius:10px;font-weight:800;font-size:.86rem;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
-    .bottom-cats-bar{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--border);display:flex;gap:6px;overflow-x:auto;padding:10px 12px;z-index:140;box-shadow:0 -4px 16px rgba(0,0,0,.08);scrollbar-width:none}
-    .bottom-cats-bar::-webkit-scrollbar{display:none}
-    .cat-pill{background:var(--bg);color:var(--text);border:1px solid var(--border);padding:7px 13px;border-radius:18px;white-space:nowrap;font-size:.84rem;font-weight:700;cursor:pointer}
-    .cat-pill.active{background:var(--primary);color:#fff;border-color:var(--primary)}
-    .list{padding:0 16px;display:flex;flex-direction:column;gap:12px}
-    .item-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px;box-shadow:var(--shadow);position:relative}
-    .item-card.featured{border:2px solid var(--accent)}
-    .badge-feat{position:absolute;top:12px;left:12px;background:var(--accent);color:#000;font-size:.72rem;font-weight:800;padding:2px 8px;border-radius:8px}
-    html[dir="ltr"] .badge-feat{left:auto;right:12px}
-    .item-title{font-size:1.08rem;font-weight:800;margin-bottom:2px}
-    .item-sub{font-size:.86rem;font-weight:700;color:var(--primary);margin-bottom:6px}
-    .item-services{font-size:.82rem;background:var(--bg);padding:6px 10px;border-radius:8px;margin-bottom:8px;color:var(--text)}
-    .item-meta{font-size:.85rem;color:var(--muted);margin-bottom:12px;display:flex;flex-direction:column;gap:4px}
-    .dot-open{display:inline-block;width:8px;height:8px;border-radius:50%;background:#22c55e;margin-inline-end:6px}
-    .actions{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:6px}
-    .act-btn{text-decoration:none;border:none;border-radius:10px;padding:8px 6px;font-size:.82rem;font-weight:700;display:flex;align-items:center;justify-content:center;gap:4px;cursor:pointer}
-    .act-book{background:var(--blue);color:#fff}
-    .act-call{background:var(--primary);color:#fff}
-    .act-map{background:transparent;color:var(--primary);border:1px solid var(--primary)}
-    .act-fav{background:var(--bg);color:var(--text);border:1px solid var(--border);padding:8px 10px}
-    .act-fav.saved{color:#ef4444;border-color:#ef4444}
-    .support-fab{position:fixed;bottom:64px;left:16px;background:linear-gradient(135deg,#0f766e,#0284c7);color:#fff;border:none;border-radius:50px;padding:10px 15px;font-size:.85rem;font-weight:800;display:flex;align-items:center;gap:6px;box-shadow:0 6px 20px rgba(15,118,110,.45);cursor:pointer;z-index:150}
-    html[dir="ltr"] .support-fab{left:auto;right:16px}
-    .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:200;align-items:center;justify-content:center;padding:16px;overflow-y:auto}
-    .modal.open{display:flex}
-    .modal-card{background:var(--card);color:var(--text);width:100%;max-width:450px;border-radius:20px;padding:18px;box-shadow:var(--shadow);max-height:90vh;overflow-y:auto}
-    .modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;border-bottom:1px solid var(--border);padding-bottom:8px}
-    .close-x{background:none;border:none;font-size:1.3rem;color:var(--muted);cursor:pointer}
-    .form-group{margin-bottom:10px}
-    .form-group label{display:block;font-size:.82rem;font-weight:700;margin-bottom:3px;color:var(--muted)}
-    .form-group input,.form-group select,.form-group textarea{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.92rem}
-    .btn-primary{width:100%;padding:11px;border-radius:11px;border:none;background:var(--primary);color:#fff;font-weight:800;font-size:.95rem;cursor:pointer;margin-top:6px}
-    .btn-danger{width:100%;padding:10px;border-radius:11px;border:none;background:var(--danger);color:#fff;font-weight:700;font-size:.88rem;cursor:pointer;margin-top:8px}
-    .btn-secondary{width:100%;padding:10px;border-radius:11px;border:1px solid var(--border);background:transparent;color:var(--text);font-weight:700;font-size:.9rem;cursor:pointer;margin-top:8px}
-    .tabs-bar{display:flex;gap:4px;margin-bottom:14px;background:var(--bg);padding:4px;border-radius:12px}
-    .tab-btn{flex:1;padding:8px 4px;border:none;border-radius:9px;background:transparent;color:var(--text);font-weight:700;font-size:.82rem;cursor:pointer}
-    .tab-btn.active{background:var(--primary);color:#fff}
-    .appt-item{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:10px;margin-bottom:8px;font-size:.85rem}
-    .appt-item header{display:flex;justify-content:space-between;font-weight:800;margin-bottom:4px}
-    .status-badge{padding:2px 8px;border-radius:6px;font-size:.74rem;font-weight:800}
-    .status-pending{background:#fef3c7;color:#b45309}
-    .status-active{background:#dcfce7;color:#15803d}
-    .vip-pitch-box{background:linear-gradient(135deg,rgba(15,118,110,.12),rgba(245,158,11,.14));border:1.5px solid var(--primary);padding:14px;border-radius:14px;font-size:.88rem;margin-bottom:12px;line-height:1.65}
-    .vip-pitch-box ul{margin:8px 18px}
-    .toast{position:fixed;bottom:115px;left:50%;transform:translateX(-50%);background:#0f172a;color:#fff;padding:10px 20px;border-radius:30px;font-size:.88rem;font-weight:700;z-index:300;display:none;box-shadow:0 4px 14px rgba(0,0,0,.3);text-align:center;max-width:90%}
+    :root {
+      --bg-main: #061311;
+      --bg-card: #0d231f;
+      --bg-soft: #12302b;
+      --accent: #00bfa5;
+      --accent-bright: #1de9b6;
+      --text-main: #ffffff;
+      --text-muted: #b2dfdb;
+      --border: rgba(29, 233, 182, 0.25);
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", Tahoma, Arial, sans-serif;
+      background: linear-gradient(180deg, #05110f 0%, #091d19 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding-bottom: 36px;
+    }
+
+    .app-wrap {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 12px;
+    }
+
+    .top-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 10px 14px;
+      margin-bottom: 10px;
+    }
+
+    .brand-title {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--accent-bright);
+    }
+
+    .brand-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    /* أرقام الطوارئ المصغرة بألوان البدلة الرسمية */
+    .emergency-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 8px;
+      margin-bottom: 12px;
+    }
+
+    .emergency-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      padding-right: 2px;
+    }
+
+    .emergency-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+    }
+
+    .em-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      color: #ffffff;
+      border-radius: 9px;
+      padding: 6px 4px;
+      min-height: 44px;
+      font-size: 10.5px;
+      font-weight: 700;
+      line-height: 1.2;
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+    }
+
+    .em-num {
+      font-size: 12.5px;
+      font-weight: 900;
+      margin-top: 2px;
+      letter-spacing: 0.3px;
+    }
+
+    /* ألوان البدلة الرسمية لكل جهة */
+    .em-civil {
+      background: linear-gradient(135deg, #1b2838, #e65100);
+      border-color: #ff9800;
+    }
+
+    .em-police {
+      background: linear-gradient(135deg, #0b1f3a, #1565c0);
+      border-color: #64b5f6;
+    }
+
+    .em-gendarmerie {
+      background: linear-gradient(135deg, #152617, #2e5233);
+      border-color: #81c784;
+    }
+
+    .em-ambulance {
+      background: linear-gradient(135deg, #2b0d12, #c62828);
+      border-color: #ef9a9a;
+    }
+
+    /* مساحة الإعلانات الواسعة والصورة الواضحة غير المظللة */
+    .ad-container {
+      margin: 12px 0;
+    }
+
+    .ad-card {
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(29, 233, 182, 0.4);
+      background: #0b201c;
+      min-height: 250px;
+    }
+
+    .ad-top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 12px;
+      background: #071613;
+    }
+
+    .ad-badge {
+      background: #e53935;
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 9px;
+      border-radius: 20px;
+    }
+
+    .sehati-ads-trigger {
+      color: #80cbc4;
+      font-size: 11px;
+      font-weight: 800;
+      user-select: none;
+      cursor: pointer;
+      padding: 2px 6px;
+    }
+
+    .ad-img-wrap {
+      width: 100%;
+      background: #061210;
+    }
+
+    .ad-img {
+      display: block;
+      width: 100%;
+      max-height: 300px;
+      object-fit: cover;
+      opacity: 1;
+      filter: none;
+    }
+
+    .ad-body {
+      padding: 12px 14px;
+      background: #0d2621;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .ad-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 3px;
+    }
+
+    .ad-desc {
+      font-size: 12px;
+      color: #d0ece7;
+      line-height: 1.4;
+    }
+
+    .ad-cta {
+      background: var(--accent);
+      color: #041411;
+      text-decoration: none;
+      font-size: 12.5px;
+      font-weight: 800;
+      padding: 8px 14px;
+      border-radius: 10px;
+      white-space: nowrap;
+    }
+
+    /* البحث والفئات */
+    .search-box {
+      margin: 10px 0;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      color: #ffffff;
+      font-size: 13.5px;
+      outline: none;
+    }
+
+    .cats-bar {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+      margin-bottom: 10px;
+    }
+
+    .cat-btn {
+      background: var(--bg-card);
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+
+    .cat-btn.active {
+      background: var(--accent);
+      color: #051613;
+      border-color: var(--accent);
+    }
+
+    /* بطاقات الدليل الصحي */
+    .places-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .place-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px;
+    }
+
+    .place-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .place-name {
+      font-size: 14.5px;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .place-cat {
+      font-size: 11px;
+      background: var(--bg-soft);
+      color: var(--accent-bright);
+      padding: 2px 8px;
+      border-radius: 8px;
+      white-space: nowrap;
+    }
+
+    .place-info {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 6px;
+      line-height: 1.45;
+    }
+
+    .place-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .act-btn {
+      flex: 1;
+      text-align: center;
+      text-decoration: none;
+      padding: 7px 10px;
+      border-radius: 9px;
+      font-size: 12px;
+      font-weight: 700;
+      border: 1px solid var(--border);
+      background: var(--bg-soft);
+      color: #ffffff;
+      cursor: pointer;
+    }
+
+    .act-call {
+      background: var(--accent);
+      color: #051613;
+      border-color: var(--accent);
+    }
+
+    /* نافذة إدارة الإعلانات */
+    .ad-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 2147483647;
+      padding: 14px;
+      overflow-y: auto;
+    }
+
+    .ad-modal-box {
+      max-width: 470px;
+      margin: 20px auto;
+      background: #0f2420;
+      color: #ffffff;
+      border: 1px solid var(--accent-bright);
+      border-radius: 16px;
+      padding: 16px;
+    }
+
+    .modal-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .modal-close {
+      background: #c62828;
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      padding: 4px 10px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .field-lbl {
+      display: block;
+      font-size: 12px;
+      color: #d0ece7;
+      margin-bottom: 8px;
+    }
+
+    .field-in, .field-ta {
+      width: 100%;
+      margin-top: 4px;
+      padding: 8px;
+      border-radius: 8px;
+      border: 1px solid #2f544d;
+      background: #081512;
+      color: #ffffff;
+      font-size: 12.5px;
+    }
+
+    .row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .dur-box {
+      background: #081714;
+      border: 1px solid #21453e;
+      border-radius: 12px;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+
+    .dur-controls {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 6px;
+      flex-wrap: wrap;
+    }
+
+    .mini-btn {
+      background: #1a3731;
+      color: #ffffff;
+      border: 1px solid #3c6e64;
+      border-radius: 7px;
+      padding: 5px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .save-dur-btn {
+      margin-right: auto;
+      background: #00897b;
+      color: #ffffff;
+      border: none;
+      border-radius: 7px;
+      padding: 6px 11px;
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .add-ad-btn {
+      width: 100%;
+      background: var(--accent);
+      color: #051613;
+      border: none;
+      border-radius: 10px;
+      padding: 10px;
+      font-size: 13.5px;
+      font-weight: 800;
+      cursor: pointer;
+      margin-top: 4px;
+    }
+
+    .status-msg {
+      margin-top: 8px;
+      font-size: 12px;
+      color: #ffd54f;
+      min-height: 18px;
+    }
+
+    .ads-manage-list {
+      margin-top: 10px;
+      border-top: 1px solid #21453e;
+      padding-top: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .manage-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+      background: #081613;
+      border: 1px solid #1e423b;
+      border-radius: 9px;
+      padding: 7px 9px;
+      font-size: 12px;
+    }
+
+    .del-btn {
+      background: #c62828;
+      color: #ffffff;
+      border: none;
+      border-radius: 6px;
+      padding: 4px 9px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
   </style>
 </head>
 <body>
-  <header class="hero">
-    <div class="top">
-      <div class="brand" onclick="handleSecretLogoTap()">
-        <div>
-          <b>صحتي | SEHATI</b>
-          <small id="tagSub">دليلك الصحي وحجز المواعيد في الجزائر</small>
-        </div>
-        <div class="logo">
-          <svg viewBox="0 0 24 24"><polyline class="ecg" points="2 12 6 12 9 3 13 21 16 12 22 12"></polyline></svg>
-        </div>
+  <div class="app-wrap">
+    <!-- الشريط العلوي -->
+    <header class="top-header">
+      <div>
+        <div class="brand-title">صحتي | SEHATI</div>
+        <div class="brand-sub">دليل الأطباء، العيادات، الصيدليات والمستشفيات</div>
       </div>
-      <div class="tools" style="width:100%;justify-content:space-between;">
-        <button class="tool-btn portal-btn" onclick="openProPortal()" id="proPortalBtn">🩺 بوابة المهنيين</button>
-        <div style="display:flex;gap:6px;align-items:center;">
-          <div class="seg">
-            <button id="btnAr" class="on" onclick="setLang('ar')">عربي</button>
-            <button id="btnFr" onclick="setLang('fr')">FR</button>
-          </div>
-          <button class="tool-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
-        </div>
+      <span class="sehati-ads-trigger" title="اضغط مطولاً لإدارة الإعلانات">SEHATI ADS</span>
+    </header>
+
+    <!-- أرقام الطوارئ المصغرة بألوان البدلة الرسمية -->
+    <section class="emergency-section">
+      <div class="emergency-title">أرقام الطوارئ</div>
+      <div class="emergency-grid">
+        <a class="em-btn em-civil" href="tel:14">
+          <span>الحماية المدنية</span>
+          <span class="em-num">14</span>
+        </a>
+        <a class="em-btn em-police" href="tel:1548">
+          <span>الشرطة</span>
+          <span class="em-num">1548</span>
+        </a>
+        <a class="em-btn em-gendarmerie" href="tel:1055">
+          <span>الدرك الوطني</span>
+          <span class="em-num">1055</span>
+        </a>
+        <a class="em-btn em-ambulance" href="tel:115">
+          <span>الإسعاف</span>
+          <span class="em-num">115</span>
+        </a>
       </div>
-    </div>
-    <div class="search-wrap" style="position:relative;z-index:2;">
-      <input type="text" id="searchInput" oninput="render()" placeholder="ابحث عن طبيب، صيدلية، عيادة، خدمة، أو ولاية..." />
-    </div>
-    <div class="bottom-ecg-wave">
-      <svg viewBox="0 0 400 24" preserveAspectRatio="none">
-        <polyline class="ecg-bottom-line" points="0 14 70 14 78 4 86 22 94 14 190 14 198 3 206 22 214 14 310 14 318 4 326 22 334 14 400 14"></polyline>
-      </svg>
-    </div>
-  </header>
+    </section>
 
-  <section class="emergency-sec">
-    <div class="sec-head">
-      <span id="emergLabel">🚨 أرقام الطوارئ (اتصال مباشر)</span>
-      <span id="totalCounter" style="color:var(--primary);"></span>
-    </div>
-    <div class="emerg-grid">
-      <a href="tel:14" class="emerg-card"><span id="e1">الحماية المدنية</span><b>14</b></a>
-      <a href="tel:1548" class="emerg-card"><span id="e2">الشرطة</span><b>1548</b></a>
-      <a href="tel:1055" class="emerg-card"><span id="e3">الدرك الوطني</span><b>1055</b></a>
-      <a href="tel:115" class="emerg-card"><span id="e4">الإسعاف</span><b>115</b></a>
-    </div>
-  </section>
+    <!-- مساحة عرض الإعلانات المتعددة -->
+    <section id="sehatiAdBox" class="ad-container"></section>
 
-  <section class="ads-showcase">
-    <div class="ads-header">
-      <span class="promo-tag" id="adBadge">📢 مساحة إعلانية مميزة</span>
-      <span style="font-size:.78rem;color:var(--muted);font-weight:700;">SEHATI ADS</span>
+    <!-- البحث -->
+    <div class="search-box">
+      <input id="searchInput" class="search-input" type="search" placeholder="ابحث عن طبيب، عيادة، صيدلية أو مستشفى...">
     </div>
-    <div class="ads-body" id="adDesc">
-      ضاعف عدد مرضاك وزبائنك! أعلن عن عيادتك، صيدليتك، أو مخبرك في الواجهة الرئيسية لتطبيق صحتي أمام آلاف الباحثين يومياً.
+
+    <!-- الفئات -->
+    <div id="catsBar" class="cats-bar">
+      <button class="cat-btn active" data-cat="الكل" type="button">الكل</button>
+      <button class="cat-btn" data-cat="المفضلة" type="button">❤️ المفضلة</button>
+      <button class="cat-btn" data-cat="أطباء" type="button">أطباء</button>
+      <button class="cat-btn" data-cat="عيادات" type="button">عيادات</button>
+      <button class="cat-btn" data-cat="صيدليات" type="button">صيدليات</button>
+      <button class="cat-btn" data-cat="مستشفيات" type="button">مستشفيات</button>
     </div>
-    <button onclick="openSupportModal()" class="ads-cta" id="adLink">✨ احجز مساحتك الإعلانية الآن</button>
-  </section>
 
-  <main class="list" id="listContainer"></main>
-
-  <button class="support-fab" onclick="openSupportModal()" id="supportFabBtn">
-    💬 <span id="supportFabText">الدعم والإعلان</span>
-  </button>
-
-  <nav class="bottom-cats-bar">
-    <button class="cat-pill active" onclick="setCat('all', this)" data-k="all">الكل</button>
-    <button class="cat-pill" onclick="setCat('fav', this)" data-k="fav">❤️ المفضلة</button>
-    <button class="cat-pill" onclick="setCat('d', this)" data-k="d">أطباء</button>
-    <button class="cat-pill" onclick="setCat('c', this)" data-k="c">عيادات</button>
-    <button class="cat-pill" onclick="setCat('p', this)" data-k="p">صيدليات</button>
-    <button class="cat-pill" onclick="setCat('h', this)" data-k="h">مستشفيات</button>
-    <button class="cat-pill" onclick="setCat('l', this)" data-k="l">مخابر</button>
-    <button class="cat-pill" onclick="setCat('g', this)" data-k="g">أطباء أسنان</button>
-    <button class="cat-pill" onclick="setCat('r', this)" data-k="r">أشعة</button>
-  </nav>
-
-  <div class="modal" id="supportModal">
-    <div class="modal-card">
-      <div class="modal-header">
-        <h3 id="supTitle">💬 الدعم الفني وطلبات الاشتراك والإعلان</h3>
-        <button class="close-x" onclick="closeModal('supportModal')">✕</button>
-      </div>
-      <div class="vip-pitch-box">
-        مرحباً بك في <b>صحتي (SEHATI.dz)</b>:<br>
-        • لتفعيل حسابك المهني (طبيب / صيدلية / عيادة) والاستفادة من نظام حجز المواعيد.<br>
-        • لحجز مساحة إعلانية مميزة في واجهة التطبيق.<br>
-        • لأي استفسار أو دعم تقني، تواصل مباشرة مع الإدارة:
-      </div>
-      <a id="supCallLink" href="tel:0550000000" class="btn-primary" style="display:block;text-align:center;text-decoration:none;margin-bottom:8px;">📞 اتصال مباشر بالإدارة</a>
-      <a id="supWaLink" href="https://wa.me/213550000000" class="btn-primary" style="display:block;text-align:center;text-decoration:none;background:#16a34a;">💬 مراسلة فورية عبر واتساب</a>
-    </div>
+    <!-- قائمة المؤسسات الصحية -->
+    <main id="placesList" class="places-list"></main>
   </div>
 
-  <div class="modal" id="bookModal">
-    <div class="modal-card">
-      <div class="modal-header">
-        <h3 id="bookTitle">📅 حجز موعد طبي</h3>
-        <button class="close-x" onclick="closeModal('bookModal')">✕</button>
+  <!-- نافذة إدارة الإعلانات -->
+  <div id="sehatiAdModal" class="ad-modal">
+    <div class="ad-modal-box">
+      <div class="modal-head">
+        <strong style="color: var(--accent-bright); font-size: 15px;">إدارة إعلانات صحتي</strong>
+        <button id="closeAdModalBtn" class="modal-close" type="button">✕</button>
       </div>
-      <p id="bookTargetName" style="font-weight:800;color:var(--primary);margin-bottom:10px;"></p>
-      <div class="form-group"><label id="lblPatientName">الاسم واللقب *</label><input type="text" id="bFullName" placeholder="مثال: أحمد بن علي" /></div>
-      <div class="form-group"><label id="lblPatientPhone">رقم الهاتف للتأكيد *</label><input type="tel" id="bPhone" placeholder="مثال: 0550123456" /></div>
-      <div class="form-group"><label id="lblApptDate">التاريخ المفضل *</label><input type="date" id="bDate" /></div>
-      <div class="form-group">
-        <label id="lblApptTime">الفترة المناسبة</label>
-        <select id="bPeriod">
-          <option value="صباحاً (08:30 - 12:00)">صباحاً (08:30 - 12:00)</option>
-          <option value="مساءً (13:30 - 17:00)">مساءً (13:30 - 17:00)</option>
-        </select>
-      </div>
-      <div class="form-group"><label id="lblApptNote">سبب الزيارة / الخدمة المطلوبة (اختياري)</label><input type="text" id="bNote" placeholder="مثال: كشف عام، تحاليل، استشارة..." /></div>
-      <button class="btn-primary" onclick="submitAppointment()" id="btnConfirmBook">✅ تأكيد إرسال الموعد</button>
-    </div>
-  </div>
-  <div class="modal" id="proModal">
-    <div class="modal-card">
-      <div class="modal-header">
-        <h3 id="proModalTitle">🩺 بوابة الأطباء والصيدليات والعيادات</h3>
-        <button class="close-x" onclick="closeModal('proModal')">✕</button>
-      </div>
-      <div id="proAuthView">
-        <div class="tabs-bar">
-          <button class="tab-btn active" id="tabLogin" onclick="switchAuthTab('login')">تسجيل الدخول</button>
-          <button class="tab-btn" id="tabRegister" onclick="switchAuthTab('register')">انضم إلينا (تسجيل جديد)</button>
-        </div>
-        <div id="loginForm">
-          <div class="form-group"><label>البريد الإلكتروني</label><input type="email" id="loginEmail" placeholder="doctor@sehati.dz" /></div>
-          <div class="form-group"><label>كلمة المرور</label><input type="password" id="loginPass" placeholder="••••••••" /></div>
-          <button class="btn-primary" onclick="proLogin()">دخول إلى لوحة التحكم</button>
-        </div>
-        <div id="registerForm" style="display:none;">
-          <div class="form-group">
-            <label>نوع المؤسسة *</label>
-            <select id="regType">
-              <option value="d">طبيب (عيادة خاصة)</option>
-              <option value="p">صيدلية</option>
-              <option value="c">عيادة متعددة الخدمات</option>
-              <option value="l">مخبر تحاليل طبية</option>
-              <option value="g">طبيب أسنان</option>
-              <option value="r">مركز أشعة</option>
-              <option value="h">مستشفى</option>
-            </select>
-          </div>
-          <div class="form-group"><label>اسم الطبيب أو الصيدلية أو العيادة *</label><input type="text" id="regName" placeholder="مثال: د. محمد أمين / صيدلية الشفاء" /></div>
-          <div class="form-group"><label>التخصص الدقيق *</label><input type="text" id="regSpec" placeholder="مثال: طب الأطفال، صيدلية مناوبة..." /></div>
-          <div class="form-group"><label>الخدمات المقدمة *</label><textarea id="regServices" rows="2" placeholder="اكتب خدماتك هنا..."></textarea></div>
-          <div class="form-group"><label>العنوان والولاية *</label><input type="text" id="regAddr" placeholder="الحي، البلدية، الولاية" /></div>
-          <div class="form-group"><label>أوقات العمل *</label><input type="text" id="regHours" placeholder="مثال: السبت - الخميس (08:30 - 17:00)" /></div>
-          <div class="form-group"><label>رقم الهاتف المهني *</label><input type="tel" id="regPhone" placeholder="0550000000" /></div>
-          <div class="form-group"><label>البريد الإلكتروني للحساب *</label><input type="email" id="regEmail" placeholder="email@domain.com" /></div>
-          <div class="form-group"><label>كلمة المرور (6 أحرف على الأقل) *</label><input type="password" id="regPass" placeholder="••••••••" /></div>
-          <button class="btn-primary" onclick="proRegister()">إرسال طلب الانضمام</button>
+
+      <div class="dur-box">
+        <div style="font-size: 12px; font-weight: 700; color: #80cbc4;">مدة عرض الإعلان (بالثواني):</div>
+        <div class="dur-controls">
+          <button id="minusDurBtn" class="mini-btn" type="button">-1 ث</button>
+          <input id="globalDurInput" type="number" min="1" max="120" value="5" style="width: 64px; padding: 5px; border-radius: 7px; border: 1px solid #37474f; background: #061311; color: #fff; text-align: center; font-weight: 700;">
+          <span style="font-size: 12px;">ثانية</span>
+          <button id="plusDurBtn" class="mini-btn" type="button">+1 ث</button>
+          <button id="saveDurBtn" class="save-dur-btn" type="button">حفظ المدة</button>
         </div>
       </div>
 
-      <div id="proDashboardView" style="display:none;">
-        <div id="pendingWarningBox" class="vip-pitch-box" style="display:none;">
-          <b>🎉 تهانينا! تم استلام ملفك المهني بنجاح.</b><br>
-          لظهور عيادتك أو صيدليتك أمام آلاف المرضى في ولايتك والاستفادة من المزايا الحصرية:
-          <ul>
-            <li>✅ استقبال حجوزات المواعيد مباشرة على هاتفك.</li>
-            <li>✅ ظهور أولوية في نتائج البحث مع موقعك على الخريطة.</li>
-            <li>✅ شارة التوثيق الرسمية وزيادة ثقة المرضى.</li>
-          </ul>
-          <b>تواصل معنا الآن لتفعيل اشتراكك فوراً:</b>
-          <button onclick="closeModal('proModal'); openSupportModal();" class="btn-primary" style="margin-top:8px;">🚀 تفعيل حسابي الآن (اتصال / واتساب)</button>
-        </div>
-        <div class="tabs-bar">
-          <button class="tab-btn active" id="dashTabAppts" onclick="switchDashTab('appts')">📅 المواعيد (<span id="apptCount">0</span>)</button>
-          <button class="tab-btn" id="dashTabEdit" onclick="switchDashTab('edit')">✏️ تعديل ملفي</button>
-        </div>
-        <div id="dashApptsPanel"><div id="apptsList"></div></div>
-        <div id="dashEditPanel" style="display:none;">
-          <div class="form-group"><label>الاسم</label><input type="text" id="editName" /></div>
-          <div class="form-group"><label>التخصص</label><input type="text" id="editSpec" /></div>
-          <div class="form-group"><label>الخدمات المقدمة</label><textarea id="editServices" rows="3"></textarea></div>
-          <div class="form-group"><label>العنوان</label><input type="text" id="editAddr" /></div>
-          <div class="form-group"><label>أوقات العمل وحالة المناوبة</label><input type="text" id="editHours" /></div>
-          <div class="form-group"><label>رقم الهاتف</label><input type="tel" id="editPhone" /></div>
-          <button class="btn-primary" onclick="saveProProfile()">💾 حفظ التعديلات</button>
-        </div>
-        <button class="btn-secondary" onclick="proLogout()">🚪 تسجيل الخروج</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal" id="secretAdminModal">
-    <div class="modal-card">
-      <div class="modal-header">
-        <h3>👑 لوحة تحكم المدير (SEHATI Admin)</h3>
-        <button class="close-x" onclick="closeModal('secretAdminModal')">✕</button>
-      </div>
-      <div id="secretPinBox">
-        <div class="form-group"><label>أدخل الرمز السري للمدير</label><input type="password" id="adminPinInput" placeholder="••••••••" /></div>
-        <button class="btn-primary" onclick="unlockAdminPanel()">🔓 دخول الإدارة</button>
-      </div>
-      <div id="adminDashboardView" style="display:none;">
-        <div class="tabs-bar">
-          <button class="tab-btn active" id="admTabAccounts" onclick="switchAdminTab('accounts')">👥 الحسابات (<span id="pendingCountBadge">0</span>)</button>
-          <button class="tab-btn" id="admTabImport" onclick="switchAdminTab('import')">📥 استيراد</button>
-          <button class="tab-btn" id="admTabSettings" onclick="switchAdminTab('settings')">⚙️ إعداداتي</button>
-        </div>
-        <div id="admAccountsPanel"><div id="adminAccountsList"></div></div>
-        <div id="admImportPanel" style="display:none;">
-          <div class="form-group"><label>اختر ملف البيانات (health_facilities.geojson)</label><input type="file" id="importFile" accept=".json,.geojson" /></div>
-          <div class="form-group">
-            <label>الحد الأقصى للاستيراد</label>
-            <select id="importLimit">
-              <option value="200">أفضل 200 مرفق (بأرقام الهواتف والمواقع)</option>
-              <option value="500">أفضل 500 مرفق</option>
-            </select>
-          </div>
-          <button class="btn-primary" onclick="processBulkImport()">🚀 استيراد المرافق الكاملة إلى Firebase</button>
-          <button class="btn-danger" onclick="clearImportedData()">🗑️ حذف البيانات المستوردة السابقة</button>
-          <p id="importStatus" style="font-size:.84rem;color:var(--primary);font-weight:700;margin-top:8px;"></p>
-        </div>
-        <div id="admSettingsPanel" style="display:none;">
-          <div class="form-group"><label>رمز الدخول السري الجديد للإدارة</label><input type="text" id="newAdminPass" placeholder="مثال: abdo2026" /></div>
-          <div class="form-group"><label>رقم هاتفك للاتصال المباشر</label><input type="tel" id="newAdminPhone" placeholder="مثال: 0550123456" /></div>
-          <div class="form-group"><label>رقم واتساب الخاص بك (بصيغة 213 بدون صفر)</label><input type="tel" id="newAdminWa" placeholder="مثال: 213550123456" /></div>
-          <div class="form-group"><label>نص الإعلان الظاهر في وسط التطبيق</label><textarea id="newAdText" rows="3"></textarea></div>
-          <button class="btn-primary" onclick="saveAdminSettings()">💾 حفظ الإعدادات وكلمة السر</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="toast" id="toastMsg"></div>
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getFirestore, collection, getDocs, doc, getDoc, setDoc, updateDoc, deleteDoc, addDoc, query, where, writeBatch } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-    const firebaseConfig = { apiKey: "AIzaSyAdWXDD0whg8vgdBuULaGR1IkrXDRvKQgA", authDomain: "sehati-7eaba.firebaseapp.com", projectId: "sehati-7eaba", storageBucket: "sehati-7eaba.firebasestorage.app", messagingSenderId: "688720404426", appId: "1:688720404426:web:b05c9e67a60cc8c2773933" };
-    window.fbReady = false; window.fb = {};
-    async function setupFirebase() {
-      try {
-        const app = initializeApp(firebaseConfig), db = getFirestore(app), auth = getAuth(app);
-        window.fbReady = true; window.fb = { db, auth, collection, getDocs, doc, getDoc, setDoc, updateDoc, deleteDoc, addDoc, query, where, writeBatch, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut };
-        await window.loadCloudAdminSettings(); await window.refreshCloudData();
-        onAuthStateChanged(auth, async (user) => { if (user) { window.currentProUser = user; await window.loadProDashboard(user.uid); } else { window.currentProUser = null; } });
-      } catch (err) {}
-      window.render();
-    }
-    setupFirebase();
-  </script>
-  <script>
-    let adminConfig = JSON.parse(localStorage.getItem('sehati_admin_cfg') || 'null') || { pass: "admin2026", phone: "0550000000", wa: "213550000000", adText: "ضاعف عدد مرضاك وزبائنك! أعلن عن عيادتك، صيدليتك، أو مخبرك في الواجهة الرئيسية لتطبيق صحتي أمام آلاف الباحثين يومياً." };
-    function applyAdminConfigToUI() { document.getElementById('supCallLink').href = `tel:${adminConfig.phone}`; document.getElementById('supWaLink').href = `https://wa.me/${adminConfig.wa}`; if (lang === 'ar' && adminConfig.adText) document.getElementById('adDesc').textContent = adminConfig.adText; }
-    window.loadCloudAdminSettings = async function() { if (!window.fbReady) return; try { const snap = await window.fb.getDoc(window.fb.doc(window.fb.db, "app_config", "admin")); if (snap.exists()) { adminConfig = { ...adminConfig, ...snap.data() }; localStorage.setItem('sehati_admin_cfg', JSON.stringify(adminConfig)); applyAdminConfigToUI(); } } catch (e) {} };
-    let logoTapCount = 0, logoTapTimer = null;
-    function handleSecretLogoTap() { logoTapCount++; clearTimeout(logoTapTimer); if (logoTapCount >= 5) { logoTapCount = 0; document.getElementById('secretPinBox').style.display = 'block'; document.getElementById('adminDashboardView').style.display = 'none'; document.getElementById('secretAdminModal').classList.add('open'); } else { logoTapTimer = setTimeout(() => { logoTapCount = 0; }, 1800); } }
-    let lang = 'ar', currentCat = 'all', selectedPlaceForBooking = null, currentProProfile = null;
-    let favs = JSON.parse(localStorage.getItem('sehati_favs') || '[]'), localPlaces = JSON.parse(localStorage.getItem('sehati_pro_places') || '[]'), localAppointments = JSON.parse(localStorage.getItem('sehati_appointments') || '[]'), localProSession = JSON.parse(localStorage.getItem('sehati_pro_session') || 'null');
-    window.defaultPlacesList = [
-      {id:'dz_1',tp:'h',approved:true,nm_ar:'المستشفى الجامعي مصطفى باشا',nm_fr:'CHU Mustapha Pacha',sp_ar:'مستشفى جامعي - جميع التخصصات والاستعجالات',sp_fr:'CHU - Toutes spécialités & Urgences',srv_ar:'استعجالات 24/24، جراحة، طب القلب، طب الأطفال، تحاليل وأشعة',srv_fr:'Urgences 24/24, Chirurgie, Cardiologie, Pédiatrie, Labo & Imagerie',ad_ar:'ساحة أول ماي، الجزائر الوسطى، الجزائر',ad_fr:'Place du 1er Mai, Alger-Centre, Alger',hr_ar:'مفتوح 24 ساعة / 7 أيام',hr_fr:'Ouvert 24h/24 - 7j/7',ph:'021235555',lat:36.7628,lng:3.0536,feat:true,canBook:false},
-      {id:'dz_2',tp:'h',approved:true,nm_ar:'المستشفى الجامعي فرانس فانون - البليدة',nm_fr:'CHU Frantz Fanon - Blida',sp_ar:'مستشفى جامعي - مركز مكافحة السرطان والاستعجالات',sp_fr:'CHU - Centre Anti-Cancer & Urgences',srv_ar:'استعجالات، طب الأورام، جراحة الأعصاب، أمراض القلب، مخبر مركزي',srv_fr:'Urgences, Oncologie, Neurochirurgie, Cardiologie, Laboratoire central',ad_ar:'طريق زعبانة، البليدة',ad_fr:'Route de Zabana, Blida',hr_ar:'مفتوح 24 ساعة / 7 أيام',hr_fr:'Ouvert 24h/24 - 7j/7',ph:'025418888',lat:36.4795,lng:2.8124,feat:true,canBook:false},
-      {id:'dz_3',tp:'h',approved:true,nm_ar:'المؤسسة العمومية الاستشفائية - مفتاح',nm_fr:'EPH Meftah - Hôpital',sp_ar:'مستشفى عمومي - استعجالات طبية وجراحية',sp_fr:'Hôpital Public - Urgences',srv_ar:'استعجالات 24/24، طب عام، أمومة وطفولة، أشعة وتحاليل',srv_fr:'Urgences 24/24, Médecine générale, Maternité, Radiologie',ad_ar:'مفتاح، ولاية البليدة',ad_fr:'Meftah, Wilaya de Blida',hr_ar:'مفتوح 24 ساعة / 7 أيام',hr_fr:'Ouvert 24h/24 - 7j/7',ph:'025331212',lat:36.6203,lng:3.2225,feat:false,canBook:false},
-      {id:'dz_4',tp:'c',approved:true,nm_ar:'عيادة الأزهر الطبية الجراحية - الجزائر',nm_fr:'Clinique El Azhar - Alger',sp_ar:'عيادة خاصة متعددة التخصصات',sp_fr:'Clinique Médico-Chirurgicale',srv_ar:'جراحة القلب، القسطرة، سكانير وإيريم (IRM)، استعجالات 24/24',srv_fr:'Chirurgie cardiaque, Cathétérisme, Scanner & IRM, Urgences 24/24',ad_ar:'دالي إبراهيم، الجزائر العاصمة',ad_fr:'Dely Ibrahim, Alger',hr_ar:'مفتوح 24 ساعة / 7 أيام',hr_fr:'Ouvert 24h/24',ph:'023304040',lat:36.7575,lng:2.9814,feat:true,canBook:true}
-    ];
-    window.placesData = [...window.defaultPlacesList, ...localPlaces];
-    window.refreshCloudData = async function() { if (!window.fbReady) return; try { const snap = await window.fb.getDocs(window.fb.collection(window.fb.db, "health_places")); const remote = []; snap.forEach(d => remote.push({ id: d.id, ...d.data() })); window.placesData = [...window.defaultPlacesList, ...remote]; window.render(); } catch (e) {} };
-    const T = { ar:{sub:'دليلك الصحي وحجز المواعيد في الجزائر',proBtn:'🩺 بوابة المهنيين',search:'ابحث عن طبيب، صيدلية، عيادة، خدمة، أو ولاية...',emerg:'🚨 أرقام الطوارئ (اتصال مباشر)',e1:'الحماية المدنية',e2:'الشرطة',e3:'الدرك الوطني',e4:'الإسعاف',all:'الكل',fav:'❤️ المفضلة',d:'أطباء',c:'عيادات',p:'صيدليات',h:'مستشفيات',l:'مخابر',g:'أطباء أسنان',r:'أشعة',book:'📅 موعد',call:'📞 اتصال',map:'📍 الموقع',feat:'⭐ مميز',adBadge:'📢 مساحة إعلانية مميزة',adLink:'✨ احجز مساحتك الإعلانية الآن',supFab:'الدعم والإعلان',empty:'لا توجد نتائج مطابقة.'}, fr:{sub:'Votre guide santé et prise de RDV en Algérie',proBtn:'🩺 Espace Pro',search:'Rechercher un médecin, pharmacie, service ou wilaya...',emerg:"🚨 Numéros d'urgence (Appel direct)",e1:'Protection Civile',e2:'Police',e3:'Gendarmerie',e4:'SAMU',all:'Tout',fav:'❤️ Favoris',d:'Médecins',c:'Cliniques',p:'Pharmacies',h:'Hôpitaux',l:'Labos',g:'Dentistes',r:'Imagerie',book:'📅 RDV',call:'📞 Appeler',map:'📍 Carte',feat:'⭐ Sponsorisé',adBadge:'📢 Espace Publicitaire',adLink:'✨ Réserver votre publicité',supFab:'Support & Pub',empty:'Aucun résultat trouvé.'} };
-    applyAdminConfigToUI();
-    function showToast(msg) { const el = document.getElementById('toastMsg'); el.textContent = msg; el.style.display = 'block'; setTimeout(() => { el.style.display = 'none'; }, 3500); }
-    function setLang(l) { lang = l; document.documentElement.lang = l; document.documentElement.dir = l === 'ar' ? 'rtl' : 'ltr'; document.getElementById('btnAr').classList.toggle('on', l === 'ar'); document.getElementById('btnFr').classList.toggle('on', l === 'fr'); const t = T[l]; document.getElementById('tagSub').textContent = t.sub; document.getElementById('proPortalBtn').textContent = t.proBtn; document.getElementById('searchInput').placeholder = t.search; document.getElementById('emergLabel').textContent = t.emerg; document.getElementById('e1').textContent = t.e1; document.getElementById('e2').textContent = t.e2; document.getElementById('e3').textContent = t.e3; document.getElementById('e4').textContent = t.e4; document.getElementById('adBadge').textContent = t.adBadge; document.getElementById('adLink').textContent = t.adLink; document.getElementById('supportFabText').textContent = t.supFab; document.getElementById('adDesc').textContent = l === 'fr' ? 'Multipliez vos patients ! Affichez votre clinique ou pharmacie sur la page d’accueil de SEHATI.' : adminConfig.adText; document.querySelectorAll('[data-k]').forEach(el => { el.textContent = t[el.getAttribute('data-k')]; }); render(); }
-    function toggleTheme() { document.body.classList.toggle('dark'); document.getElementById('themeBtn').textContent = document.body.classList.contains('dark') ? '☀️' : '🌙'; }
-    function setCat(c, btn) { currentCat = c; document.querySelectorAll('.cat-pill').forEach(b => b.classList.remove('active')); btn.classList.add('active'); render(); }
-    function toggleFav(id) { favs = favs.includes(id) ? favs.filter(x => x !== id) : [...favs, id]; localStorage.setItem('sehati_favs', JSON.stringify(favs)); render(); }
-    function closeModal(id) { document.getElementById(id).classList.remove('open'); }
-    function openSupportModal() { document.getElementById('supportModal').classList.add('open'); }
-    function openBooking(placeId) { const place = window.placesData.find(p => p.id === placeId); if (!place) return; selectedPlaceForBooking = place; document.getElementById('bookTargetName').textContent = '📍 ' + (lang === 'ar' ? place.nm_ar : place.nm_fr); document.getElementById('bDate').valueAsDate = new Date(); document.getElementById('bookModal').classList.add('open'); }
-    async function submitAppointment() { const fullName = document.getElementById('bFullName').value.trim(), phone = document.getElementById('bPhone').value.trim(), date = document.getElementById('bDate').value, period = document.getElementById('bPeriod').value, note = document.getElementById('bNote').value.trim(); if (!fullName || !phone || !date) { showToast(lang === 'ar' ? 'يرجى إدخال الاسم واللقب ورقم الهاتف والتاريخ' : 'Veuillez remplir les champs obligatoires'); return; } const appt = { id: 'appt_' + Date.now(), placeId: selectedPlaceForBooking.id, placeName: selectedPlaceForBooking.nm_ar, patientName: fullName, patientPhone: phone, date, period, note: note || 'كشف / استشارة', createdAt: new Date().toISOString() }; localAppointments.unshift(appt); localStorage.setItem('sehati_appointments', JSON.stringify(localAppointments)); if (window.fbReady) { try { await window.fb.addDoc(window.fb.collection(window.fb.db, "appointments"), appt); } catch (e) {} } document.getElementById('bFullName').value = ''; document.getElementById('bPhone').value = ''; document.getElementById('bNote').value = ''; closeModal('bookModal'); showToast(lang === 'ar' ? '✅ تم إرسال طلب الموعد بنجاح!' : '✅ Rendez-vous envoyé !'); }
-    function openProPortal() { document.getElementById('proModal').classList.add('open'); if (window.currentProUser || localProSession) showProDashboard(); else { document.getElementById('proAuthView').style.display = 'block'; document.getElementById('proDashboardView').style.display = 'none'; } }
-    function switchAuthTab(tab) { document.getElementById('tabLogin').classList.toggle('active', tab === 'login'); document.getElementById('tabRegister').classList.toggle('active', tab === 'register'); document.getElementById('loginForm').style.display = tab === 'login' ? 'block' : 'none'; document.getElementById('registerForm').style.display = tab === 'register' ? 'block' : 'none'; }
-    function switchDashTab(tab) { document.getElementById('dashTabAppts').classList.toggle('active', tab === 'appts'); document.getElementById('dashTabEdit').classList.toggle('active', tab === 'edit'); document.getElementById('dashApptsPanel').style.display = tab === 'appts' ? 'block' : 'none'; document.getElementById('dashEditPanel').style.display = tab === 'edit' ? 'block' : 'none'; }
-    async function proRegister() { const tp = document.getElementById('regType').value, nm = document.getElementById('regName').value.trim(), sp = document.getElementById('regSpec').value.trim(), srv = document.getElementById('regServices').value.trim(), ad = document.getElementById('regAddr').value.trim(), hr = document.getElementById('regHours').value.trim(), ph = document.getElementById('regPhone').value.trim(), email = document.getElementById('regEmail').value.trim(), pass = document.getElementById('regPass').value.trim(); if (!nm || !sp || !ph || !email || pass.length < 6) { showToast('يرجى ملء جميع الحقول وكلمة مرور من 6 أحرف على الأقل'); return; } let uid = 'pro_' + Date.now(); if (window.fbReady) { try { const cred = await window.fb.createUserWithEmailAndPassword(window.fb.auth, email, pass); uid = cred.user.uid; } catch (err) { showToast('خطأ في التسجيل: ' + err.message); return; } } const profileData = { id: uid, ownerUid: uid, email, tp, approved: false, nm_ar: nm, nm_fr: nm, sp_ar: sp, sp_fr: sp, srv_ar: srv || 'خدمات طبية وصحية', srv_fr: srv || 'Services médicaux', ad_ar: ad || 'الجزائر', ad_fr: ad || 'Algérie', hr_ar: hr || '08:30 - 17:00', hr_fr: hr || '08h30 - 17h00', ph, feat: false, canBook: tp !== 'p' && tp !== 'h', createdAt: new Date().toISOString() }; localPlaces.push(profileData); localStorage.setItem('sehati_pro_places', JSON.stringify(localPlaces)); window.placesData.push(profileData); localProSession = profileData; localStorage.setItem('sehati_pro_session', JSON.stringify(profileData)); currentProProfile = profileData; if (window.fbReady) await window.fb.setDoc(window.fb.doc(window.fb.db, "health_places", uid), profileData); render(); showProDashboard(); }
-    async function proLogin() { const email = document.getElementById('loginEmail').value.trim(), pass = document.getElementById('loginPass').value.trim(); if (!email || !pass) return; if (window.fbReady) { try { const cred = await window.fb.signInWithEmailAndPassword(window.fb.auth, email, pass); await window.refreshCloudData(); await window.loadProDashboard(cred.user.uid); showProDashboard(); return; } catch (err) { showToast('بيانات الدخول غير صحيحة'); return; } } const found = localPlaces.find(p => p.email === email); if (found) { localProSession = found; localStorage.setItem('sehati_pro_session', JSON.stringify(found)); currentProProfile = found; showProDashboard(); } else showToast('الحساب غير موجود'); }
-    window.loadProDashboard = async function(uid) { const found = window.placesData.find(p => p.id === uid || p.ownerUid === uid); if (found) { currentProProfile = found; localProSession = found; } };
-    async function showProDashboard() { document.getElementById('proAuthView').style.display = 'none'; document.getElementById('proDashboardView').style.display = 'block'; const prof = currentProProfile || localProSession; if (!prof) return; document.getElementById('pendingWarningBox').style.display = prof.approved === true ? 'none' : 'block'; document.getElementById('editName').value = prof.nm_ar || ''; document.getElementById('editSpec').value = prof.sp_ar || ''; document.getElementById('editServices').value = prof.srv_ar || ''; document.getElementById('editAddr').value = prof.ad_ar || ''; document.getElementById('editHours').value = prof.hr_ar || ''; document.getElementById('editPhone').value = prof.ph || ''; let myAppts = localAppointments.filter(a => a.placeId === prof.id); if (window.fbReady) { try { const q = window.fb.query(window.fb.collection(window.fb.db, "appointments"), window.fb.where("placeId", "==", prof.id)); const snap = await window.fb.getDocs(q); myAppts = []; snap.forEach(d => myAppts.push({ id: d.id, ...d.data() })); } catch (e) {} } document.getElementById('apptCount').textContent = myAppts.length; const listEl = document.getElementById('apptsList'); listEl.innerHTML = myAppts.length === 0 ? '<p style="text-align:center;color:var(--muted);padding:20px;">لا توجد مواعيد محجوزة حتى الآن.</p>' : myAppts.map(a => `<div class="appt-item"><header><span>👤 ${a.patientName}</span><span style="color:var(--primary);">${a.date}</span></header><div>🕒 ${a.period} | 📝 ${a.note}</div><div style="margin-top:6px;"><a href="tel:${a.patientPhone}" style="display:inline-block;background:var(--primary);color:#fff;padding:4px 10px;border-radius:8px;text-decoration:none;font-weight:700;">📞 اتصال بالمريض: ${a.patientPhone}</a></div></div>`).join(''); }
-    async function saveProProfile() { const prof = currentProProfile || localProSession; if (!prof) return; prof.nm_ar = prof.nm_fr = document.getElementById('editName').value.trim(); prof.sp_ar = prof.sp_fr = document.getElementById('editSpec').value.trim(); prof.srv_ar = prof.srv_fr = document.getElementById('editServices').value.trim(); prof.ad_ar = prof.ad_fr = document.getElementById('editAddr').value.trim(); prof.hr_ar = prof.hr_fr = document.getElementById('editHours').value.trim(); prof.ph = document.getElementById('editPhone').value.trim(); localPlaces = localPlaces.map(p => p.id === prof.id ? prof : p); localStorage.setItem('sehati_pro_places', JSON.stringify(localPlaces)); localStorage.setItem('sehati_pro_session', JSON.stringify(prof)); window.placesData = window.placesData.map(p => p.id === prof.id ? prof : p); if (window.fbReady) { try { await window.fb.updateDoc(window.fb.doc(window.fb.db, "health_places", prof.id), { nm_ar: prof.nm_ar, nm_fr: prof.nm_fr, sp_ar: prof.sp_ar, sp_fr: prof.sp_fr, srv_ar: prof.srv_ar, srv_fr: prof.srv_fr, ad_ar: prof.ad_ar, ad_fr: prof.ad_fr, hr_ar: prof.hr_ar, hr_fr: prof.hr_fr, ph: prof.ph }); } catch (e) {} } render(); showToast('✅ تم حفظ وتحديث معلوماتك وخدماتك!'); }
-    async function proLogout() { if (window.fbReady) await window.fb.signOut(window.fb.auth); localProSession = null; currentProProfile = null; localStorage.removeItem('sehati_pro_session'); closeModal('proModal'); showToast('تم تسجيل الخروج'); }
-    async function unlockAdminPanel() { if (document.getElementById('adminPinInput').value.trim() !== adminConfig.pass) { showToast('❌ رمز الإدارة غير صحيح'); return; } document.getElementById('adminPinInput').value = ''; document.getElementById('secretPinBox').style.display = 'none'; document.getElementById('adminDashboardView').style.display = 'block'; document.getElementById('newAdminPass').value = adminConfig.pass; document.getElementById('newAdminPhone').value = adminConfig.phone; document.getElementById('newAdminWa').value = adminConfig.wa; document.getElementById('newAdText').value = adminConfig.adText; await window.refreshCloudData(); renderAdminAccounts(); }
-    function switchAdminTab(tab) { document.getElementById('admTabAccounts').classList.toggle('active', tab === 'accounts'); document.getElementById('admTabImport').classList.toggle('active', tab === 'import'); document.getElementById('admTabSettings').classList.toggle('active', tab === 'settings'); document.getElementById('admAccountsPanel').style.display = tab === 'accounts' ? 'block' : 'none'; document.getElementById('admImportPanel').style.display = tab === 'import' ? 'block' : 'none'; document.getElementById('admSettingsPanel').style.display = tab === 'settings' ? 'block' : 'none'; }
-    async function saveAdminSettings() { const newPass = document.getElementById('newAdminPass').value.trim(), newPhone = document.getElementById('newAdminPhone').value.trim(), newWa = document.getElementById('newAdminWa').value.trim(), newAd = document.getElementById('newAdText').value.trim(); if (!newPass || newPass.length < 4) { showToast('يرجى إدخال رمز إدارة من 4 أحرف على الأقل'); return; } adminConfig = { pass: newPass, phone: newPhone || adminConfig.phone, wa: newWa || adminConfig.wa, adText: newAd || adminConfig.adText }; localStorage.setItem('sehati_admin_cfg', JSON.stringify(adminConfig)); applyAdminConfigToUI(); if (window.fbReady) { try { await window.fb.setDoc(window.fb.doc(window.fb.db, "app_config", "admin"), adminConfig); } catch (e) {} } showToast('✅ تم حفظ كلمة السر الجديدة ورقم هاتفك ونص الإعلان!'); }
-    function renderAdminAccounts() { const registeredAccounts = window.placesData.filter(p => !p.id.startsWith('dz_') && !p.id.startsWith('imp_')); document.getElementById('pendingCountBadge').textContent = registeredAccounts.filter(p => p.approved !== true).length; const listEl = document.getElementById('adminAccountsList'); if (registeredAccounts.length === 0) { listEl.innerHTML = '<p style="text-align:center;color:var(--muted);padding:20px;">لا توجد حسابات مهنيين مسجلة بعد.</p>'; return; } listEl.innerHTML = registeredAccounts.map(acc => { const isApproved = acc.approved === true; return `<div class="appt-item"><header><span>${acc.nm_ar}</span><span class="status-badge ${isApproved ? 'status-active' : 'status-pending'}">${isApproved ? '✅ مفعّل' : '⏳ بانتظار الدفع'}</span></header><div>🩺 ${acc.sp_ar} | 📍 ${acc.ad_ar}</div><div>📞 <a href="tel:${acc.ph}">${acc.ph}</a> | 📧 ${acc.email || ''}</div><div style="display:flex;gap:6px;margin-top:8px;"><button onclick="adminToggleApprove('${acc.id}', ${!isApproved})" style="flex:1;padding:6px;border:none;border-radius:8px;background:${isApproved ? '#ef4444' : '#16a34a'};color:#fff;font-weight:700;cursor:pointer;">${isApproved ? '⛔ إيقاف' : '✅ تفعيل بعد الدفع'}</button><button onclick="adminToggleFeatured('${acc.id}', ${!acc.feat})" style="flex:1;padding:6px;border:none;border-radius:8px;background:#f59e0b;color:#000;font-weight:700;cursor:pointer;">${acc.feat ? 'إلغاء التمييز' : '⭐ تمييز إعلاني'}</button></div></div>`; }).join(''); }
-    async function adminToggleApprove(id, newStatus) { window.placesData = window.placesData.map(p => p.id === id ? { ...p, approved: newStatus } : p); localPlaces = localPlaces.map(p => p.id === id ? { ...p, approved: newStatus } : p); localStorage.setItem('sehati_pro_places', JSON.stringify(localPlaces)); if (window.fbReady) { try { await window.fb.updateDoc(window.fb.doc(window.fb.db, "health_places", id), { approved: newStatus }); } catch (e) {} } render(); renderAdminAccounts(); showToast(newStatus ? '✅ تم تفعيل الحساب ونشره في التطبيق!' : '⛔ تم إيقاف ظهور الحساب'); }
-    async function adminToggleFeatured(id, newFeat) { window.placesData = window.placesData.map(p => p.id === id ? { ...p, feat: newFeat } : p); localPlaces = localPlaces.map(p => p.id === id ? { ...p, feat: newFeat } : p); localStorage.setItem('sehati_pro_places', JSON.stringify(localPlaces)); if (window.fbReady) { try { await window.fb.updateDoc(window.fb.doc(window.fb.db, "health_places", id), { feat: newFeat }); } catch (e) {} } render(); renderAdminAccounts(); showToast(newFeat ? '⭐ تم تمييز الحساب!' : 'تم إلغاء التمييز'); }
-    async function clearImportedData() { const statusEl = document.getElementById('importStatus'); statusEl.textContent = '⏳ جاري حذف البيانات المستوردة السابقة...'; const toDelete = window.placesData.filter(p => p.id.startsWith('imp_')); if (window.fbReady && toDelete.length > 0) { try { const batch = window.fb.writeBatch(window.fb.db); toDelete.forEach(item => batch.delete(window.fb.doc(window.fb.db, "health_places", item.id))); await batch.commit(); } catch (e) {} } localPlaces = localPlaces.filter(p => !p.id.startsWith('imp_')); localStorage.setItem('sehati_pro_places', JSON.stringify(localPlaces)); window.placesData = window.placesData.filter(p => !p.id.startsWith('imp_')); render(); statusEl.textContent = `🗑️ تم حذف ${toDelete.length} سجل مستورد بنجاح! يمكنك الآن الاستيراد المحسّن.`; }
-    function extractCoords(geometry) { if (!geometry || !geometry.coordinates) return { lat: null, lng: null }; let c = geometry.coordinates; while (Array.isArray(c) && Array.isArray(c[0])) { c = c[0]; } if (Array.isArray(c) && typeof c[0] === 'number' && typeof c[1] === 'number') { return { lng: c[0], lat: c[1] }; } return { lat: null, lng: null }; }
-    async function processBulkImport() { const fileInput = document.getElementById('importFile'), limit = parseInt(document.getElementById('importLimit').value, 10), statusEl = document.getElementById('importStatus'); if (!fileInput.files || !fileInput.files[0]) { showToast('يرجى اختيار ملف health_facilities.geojson أولاً'); return; } statusEl.textContent = '⏳ جاري تحليل الملف واستخراج المرافق...'; const text = await fileInput.files[0].text(); try { const json = JSON.parse(text), features = json.features || (Array.isArray(json) ? json : []), candidates = []; for (let i = 0; i < features.length; i++) { const f = features[i], props = f.properties || f, nameAr = props['name:ar'] || props.name || '', nameFr = props['name:fr'] || props.name || nameAr; if (!nameAr && !nameFr) continue; const amenity = (props.amenity || props.healthcare || '').toLowerCase(); let tp = 'c'; if (amenity.includes('hospital')) tp = 'h'; else if (amenity.includes('pharmacy')) tp = 'p'; else if (amenity.includes('doctor')) tp = 'd'; else if (amenity.includes('dentist')) tp = 'g'; else if (amenity.includes('laboratory')) tp = 'l'; else if (amenity.includes('radiology')) tp = 'r'; const phone = (props.phone || props['contact:phone'] || props['contact:mobile'] || props.telephone || '').toString().trim(), city = props['addr:city'] || props['addr:state'] || props['addr:street'] || 'الجزائر', hours = props.opening_hours || '08:00 - 17:00', { lat, lng } = extractCoords(f.geometry); let score = 0; if (phone.length > 4) score += 10; if (lat && lng) score += 5; if (city !== 'الجزائر') score += 2; candidates.push({ score, data: { id: 'imp_' + Date.now() + '_' + i, tp, approved: true, nm_ar: nameAr || nameFr, nm_fr: nameFr || nameAr, sp_ar: props.healthcare_speciality || (tp === 'p' ? 'صيدلية' : (tp === 'h' ? 'مستشفى' : 'مرفق صحي')), sp_fr: props.healthcare_speciality || (tp === 'p' ? 'Pharmacie' : (tp === 'h' ? 'Hôpital' : 'Établissement de santé')), srv_ar: '', srv_fr: '', ad_ar: city, ad_fr: city, hr_ar: hours, hr_fr: hours, ph: phone, lat, lng, feat: false, canBook: tp === 'd' || tp === 'c' } }); } candidates.sort((a, b) => b.score - a.score); const importedItems = candidates.slice(0, limit).map(c => c.data), withPhoneCount = importedItems.filter(x => x.ph.length > 4).length; if (importedItems.length === 0) { statusEl.textContent = '❌ لم يتم العثور على سجلات صالحة.'; return; } statusEl.textContent = `⏳ جاري حفظ ${importedItems.length} مرفق (${withPhoneCount} منها بأرقام هواتف ومواقع) في Firebase...`; if (window.fbReady) { const batch = window.fb.writeBatch(window.fb.db); importedItems.forEach(item => batch.set(window.fb.doc(window.fb.db, "health_places", item.id), item)); await batch.commit(); } localPlaces = [...localPlaces, ...importedItems]; localStorage.setItem('sehati_pro_places', JSON.stringify(localPlaces)); window.placesData = [...window.placesData, ...importedItems]; render(); statusEl.textContent = `✅ تم استيراد ${importedItems.length} مرفق بنجاح (${withPhoneCount} برقم هاتف وجميعها بمواقع على الخريطة)!`; showToast(`✅ تمت إضافة ${importedItems.length} مرفق صحي!`); } catch (err) { statusEl.textContent = '❌ خطأ في قراءة الملف.'; } }
-    window.render = function() { const box = document.getElementById('listContainer'), q = document.getElementById('searchInput').value.toLowerCase().trim(), t = T[lang], publicPlaces = window.placesData.filter(item => item.approved !== false), sorted = [...publicPlaces].sort((a, b) => (b.feat === true) - (a.feat === true)), filtered = sorted.filter(item => { if (currentCat === 'fav' && !favs.includes(item.id)) return false; if (currentCat !== 'all' && currentCat !== 'fav' && item.tp !== currentCat) return false; const hay = `${item.nm_ar} ${item.nm_fr} ${item.sp_ar} ${item.sp_fr} ${item.srv_ar || ''} ${item.ad_ar} ${item.ad_fr}`.toLowerCase(); return !q || hay.includes(q); }); document.getElementById('totalCounter').textContent = `(${filtered.length})`; if (!filtered.length) { box.innerHTML = `<p style="text-align:center;color:var(--muted);padding:30px;">${t.empty}</p>`; return; } box.innerHTML = filtered.slice(0, 100).map(item => { const name = lang === 'ar' ? item.nm_ar : item.nm_fr, spec = lang === 'ar' ? item.sp_ar : item.sp_fr, srv = lang === 'ar' ? (item.srv_ar || '') : (item.srv_fr || ''), addr = lang === 'ar' ? item.ad_ar : item.ad_fr, hours = lang === 'ar' ? item.hr_ar : item.hr_fr, isFav = favs.includes(item.id), allowBook = item.canBook !== false && item.tp !== 'p' && item.tp !== 'h', hasPhone = item.ph && item.ph.trim().length > 3, mapLink = (typeof item.lat === 'number' && typeof item.lng === 'number') ? `https://maps.google.com/?q=${item.lat},${item.lng}` : `https://maps.google.com/?q=${encodeURIComponent(name + ' ' + addr + ' Algerie')}`, cols = [allowBook, hasPhone, true].filter(Boolean).length, gridCols = cols === 3 ? '1fr 1fr 1fr auto' : (cols === 2 ? '1fr 1fr auto' : '1fr auto'); return `<div class="item-card ${item.feat ? 'featured' : ''}">${item.feat ? `<span class="badge-feat">${t.feat}</span>` : ''}<div class="item-title">${name}</div><div class="item-sub">${spec}</div>${srv ? `<div class="item-services">🩺 ${srv}</div>` : ''}<div class="item-meta"><span>📍 ${addr}</span><span><i class="dot-open"></i>🕒 ${hours}</span></div><div class="actions" style="grid-template-columns:${gridCols};">${allowBook ? `<button onclick="openBooking('${item.id}')" class="act-btn act-book">${t.book}</button>` : ''}${hasPhone ? `<a href="tel:${item.ph}" class="act-btn act-call">${t.call}</a>` : ''}<a href="${mapLink}" class="act-btn act-map">${t.map}</a><button onclick="toggleFav('${item.id}')" class="act-btn act-fav ${isFav ? 'saved' : ''}">${isFav ? '❤️' : '🤍'}</button></div></div>`; }).join(''); };
-    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(() => {});
-    render();
-  </script><!-- حاوية عرض الإعلان الديناميكي -->
-<div id="sehatiAdSys_liveBox" style="margin: 14px 0;"></div>
-
-<!-- نافذة الإدارة المخفية (تُفتح بالضغط المطول على SEHATI ADS) -->
-<div id="sehatiAdSys_modal" style="
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.78);
-  z-index: 99999;
-  padding: 16px;
-  overflow-y: auto;
-">
-  <div style="
-    max-width: 460px;
-    margin: 24px auto;
-    background: #102521;
-    color: #ffffff;
-    border: 1px solid #1de9b6;
-    border-radius: 16px;
-    padding: 18px;
-    box-sizing: border-box;
-  ">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
-      <strong style="font-size: 15px; color: #1de9b6;">⚙️ إدارة إعلانات صحتي</strong>
-      <button id="sehatiAdSys_closeBtn" type="button" style="
-        background: #263238;
-        color: #fff;
-        border: none;
-        border-radius: 8px;
-        padding: 4px 10px;
-        cursor: pointer;
-      ">✕</button>
-    </div>
-
-    <div style="display: flex; flex-direction: column; gap: 10px; font-size: 13px;">
-      <label>
-        رمز GitHub Token (يُحفظ على هاتفك فقط):
-        <input id="sehatiAdSys_tokenInput" type="password" placeholder="ghp_xxxxxxxxxxxx" style="
-          width: 100%; margin-top: 4px; padding: 8px; border-radius: 8px;
-          border: 1px solid #37474f; background: #091614; color: #fff; box-sizing: border-box;
-        ">
-      </label>
-
-      <label>
-        صورة الإعلان من الهاتف:
-        <input id="sehatiAdSys_fileInput" type="file" accept="image/*" style="
-          width: 100%; margin-top: 4px; padding: 6px; border-radius: 8px;
-          border: 1px solid #37474f; background: #091614; color: #fff; box-sizing: border-box;
-        ">
-      </label>
-
-      <label>
-        عنوان الإعلان (اسم العيادة أو الطبيب):
-        <input id="sehatiAdSys_titleInput" type="text" placeholder="مثال: عيادة الشفاء - طب عام" style="
-          width: 100%; margin-top: 4px; padding: 8px; border-radius: 8px;
-          border: 1px solid #37474f; background: #091614; color: #fff; box-sizing: border-box;
-        ">
-      </label>
-
-      <label>
-        وصف الإعلان والتخصص والعنوان:
-        <textarea id="sehatiAdSys_descInput" rows="2" placeholder="مثال: فحوصات طبية وتحاليل - وسط المدينة" style="
-          width: 100%; margin-top: 4px; padding: 8px; border-radius: 8px;
-          border: 1px solid #37474f; background: #091614; color: #fff; box-sizing: border-box;
-        "></textarea>
-      </label>
-
-      <label>
-        نص الزر:
-        <input id="sehatiAdSys_btnTextInput" type="text" value="📞 اتصل الآن" style="
-          width: 100%; margin-top: 4px; padding: 8px; border-radius: 8px;
-          border: 1px solid #37474f; background: #091614; color: #fff; box-sizing: border-box;
-        ">
-      </label>
-
-      <label>
-        رقم الهاتف أو الرابط (مثال: tel:0550000000 أو https://...):
-        <input id="sehatiAdSys_btnLinkInput" type="text" placeholder="tel:0550000000" style="
-          width: 100%; margin-top: 4px; padding: 8px; border-radius: 8px;
-          border: 1px solid #37474f; background: #091614; color: #fff; box-sizing: border-box;
-        ">
-      </label>
-
-      <label style="display: flex; align-items: center; gap: 8px; margin-top: 4px;">
-        <input id="sehatiAdSys_activeCheck" type="checkbox" checked>
-        تفعيل وعرض الإعلان للمستخدمين
-      </label>
-
-      <button id="sehatiAdSys_publishBtn" type="button" style="
-        margin-top: 6px;
-        background: #00bfa5;
-        color: #061412;
-        font-weight: bold;
-        border: none;
-        border-radius: 10px;
-        padding: 10px;
-        font-size: 14px;
-        cursor: pointer;
-      ">🚀 رفع الصورة ونشر الإعلان</button>
-
-      <div id="sehatiAdSys_status" style="font-size: 12px; color: #ffd54f; min-height: 18px;"></div>
-    </div>
-  </div>
-</div>
-
-<script>
-(() => {
-  const OWNER = "abdoben16";
-  const REPO = "SEHATI.dz";
-  const BRANCH = "main";
-  const AD_JSON_PATH = "ad.json";
-  const TOKEN_KEY = "sehatiAdSys_gh_token";
-
-  const liveBox = document.getElementById("sehatiAdSys_liveBox");
-  const modal = document.getElementById("sehatiAdSys_modal");
-  const closeBtn = document.getElementById("sehatiAdSys_closeBtn");
-  const tokenInput = document.getElementById("sehatiAdSys_tokenInput");
-  const fileInput = document.getElementById("sehatiAdSys_fileInput");
-  const titleInput = document.getElementById("sehatiAdSys_titleInput");
-  const descInput = document.getElementById("sehatiAdSys_descInput");
-  const btnTextInput = document.getElementById("sehatiAdSys_btnTextInput");
-  const btnLinkInput = document.getElementById("sehatiAdSys_btnLinkInput");
-  const activeCheck = document.getElementById("sehatiAdSys_activeCheck");
-  const publishBtn = document.getElementById("sehatiAdSys_publishBtn");
-  const statusEl = document.getElementById("sehatiAdSys_status");
-
-  let currentAdData = {
-    active: true,
-    badge: "📢 مساحة إعلانية مميزة",
-    title: "أعلن عن عيادتك أو صيدليتك أو مخبرك",
-    description: "احجز مساحة إعلانية بارزة للوصول إلى الباحثين عن الخدمات الصحية.",
-    image: "",
-    buttonText: "📢 احجز مساحتك الإعلانية",
-    buttonLink: "#contact"
-  };
-
-  function renderAdCard(ad) {
-    if (!liveBox) return;
-    if (!ad || ad.active === false) {
-      liveBox.innerHTML = "";
-      return;
-    }
-
-    const bgImg = ad.image
-      ? `linear-gradient(to left, rgba(10, 25, 22, 0.92) 45%, rgba(10, 25, 22, 0.45) 100%), url('${ad.image}?v=${Date.now()}')`
-      : "linear-gradient(135deg, #0d2b26, #13423a)";
-
-    liveBox.innerHTML = `
-      <div style="
-        position: relative;
-        width: 100%;
-        min-height: 170px;
-        border-radius: 16px;
-        overflow: hidden;
-        border: 1px solid rgba(29, 233, 182, 0.35);
-        background-color: #0d2622;
-        background-image: ${bgImg};
-        background-size: cover;
-        background-position: center;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        padding: 14px 16px;
-        box-sizing: border-box;
-      ">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-          <span style="
-            background: #e53935;
-            color: #fff;
-            font-size: 11px;
-            font-weight: bold;
-            padding: 3px 10px;
-            border-radius: 20px;
-          ">${ad.badge || "📢 مساحة إعلانية مميزة"}</span>
-          <span id="sehatiAdSys_trigger" title="اضغط مطولاً للإدارة" style="
-            color: rgba(255,255,255,0.75);
-            font-size: 11px;
-            font-weight: 700;
-            user-select: none;
-            cursor: pointer;
-          ">SEHATI ADS</span>
-        </div>
-
-        <div style="margin: 10px 0;">
-          <h3 style="color: #fff; font-size: 15px; margin: 0 0 4px 0; font-weight: bold;">${ad.title || ""}</h3>
-          <p style="color: #e0f2f1; font-size: 12.5px; margin: 0; line-height: 1.5;">${ad.description || ""}</p>
-        </div>
-
-        <div style="text-align: center;">
-          <a href="${ad.buttonLink || "#"}" style="
-            display: inline-block;
-            background: #0d5c4d;
-            border: 1px solid #1de9b6;
-            color: #fff;
-            text-decoration: none;
-            font-size: 13px;
-            font-weight: bold;
-            padding: 7px 20px;
-            border-radius: 10px;
-          ">${ad.buttonText || "تواصل الآن"}</a>
-        </div>
-      </div>
-    `;
-
-    const trigger = document.getElementById("sehatiAdSys_trigger");
-    if (trigger) {
-      let timer = null;
-      const start = () => {
-        timer = setTimeout(() => {
-          openAdminModal();
-        }, 850);
-      };
-      const cancel = () => {
-        if (timer) clearTimeout(timer);
-      };
-      trigger.addEventListener("pointerdown", start);
-      trigger.addEventListener("pointerup", cancel);
-      trigger.addEventListener("pointerleave", cancel);
-    }
-  }
-
-  function openAdminModal() {
-    tokenInput.value = localStorage.getItem(TOKEN_KEY) || "";
-    titleInput.value = currentAdData.title || "";
-    descInput.value = currentAdData.description || "";
-    btnTextInput.value = currentAdData.buttonText || "📞 اتصل الآن";
-    btnLinkInput.value = currentAdData.buttonLink || "";
-    activeCheck.checked = currentAdData.active !== false;
-    statusEl.textContent = "";
-    modal.style.display = "block";
-  }
-
-  closeBtn.addEventListener("click", () => {
-    modal.style.display = "none";
-  });
-
-  function fileToBase64(file) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => {
-        const res = String(reader.result || "");
-        resolve(res.split(",")[1] || "");
-      };
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
-    });
-  }
-
-  function utf8ToBase64(str) {
-    const bytes = new TextEncoder().encode(str);
-    let bin = "";
-    bytes.forEach((b) => { bin += String.fromCharCode(b); });
-    return btoa(bin);
-  }
-
-  async function getFileSha(path, token) {
-    const res = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${path}?ref=${BRANCH}`, {
-      headers: { Authorization: `Bearer ${token}` }
-    });
-    if (!res.ok) return null;
-    const data = await res.json();
-    return data.sha || null;
-  }
-
-  async function putFileToGitHub(path, base64Content, message, token) {
-    const sha = await getFileSha(path, token);
-    const body = { message, content: base64Content, branch: BRANCH };
-    if (sha) body.sha = sha;
-
-    const res = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${path}`, {
-      method: "PUT",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(body)
-    });
-
-    if (!res.ok) {
-      const errData = await res.json().catch(() => ({}));
-      throw new Error(errData.message || `فشل حفظ الملف ${path}`);
-    }
-    return res.json();
-  }
-
-  publishBtn.addEventListener("click", async () => {
-    const token = tokenInput.value.trim();
-    if (!token) {
-      statusEl.textContent = "⚠️ يرجى إدخال رمز GitHub Token أولاً.";
-      return;
-    }
-
-    localStorage.setItem(TOKEN_KEY, token);
-    publishBtn.disabled = true;
-    statusEl.textContent = "⏳ جاري رفع البيانات وتحديث الإعلان...";
-
-    try {
-      let imageName = currentAdData.image || "";
-      const selectedFile = fileInput.files && fileInput.files[0];
-
-      if (selectedFile) {
-        const ext = (selectedFile.name.split(".").pop() || "jpg").toLowerCase();
-        imageName = `ad-banner.${ext}`;
-        const imgBase64 = await fileToBase64(selectedFile);
-        await putFileToGitHub(imageName, imgBase64, `Upload ad image ${imageName}`, token);
-      }
-
-      const updatedAd = {
-        active: activeCheck.checked,
-        badge: "📢 مساحة إعلانية مميزة",
-        title: titleInput.value.trim(),
-        description: descInput.value.trim(),
-        image: imageName,
-        buttonText: btnTextInput.value.trim() || "📞 اتصل الآن",
-        buttonLink: btnLinkInput.value.trim() || "#"
-      };
-
-      await putFileToGitHub(
-        AD_JSON_PATH,
-        utf8ToBase64(JSON.stringify(updatedAd, null, 2)),
-        "Update ad.json via admin",
-        token
-      );
-
-      currentAdData = updatedAd;
-      renderAdCard(currentAdData);
-      statusEl.style.color = "#69f0ae";
-      statusEl.textContent = "✅ تم نشر الإعلان بنجاح! سيظهر للمستخدمين خلال ثوانٍ.";
-    } catch (err) {
-      statusEl.style.color = "#ff8a80";
-      statusEl.textContent = "❌ خطأ: " + err.message;
-    } finally {
-      publishBtn.disabled = false;
-    }
-  });
-
-  async function initAdSystem() {
-    try {
-      const res = await fetch(`${AD_JSON_PATH}?t=${Date.now()}`, { cache: "no-store" });
-      if (res.ok) {
-        const data = await res.json();
-        if (data && typeof data === "object") {
-          currentAdData = { ...currentAdData, ...data };
-        }
-      }
-    } catch (_) {}
-    renderAdCard(currentAdData);
-  }
-
-  window.sehatiRefreshAdCard = () => renderAdCard(currentAdData);
-  initAdSystem();
-})();
-</script>
-<script>
-(() => {
-  const modal = document.getElementById("sehatiAdSys_modal");
-  if (!modal) return;
-
-  function attachLongPressToSehatiAds() {
-    const candidates = document.querySelectorAll("div, span, button, a, p, h1, h2, h3, strong");
-    candidates.forEach((el) => {
-      if (el.dataset.sehatiAdBound) return;
-      const txt = (el.textContent || "").trim();
-      if (txt === "SEHATI ADS") {
-        el.dataset.sehatiAdBound = "1";
-        el.style.cursor = "pointer";
-        let pressTimer = null;
-
-        const startPress = () => {
-          pressTimer = setTimeout(() => {
-            modal.style.display = "block";
-          }, 700);
-        };
-        const cancelPress = () => {
-          if (pressTimer) clearTimeout(pressTimer);
-        };
-
-        el.addEventListener("pointerdown", startPress);
-        el.addEventListener("pointerup", cancelPress);
-        el.addEventListener("pointerleave", cancelPress);
-        el.addEventListener("touchstart", startPress, { passive: true });
-        el.addEventListener("touchend", cancelPress);
-        el.addEventListener("touchcancel", cancelPress);
-      }
-    });
-  }
-
-  attachLongPressToSehatiAds();
-  const observer = new MutationObserver(attachLongPressToSehatiAds);
-  observer.observe(document.body, { childList: true, subtree: true });
-})();
-</script>
-<script>
-(() => {
-  async function syncOldCardWithAdJson() {
-    try {
-      const res = await fetch(`ad.json?v=${Date.now()}`, { cache: "no-store" });
-      if (!res.ok) return;
-      const ad = await res.json();
-      if (!ad || ad.active === false) return;
-
-      const labels = Array.from(document.querySelectorAll("div, span, p, h1, h2, h3, strong, a, button"));
-      const badgeEl = labels.find((el) => (el.textContent || "").trim().includes("SEHATI ADS"));
-      if (!badgeEl) return;
-
-      let card = badgeEl.parentElement;
-      for (let i = 0; i < 4 && card && card.parentElement; i++) {
-        if (card.offsetHeight >= 110) break;
-        card = card.parentElement;
-      }
-      if (!card) return;
-
-      if (ad.image) {
-        card.style.backgroundImage = `linear-gradient(to left, rgba(10, 25, 22, 0.88) 45%, rgba(10, 25, 22, 0.45) 100%), url('${ad.image}?v=${Date.now()}')`;
-        card.style.backgroundSize = "cover";
-        card.style.backgroundPosition = "center";
-        card.style.overflow = "hidden";
-      }
-
-      const textNodes = Array.from(card.querySelectorAll("h1, h2, h3, h4, p, div, span, a, button"))
-        .filter((el) => el.children.length === 0 && (el.textContent || "").trim().length > 0);
-
-      for (const el of textNodes) {
-        const t = (el.textContent || "").trim();
-        if (t === "SEHATI ADS" || t.includes("مساحة إعلانية مميزة")) continue;
-
-        if (el.tagName === "A" || el.tagName === "BUTTON" || t.includes("احجز") || t.includes("اتصل")) {
-          if (ad.buttonText) el.textContent = ad.buttonText;
-          if (ad.buttonLink && el.tagName === "A") el.href = ad.buttonLink;
-        } else if (t.includes("أعلن عن عيادتك") || t.length > 25) {
-          if (ad.description) el.textContent = ad.description;
-        } else if (ad.title) {
-          el.textContent = ad.title;
-        }
-      }
-    } catch (_) {}
-  }
-
-  syncOldCardWithAdJson();
-  setTimeout(syncOldCardWithAdJson, 1200);
-})();
-</script>
-<!-- حاوية عرض الإعلانات المتعددة -->
-<div id="sehatiAllInOne_box" style="margin: 14px 0;"></div>
-
-<!-- نافذة إدارة الإعلانات -->
-<div id="sehatiAllInOne_modal" style="
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.82);
-  z-index: 99999;
-  padding: 14px;
-  overflow-y: auto;
-">
-  <div style="
-    max-width: 470px;
-    margin: 20px auto;
-    background: #102521;
-    color: #ffffff;
-    border: 1px solid #1de9b6;
-    border-radius: 16px;
-    padding: 16px;
-    box-sizing: border-box;
-  ">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-      <strong style="font-size: 15px; color: #1de9b6;">📢 إدارة إعلانات صحتي</strong>
-      <button id="sehatiAllInOne_close" type="button" style="
-        background: #263238; color: #fff; border: none; border-radius: 8px; padding: 4px 10px; cursor: pointer;
-      ">✕</button>
-    </div>
-
-    <!-- التحكم في المدة العامة -->
-    <div style="
-      background: #091b18; border: 1px solid #234740; border-radius: 12px;
-      padding: 10px; margin-bottom: 10px; font-size: 12.5px;
-    ">
-      <div style="color: #80cbc4; font-weight: bold; margin-bottom: 6px;">⏱️ مدة عرض الإعلان (بالثواني):</div>
-      <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
-        <button id="sehatiAllInOne_minusSec" type="button" style="
-          background: #1c313a; color: #fff; border: 1px solid #455a64; border-radius: 7px;
-          padding: 4px 10px; font-weight: bold; cursor: pointer;
-        ">-1 ث</button>
-
-        <input id="sehatiAllInOne_globalSec" type="number" min="1" max="120" value="5" style="
-          width: 64px; padding: 5px; border-radius: 7px; border: 1px solid #37474f;
-          background: #061311; color: #fff; text-align: center; font-weight: bold;
-        ">
-        <span>ثانية</span>
-
-        <button id="sehatiAllInOne_plusSec" type="button" style="
-          background: #1c313a; color: #fff; border: 1px solid #455a64; border-radius: 7px;
-          padding: 4px 10px; font-weight: bold; cursor: pointer;
-        ">+1 ث</button>
-
-        <button id="sehatiAllInOne_saveSecBtn" type="button" style="
-          margin-right: auto; background: #00897b; color: #fff; border: none;
-          border-radius: 7px; padding: 5px 10px; font-size: 11.5px; font-weight: bold; cursor: pointer;
-        ">💾 حفظ المدة</button>
-      </div>
-    </div>
-
-    <div style="display: flex; flex-direction: column; gap: 9px; font-size: 12.5px;">
-      <label>
+      <label class="field-lbl">
         رمز GitHub Token (يُحفظ محلياً على هاتفك):
-        <input id="sehatiAllInOne_token" type="password" placeholder="ghp_xxxxxxxxxxxx" style="
-          width: 100%; margin-top: 4px; padding: 8px; border-radius: 8px;
-          border: 1px solid #37474f; background: #091614; color: #fff; box-sizing: border-box;
-        ">
+        <input id="ghTokenInput" class="field-in" type="password" placeholder="ghp_xxxxxxxxxxxx">
       </label>
 
-      <label>
+      <label class="field-lbl">
         صورة الإعلان من الهاتف (تظهر واضحة غير مظللة):
-        <input id="sehatiAllInOne_file" type="file" accept="image/*" style="
-          width: 100%; margin-top: 4px; padding: 6px; border-radius: 8px;
-          border: 1px solid #37474f; background: #091614; color: #fff; box-sizing: border-box;
-        ">
+        <input id="adFileInput" class="field-in" type="file" accept="image/*">
       </label>
 
-      <label>
+      <label class="field-lbl">
         عنوان الإعلان:
-        <input id="sehatiAllInOne_title" type="text" placeholder="مثال: عيادة الشفاء - طب عام" style="
-          width: 100%; margin-top: 4px; padding: 8px; border-radius: 8px;
-          border: 1px solid #37474f; background: #091614; color: #fff; box-sizing: border-box;
-        ">
+        <input id="adTitleInput" class="field-in" type="text" placeholder="مثال: عيادة الشفاء - طب عام">
       </label>
 
-      <label>
+      <label class="field-lbl">
         الوصف / التخصص / العنوان:
-        <textarea id="sehatiAllInOne_desc" rows="2" placeholder="مثال: طريق الساقية - استشارات وتحاليل" style="
-          width: 100%; margin-top: 4px; padding: 8px; border-radius: 8px;
-          border: 1px solid #37474f; background: #091614; color: #fff; box-sizing: border-box;
-        "></textarea>
+        <textarea id="adDescInput" class="field-ta" rows="2" placeholder="مثال: وسط المدينة - استشارات وتحاليل"></textarea>
       </label>
 
-      <div style="display: grid; grid-template-columns: 1fr 1fr 85px; gap: 7px;">
-        <label>
+      <div class="row-2">
+        <label class="field-lbl">
           نص الزر:
-          <input id="sehatiAllInOne_btnText" type="text" value="📞 اتصل الآن" style="
-            width: 100%; margin-top: 4px; padding: 7px; border-radius: 8px;
-            border: 1px solid #37474f; background: #091614; color: #fff; box-sizing: border-box;
-          ">
+          <input id="adBtnTextInput" class="field-in" type="text" value="اتصل الآن">
         </label>
-        <label>
+        <label class="field-lbl">
           الرابط أو الهاتف:
-          <input id="sehatiAllInOne_btnLink" type="text" placeholder="tel:0550000000" style="
-            width: 100%; margin-top: 4px; padding: 7px; border-radius: 8px;
-            border: 1px solid #37474f; background: #091614; color: #fff; box-sizing: border-box;
-          ">
-        </label>
-        <label>
-          مدة خاصة (ث):
-          <input id="sehatiAllInOne_itemSec" type="number" min="1" max="120" placeholder="افتراضي" style="
-            width: 100%; margin-top: 4px; padding: 7px; border-radius: 8px;
-            border: 1px solid #37474f; background: #091614; color: #fff; box-sizing: border-box;
-          ">
+          <input id="adBtnLinkInput" class="field-in" type="text" placeholder="tel:0550000000">
         </label>
       </div>
 
-      <button id="sehatiAllInOne_addBtn" type="button" style="
-        margin-top: 4px; background: #00bfa5; color: #061412; font-weight: bold;
-        border: none; border-radius: 10px; padding: 10px; font-size: 13.5px; cursor: pointer;
-      ">➕ إضافة الإعلان ونشر القائمة</button>
+      <label class="field-lbl">
+        مدة خاصة لهذا الإعلان (ثواني - اختياري):
+        <input id="adItemDurInput" class="field-in" type="number" min="1" max="120" placeholder="اتركه فارغاً لاستخدام المدة العامة">
+      </label>
 
-      <div id="sehatiAllInOne_status" style="font-size: 12px; color: #ffd54f; min-height: 18px;"></div>
+      <button id="addAdBtn" class="add-ad-btn" type="button">إضافة ونشر الإعلان</button>
+      <div id="adStatusMsg" class="status-msg"></div>
 
-      <div style="margin-top: 6px; border-top: 1px solid #23423c; padding-top: 10px;">
-        <div style="font-weight: bold; color: #80cbc4; margin-bottom: 6px;">📋 الإعلانات المنشورة:</div>
-        <div id="sehatiAllInOne_list" style="display: flex; flex-direction: column; gap: 7px;"></div>
+      <div class="ads-manage-list">
+        <div style="font-size: 12px; font-weight: 700; color: #80cbc4;">الإعلانات المنشورة:</div>
+        <div id="adsManageItems"></div>
       </div>
     </div>
   </div>
-</div>
 
-<script>
-(() => {
-  const OWNER = "abdoben16";
-  const REPO = "SEHATI.dz";
-  const BRANCH = "main";
-  const AD_JSON_PATH = "ad.json";
-  const TOKEN_KEY = "sehatiAdSys_gh_token";
+  <script>
+    (function () {
+      const OWNER = "abdoben16";
+      const REPO = "SEHATI.dz";
+      const BRANCH = "main";
+      const AD_JSON_PATH = "ad.json";
+      const TOKEN_STORAGE_KEY = "sehatiAdSys_gh_token";
+      const FAV_STORAGE_KEY = "sehati_favs_v1";
 
-  const box = document.getElementById("sehatiAllInOne_box");
-  const modal = document.getElementById("sehatiAllInOne_modal");
-  const closeBtn = document.getElementById("sehatiAllInOne_close");
-
-  const minusSecBtn = document.getElementById("sehatiAllInOne_minusSec");
-  const plusSecBtn = document.getElementById("sehatiAllInOne_plusSec");
-  const globalSecInput = document.getElementById("sehatiAllInOne_globalSec");
-  const saveSecBtn = document.getElementById("sehatiAllInOne_saveSecBtn");
-
-  const tokenInput = document.getElementById("sehatiAllInOne_token");
-  const fileInput = document.getElementById("sehatiAllInOne_file");
-  const titleInput = document.getElementById("sehatiAllInOne_title");
-  const descInput = document.getElementById("sehatiAllInOne_desc");
-  const btnTextInput = document.getElementById("sehatiAllInOne_btnText");
-  const btnLinkInput = document.getElementById("sehatiAllInOne_btnLink");
-  const itemSecInput = document.getElementById("sehatiAllInOne_itemSec");
-  const addBtn = document.getElementById("sehatiAllInOne_addBtn");
-  const statusEl = document.getElementById("sehatiAllInOne_status");
-  const listEl = document.getElementById("sehatiAllInOne_list");
-
-  let adsList = [];
-  let defaultDurationSec = 5;
-  let activeIndex = 0;
-  let rotationTimeout = null;
-
-  function clampSec(val, fallback = 5) {
-    const n = Number(val);
-    if (!Number.isFinite(n) || n < 1) return fallback;
-    return Math.min(120, Math.round(n));
-  }
-
-  function getAdDurationMs(ad) {
-    const sec = ad && ad.durationSec ? clampSec(ad.durationSec, defaultDurationSec) : defaultDurationSec;
-    return sec * 1000;
-  }
-
-  function openModal() {
-    tokenInput.value = localStorage.getItem(TOKEN_KEY) || "";
-    globalSecInput.value = defaultDurationSec;
-    statusEl.style.color = "#ffd54f";
-    statusEl.textContent = "";
-    renderAdminList();
-    modal.style.display = "block";
-  }
-
-  closeBtn.addEventListener("click", () => {
-    modal.style.display = "none";
-  });
-
-  minusSecBtn.addEventListener("click", () => {
-    globalSecInput.value = clampSec(Number(globalSecInput.value) - 1, 1);
-  });
-
-  plusSecBtn.addEventListener("click", () => {
-    globalSecInput.value = clampSec(Number(globalSecInput.value) + 1, 5);
-  });
-
-  function bindLongPress(el) {
-    if (!el || el.dataset.sehatiAioBound) return;
-    el.dataset.sehatiAioBound = "1";
-    el.style.cursor = "pointer";
-    let t = null;
-    const start = () => { t = setTimeout(openModal, 700); };
-    const cancel = () => { if (t) clearTimeout(t); };
-    el.addEventListener("pointerdown", start);
-    el.addEventListener("pointerup", cancel);
-    el.addEventListener("pointerleave", cancel);
-    el.addEventListener("touchstart", start, { passive: true });
-    el.addEventListener("touchend", cancel);
-    el.addEventListener("touchcancel", cancel);
-  }
-
-  function scanTriggers() {
-    document.querySelectorAll("div, span, button, a, p, h1, h2, h3, strong").forEach((el) => {
-      if ((el.textContent || "").trim() === "SEHATI ADS") {
-        bindLongPress(el);
-      }
-    });
-  }
-
-  function styleEmergencyAndAdSpace() {
-    const stylesByKeyword = [
-      { keys: ["الحماية المدنية", "14"], bg: "linear-gradient(135deg, #1b2838, #e65100)", border: "#ff9800", color: "#ffffff" },
-      { keys: ["الشرطة", "1548"], bg: "linear-gradient(135deg, #0d2342, #1565c0)", border: "#42a5f5", color: "#ffffff" },
-      { keys: ["الدرك الوطني", "1055"], bg: "linear-gradient(135deg, #162619, #2e4d32)", border: "#66bb6a", color: "#ffffff" },
-      { keys: ["الإسعاف", "115"], bg: "linear-gradient(135deg, #0f2e2b, #c62828)", border: "#ef5350", color: "#ffffff" }
-    ];
-
-    document.querySelectorAll("a, button, div, span").forEach((el) => {
-      if (el.closest("#sehatiAllInOne_box") || el.closest("#sehatiAllInOne_modal")) return;
-      const text = (el.textContent || "").trim();
-      if (!text || text.length > 60) return;
-
-      const matched = stylesByKeyword.find((item) => item.keys.some((k) => text.includes(k)));
-      if (matched) {
-        const isCard = el.offsetHeight >= 34 && el.offsetHeight <= 115 && el.offsetWidth < 360;
-        if (isCard) {
-          el.style.background = matched.bg;
-          el.style.borderColor = matched.border;
-          el.style.borderWidth = "1px";
-          el.style.borderStyle = "solid";
-          el.style.color = matched.color;
-          el.style.padding = "6px 6px";
-          el.style.minHeight = "44px";
-          el.style.borderRadius = "10px";
-          el.style.fontSize = "11.5px";
-          el.style.lineHeight = "1.25";
+      const SAMPLE_PLACES = [
+        {
+          id: "p1",
+          name: "المستشفى الجامعي فرانسوا فانون",
+          cat: "مستشفيات",
+          info: "استعجالات طبية وجراحية • 24/7",
+          phone: "024212121",
+          map: "https://maps.google.com/?q=Blida+Hospital"
+        },
+        {
+          id: "p2",
+          name: "عيادة الأمل الطبية",
+          cat: "عيادات",
+          info: "طب عام، طب الأطفال، تحاليل طبية • 08:00 - 20:00",
+          phone: "0550112233",
+          map: "https://maps.google.com/?q=Medical+Clinic"
+        },
+        {
+          id: "p3",
+          name: "د. كريم منصور - أمراض القلب",
+          cat: "أطباء",
+          info: "استشارات أمراض القلب وتخطيط القلب • مواعيد يومية",
+          phone: "0661445566",
+          map: "https://maps.google.com/?q=Cardiologist"
+        },
+        {
+          id: "p4",
+          name: "صيدلية النور",
+          cat: "صيدليات",
+          info: "أدوية عامة ومستلزمات طبية • مناوبة متوفرة",
+          phone: "0770998877",
+          map: "https://maps.google.com/?q=Pharmacy"
         }
+      ];
+
+      // بيانات الدليل الصحي
+      const placesListEl = document.getElementById("placesList");
+      const searchInputEl = document.getElementById("searchInput");
+      const catsBarEl = document.getElementById("catsBar");
+      let activeCat = "الكل";
+      let favIds = JSON.parse(localStorage.getItem(FAV_STORAGE_KEY) || "[]");
+
+      function saveFavs() {
+        localStorage.setItem(FAV_STORAGE_KEY, JSON.stringify(favIds));
       }
-    });
 
-    if (box) {
-      const adImg = box.querySelector("img");
-      if (adImg) {
-        adImg.style.maxHeight = "290px";
-        adImg.style.height = "auto";
-        adImg.style.objectFit = "cover";
-        adImg.style.opacity = "1";
-        adImg.style.filter = "none";
-      }
-    }
-  }
+      function renderPlaces() {
+        const q = (searchInputEl.value || "").trim().toLowerCase();
+        const filtered = SAMPLE_PLACES.filter((p) => {
+          if (activeCat === "المفضلة" && favIds.indexOf(p.id) === -1) return false;
+          if (activeCat !== "الكل" && activeCat !== "المفضلة" && p.cat !== activeCat) return false;
+          if (!q) return true;
+          return (p.name + " " + p.cat + " " + p.info).toLowerCase().indexOf(q) !== -1;
+        });
 
-  function fileToBase64(file) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(String(reader.result || "").split(",")[1] || "");
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
-    });
-  }
-
-  function utf8ToBase64(str) {
-    const bytes = new TextEncoder().encode(str);
-    let bin = "";
-    bytes.forEach((b) => { bin += String.fromCharCode(b); });
-    return btoa(bin);
-  }
-
-  async function getFileSha(path, token) {
-    const res = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${path}?ref=${BRANCH}`, {
-      headers: { Authorization: `Bearer ${token}` }
-    });
-    if (!res.ok) return null;
-    const data = await res.json();
-    return data.sha || null;
-  }
-
-  async function putFile(path, base64Content, message, token) {
-    const sha = await getFileSha(path, token);
-    const body = { message, content: base64Content, branch: BRANCH };
-    if (sha) body.sha = sha;
-    const res = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${path}`, {
-      method: "PUT",
-      headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
-      body: JSON.stringify(body)
-    });
-    if (!res.ok) {
-      const err = await res.json().catch(() => ({}));
-      throw new Error(err.message || `فشل حفظ ${path}`);
-    }
-    return res.json();
-  }
-
-  async function saveStateToGitHub(newAds, newDefaultSec, token) {
-    const payload = {
-      active: newAds.length > 0,
-      defaultDurationSec: clampSec(newDefaultSec, 5),
-      ads: newAds
-    };
-    await putFile(
-      AD_JSON_PATH,
-      utf8ToBase64(JSON.stringify(payload, null, 2)),
-      "Update ads list and durations in ad.json",
-      token
-    );
-    adsList = newAds;
-    defaultDurationSec = payload.defaultDurationSec;
-    activeIndex = 0;
-    renderCurrentAd();
-    scheduleNextAd();
-    renderAdminList();
-  }
-
-  function scheduleNextAd() {
-    if (rotationTimeout) clearTimeout(rotationTimeout);
-    if (!adsList.length) return;
-    const currentAd = adsList[activeIndex] || adsList[0];
-    const delay = getAdDurationMs(currentAd);
-
-    rotationTimeout = setTimeout(() => {
-      activeIndex = adsList.length > 1 ? (activeIndex + 1) % adsList.length : 0;
-      renderCurrentAd();
-      scheduleNextAd();
-    }, delay);
-  }
-
-  function renderCurrentAd() {
-    if (!box) return;
-    if (!adsList.length) {
-      box.innerHTML = "";
-      return;
-    }
-
-    if (activeIndex >= adsList.length) activeIndex = 0;
-    const ad = adsList[activeIndex];
-    const secShown = ad && ad.durationSec ? clampSec(ad.durationSec, defaultDurationSec) : defaultDurationSec;
-    const imgSrc = ad.image ? `${ad.image}?v=${Date.now()}` : "";
-
-    box.innerHTML = `
-      <div style="
-        min-height: 250px;
-        border-radius: 16px;
-        overflow: hidden;
-        border: 1px solid rgba(29, 233, 182, 0.35);
-        background: #0d2622;
-      ">
-        <div style="
-          display: flex; justify-content: space-between; align-items: center;
-          padding: 8px 12px; background: #091b18;
-        ">
-          <span style="background: #e53935; color: #fff; font-size: 11px; font-weight: bold; padding: 2px 9px; border-radius: 20px;">
-            📢 إعلان (${activeIndex + 1}/${adsList.length}) • ${secShown}ث
-          </span>
-          <span class="sehati-aio-trigger" style="color: #80cbc4; font-size: 11px; font-weight: 700; user-select: none;">
-            SEHATI ADS
-          </span>
-        </div>
-
-        ${imgSrc ? `
-          <div style="width: 100%; background: #071412;">
-            <img src="${imgSrc}" alt="${ad.title || ""}" style="
-              display: block;
-              width: 100%;
-              max-height: 290px;
-              object-fit: cover;
-              opacity: 1;
-              filter: none;
-            ">
-          </div>
-        ` : ""}
-
-        <div style="padding: 12px 14px; background: #0e2924; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap;">
-          <div style="flex: 1; min-width: 180px;">
-            <div style="color: #fff; font-size: 14.5px; font-weight: bold; margin-bottom: 3px;">${ad.title || ""}</div>
-            <div style="color: #d0ece7; font-size: 12px; line-height: 1.4;">${ad.description || ""}</div>
-          </div>
-          ${ad.buttonText ? `
-            <a href="${ad.buttonLink || "#"}" style="
-              background: #00bfa5; color: #051613; text-decoration: none;
-              font-size: 12.5px; font-weight: bold; padding: 8px 14px; border-radius: 10px; white-space: nowrap;
-            ">${ad.buttonText}</a>
-          ` : ""}
-        </div>
-      </div>
-    `;
-
-    box.querySelectorAll(".sehati-aio-trigger").forEach(bindLongPress);
-    styleEmergencyAndAdSpace();
-  }
-
-  function renderAdminList() {
-    if (!listEl) return;
-    if (!adsList.length) {
-      listEl.innerHTML = `<div style="color: #90a4ae;">لا توجد إعلانات منشورة حالياً.</div>`;
-      return;
-    }
-
-    listEl.innerHTML = adsList.map((item, idx) => {
-      const itemSec = item.durationSec ? clampSec(item.durationSec, defaultDurationSec) : defaultDurationSec;
-      return `
-        <div style="
-          display: flex; justify-content: space-between; align-items: center; gap: 6px;
-          background: #091815; border: 1px solid #1f453e; border-radius: 10px; padding: 8px 10px;
-        ">
-          <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1;">
-            <strong>#${idx + 1}</strong> ${item.title || "بدون عنوان"}
-            <span style="color: #80cbc4; font-size: 11px;">(${itemSec}ث)</span>
-          </div>
-          <button data-sec-idx="${idx}" type="button" style="
-            background: #263238; color: #fff; border: 1px solid #546e7a; border-radius: 7px;
-            padding: 4px 8px; font-size: 11px; cursor: pointer; flex-shrink: 0;
-          ">⏱ مدة</button>
-          <button data-del-idx="${idx}" type="button" style="
-            background: #c62828; color: #fff; border: none; border-radius: 7px;
-            padding: 4px 9px; font-size: 11.5px; cursor: pointer; flex-shrink: 0;
-          ">🗑 حذف</button>
-        </div>
-      `;
-    }).join("");
-
-    listEl.querySelectorAll("button[data-sec-idx]").forEach((btn) => {
-      btn.addEventListener("click", async () => {
-        const token = (tokenInput.value || localStorage.getItem(TOKEN_KEY) || "").trim();
-        if (!token) {
-          statusEl.style.color = "#ff8a80";
-          statusEl.textContent = "⚠️ أدخل رمز GitHub Token أولاً لحفظ المدة.";
+        if (!filtered.length) {
+          placesListEl.innerHTML = '<div class="place-card" style="text-align:center;color:#b2dfdb;">لا توجد نتائج مطابقة.</div>';
           return;
         }
-        const idx = Number(btn.getAttribute("data-sec-idx"));
-        const currentSec = adsList[idx]?.durationSec || defaultDurationSec;
-        const inputVal = prompt("أدخل مدة عرض هذا الإعلان بالثواني:", String(currentSec));
-        if (inputVal === null) return;
 
-        const nextSec = clampSec(inputVal, defaultDurationSec);
-        const updatedAds = adsList.map((ad, i) => i === idx ? { ...ad, durationSec: nextSec } : ad);
+        placesListEl.innerHTML = filtered.map((p) => {
+          const isFav = favIds.indexOf(p.id) !== -1;
+          return `
+            <article class="place-card">
+              <div class="place-top">
+                <div class="place-name">${p.name}</div>
+                <span class="place-cat">${p.cat}</span>
+              </div>
+              <div class="place-info">${p.info}</div>
+              <div class="place-actions">
+                <a class="act-btn act-call" href="tel:${p.phone}">اتصال</a>
+                <a class="act-btn" href="${p.map}" target="_blank" rel="noopener">الموقع</a>
+                <button class="act-btn fav-btn" data-id="${p.id}" type="button">${isFav ? "❤️ محفوظ" : "🤍 حفظ"}</button>
+              </div>
+            </article>
+          `;
+        }).join("");
 
-        btn.disabled = true;
-        statusEl.style.color = "#ffd54f";
-        statusEl.textContent = `⏳ جاري تحديث المدة إلى ${nextSec} ثوانٍ...`;
-        try {
-          await saveStateToGitHub(updatedAds, defaultDurationSec, token);
-          statusEl.style.color = "#69f0ae";
-          statusEl.textContent = `✅ تم تحديث المدة إلى ${nextSec} ثوانٍ.`;
-        } catch (e) {
-          statusEl.style.color = "#ff8a80";
-          statusEl.textContent = "❌ خطأ: " + e.message;
-        } finally {
-          btn.disabled = false;
-        }
+        placesListEl.querySelectorAll(".fav-btn").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const id = btn.getAttribute("data-id");
+            const idx = favIds.indexOf(id);
+            if (idx === -1) favIds.push(id);
+            else favIds.splice(idx, 1);
+            saveFavs();
+            renderPlaces();
+          });
+        });
+      }
+
+      searchInputEl.addEventListener("input", renderPlaces);
+      catsBarEl.querySelectorAll(".cat-btn").forEach((b) => {
+        b.addEventListener("click", () => {
+          catsBarEl.querySelectorAll(".cat-btn").forEach((x) => x.classList.remove("active"));
+          b.classList.add("active");
+          activeCat = b.getAttribute("data-cat");
+          renderPlaces();
+        });
       });
-    });
 
-    listEl.querySelectorAll("button[data-del-idx]").forEach((btn) => {
-      btn.addEventListener("click", async () => {
-        const token = (tokenInput.value || localStorage.getItem(TOKEN_KEY) || "").trim();
+      // نظام الإعلانات المتعددة
+      const adBoxEl = document.getElementById("sehatiAdBox");
+      const adModalEl = document.getElementById("sehatiAdModal");
+      const closeAdModalBtn = document.getElementById("closeAdModalBtn");
+      const minusDurBtn = document.getElementById("minusDurBtn");
+      const plusDurBtn = document.getElementById("plusDurBtn");
+      const globalDurInput = document.getElementById("globalDurInput");
+      const saveDurBtn = document.getElementById("saveDurBtn");
+      const ghTokenInput = document.getElementById("ghTokenInput");
+      const adFileInput = document.getElementById("adFileInput");
+      const adTitleInput = document.getElementById("adTitleInput");
+      const adDescInput = document.getElementById("adDescInput");
+      const adBtnTextInput = document.getElementById("adBtnTextInput");
+      const adBtnLinkInput = document.getElementById("adBtnLinkInput");
+      const adItemDurInput = document.getElementById("adItemDurInput");
+      const addAdBtn = document.getElementById("addAdBtn");
+      const adStatusMsg = document.getElementById("adStatusMsg");
+      const adsManageItems = document.getElementById("adsManageItems");
+
+      let ads = [];
+      let defaultSec = 5;
+      let currentAdIdx = 0;
+      let adTimer = null;
+      let pressTimer = null;
+
+      function clampSec(val, fallback) {
+        const n = Number(val);
+        if (!Number.isFinite(n) || n < 1) return fallback;
+        return Math.min(120, Math.round(n));
+      }
+
+      function openAdModal() {
+        ghTokenInput.value = localStorage.getItem(TOKEN_STORAGE_KEY) || "";
+        globalDurInput.value = defaultSec;
+        adStatusMsg.textContent = "";
+        renderManageList();
+        adModalEl.style.display = "block";
+      }
+
+      closeAdModalBtn.addEventListener("click", () => {
+        adModalEl.style.display = "none";
+      });
+
+      minusDurBtn.addEventListener("click", () => {
+        globalDurInput.value = clampSec(Number(globalDurInput.value) - 1, 1);
+      });
+
+      plusDurBtn.addEventListener("click", () => {
+        globalDurInput.value = clampSec(Number(globalDurInput.value) + 1, 5);
+      });
+
+      function isTriggerTarget(target) {
+        if (!target) return false;
+        if (target.closest && target.closest(".sehati-ads-trigger")) return true;
+        const txt = (target.textContent || "").trim();
+        return txt === "SEHATI ADS";
+      }
+
+      document.addEventListener("pointerdown", (e) => {
+        if (isTriggerTarget(e.target)) {
+          clearTimeout(pressTimer);
+          pressTimer = setTimeout(openAdModal, 600);
+        }
+      }, true);
+
+      document.addEventListener("pointerup", () => clearTimeout(pressTimer), true);
+      document.addEventListener("pointercancel", () => clearTimeout(pressTimer), true);
+      document.addEventListener("touchstart", (e) => {
+        if (isTriggerTarget(e.target)) {
+          clearTimeout(pressTimer);
+          pressTimer = setTimeout(openAdModal, 600);
+        }
+      }, { capture: true, passive: true });
+      document.addEventListener("touchend", () => clearTimeout(pressTimer), true);
+      document.addEventListener("touchcancel", () => clearTimeout(pressTimer), true);
+
+      function fileToBase64(file) {
+        return new Promise((resolve, reject) => {
+          const r = new FileReader();
+          r.onload = () => resolve(String(r.result || "").split(",")[1] || "");
+          r.onerror = reject;
+          r.readAsDataURL(file);
+        });
+      }
+
+      function utf8ToBase64(str) {
+        const bytes = new TextEncoder().encode(str);
+        let bin = "";
+        bytes.forEach((b) => { bin += String.fromCharCode(b); });
+        return btoa(bin);
+      }
+
+      async function getSha(path, token) {
+        const res = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${path}?ref=${BRANCH}`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        if (!res.ok) return null;
+        const data = await res.json();
+        return data.sha || null;
+      }
+
+      async function putFile(path, b64, message, token) {
+        const sha = await getSha(path, token);
+        const body = { message, content: b64, branch: BRANCH };
+        if (sha) body.sha = sha;
+        const res = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${path}`, {
+          method: "PUT",
+          headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+          body: JSON.stringify(body)
+        });
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          throw new Error(err.message || "فشل الحفظ في GitHub");
+        }
+        return res.json();
+      }
+
+      async function saveAdsState(nextAds, nextDefaultSec, token) {
+        const dSec = clampSec(nextDefaultSec, 5);
+        const payload = {
+          active: nextAds.length > 0,
+          defaultDurationSec: dSec,
+          ads: nextAds
+        };
+        await putFile(
+          AD_JSON_PATH,
+          utf8ToBase64(JSON.stringify(payload, null, 2)),
+          "Update SEHATI ads",
+          token
+        );
+        ads = nextAds;
+        defaultSec = dSec;
+        currentAdIdx = 0;
+        renderCurrentAd();
+        scheduleNextAd();
+        renderManageList();
+      }
+
+      function scheduleNextAd() {
+        if (adTimer) clearTimeout(adTimer);
+        if (!ads.length) return;
+        const ad = ads[currentAdIdx] || ads[0];
+        const sec = clampSec(ad && ad.durationSec, defaultSec);
+        adTimer = setTimeout(() => {
+          currentAdIdx = ads.length > 1 ? (currentAdIdx + 1) % ads.length : 0;
+          renderCurrentAd();
+          scheduleNextAd();
+        }, sec * 1000);
+      }
+
+      function renderCurrentAd() {
+        if (!ads.length) {
+          adBoxEl.innerHTML = "";
+          return;
+        }
+        if (currentAdIdx >= ads.length) currentAdIdx = 0;
+        const ad = ads[currentAdIdx];
+        const sec = clampSec(ad && ad.durationSec, defaultSec);
+        const imgSrc = ad.image ? `${ad.image}?v=${Date.now()}` : "";
+
+        adBoxEl.innerHTML = `
+          <div class="ad-card">
+            <div class="ad-top-bar">
+              <span class="ad-badge">إعلان (${currentAdIdx + 1}/${ads.length}) • ${sec}ث</span>
+              <span class="sehati-ads-trigger">SEHATI ADS</span>
+            </div>
+            ${imgSrc ? `
+              <div class="ad-img-wrap">
+                <img class="ad-img" src="${imgSrc}" alt="${ad.title || ""}">
+              </div>
+            ` : ""}
+            <div class="ad-body">
+              <div style="flex: 1; min-width: 180px;">
+                <div class="ad-title">${ad.title || ""}</div>
+                <div class="ad-desc">${ad.description || ""}</div>
+              </div>
+              ${ad.buttonText ? `
+                <a class="ad-cta" href="${ad.buttonLink || "#"}">${ad.buttonText}</a>
+              ` : ""}
+            </div>
+          </div>
+        `;
+      }
+
+      function renderManageList() {
+        if (!ads.length) {
+          adsManageItems.innerHTML = '<div style="font-size:12px;color:#90a4ae;">لا توجد إعلانات منشورة حالياً.</div>';
+          return;
+        }
+        adsManageItems.innerHTML = ads.map((item, i) => {
+          const sec = clampSec(item && item.durationSec, defaultSec);
+          return `
+            <div class="manage-item">
+              <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">#${i + 1} ${item.title || "إعلان"} (${sec}ث)</span>
+              <button class="del-btn" data-del="${i}" type="button">حذف</button>
+            </div>
+          `;
+        }).join("");
+
+        adsManageItems.querySelectorAll(".del-btn").forEach((btn) => {
+          btn.addEventListener("click", async () => {
+            const token = (ghTokenInput.value || localStorage.getItem(TOKEN_STORAGE_KEY) || "").trim();
+            if (!token) {
+              adStatusMsg.textContent = "أدخل رمز GitHub Token أولاً.";
+              return;
+            }
+            const delIdx = Number(btn.getAttribute("data-del"));
+            const updated = ads.filter((_, idx) => idx !== delIdx);
+            btn.disabled = true;
+            adStatusMsg.textContent = "جاري حذف الإعلان...";
+            try {
+              await saveAdsState(updated, defaultSec, token);
+              adStatusMsg.textContent = "تم حذف الإعلان بنجاح.";
+            } catch (err) {
+              adStatusMsg.textContent = "خطأ: " + err.message;
+            } finally {
+              btn.disabled = false;
+            }
+          });
+        });
+      }
+
+      saveDurBtn.addEventListener("click", async () => {
+        const token = (ghTokenInput.value || localStorage.getItem(TOKEN_STORAGE_KEY) || "").trim();
         if (!token) {
-          statusEl.style.color =
-<div id="sehatiQuickBox" style="margin:12px 0;"></div>
-<div id="sehatiQuickModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.82);z-index:999999;padding:14px;overflow-y:auto;">
-  <div style="max-width:440px;margin:24px auto;background:#102521;color:#fff;border:1px solid #1de9b6;border-radius:14px;padding:14px;font-size:13px;">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
-      <strong style="color:#1de9b6;">إدارة إعلانات صحتي</strong>
-      <button id="sehatiQuickClose" type="button" style="background:#263238;color:#fff;border:none;border-radius:6px;padding:3px 9px;">✕</button>
-    </div>
-    <label style="display:block;margin-bottom:8px;">GitHub Token:
-      <input id="sehatiQuickToken" type="password" style="width:100%;margin-top:4px;padding:7px;border-radius:7px;border:1px solid #37474f;background:#091614;color:#fff;box-sizing:border-box;">
-    </label>
-    <label style="display:block;margin-bottom:8px;">المدة (ثواني):
-      <input id="sehatiQuickSec" type="number" min="1" max="120" value="5" style="width:100%;margin-top:4px;padding:7px;border-radius:7px;border:1px solid #37474f;background:#091614;color:#fff;box-sizing:border-box;">
-    </label>
-    <label style="display:block;margin-bottom:8px;">الصورة:
-      <input id="sehatiQuickFile" type="file" accept="image/*" style="width:100%;margin-top:4px;color:#fff;">
-    </label>
-    <label style="display:block;margin-bottom:8px;">العنوان:
-      <input id="sehatiQuickTitle" type="text" style="width:100%;margin-top:4px;padding:7px;border-radius:7px;border:1px solid #37474f;background:#091614;color:#fff;box-sizing:border-box;">
-    </label>
-    <label style="display:block;margin-bottom:8px;">الوصف:
-      <input id="sehatiQuickDesc" type="text" style="width:100%;margin-top:4px;padding:7px;border-radius:7px;border:1px solid #37474f;background:#091614;color:#fff;box-sizing:border-box;">
-    </label>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
-      <input id="sehatiQuickBtnText" type="text" value="اتصل الآن" placeholder="نص الزر" style="padding:7px;border-radius:7px;border:1px solid #37474f;background:#091614;color:#fff;">
-      <input id="sehatiQuickBtnLink" type="text" placeholder="tel:0550000000" style="padding:7px;border-radius:7px;border:1px solid #37474f;background:#091614;color:#fff;">
-    </div>
-    <button id="sehatiQuickAdd" type="button" style="width:100%;background:#00bfa5;color:#051613;font-weight:bold;border:none;border-radius:9px;padding:9px;">إضافة ونشر الإعلان</button>
-    <div id="sehatiQuickStatus" style="margin-top:8px;color:#ffd54f;font-size:12px;"></div>
-    <div id="sehatiQuickList" style="margin-top:10px;display:flex;flex-direction:column;gap:6px;"></div>
-  </div>
-</div>
-
-<script>
-(function(){
-  const OWNER="abdoben16", REPO="SEHATI.dz", BRANCH="main", PATH="ad.json", TKEY="sehatiAdSys_gh_token";
-  const box=document.getElementById("sehatiQuickBox"), modal=document.getElementById("sehatiQuickModal");
-  const closeB=document.getElementById("sehatiQuickClose"), addB=document.getElementById("sehatiQuickAdd");
-  const tokI=document.getElementById("sehatiQuickToken"), secI=document.getElementById("sehatiQuickSec");
-  const filI=document.getElementById("sehatiQuickFile"), titI=document.getElementById("sehatiQuickTitle");
-  const desI=document.getElementById("sehatiQuickDesc"), btxtI=document.getElementById("sehatiQuickBtnText");
-  const blnkI=document.getElementById("sehatiQuickBtnLink"), stE=document.getElementById("sehatiQuickStatus");
-  const lstE=document.getElementById("sehatiQuickList");
-
-  let ads=[], dur=5, idx=0, timer=null;
-
-  function openM(){
-    tokI.value=localStorage.getItem(TKEY)||"";
-    secI.value=dur;
-    stE.textContent="";
-    drawList();
-    modal.style.display="block";
-  }
-  closeB.onclick=()=>modal.style.display="none";
-
-  function hookTriggers(){
-    document.querySelectorAll("div,span,button,a,p,h1,h2,h3,strong").forEach(el=>{
-      if(el.dataset.qHook)return;
-      if((el.textContent||"").trim()==="SEHATI ADS"){
-        el.dataset.qHook="1";
-        let t=null;
-        const down=()=>{t=setTimeout(openM,650);};
-        const up=()=>{if(t)clearTimeout(t);};
-        el.addEventListener("pointerdown",down); el.addEventListener("pointerup",up); el.addEventListener("pointerleave",up);
-        el.addEventListener("touchstart",down,{passive:true}); el.addEventListener("touchend",up); el.addEventListener("touchcancel",up);
-      }
-    });
-  }
-
-  function styleEmerg(){
-    const map=[
-      {k:["الحماية المدنية","14"], bg:"#e65100", bd:"#ff9800"},
-      {k:["الشرطة","1548"], bg:"#0d47a1", bd:"#42a5f5"},
-      {k:["الدرك الوطني","1055"], bg:"#1b5e20", bd:"#66bb6a"},
-      {k:["الإسعاف","115"], bg:"#b71c1c", bd:"#ef5350"}
-    ];
-    document.querySelectorAll("a,button,div,span").forEach(el=>{
-      if(el.closest("#sehatiQuickModal")||el.closest("#sehatiQuickBox"))return;
-      const txt=(el.textContent||"").trim();
-      if(!txt||txt.length>50)return;
-      const m=map.find(x=>x.k.some(w=>txt.includes(w)));
-      if(m && el.offsetHeight>=32 && el.offsetHeight<=110 && el.offsetWidth<360){
-        el.style.background=m.bg; el.style.border="1px solid "+m.bd; el.style.color="#fff";
-        el.style.padding="5px"; el.style.minHeight="42px"; el.style.fontSize="11px"; el.style.borderRadius="9px";
-      }
-    });
-  }
-
-  const toB64=f=>new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(String(r.result||"").split(",")[1]||"");r.onerror=rej;r.readAsDataURL(f);});
-  const utf8B64=s=>{const b=new TextEncoder().encode(s);let o="";b.forEach(x=>o+=String.fromCharCode(x));return btoa(o);};
-
-  async function getSha(p,tok){
-    const r=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${p}?ref=${BRANCH}`,{headers:{Authorization:`Bearer ${tok}`}});
-    if(!r.ok)return null; const j=await r.json(); return j.sha||null;
-  }
-  async function putF(p,b64,msg,tok){
-    const body={message:msg,content:b64,branch:BRANCH};
-    const sha=await getSha(p,tok); if(sha)body.sha=sha;
-    const r=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${p}`,{method:"PUT",headers:{Authorization:`Bearer ${tok}`,"Content-Type":"application/json"},body:JSON.stringify(body)});
-    if(!r.ok){const e=await r.json().catch(()=>({})); throw new Error(e.message||"خطأ في الرفع");}
-  }
-
-  async function saveAll(nextAds,nextDur,tok){
-    const payload={active:nextAds.length>0,defaultDurationSec:Math.max(1,Number(nextDur)||5),ads:nextAds};
-    await putF(PATH,utf8B64(JSON.stringify(payload,null,2)),"Update ads",tok);
-    ads=nextAds; dur=payload.defaultDurationSec; idx=0;
-    drawAd(); loopAds(); drawList();
-  }
-
-  function drawAd(){
-    if(!box)return;
-    if(!ads.length){box.innerHTML="";return;}
-    if(idx>=ads.length)idx=0;
-    const a=ads[idx];
-    const s=Math.max(1,Number(a.durationSec||dur)||5);
-    const img=a.image?`${a.image}?v=${Date.now()}`:"";
-    box.innerHTML=`<div style="border:1px solid #1de9b6;border-radius:14px;overflow:hidden;background:#0d2622;min-height:240px;">
-      <div style="display:flex;justify-content:space-between;padding:7px 12px;background:#081815;font-size:11px;">
-        <span style="background:#e53935;color:#fff;padding:2px 8px;border-radius:12px;">إعلان ${idx+1}/${ads.length} • ${s}ث</span>
-        <span class="sehati-q-trig" style="color:#80cbc4;font-weight:bold;">SEHATI ADS</span>
-      </div>
-      ${img?`<img src="${img}" style="display:block;width:100%;max-height:280px;object-fit:cover;opacity:1;filter:none;">`:""}
-      <div style="padding:10px 12px;background:#0e2924;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">
-        <div><div style="color:#fff;font-weight:bold;font-size:14px;">${a.title||""}</div><div style="color:#d0ece7;font-size:12px;">${a.description||""}</div></div>
-        ${a.buttonText?`<a href="${a.buttonLink||"#"}" style="background:#00bfa5;color:#051613;text-decoration:none;padding:7px 12px;border-radius:9px;font-weight:bold;font-size:12px;">${a.buttonText}</a>`:""}
-      </div>
-    </div>`;
-    box.querySelectorAll(".sehati-q-trig").forEach(el=>{
-      let t=null;
-      el.addEventListener("pointerdown",()=>{t=setTimeout(openM,650);});
-      el.addEventListener("pointerup",()=>clearTimeout(t));
-      el.addEventListener("touchstart",()=>{t=setTimeout(openM,650);},{passive:true});
-      el.addEventListener("touchend",()=>clearTimeout(t));
-    });
-    styleEmerg();
-  }
-
-  <div id="sehatiQuickBox" style="margin:12px 0;"></div>
-
-<div id="sehatiQuickModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:999999;padding:14px;overflow-y:auto;">
-  <div style="max-width:440px;margin:24px auto;background:#102521;color:#fff;border:2px solid #1de9b6;border-radius:14px;padding:14px;font-size:13px;">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
-      <strong style="color:#1de9b6;">إدارة إعلانات صحتي (الجديدة)</strong>
-      <button id="sehatiQuickClose" type="button" style="background:#c62828;color:#fff;border:none;border-radius:6px;padding:4px 10px;">✕</button>
-    </div>
-
-    <label style="display:block;margin-bottom:8px;">GitHub Token:
-      <input id="sehatiQuickToken" type="password" style="width:100%;margin-top:4px;padding:7px;border-radius:7px;border:1px solid #37474f;background:#091614;color:#fff;box-sizing:border-box;">
-    </label>
-
-    <label style="display:block;margin-bottom:8px;">المدة (ثواني):
-      <input id="sehatiQuickSec" type="number" min="1" max="120" value="5" style="width:100%;margin-top:4px;padding:7px;border-radius:7px;border:1px solid #37474f;background:#091614;color:#fff;box-sizing:border-box;">
-    </label>
-
-    <label style="display:block;margin-bottom:8px;">الصورة:
-      <input id="sehatiQuickFile" type="file" accept="image/*" style="width:100%;margin-top:4px;color:#fff;">
-    </label>
-
-    <label style="display:block;margin-bottom:8px;">العنوان:
-      <input id="sehatiQuickTitle" type="text" style="width:100%;margin-top:4px;padding:7px;border-radius:7px;border:1px solid #37474f;background:#091614;color:#fff;box-sizing:border-box;">
-    </label>
-
-    <label style="display:block;margin-bottom:8px;">الوصف:
-      <input id="sehatiQuickDesc" type="text" style="width:100%;margin-top:4px;padding:7px;border-radius:7px;border:1px solid #37474f;background:#091614;color:#fff;box-sizing:border-box;">
-    </label>
-
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
-      <input id="sehatiQuickBtnText" type="text" value="اتصل الآن" placeholder="نص الزر" style="padding:7px;border-radius:7px;border:1px solid #37474f;background:#091614;color:#fff;">
-      <input id="sehatiQuickBtnLink" type="text" placeholder="tel:0550000000" style="padding:7px;border-radius:7px;border:1px solid #37474f;background:#091614;color:#fff;">
-    </div>
-
-    <button id="sehatiQuickAdd" type="button" style="width:100%;background:#00bfa5;color:#051613;font-weight:bold;border:none;border-radius:9px;padding:9px;">إضافة ونشر الإعلان</button>
-    <div id="sehatiQuickStatus" style="margin-top:8px;color:#ffd54f;font-size:12px;"></div>
-    <div id="sehatiQuickList" style="margin-top:10px;display:flex;flex-direction:column;gap:6px;"></div>
-  </div>
-</div>
-
-<script>
-(function(){
-  var OWNER="abdoben16", REPO="SEHATI.dz", BRANCH="main", PATH="ad.json", TKEY="sehatiAdSys_gh_token";
-  var box=document.getElementById("sehatiQuickBox");
-  var modal=document.getElementById("sehatiQuickModal");
-  var closeB=document.getElementById("sehatiQuickClose");
-  var addB=document.getElementById("sehatiQuickAdd");
-  var tokI=document.getElementById("sehatiQuickToken");
-  var secI=document.getElementById("sehatiQuickSec");
-  var filI=document.getElementById("sehatiQuickFile");
-  var titI=document.getElementById("sehatiQuickTitle");
-  var desI=document.getElementById("sehatiQuickDesc");
-  var btxtI=document.getElementById("sehatiQuickBtnText");
-  var blnkI=document.getElementById("sehatiQuickBtnLink");
-  var stE=document.getElementById("sehatiQuickStatus");
-  var lstE=document.getElementById("sehatiQuickList");
-
-  var ads=[], dur=5, idx=0, timer=null, lpTimer=null;
-
-  function hideOldModals(){
-    var divs=document.querySelectorAll("div");
-    for(var i=0;i<divs.length;i++){
-      var d=divs[i];
-      if(d.id!=="sehatiQuickModal" && d.style && d.style.position==="fixed" && (d.textContent||"").indexOf("إدارة إعلانات صحتي")!==-1){
-        d.style.display="none";
-      }
-    }
-  }
-
-  function openM(){
-    hideOldModals();
-    tokI.value=localStorage.getItem(TKEY)||"";
-    secI.value=dur;
-    stE.textContent="";
-    drawList();
-    if(modal) modal.style.display="block";
-  }
-
-  if(closeB) closeB.onclick=function(){ if(modal) modal.style.display="none"; };
-
-  function isAdsLabel(el){
-    if(!el) return false;
-    var t=(el.textContent||"").replace(/\s+/g," ").trim();
-    return t==="SEHATI ADS" || (el.parentElement && (el.parentElement.textContent||"").replace(/\s+/g," ").trim()==="SEHATI ADS");
-  }
-
-  document.addEventListener("touchstart",function(e){
-    if(isAdsLabel(e.target)){
-      clearTimeout(lpTimer);
-      lpTimer=setTimeout(openM,600);
-    }
-  },true);
-
-  document.addEventListener("touchend",function(){ clearTimeout(lpTimer); },true);
-  document.addEventListener("touchcancel",function(){ clearTimeout(lpTimer); },true);
-
-  document.addEventListener("mousedown",function(e){
-    if(isAdsLabel(e.target)){
-      clearTimeout(lpTimer);
-      lpTimer=setTimeout(openM,600);
-    }
-  },true);
-
-  document.addEventListener("mouseup",function(){ clearTimeout(lpTimer); },true);
-
-  function styleEmerg(){
-    var rules=[
-      {w:["الحماية المدنية","14"],bg:"#e65100",bd:"#ff9800"},
-      {w:["الشرطة","1548"],bg:"#0d47a1",bd:"#42a5f5"},
-      {w:["الدرك الوطني","1055"],bg:"#1b5e20",bd:"#66bb6a"},
-      {w:["الإسعاف","115"],bg:"#b71c1c",bd:"#ef5350"}
-    ];
-    var els=document.querySelectorAll("a,button,div,span");
-    for(var i=0;i<els.length;i++){
-      var el=els[i];
-      if(el.closest && (el.closest("#sehatiQuickModal")||el.closest("#sehatiQuickBox"))) continue;
-      var txt=(el.textContent||"").trim();
-      if(!txt||txt.length>50) continue;
-      for(var r=0;r<rules.length;r++){
-        var hit=false;
-        for(var k=0;k<rules[r].w.length;k++){
-          if(txt.indexOf(rules[r].w[k])!==-1){hit=true;break;}
+          adStatusMsg.textContent = "أدخل رمز GitHub Token أولاً.";
+          return;
         }
-        if(hit && el.offsetHeight>=30 && el.offsetHeight<=115 && el.offsetWidth<360){
-          el.style.background=rules[r].bg;
-          el.style.border="1px solid "+rules[r].bd;
-          el.style.color="#fff";
-          el.style.padding="5px";
-          el.style.minHeight="42px";
-          el.style.fontSize="11px";
-          el.style.borderRadius="9px";
+        localStorage.setItem(TOKEN_STORAGE_KEY, token);
+        const nextDur = clampSec(globalDurInput.value, 5);
+        globalDurInput.value = nextDur;
+        saveDurBtn.disabled = true;
+        adStatusMsg.textContent = "جاري حفظ المدة...";
+        try {
+          await saveAdsState(ads, nextDur, token);
+          adStatusMsg.textContent = `تم حفظ المدة (${nextDur} ثوانٍ).`;
+        } catch (err) {
+          adStatusMsg.textContent = "خطأ: " + err.message;
+        } finally {
+          saveDurBtn.disabled = false;
         }
-      }
-    }
-  }
-
-  function toB64(f){
-    return new Promise(function(res,rej){
-      var r=new FileReader();
-      r.onload=function(){res(String(r.result||"").split(",")[1]||"");};
-      r.onerror=rej;
-      r.readAsDataURL(f);
-    });
-  }
-
-  function utf8B64(s){
-    var b=new TextEncoder().encode(s),o="";
-    for(var i=0;i<b.length;i++) o+=String.fromCharCode(b[i]);
-    return btoa(o);
-  }
-
-  function getSha(p,tok){
-    return fetch("https://api.github.com/repos/"+OWNER+"/"+REPO+"/contents/"+p+"?ref="+BRANCH,{
-      headers:{Authorization:"Bearer "+tok}
-    }).then(function(r){return r.ok?r.json():null;}).then(function(j){return j&&j.sha?j.sha:null;}).catch(function(){return null;});
-  }
-
-  function putF(p,b64,msg,tok){
-    return getSha(p,tok).then(function(sha){
-      var body={message:msg,content:b64,branch:BRANCH};
-      if(sha) body.sha=sha;
-      return fetch("https://api.github.com/repos/"+OWNER+"/"+REPO+"/contents/"+p,{
-        method:"PUT",
-        headers:{Authorization:"Bearer "+tok,"Content-Type":"application/json"},
-        body:JSON.stringify(body)
       });
-    }).then(function(r){
-      if(!r.ok) return r.json().catch(function(){return{};}).then(function(e){throw new Error(e.message||"فشل الرفع");});
-      return r.json();
-    });
-  }
 
-  function saveAll(nextAds,nextDur,tok){
-    var dSec=Math.max(1,Number(nextDur)||5);
-    var payload={active:nextAds.length>0,defaultDurationSec:dSec,ads:nextAds};
-    return putF(PATH,utf8B64(JSON.stringify(payload,null,2)),"Update ads",tok).then(function(){
-      ads=nextAds; dur=dSec; idx=0;
-      drawAd(); loopAds(); drawList();
-    });
-  }
+      addAdBtn.addEventListener("click", async () => {
+        const token = (ghTokenInput.value || "").trim();
+        if (!token) {
+          adStatusMsg.textContent = "أدخل رمز GitHub Token أولاً.";
+          return;
+        }
+        localStorage.setItem(TOKEN_STORAGE_KEY, token);
+        addAdBtn.disabled = true;
+        adStatusMsg.textContent = "جاري رفع الصورة ونشر الإعلان...";
 
-  function drawAd(){
-    if(!box) return;
-    if(!ads.length){box.innerHTML="";return;}
-    if(idx>=ads.length) idx=0;
-    var a=ads[idx];
-    var s=Math.max(1,Number(a.durationSec||dur)||5);
-    var img=a.image?(a.image+"?v="+Date.now()):"";
-    box.innerHTML='<div style="border:1px solid #1de9b6;border-radius:14px;overflow:hidden;background:#0d2622;min-height:240px;">'+
-      '<div style="display:flex;justify-content:space-between;padding:7px 12px;background:#081815;font-size:11px;">'+
-      '<span style="background:#e53935;color:#fff;padding:2px 8px;border-radius:12px;">إعلان '+(idx+1)+'/'+ads.length+' • '+s+'ث</span>'+
-      '<span style="color:#80cbc4;font-weight:bold;">SEHATI ADS</span></div>'+
-      (img?'<img src="'+img+'" style="display:block;width:100%;max-height:280px;object-fit:cover;opacity:1;filter:none;">':'')+
-      '<div style="padding:10px 12px;background:#0e2924;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">'+
-      '<div><div style="color:#fff;font-weight:bold;font-size:14px;">'+(a.title||"")+'</div><div style="color:#d0ece7;font-size:12px;">'+(a.description||"")+'</div></div>'+
-      (a.buttonText?'<a href="'+(a.buttonLink||"#")+'" style="background:#00bfa5;color:#051613;text-decoration:none;padding:7px 12px;border-radius:9px;font-weight:bold;font-size:12px;">'+a.buttonText+'</a>':'')+
-      '</div></div>';
-    styleEmerg();
-  }
+        try {
+          let imagePath = "";
+          const file = adFileInput.files && adFileInput.files[0];
+          if (file) {
+            const ext = (file.name.split(".").pop() || "jpg").toLowerCase();
+            imagePath = `ad-${Date.now()}.${ext}`;
+            const b64 = await fileToBase64(file);
+            await putFile(imagePath, b64, `Upload ${imagePath}`, token);
+          }
 
-  function loopAds(){
-    if(timer) clearTimeout(timer);
-    if(!ads.length) return;
-    var s=Math.max(1,Number((ads[idx]&&ads[idx].durationSec)||dur)||5);
-    timer=setTimeout(function(){
-      idx=ads.length>1?(idx+1)%ads.length:0;
-      drawAd(); loopAds();
-    },s*1000);
-  }
+          const customSecRaw = (adItemDurInput.value || "").trim();
+          const newAd = {
+            id: "ad_" + Date.now(),
+            title: (adTitleInput.value || "").trim(),
+            description: (adDescInput.value || "").trim(),
+            image: imagePath,
+            buttonText: (adBtnTextInput.value || "").trim() || "اتصل الآن",
+            buttonLink: (adBtnLinkInput.value || "").trim() || "#",
+            durationSec: customSecRaw ? clampSec(customSecRaw, defaultSec) : defaultSec
+          };
 
-  function drawList(){
-    if(!lstE) return;
-    if(!ads.length){lstE.innerHTML='<div style="color:#90a4ae;">لا توجد إعلانات</div>';return;}
-    var html="";
-    for(var i=0;i<ads.length;i++){
-      var a=ads[i];
-      html+='<div style="display:flex;justify-content:space-between;align-items:center;gap:6px;background:#091815;padding:7px 9px;border-radius:8px;border:1px solid #1f453e;">'+
-        '<span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">#'+(i+1)+' '+(a.title||"إعلان")+' ('+(a.durationSec||dur)+'ث)</span>'+
-        '<button data-del="'+i+'" type="button" style="background:#c62828;color:#fff;border:none;border-radius:6px;padding:4px 8px;font-size:11px;">حذف</button></div>';
-    }
-    lstE.innerHTML=html;
-    var dels=lstE.querySelectorAll("button[data-del]");
-    for(var j=0;j<dels.length;j++){
-      dels[j].onclick=function(){
-        var tok=(tokI.value||localStorage.getItem(TKEY)||"").trim();
-        if(!tok){stE.textContent="أدخل Token أولاً";return;}
-        var delIdx=Number(this.getAttribute("data-del"));
-        var next=[];
-        for(var k=0;k<ads.length;k++) if(k!==delIdx) next.push(ads[k]);
-        stE.textContent="جاري الحذف...";
-        saveAll(next,secI.value||dur,tok).then(function(){stE.textContent="تم الحذف";}).catch(function(e){stE.textContent="خطأ: "+e.message;});
-      };
-    }
-  }
+          await saveAdsState([...ads, newAd], defaultSec, token);
+          adTitleInput.value = "";
+          adDescInput.value = "";
+          adFileInput.value = "";
+          adItemDurInput.value = "";
+          adStatusMsg.textContent = "تمت إضافة الإعلان ونشره بنجاح.";
+        } catch (err) {
+          adStatusMsg.textContent = "خطأ: " + err.message;
+        } finally {
+          addAdBtn.disabled = false;
+        }
+      });
 
-  if(addB) addB.onclick=function(){
-    var tok=(tokI.value||"").trim();
-    if(!tok){stE.textContent="أدخل GitHub Token أولاً";return;}
-    localStorage.setItem(TKEY,tok);
-    var chosenDur=Math.max(1,Number(secI.value)||5);
-    addB.disabled=true; stE.textContent="جاري الرفع...";
-    var f=filI.files&&filI.files[0];
-    var upPromise=Promise.resolve("");
-    if(f){
-      var ext=(f.name.split(".").pop()||"jpg").toLowerCase();
-      var imgPath="ad-"+Date.now()+"."+ext;
-      upPromise=toB64(f).then(function(b64){return putF(imgPath,b64,"Upload "+imgPath,tok);}).then(function(){return imgPath;});
-    }
-    upPromise.then(function(imgPath){
-      var next=ads.concat([{
-        title:(titI.value||"").trim(),
-        description:(desI.value||"").trim(),
-        image:imgPath,
-        buttonText:(btxtI.value||"").trim()||"اتصل الآن",
-        buttonLink:(blnkI.value||"").trim()||"#",
-        durationSec:chosenDur
-      }]);
-      return saveAll(next,chosenDur,tok);
-    }).then(function(){
-      titI.value=""; desI.value=""; filI.value="";
-      stE.textContent="تم النشر بنجاح";
-    }).catch(function(e){
-      stE.textContent="خطأ: "+e.message;
-    }).finally(function(){
-      addB.disabled=false;
-    });
-  };
+      async function loadAds() {
+        try {
+          const res = await fetch(`${AD_JSON_PATH}?v=${Date.now()}`, { cache: "no-store" });
+          if (res.ok) {
+            const data = await res.json();
+            if (data && data.defaultDurationSec) {
+              defaultSec = clampSec(data.defaultDurationSec, 5);
+            }
+            if (Array.isArray(data.ads)) {
+              ads = data.ads;
+            } else if (data && data.active !== false && (data.title || data.description || data.image)) {
+              ads = [{
+                id: "ad_legacy",
+                title: data.title || "",
+                description: data.description || "",
+                image: data.image || "",
+                buttonText: data.buttonText || "اتصل الآن",
+                buttonLink: data.buttonLink || "#",
+                durationSec: defaultSec
+              }];
+            }
+          }
+        } catch (_) {}
+        renderCurrentAd();
+        scheduleNextAd();
+      }
 
-  styleEmerg();
-  setInterval(styleEmerg,1500);
-  fetch(PATH+"?v="+Date.now(),{cache:"no-store"}).then(function(r){return r.ok?r.json():null;}).then(function(d){
-    if(!d) return;
-    if(d.defaultDurationSec) dur=Math.max(1,Number(d.defaultDurationSec)||5);
-    if(Array.isArray(d.ads)) ads=d.ads;
-    else if(d.active!==false && (d.title||d.description||d.image)){
-      ads=[{title:d.title||"",description:d.description||"",image:d.image||"",buttonText:d.buttonText||"اتصل الآن",buttonLink:d.buttonLink||"#",durationSec:dur}];
-    }
-    drawAd(); loopAds();
-  }).catch(function(){});
-})();
-</script>
-
+      renderPlaces();
+      loadAds();
+    })();
+  </script>
 </body>
 </html>
