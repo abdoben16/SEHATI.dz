@@ -48,7 +48,7 @@
       background: var(--bg);
       color: var(--text);
       line-height: 1.55;
-      padding-bottom: 95px;
+      padding-bottom: 110px;
       transition: background 0.3s, color 0.3s;
     }
 
@@ -76,6 +76,8 @@
       display: flex;
       align-items: center;
       gap: 10px;
+      cursor: pointer;
+      user-select: none;
     }
 
     .logo {
@@ -181,7 +183,7 @@
     }
 
     .emergency-sec {
-      padding: 14px 16px 4px;
+      padding: 14px 16px 6px;
     }
 
     .sec-head {
@@ -217,26 +219,83 @@
       margin-top: 2px;
     }
 
-    .cats {
+    /* مساحة الإعلانات الموسعة في الوسط */
+    .ads-showcase {
+      margin: 12px 16px 16px;
+      padding: 16px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.16), rgba(2, 132, 199, 0.14));
+      border: 1.5px solid var(--accent);
+      box-shadow: var(--shadow);
+      position: relative;
+    }
+
+    .ads-header {
       display: flex;
-      gap: 8px;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .promo-tag {
+      background: var(--accent);
+      color: #000;
+      font-size: 0.75rem;
+      font-weight: 800;
+      padding: 3px 9px;
+      border-radius: 7px;
+    }
+
+    .ads-body {
+      font-size: 0.95rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+      line-height: 1.5;
+    }
+
+    .ads-cta {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 10px;
+      font-weight: 800;
+      font-size: 0.86rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* شريط التصنيفات مثبت في أقصى الأسفل */
+    .bottom-cats-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--card);
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 6px;
       overflow-x: auto;
-      padding: 12px 16px;
+      padding: 10px 12px;
+      z-index: 140;
+      box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.08);
       scrollbar-width: none;
     }
 
-    .cats::-webkit-scrollbar {
+    .bottom-cats-bar::-webkit-scrollbar {
       display: none;
     }
 
     .cat-pill {
-      background: var(--card);
+      background: var(--bg);
       color: var(--text);
       border: 1px solid var(--border);
-      padding: 7px 14px;
-      border-radius: 20px;
+      padding: 7px 13px;
+      border-radius: 18px;
       white-space: nowrap;
-      font-size: 0.86rem;
+      font-size: 0.84rem;
       font-weight: 700;
       cursor: pointer;
     }
@@ -245,28 +304,6 @@
       background: var(--primary);
       color: #fff;
       border-color: var(--primary);
-    }
-
-    .promo-box {
-      margin: 2px 16px 12px;
-      padding: 11px 14px;
-      border-radius: 14px;
-      background: linear-gradient(90deg, rgba(245, 158, 11, 0.15), rgba(15, 118, 110, 0.15));
-      border: 1px dashed var(--accent);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      font-size: 0.85rem;
-    }
-
-    .promo-tag {
-      background: var(--accent);
-      color: #000;
-      font-size: 0.72rem;
-      font-weight: 800;
-      padding: 2px 7px;
-      border-radius: 6px;
     }
 
     .list {
@@ -394,17 +431,17 @@
       border-color: #ef4444;
     }
 
-    /* أيقونة الدعم والاستفسار والإعلان العائمة */
+    /* أيقونة الدعم والاستفسار والإعلان العائمة فوق شريط التصنيفات */
     .support-fab {
       position: fixed;
-      bottom: 20px;
-      left: 18px;
+      bottom: 64px;
+      left: 16px;
       background: linear-gradient(135deg, #0f766e, #0284c7);
       color: #fff;
       border: none;
       border-radius: 50px;
-      padding: 12px 16px;
-      font-size: 0.9rem;
+      padding: 10px 15px;
+      font-size: 0.85rem;
       font-weight: 800;
       display: flex;
       align-items: center;
@@ -416,7 +453,7 @@
 
     html[dir="ltr"] .support-fab {
       left: auto;
-      right: 18px;
+      right: 16px;
     }
 
     .modal {
@@ -529,7 +566,7 @@
       background: transparent;
       color: var(--text);
       font-weight: 700;
-      font-size: 0.8rem;
+      font-size: 0.82rem;
       cursor: pointer;
     }
 
@@ -571,19 +608,23 @@
       color: #15803d;
     }
 
-    .alert-box {
-      background: rgba(245, 158, 11, 0.15);
-      border: 1px solid var(--accent);
-      padding: 12px;
-      border-radius: 12px;
-      font-size: 0.86rem;
+    .vip-pitch-box {
+      background: linear-gradient(135deg, rgba(15, 118, 110, 0.12), rgba(245, 158, 11, 0.14));
+      border: 1.5px solid var(--primary);
+      padding: 14px;
+      border-radius: 14px;
+      font-size: 0.88rem;
       margin-bottom: 12px;
-      line-height: 1.6;
+      line-height: 1.65;
+    }
+
+    .vip-pitch-box ul {
+      margin: 8px 18px;
     }
 
     .toast {
       position: fixed;
-      bottom: 80px;
+      bottom: 115px;
       left: 50%;
       transform: translateX(-50%);
       background: #0f172a;
@@ -604,7 +645,8 @@
 
   <header class="hero">
     <div class="top">
-      <div class="brand">
+      <!-- الضغط 5 مرات متتالية على الشعار يفتح نافذة الإدارة السرية -->
+      <div class="brand" onclick="handleSecretLogoTap()">
         <div class="logo">
           <svg viewBox="0 0 24 24">
             <polyline class="ecg" points="2 12 6 12 9 4 13 20 16 12 22 12"></polyline>
@@ -644,7 +686,30 @@
     </div>
   </section>
 
-  <nav class="cats">
+  <!-- مساحة الإعلانات الموسعة في الوسط -->
+  <section class="ads-showcase">
+    <div class="ads-header">
+      <span class="promo-tag" id="adBadge">📢 مساحة إعلانية مميزة</span>
+      <span style="font-size:0.78rem; color:var(--muted); font-weight:700;">SEHATI ADS</span>
+    </div>
+    <div class="ads-body" id="adDesc">
+      ضاعف عدد مرضاك وزبائنك! أعلن عن عيادتك، صيدليتك، أو مخبرك في الواجهة الرئيسية لتطبيق صحتي أمام آلاف الباحثين يومياً.
+    </div>
+    <button onclick="openSupportModal()" class="ads-cta" id="adLink">
+      ✨ احجز مساحتك الإعلانية الآن
+    </button>
+  </section>
+
+  <!-- قائمة المرافق الصحية -->
+  <main class="list" id="listContainer"></main>
+
+  <!-- أيقونة الدعم والاستفسار والإعلان العائمة -->
+  <button class="support-fab" onclick="openSupportModal()" id="supportFabBtn">
+    💬 <span id="supportFabText">الدعم والإعلان</span>
+  </button>
+
+  <!-- شريط التصنيفات في أقصى الأسفل -->
+  <nav class="bottom-cats-bar">
     <button class="cat-pill active" onclick="setCat('all', this)" data-k="all">الكل</button>
     <button class="cat-pill" onclick="setCat('fav', this)" data-k="fav">❤️ المفضلة</button>
     <button class="cat-pill" onclick="setCat('d', this)" data-k="d">أطباء</button>
@@ -656,40 +721,24 @@
     <button class="cat-pill" onclick="setCat('r', this)" data-k="r">أشعة</button>
   </nav>
 
-  <!-- مساحة إعلانية مدفوعة -->
-  <div class="promo-box">
-    <div>
-      <span class="promo-tag" id="adBadge">مساحة إعلانية</span>
-      <div id="adDesc" style="font-weight:700; margin-top:3px;">هل تريد وضع إعلان لعيادتك أو صيدليتك هنا؟ تواصل مع الإدارة</div>
-    </div>
-    <button onclick="openSupportModal()" id="adLink" style="background:var(--primary); color:#fff; border:none; padding:6px 12px; border-radius:9px; font-weight:800; cursor:pointer; white-space:nowrap;">أعلن معنا</button>
-  </div>
-
-  <main class="list" id="listContainer"></main>
-
-  <!-- أيقونة الدعم والاستفسار والإعلان العائمة -->
-  <button class="support-fab" onclick="openSupportModal()" id="supportFabBtn">
-    💬 <span id="supportFabText">الدعم والإعلان</span>
-  </button>
-
   <!-- 1. نافذة الدعم والاستفسار وطلب الإعلان -->
   <div class="modal" id="supportModal">
     <div class="modal-card">
       <div class="modal-header">
-        <h3 id="supTitle">💬 الدعم الفني وطلبات الإعلان والاشتراك</h3>
+        <h3 id="supTitle">💬 الدعم الفني وطلبات الاشتراك والإعلان</h3>
         <button class="close-x" onclick="closeModal('supportModal')">✕</button>
       </div>
-      <div class="alert-box" id="supInfoBox">
-        مرحباً بك في تطبيق <b>صحتي (SEHATI)</b>:<br>
-        • لتفعيل حسابك المهني (طبيب / صيدلية / عيادة) بعد التسجيل.<br>
-        • لوضع إعلان مميز في واجهة التطبيق.<br>
-        • لأي استفسار أو دعم تقني، تواصل مباشرة مع إدارة التطبيق:
+      <div class="vip-pitch-box">
+        مرحباً بك في <b>صحتي (SEHATI.dz)</b>:<br>
+        • لتفعيل حسابك المهني (طبيب / صيدلية / عيادة) والاستفادة من نظام حجز المواعيد.<br>
+        • لحجز مساحة إعلانية مميزة في واجهة التطبيق.<br>
+        • لأي استفسار أو دعم تقني، تواصل مباشرة مع الإدارة:
       </div>
       <a id="supCallLink" href="tel:0550000000" class="btn-primary" style="display:block; text-align:center; text-decoration:none; margin-bottom:8px;">
         📞 اتصال مباشر بالإدارة
       </a>
       <a id="supWaLink" href="https://wa.me/213550000000" target="_blank" class="btn-primary" style="display:block; text-align:center; text-decoration:none; background:#16a34a;">
-        💬 مراسلة عبر واتساب (WhatsApp)
+        💬 مراسلة فورية عبر واتساب
       </a>
     </div>
   </div>
@@ -729,19 +778,18 @@
     </div>
   </div>
 
-  <!-- 3. بوابة المهنيين + لوحة إدارة التطبيق الخاصة بك -->
+  <!-- 3. بوابة المهنيين فقط (بدون أي ذكر للإدارة) -->
   <div class="modal" id="proModal">
     <div class="modal-card">
       <div class="modal-header">
-        <h3 id="proModalTitle">🩺 بوابة المهنيين والإدارة</h3>
+        <h3 id="proModalTitle">🩺 بوابة الأطباء والصيدليات والعيادات</h3>
         <button class="close-x" onclick="closeModal('proModal')">✕</button>
       </div>
 
       <div id="proAuthView">
         <div class="tabs-bar">
-          <button class="tab-btn active" id="tabLogin" onclick="switchAuthTab('login')">دخول المهنيين</button>
-          <button class="tab-btn" id="tabRegister" onclick="switchAuthTab('register')">طلب اشتراك جديد</button>
-          <button class="tab-btn" id="tabAdmin" onclick="switchAuthTab('admin')">👑 الإدارة</button>
+          <button class="tab-btn active" id="tabLogin" onclick="switchAuthTab('login')">تسجيل الدخول</button>
+          <button class="tab-btn" id="tabRegister" onclick="switchAuthTab('register')">انضم إلينا (تسجيل جديد)</button>
         </div>
 
         <!-- تسجيل دخول المهني -->
@@ -754,14 +802,11 @@
             <label>كلمة المرور</label>
             <input type="password" id="loginPass" placeholder="••••••••" />
           </div>
-          <button class="btn-primary" onclick="proLogin()">دخول إلى حسابي</button>
+          <button class="btn-primary" onclick="proLogin()">دخول إلى لوحة التحكم</button>
         </div>
 
-        <!-- طلب تسجيل مؤسسة جديدة (يتطلب تفعيل الإدارة بعد الدفع) -->
+        <!-- تسجيل مؤسسة جديدة -->
         <div id="registerForm" style="display:none;">
-          <div class="alert-box">
-            ℹ️ <b>ملاحظة الاشتراك:</b> بعد إرسال طلب التسجيل، سيبقى ملفك قيد المراجعة ولن يظهر للمستخدمين إلا بعد التواصل مع الإدارة وإتمام الدفع لتفعيل حسابك.
-          </div>
           <div class="form-group">
             <label>نوع المؤسسة *</label>
             <select id="regType">
@@ -806,24 +851,23 @@
             <label>كلمة المرور (6 أحرف على الأقل) *</label>
             <input type="password" id="regPass" placeholder="••••••••" />
           </div>
-          <button class="btn-primary" onclick="proRegister()">إرسال طلب التسجيل</button>
-        </div>
-
-        <!-- دخول المدير (خاص بك وحدك) -->
-        <div id="adminLoginForm" style="display:none;">
-          <div class="form-group">
-            <label>رمز الدخول السري للمدير (Admin PIN)</label>
-            <input type="password" id="adminPinInput" placeholder="أدخل رمز الإدارة..." />
-          </div>
-          <button class="btn-primary" onclick="unlockAdminPanel()">🔓 فتح لوحة تحكم المدير</button>
+          <button class="btn-primary" onclick="proRegister()">إرسال طلب الانضمام</button>
         </div>
       </div>
 
-      <!-- لوحة تحكم المهني بعد تسجيل الدخول -->
+      <!-- لوحة تحكم المهني بعد التسجيل / الدخول -->
       <div id="proDashboardView" style="display:none;">
-        <div id="pendingWarningBox" class="alert-box" style="display:none;">
-          ⏳ <b>حسابك قيد التفعيل:</b> حسابك مسجل بنجاح ولكنه مخفي حالياً عن المستخدمين. يرجى التواصل مع الإدارة لإتمام الدفع وتفعيل ظهورك في التطبيق.
-          <button onclick="closeModal('proModal'); openSupportModal();" class="btn-primary" style="margin-top:8px;">💬 تواصل مع الإدارة للتفعيل</button>
+        <!-- رسالة مغرية تظهر للمهنيين بعد إكمال التسجيل لتشجيعهم على الاشتراك والتفعيل -->
+        <div id="pendingWarningBox" class="vip-pitch-box" style="display:none;">
+          <b>🎉 تهانينا! تم استلام ملفك المهني بنجاح.</b><br>
+          لظهور عيادتك أو صيدليتك أمام آلاف المرضى في ولايتك والاستفادة من المزايا الحصرية:
+          <ul>
+            <li>✅ استقبال حجوزات المواعيد مباشرة على هاتفك.</li>
+            <li>✅ ظهور أولوية في نتائج البحث مع موقعك على الخريطة.</li>
+            <li>✅ شارة التوثيق الرسمية وزيادة ثقة المرضى.</li>
+          </ul>
+          <b>تواصل معنا الآن لتفعيل اشتراكك فوراً:</b>
+          <button onclick="closeModal('proModal'); openSupportModal();" class="btn-primary" style="margin-top:8px;">🚀 تفعيل حسابي الآن (اتصال / واتساب)</button>
         </div>
 
         <div class="tabs-bar">
@@ -865,31 +909,45 @@
 
         <button class="btn-secondary" onclick="proLogout()">🚪 تسجيل الخروج</button>
       </div>
+    </div>
+  </div>
 
-      <!-- لوحة تحكم المدير الخاصة بك (تفعيل الحسابات + تمييز الإعلانات + استيراد البيانات) -->
+  <!-- 4. نافذة الإدارة السرية (تفتح فقط بـ 5 ضغطات على الشعار) -->
+  <div class="modal" id="secretAdminModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>👑 لوحة تحكم المدير (SEHATI Admin)</h3>
+        <button class="close-x" onclick="closeModal('secretAdminModal')">✕</button>
+      </div>
+
+      <div id="secretPinBox">
+        <div class="form-group">
+          <label>أدخل الرمز السري للمدير</label>
+          <input type="password" id="adminPinInput" placeholder="••••••••" />
+        </div>
+        <button class="btn-primary" onclick="unlockAdminPanel()">🔓 دخول الإدارة</button>
+      </div>
+
       <div id="adminDashboardView" style="display:none;">
         <div class="tabs-bar">
           <button class="tab-btn active" id="admTabAccounts" onclick="switchAdminTab('accounts')">👥 الحسابات (<span id="pendingCountBadge">0</span>)</button>
-          <button class="tab-btn" id="admTabImport" onclick="switchAdminTab('import')">📥 استيراد بيانات</button>
+          <button class="tab-btn" id="admTabImport" onclick="switchAdminTab('import')">📥 استيراد</button>
+          <button class="tab-btn" id="admTabSettings" onclick="switchAdminTab('settings')">⚙️ إعداداتي</button>
         </div>
 
+        <!-- تبويب تفعيل حسابات المهنيين -->
         <div id="admAccountsPanel">
-          <p style="font-size:0.82rem; color:var(--muted); margin-bottom:8px;">
-            فعّل حسابات المهنيين بعد الدفع ليظهروا للجمهور، أو ميّز حساباتهم بالشارة الذهبية:
-          </p>
           <div id="adminAccountsList"></div>
         </div>
 
+        <!-- تبويب استيراد قاعدة بيانات -->
         <div id="admImportPanel" style="display:none;">
-          <p style="font-size:0.84rem; color:var(--muted); margin-bottom:10px;">
-            ارفع ملف بيانات الصحة للجزائر بصيغة <b>GeoJSON</b> أو <b>JSON</b> لحفظه في قاعدة بياناتك Firebase:
-          </p>
           <div class="form-group">
             <label>اختر ملف البيانات (.geojson أو .json)</label>
             <input type="file" id="importFile" accept=".json,.geojson" />
           </div>
           <div class="form-group">
-            <label>الحد الأقصى للاستيراد في الدفعة</label>
+            <label>الحد الأقصى للاستيراد</label>
             <select id="importLimit">
               <option value="100">أول 100 مرفق</option>
               <option value="300">أول 300 مرفق</option>
@@ -900,7 +958,26 @@
           <p id="importStatus" style="font-size:0.84rem; color:var(--primary); font-weight:700; margin-top:8px;"></p>
         </div>
 
-        <button class="btn-secondary" onclick="closeAdminPanel()">إغلاق لوحة الإدارة</button>
+        <!-- تبويب تغيير كلمة سر الإدارة ورقم هاتفك مباشرة -->
+        <div id="admSettingsPanel" style="display:none;">
+          <div class="form-group">
+            <label>رمز الدخول السري الجديد للإدارة</label>
+            <input type="text" id="newAdminPass" placeholder="مثال: abdo2026" />
+          </div>
+          <div class="form-group">
+            <label>رقم هاتفك للاتصال المباشر (يظهر في زر الدعم والإعلان)</label>
+            <input type="tel" id="newAdminPhone" placeholder="مثال: 0550123456" />
+          </div>
+          <div class="form-group">
+            <label>رقم واتساب الخاص بك (بصيغة 213 بدون صفر)</label>
+            <input type="tel" id="newAdminWa" placeholder="مثال: 213550123456" />
+          </div>
+          <div class="form-group">
+            <label>نص الإعلان الظاهر في وسط التطبيق</label>
+            <textarea id="newAdText" rows="3"></textarea>
+          </div>
+          <button class="btn-primary" onclick="saveAdminSettings()">💾 حفظ الإعدادات وكلمة السر</button>
+        </div>
       </div>
     </div>
   </div>
@@ -909,7 +986,7 @@
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getFirestore, collection, getDocs, doc, setDoc, updateDoc, deleteDoc, addDoc, query, where, writeBatch } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { getFirestore, collection, getDocs, doc, getDoc, setDoc, updateDoc, addDoc, query, where, writeBatch } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
     import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
     const firebaseConfig = {
@@ -930,8 +1007,9 @@
         const db = getFirestore(app);
         const auth = getAuth(app);
         window.fbReady = true;
-        window.fb = { db, auth, collection, getDocs, doc, setDoc, updateDoc, deleteDoc, addDoc, query, where, writeBatch, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut };
+        window.fb = { db, auth, collection, getDocs, doc, getDoc, setDoc, updateDoc, addDoc, query, where, writeBatch, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut };
 
+        await window.loadCloudAdminSettings();
         await window.refreshCloudData();
 
         onAuthStateChanged(auth, async (user) => {
@@ -952,20 +1030,54 @@
   </script>
 
   <script>
-    // ======== إعدادات الإدارة الخاصة بك (عدّل رقم هاتفك ورمز الدخول هنا) ========
-    const ADMIN_PHONE = "0550000000";       // ضع رقم هاتفك الجزائري هنا
-    const ADMIN_WHATSAPP = "213550000000";  // ضع رقم الواتساب بصيغة 213 بدون صفر
-    const ADMIN_PASS = "admin2026";         // كلمة المرور السرية لفتح لوحة الإدارة
-    // =========================================================================
+    // إعدادات الإدارة الافتراضية (ويمكنك تغييرها من داخل التطبيق في تبويب "إعداداتي")
+    let adminConfig = JSON.parse(localStorage.getItem('sehati_admin_cfg') || 'null') || {
+      pass: "admin2026",
+      phone: "0550000000",
+      wa: "213550000000",
+      adText: "ضاعف عدد مرضاك وزبائنك! أعلن عن عيادتك، صيدليتك، أو مخبرك في الواجهة الرئيسية لتطبيق صحتي أمام آلاف الباحثين يومياً."
+    };
 
-    document.getElementById('supCallLink').href = `tel:${ADMIN_PHONE}`;
-    document.getElementById('supWaLink').href = `https://wa.me/${ADMIN_WHATSAPP}`;
+    function applyAdminConfigToUI() {
+      document.getElementById('supCallLink').href = `tel:${adminConfig.phone}`;
+      document.getElementById('supWaLink').href = `https://wa.me/${adminConfig.wa}`;
+      if (lang === 'ar' && adminConfig.adText) {
+        document.getElementById('adDesc').textContent = adminConfig.adText;
+      }
+    }
+
+    window.loadCloudAdminSettings = async function() {
+      if (!window.fbReady) return;
+      try {
+        const snap = await window.fb.getDoc(window.fb.doc(window.fb.db, "app_config", "admin"));
+        if (snap.exists()) {
+          adminConfig = { ...adminConfig, ...snap.data() };
+          localStorage.setItem('sehati_admin_cfg', JSON.stringify(adminConfig));
+          applyAdminConfigToUI();
+        }
+      } catch (e) { console.error(e); }
+    };
+
+    // الفتح السري للوحة الإدارة بـ 5 ضغطات متتالية على الشعار
+    let logoTapCount = 0;
+    let logoTapTimer = null;
+    function handleSecretLogoTap() {
+      logoTapCount++;
+      clearTimeout(logoTapTimer);
+      if (logoTapCount >= 5) {
+        logoTapCount = 0;
+        document.getElementById('secretPinBox').style.display = 'block';
+        document.getElementById('adminDashboardView').style.display = 'none';
+        document.getElementById('secretAdminModal').classList.add('open');
+      } else {
+        logoTapTimer = setTimeout(() => { logoTapCount = 0; }, 1800);
+      }
+    }
 
     let lang = 'ar';
     let currentCat = 'all';
     let selectedPlaceForBooking = null;
     let currentProProfile = null;
-    let isAdminUnlocked = false;
 
     let favs = JSON.parse(localStorage.getItem('sehati_favs') || '[]');
     let localPlaces = JSON.parse(localStorage.getItem('sehati_pro_places') || '[]');
@@ -1004,17 +1116,7 @@
         ph: '025331212', lat: 36.6203, lng: 3.2225, feat: false, canBook: false
       },
       {
-        id: 'dz_4', tp: 'h', approved: true,
-        nm_ar: 'المؤسسة العمومية الاستشفائية - القليعة', nm_fr: 'EPH Koléa - Hôpital',
-        sp_ar: 'مستشفى عمومي', sp_fr: 'Hôpital Public',
-        srv_ar: 'استعجالات طبية وجراحية 24/24، طب الأطفال، أمراض النساء',
-        srv_fr: 'Urgences médico-chirurgicales 24/24, Pédiatrie, Gynécologie',
-        ad_ar: 'القليعة، ولاية تيبازة', ad_fr: 'Koléa, Wilaya de Tipaza',
-        hr_ar: 'مفتوح 24 ساعة / 7 أيام', hr_fr: 'Ouvert 24h/24 - 7j/7',
-        ph: '024380000', lat: 36.6389, lng: 2.7685, feat: false, canBook: false
-      },
-      {
-        id: 'dz_5', tp: 'c', approved: true,
+        id: 'dz_4', tp: 'c', approved: true,
         nm_ar: 'عيادة الأزهر الطبية الجراحية - الجزائر', nm_fr: 'Clinique El Azhar - Alger',
         sp_ar: 'عيادة خاصة متعددة التخصصات', sp_fr: 'Clinique Médico-Chirurgicale',
         srv_ar: 'جراحة القلب، القسطرة، سكانير وإيريم (IRM)، استعجالات 24/24',
@@ -1047,7 +1149,7 @@
         e1: 'الحماية المدنية', e2: 'الشرطة', e3: 'الدرك الوطني', e4: 'الإسعاف',
         all: 'الكل', fav: '❤️ المفضلة', d: 'أطباء', c: 'عيادات', p: 'صيدليات', h: 'مستشفيات', l: 'مخابر', g: 'أطباء أسنان', r: 'أشعة',
         book: '📅 موعد', call: '📞 اتصال', map: '📍 الموقع', feat: '⭐ مميز',
-        adBadge: 'مساحة إعلانية', adDesc: 'هل تريد وضع إعلان لعيادتك أو صيدليتك هنا؟ تواصل مع الإدارة', adLink: 'أعلن معنا',
+        adBadge: '📢 مساحة إعلانية مميزة', adLink: '✨ احجز مساحتك الإعلانية الآن',
         supFab: 'الدعم والإعلان',
         empty: 'لا توجد نتائج مطابقة.'
       },
@@ -1059,11 +1161,13 @@
         e1: 'Protection Civile', e2: 'Police', e3: 'Gendarmerie', e4: 'SAMU',
         all: 'Tout', fav: '❤️ Favoris', d: 'Médecins', c: 'Cliniques', p: 'Pharmacies', h: 'Hôpitaux', l: 'Labos', g: 'Dentistes', r: 'Imagerie',
         book: '📅 RDV', call: '📞 Appeler', map: '📍 Carte', feat: '⭐ Sponsorisé',
-        adBadge: 'Publicité', adDesc: 'Vous souhaitez afficher votre annonce ici ? Contactez-nous', adLink: 'Annoncer',
+        adBadge: '📢 Espace Publicitaire', adLink: '✨ Réserver votre publicité',
         supFab: 'Support & Pub',
         empty: 'Aucun résultat trouvé.'
       }
     };
+
+    applyAdminConfigToUI();
 
     function showToast(msg) {
       const el = document.getElementById('toastMsg');
@@ -1089,9 +1193,13 @@
       document.getElementById('e3').textContent = t.e3;
       document.getElementById('e4').textContent = t.e4;
       document.getElementById('adBadge').textContent = t.adBadge;
-      document.getElementById('adDesc').textContent = t.adDesc;
       document.getElementById('adLink').textContent = t.adLink;
       document.getElementById('supportFabText').textContent = t.supFab;
+      if (l === 'fr') {
+        document.getElementById('adDesc').textContent = 'Multipliez vos patients ! Affichez votre clinique ou pharmacie sur la page d’accueil de SEHATI.';
+      } else {
+        document.getElementById('adDesc').textContent = adminConfig.adText;
+      }
 
       document.querySelectorAll('[data-k]').forEach(el => {
         el.textContent = t[el.getAttribute('data-k')];
@@ -1176,27 +1284,22 @@
       showToast(lang === 'ar' ? '✅ تم إرسال طلب الموعد بنجاح!' : '✅ Rendez-vous envoyé !');
     }
 
-    /* ================= بوابة المهنيين + الإدارة ================= */
+    /* ================= بوابة المهنيين ================= */
     function openProPortal() {
       document.getElementById('proModal').classList.add('open');
-      if (isAdminUnlocked) {
-        showAdminDashboard();
-      } else if (window.currentProUser || localProSession) {
+      if (window.currentProUser || localProSession) {
         showProDashboard();
       } else {
         document.getElementById('proAuthView').style.display = 'block';
         document.getElementById('proDashboardView').style.display = 'none';
-        document.getElementById('adminDashboardView').style.display = 'none';
       }
     }
 
     function switchAuthTab(tab) {
       document.getElementById('tabLogin').classList.toggle('active', tab === 'login');
       document.getElementById('tabRegister').classList.toggle('active', tab === 'register');
-      document.getElementById('tabAdmin').classList.toggle('active', tab === 'admin');
       document.getElementById('loginForm').style.display = tab === 'login' ? 'block' : 'none';
       document.getElementById('registerForm').style.display = tab === 'register' ? 'block' : 'none';
-      document.getElementById('adminLoginForm').style.display = tab === 'admin' ? 'block' : 'none';
     }
 
     function switchDashTab(tab) {
@@ -1204,13 +1307,6 @@
       document.getElementById('dashTabEdit').classList.toggle('active', tab === 'edit');
       document.getElementById('dashApptsPanel').style.display = tab === 'appts' ? 'block' : 'none';
       document.getElementById('dashEditPanel').style.display = tab === 'edit' ? 'block' : 'none';
-    }
-
-    function switchAdminTab(tab) {
-      document.getElementById('admTabAccounts').classList.toggle('active', tab === 'accounts');
-      document.getElementById('admTabImport').classList.toggle('active', tab === 'import');
-      document.getElementById('admAccountsPanel').style.display = tab === 'accounts' ? 'block' : 'none';
-      document.getElementById('admImportPanel').style.display = tab === 'import' ? 'block' : 'none';
     }
 
     async function proRegister() {
@@ -1240,7 +1336,6 @@
         }
       }
 
-      // الحساب يُنشأ بحالة غير مفعّل (approved: false) حتى تقوم أنت بتفعيله بعد الدفع
       const profileData = {
         id: uid,
         ownerUid: uid,
@@ -1272,7 +1367,6 @@
 
       render();
       showProDashboard();
-      showToast('⏳ تم إرسال طلبك! تواصل مع الإدارة لتفعيل حسابك.');
     }
 
     async function proLogin() {
@@ -1314,13 +1408,12 @@
 
     async function showProDashboard() {
       document.getElementById('proAuthView').style.display = 'none';
-      document.getElementById('adminDashboardView').style.display = 'none';
       document.getElementById('proDashboardView').style.display = 'block';
 
       const prof = currentProProfile || localProSession;
       if (!prof) return;
 
-      // إظهار تنبيه الدفع والتفعيل إذا كان الحساب غير مفعّل بعد
+      // إظهار الرسالة المغرية للاشتراك والتفعيل إذا لم يُفعّل حسابه بعد
       document.getElementById('pendingWarningBox').style.display = prof.approved === true ? 'none' : 'block';
 
       document.getElementById('editName').value = prof.nm_ar || '';
@@ -1404,25 +1497,67 @@
       showToast('تم تسجيل الخروج');
     }
 
-    /* ================= لوحة تحكم المدير الخاصة بك ================= */
+    /* ================= لوحة تحكم المدير السرية ================= */
     async function unlockAdminPanel() {
       const pin = document.getElementById('adminPinInput').value.trim();
-      if (pin !== ADMIN_PASS) {
+      if (pin !== adminConfig.pass) {
         showToast('❌ رمز الإدارة غير صحيح');
         return;
       }
-      isAdminUnlocked = true;
       document.getElementById('adminPinInput').value = '';
-      await window.refreshCloudData();
-      showAdminDashboard();
-    }
-
-    function showAdminDashboard() {
-      document.getElementById('proAuthView').style.display = 'none';
-      document.getElementById('proDashboardView').style.display = 'none';
+      document.getElementById('secretPinBox').style.display = 'none';
       document.getElementById('adminDashboardView').style.display = 'block';
 
-      // عرض الحسابات المسجلة (غير الافتراضية)
+      // تعبئة حقول الإعدادات الحالية
+      document.getElementById('newAdminPass').value = adminConfig.pass;
+      document.getElementById('newAdminPhone').value = adminConfig.phone;
+      document.getElementById('newAdminWa').value = adminConfig.wa;
+      document.getElementById('newAdText').value = adminConfig.adText;
+
+      await window.refreshCloudData();
+      renderAdminAccounts();
+    }
+
+    function switchAdminTab(tab) {
+      document.getElementById('admTabAccounts').classList.toggle('active', tab === 'accounts');
+      document.getElementById('admTabImport').classList.toggle('active', tab === 'import');
+      document.getElementById('admTabSettings').classList.toggle('active', tab === 'settings');
+      document.getElementById('admAccountsPanel').style.display = tab === 'accounts' ? 'block' : 'none';
+      document.getElementById('admImportPanel').style.display = tab === 'import' ? 'block' : 'none';
+      document.getElementById('admSettingsPanel').style.display = tab === 'settings' ? 'block' : 'none';
+    }
+
+    async function saveAdminSettings() {
+      const newPass = document.getElementById('newAdminPass').value.trim();
+      const newPhone = document.getElementById('newAdminPhone').value.trim();
+      const newWa = document.getElementById('newAdminWa').value.trim();
+      const newAd = document.getElementById('newAdText').value.trim();
+
+      if (!newPass || newPass.length < 4) {
+        showToast('يرجى إدخال رمز إدارة من 4 أحرف على الأقل');
+        return;
+      }
+
+      adminConfig = {
+        pass: newPass,
+        phone: newPhone || adminConfig.phone,
+        wa: newWa || adminConfig.wa,
+        adText: newAd || adminConfig.adText
+      };
+
+      localStorage.setItem('sehati_admin_cfg', JSON.stringify(adminConfig));
+      applyAdminConfigToUI();
+
+      if (window.fbReady) {
+        try {
+          await window.fb.setDoc(window.fb.doc(window.fb.db, "app_config", "admin"), adminConfig);
+        } catch (e) { console.error(e); }
+      }
+
+      showToast('✅ تم حفظ كلمة السر الجديدة ورقم هاتفك ونص الإعلان!');
+    }
+
+    function renderAdminAccounts() {
       const registeredAccounts = window.placesData.filter(p => !p.id.startsWith('dz_') && !p.id.startsWith('imp_'));
       const pendingCount = registeredAccounts.filter(p => p.approved !== true).length;
       document.getElementById('pendingCountBadge').textContent = pendingCount;
@@ -1447,7 +1582,7 @@
             <div>📞 <a href="tel:${acc.ph}">${acc.ph}</a> | 📧 ${acc.email || ''}</div>
             <div style="display:flex; gap:6px; margin-top:8px;">
               <button onclick="adminToggleApprove('${acc.id}', ${!isApproved})" style="flex:1; padding:6px; border:none; border-radius:8px; background:${isApproved ? '#ef4444' : '#16a34a'}; color:#fff; font-weight:700; cursor:pointer;">
-                ${isApproved ? '⛔ إيقاف الحساب' : '✅ تفعيل بعد الدفع'}
+                ${isApproved ? '⛔ إيقاف' : '✅ تفعيل بعد الدفع'}
               </button>
               <button onclick="adminToggleFeatured('${acc.id}', ${!acc.feat})" style="flex:1; padding:6px; border:none; border-radius:8px; background:#f59e0b; color:#000; font-weight:700; cursor:pointer;">
                 ${acc.feat ? 'إلغاء التمييز' : '⭐ تمييز إعلاني'}
@@ -1469,7 +1604,7 @@
         } catch (e) { console.error(e); }
       }
       render();
-      showAdminDashboard();
+      renderAdminAccounts();
       showToast(newStatus ? '✅ تم تفعيل الحساب ونشره في التطبيق!' : '⛔ تم إيقاف ظهور الحساب');
     }
 
@@ -1484,13 +1619,8 @@
         } catch (e) { console.error(e); }
       }
       render();
-      showAdminDashboard();
-      showToast(newFeat ? '⭐ تم تمييز الحساب في أعلى القائمة!' : 'تم إلغاء التمييز');
-    }
-
-    function closeAdminPanel() {
-      isAdminUnlocked = false;
-      closeModal('proModal');
+      renderAdminAccounts();
+      showToast(newFeat ? '⭐ تم تمييز الحساب!' : 'تم إلغاء التمييز');
     }
 
     /* ================= استيراد قاعدة بيانات GeoJSON / JSON ================= */
@@ -1587,13 +1717,12 @@
       }
     }
 
-    /* ================= عرض البطاقات المفعّلة فقط للمستخدمين ================= */
+    /* ================= عرض البطاقات المفعّلة فقط ================= */
     window.render = function() {
       const box = document.getElementById('listContainer');
       const q = document.getElementById('searchInput').value.toLowerCase().trim();
       const t = T[lang];
 
-      // إظهار الحسابات المفعّلة فقط (approved !== false) للجمهور
       const publicPlaces = window.placesData.filter(item => item.approved !== false);
       const sorted = [...publicPlaces].sort((a, b) => (b.feat === true) - (a.feat === true));
 
