@@ -12,15 +12,20 @@
     body.dark{--bg:#0b1120;--card:#1e293b;--text:#f8fafc;--muted:#94a3b8;--primary:#14b8a6;--primary-light:#2dd4bf;--danger:#ef4444;--accent:#fbbf24;--blue:#38bdf8;--border:#334155;--shadow:0 6px 18px rgba(0,0,0,.35)}
     *{box-sizing:border-box;margin:0;padding:0;font-family:'Tajawal',system-ui,-apple-system,sans-serif;-webkit-tap-highlight-color:transparent}
     body{background:var(--bg);color:var(--text);line-height:1.55;padding-bottom:110px;transition:background .3s,color .3s}
-    .hero{position:relative;overflow:hidden;background:linear-gradient(135deg,#0f766e 0%,#0d9488 55%,#0284c7 100%);color:#fff;padding:18px 16px 24px;border-radius:0 0 28px 28px;box-shadow:var(--shadow)}
-    .top{position:relative;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
-    .brand{display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none}
-    .logo{width:42px;height:42px;border-radius:13px;background:rgba(255,255,255,.18);display:grid;place-items:center;backdrop-filter:blur(6px)}
-    .logo svg{width:26px;height:26px;stroke:#fff;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
-    .ecg{stroke-dasharray:180;stroke-dashoffset:1000;animation:draw 3.8s linear infinite}
+    .hero{position:relative;overflow:hidden;background:linear-gradient(135deg,#0f766e 0%,#0d9488 55%,#0284c7 100%);color:#fff;padding:18px 16px 32px;border-radius:0 0 28px 28px;box-shadow:var(--shadow)}
+    .hero::before{content:"";position:absolute;inset:0;opacity:.08;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3'/%3E%3Cpath d='M8 15v1a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6v-4'/%3E%3Ccircle cx='20' cy='10' r='2'/%3E%3C/svg%3E");background-size:85px 85px;transform:rotate(-12deg)}
+    .top{position:relative;z-index:2;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
+    .brand{display:flex;align-items:center;justify-content:space-between;width:100%;cursor:pointer;user-select:none;margin-bottom:4px}
+    .logo{width:56px;height:56px;border-radius:16px;background:rgba(255,255,255,.18);display:grid;place-items:center;backdrop-filter:blur(6px);box-shadow:0 4px 12px rgba(0,0,0,.12);flex-shrink:0}
+    .logo svg{width:38px;height:38px;stroke:#fff;fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+    .ecg{stroke-dasharray:120;stroke-dashoffset:240;animation:draw 2.4s linear infinite}
     @keyframes draw{to{stroke-dashoffset:0}}
-    .brand b{font-size:1.35rem;font-weight:800;display:block;line-height:1.1}
-    .brand small{display:block;opacity:.9;font-size:.78rem;margin-top:2px}
+    .bottom-ecg-wave{position:absolute;bottom:2px;left:0;width:100%;height:22px;pointer-events:none;z-index:1;opacity:.65}
+    .bottom-ecg-wave svg{width:100%;height:100%;fill:none;stroke:#ffffff;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+    .ecg-bottom-line{stroke-dasharray:600;stroke-dashoffset:1200;animation:drawBottom 4.5s linear infinite}
+    @keyframes drawBottom{to{stroke-dashoffset:0}}
+    .brand b{font-size:1.38rem;font-weight:800;display:block;line-height:1.1}
+    .brand small{display:block;opacity:.9;font-size:.8rem;margin-top:2px}
     .tools{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
     .seg{display:flex;background:rgba(255,255,255,.18);border-radius:11px;padding:3px}
     .seg button{border:0;background:transparent;color:#fff;font-weight:700;font-size:.78rem;padding:4px 8px;border-radius:8px;cursor:pointer}
@@ -89,25 +94,32 @@
   <header class="hero">
     <div class="top">
       <div class="brand" onclick="handleSecretLogoTap()">
-        <div class="logo">
-          <svg viewBox="0 0 24 24"><polyline class="ecg" points="2 12 6 12 9 4 13 20 16 12 22 12"></polyline></svg>
-        </div>
         <div>
           <b>صحتي | SEHATI</b>
           <small id="tagSub">دليلك الصحي وحجز المواعيد في الجزائر</small>
         </div>
-      </div>
-      <div class="tools">
-        <button class="tool-btn portal-btn" onclick="openProPortal()" id="proPortalBtn">🩺 بوابة المهنيين</button>
-        <div class="seg">
-          <button id="btnAr" class="on" onclick="setLang('ar')">عربي</button>
-          <button id="btnFr" onclick="setLang('fr')">FR</button>
+        <div class="logo">
+          <svg viewBox="0 0 24 24"><polyline class="ecg" points="2 12 6 12 9 3 13 21 16 12 22 12"></polyline></svg>
         </div>
-        <button class="tool-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
+      </div>
+      <div class="tools" style="width:100%;justify-content:space-between;">
+        <button class="tool-btn portal-btn" onclick="openProPortal()" id="proPortalBtn">🩺 بوابة المهنيين</button>
+        <div style="display:flex;gap:6px;align-items:center;">
+          <div class="seg">
+            <button id="btnAr" class="on" onclick="setLang('ar')">عربي</button>
+            <button id="btnFr" onclick="setLang('fr')">FR</button>
+          </div>
+          <button class="tool-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
+        </div>
       </div>
     </div>
-    <div class="search-wrap">
+    <div class="search-wrap" style="position:relative;z-index:2;">
       <input type="text" id="searchInput" oninput="render()" placeholder="ابحث عن طبيب، صيدلية، عيادة، خدمة، أو ولاية..." />
+    </div>
+    <div class="bottom-ecg-wave">
+      <svg viewBox="0 0 400 24" preserveAspectRatio="none">
+        <polyline class="ecg-bottom-line" points="0 14 70 14 78 4 86 22 94 14 190 14 198 3 206 22 214 14 310 14 318 4 326 22 334 14 400 14"></polyline>
+      </svg>
     </div>
   </header>
 
@@ -191,7 +203,6 @@
       <button class="btn-primary" onclick="submitAppointment()" id="btnConfirmBook">✅ تأكيد إرسال الموعد</button>
     </div>
   </div>
-
   <div class="modal" id="proModal">
     <div class="modal-card">
       <div class="modal-header">
@@ -263,6 +274,7 @@
       </div>
     </div>
   </div>
+
   <div class="modal" id="secretAdminModal">
     <div class="modal-card">
       <div class="modal-header">
@@ -303,97 +315,41 @@
       </div>
     </div>
   </div>
-
   <div class="toast" id="toastMsg"></div>
-
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
     import { getFirestore, collection, getDocs, doc, getDoc, setDoc, updateDoc, deleteDoc, addDoc, query, where, writeBatch } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
     import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyAdWXDD0whg8vgdBuULaGR1IkrXDRvKQgA",
-      authDomain: "sehati-7eaba.firebaseapp.com",
-      projectId: "sehati-7eaba",
-      storageBucket: "sehati-7eaba.firebasestorage.app",
-      messagingSenderId: "688720404426",
-      appId: "1:688720404426:web:b05c9e67a60cc8c2773933"
-    };
-
-    window.fbReady = false;
-    window.fb = {};
-
+    const firebaseConfig = { apiKey: "AIzaSyAdWXDD0whg8vgdBuULaGR1IkrXDRvKQgA", authDomain: "sehati-7eaba.firebaseapp.com", projectId: "sehati-7eaba", storageBucket: "sehati-7eaba.firebasestorage.app", messagingSenderId: "688720404426", appId: "1:688720404426:web:b05c9e67a60cc8c2773933" };
+    window.fbReady = false; window.fb = {};
     async function setupFirebase() {
       try {
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const auth = getAuth(app);
-        window.fbReady = true;
-        window.fb = { db, auth, collection, getDocs, doc, getDoc, setDoc, updateDoc, deleteDoc, addDoc, query, where, writeBatch, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut };
-        await window.loadCloudAdminSettings();
-        await window.refreshCloudData();
-        onAuthStateChanged(auth, async (user) => {
-          if (user) { window.currentProUser = user; await window.loadProDashboard(user.uid); }
-          else { window.currentProUser = null; }
-        });
-      } catch (err) { console.error(err); }
+        const app = initializeApp(firebaseConfig), db = getFirestore(app), auth = getAuth(app);
+        window.fbReady = true; window.fb = { db, auth, collection, getDocs, doc, getDoc, setDoc, updateDoc, deleteDoc, addDoc, query, where, writeBatch, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut };
+        await window.loadCloudAdminSettings(); await window.refreshCloudData();
+        onAuthStateChanged(auth, async (user) => { if (user) { window.currentProUser = user; await window.loadProDashboard(user.uid); } else { window.currentProUser = null; } });
+      } catch (err) {}
       window.render();
     }
     setupFirebase();
   </script>
-
   <script>
-    let adminConfig = JSON.parse(localStorage.getItem('sehati_admin_cfg') || 'null') || {
-      pass: "admin2026", phone: "0550000000", wa: "213550000000",
-      adText: "ضاعف عدد مرضاك وزبائنك! أعلن عن عيادتك، صيدليتك، أو مخبرك في الواجهة الرئيسية لتطبيق صحتي أمام آلاف الباحثين يومياً."
-    };
-
-    function applyAdminConfigToUI() {
-      document.getElementById('supCallLink').href = `tel:${adminConfig.phone}`;
-      document.getElementById('supWaLink').href = `https://wa.me/${adminConfig.wa}`;
-      if (lang === 'ar' && adminConfig.adText) document.getElementById('adDesc').textContent = adminConfig.adText;
-    }
-
-    window.loadCloudAdminSettings = async function() {
-      if (!window.fbReady) return;
-      try {
-        const snap = await window.fb.getDoc(window.fb.doc(window.fb.db, "app_config", "admin"));
-        if (snap.exists()) { adminConfig = { ...adminConfig, ...snap.data() }; localStorage.setItem('sehati_admin_cfg', JSON.stringify(adminConfig)); applyAdminConfigToUI(); }
-      } catch (e) {}
-    };
-
+    let adminConfig = JSON.parse(localStorage.getItem('sehati_admin_cfg') || 'null') || { pass: "admin2026", phone: "0550000000", wa: "213550000000", adText: "ضاعف عدد مرضاك وزبائنك! أعلن عن عيادتك، صيدليتك، أو مخبرك في الواجهة الرئيسية لتطبيق صحتي أمام آلاف الباحثين يومياً." };
+    function applyAdminConfigToUI() { document.getElementById('supCallLink').href = `tel:${adminConfig.phone}`; document.getElementById('supWaLink').href = `https://wa.me/${adminConfig.wa}`; if (lang === 'ar' && adminConfig.adText) document.getElementById('adDesc').textContent = adminConfig.adText; }
+    window.loadCloudAdminSettings = async function() { if (!window.fbReady) return; try { const snap = await window.fb.getDoc(window.fb.doc(window.fb.db, "app_config", "admin")); if (snap.exists()) { adminConfig = { ...adminConfig, ...snap.data() }; localStorage.setItem('sehati_admin_cfg', JSON.stringify(adminConfig)); applyAdminConfigToUI(); } } catch (e) {} };
     let logoTapCount = 0, logoTapTimer = null;
-    function handleSecretLogoTap() {
-      logoTapCount++; clearTimeout(logoTapTimer);
-      if (logoTapCount >= 5) { logoTapCount = 0; document.getElementById('secretPinBox').style.display = 'block'; document.getElementById('adminDashboardView').style.display = 'none'; document.getElementById('secretAdminModal').classList.add('open'); }
-      else { logoTapTimer = setTimeout(() => { logoTapCount = 0; }, 1800); }
-    }
-
+    function handleSecretLogoTap() { logoTapCount++; clearTimeout(logoTapTimer); if (logoTapCount >= 5) { logoTapCount = 0; document.getElementById('secretPinBox').style.display = 'block'; document.getElementById('adminDashboardView').style.display = 'none'; document.getElementById('secretAdminModal').classList.add('open'); } else { logoTapTimer = setTimeout(() => { logoTapCount = 0; }, 1800); } }
     let lang = 'ar', currentCat = 'all', selectedPlaceForBooking = null, currentProProfile = null;
-    let favs = JSON.parse(localStorage.getItem('sehati_favs') || '[]');
-    let localPlaces = JSON.parse(localStorage.getItem('sehati_pro_places') || '[]');
-    let localAppointments = JSON.parse(localStorage.getItem('sehati_appointments') || '[]');
-    let localProSession = JSON.parse(localStorage.getItem('sehati_pro_session') || 'null');
-
+    let favs = JSON.parse(localStorage.getItem('sehati_favs') || '[]'), localPlaces = JSON.parse(localStorage.getItem('sehati_pro_places') || '[]'), localAppointments = JSON.parse(localStorage.getItem('sehati_appointments') || '[]'), localProSession = JSON.parse(localStorage.getItem('sehati_pro_session') || 'null');
     window.defaultPlacesList = [
       {id:'dz_1',tp:'h',approved:true,nm_ar:'المستشفى الجامعي مصطفى باشا',nm_fr:'CHU Mustapha Pacha',sp_ar:'مستشفى جامعي - جميع التخصصات والاستعجالات',sp_fr:'CHU - Toutes spécialités & Urgences',srv_ar:'استعجالات 24/24، جراحة، طب القلب، طب الأطفال، تحاليل وأشعة',srv_fr:'Urgences 24/24, Chirurgie, Cardiologie, Pédiatrie, Labo & Imagerie',ad_ar:'ساحة أول ماي، الجزائر الوسطى، الجزائر',ad_fr:'Place du 1er Mai, Alger-Centre, Alger',hr_ar:'مفتوح 24 ساعة / 7 أيام',hr_fr:'Ouvert 24h/24 - 7j/7',ph:'021235555',lat:36.7628,lng:3.0536,feat:true,canBook:false},
       {id:'dz_2',tp:'h',approved:true,nm_ar:'المستشفى الجامعي فرانس فانون - البليدة',nm_fr:'CHU Frantz Fanon - Blida',sp_ar:'مستشفى جامعي - مركز مكافحة السرطان والاستعجالات',sp_fr:'CHU - Centre Anti-Cancer & Urgences',srv_ar:'استعجالات، طب الأورام، جراحة الأعصاب، أمراض القلب، مخبر مركزي',srv_fr:'Urgences, Oncologie, Neurochirurgie, Cardiologie, Laboratoire central',ad_ar:'طريق زعبانة، البليدة',ad_fr:'Route de Zabana, Blida',hr_ar:'مفتوح 24 ساعة / 7 أيام',hr_fr:'Ouvert 24h/24 - 7j/7',ph:'025418888',lat:36.4795,lng:2.8124,feat:true,canBook:false},
       {id:'dz_3',tp:'h',approved:true,nm_ar:'المؤسسة العمومية الاستشفائية - مفتاح',nm_fr:'EPH Meftah - Hôpital',sp_ar:'مستشفى عمومي - استعجالات طبية وجراحية',sp_fr:'Hôpital Public - Urgences',srv_ar:'استعجالات 24/24، طب عام، أمومة وطفولة، أشعة وتحاليل',srv_fr:'Urgences 24/24, Médecine générale, Maternité, Radiologie',ad_ar:'مفتاح، ولاية البليدة',ad_fr:'Meftah, Wilaya de Blida',hr_ar:'مفتوح 24 ساعة / 7 أيام',hr_fr:'Ouvert 24h/24 - 7j/7',ph:'025331212',lat:36.6203,lng:3.2225,feat:false,canBook:false},
       {id:'dz_4',tp:'c',approved:true,nm_ar:'عيادة الأزهر الطبية الجراحية - الجزائر',nm_fr:'Clinique El Azhar - Alger',sp_ar:'عيادة خاصة متعددة التخصصات',sp_fr:'Clinique Médico-Chirurgicale',srv_ar:'جراحة القلب، القسطرة، سكانير وإيريم (IRM)، استعجالات 24/24',srv_fr:'Chirurgie cardiaque, Cathétérisme, Scanner & IRM, Urgences 24/24',ad_ar:'دالي إبراهيم، الجزائر العاصمة',ad_fr:'Dely Ibrahim, Alger',hr_ar:'مفتوح 24 ساعة / 7 أيام',hr_fr:'Ouvert 24h/24',ph:'023304040',lat:36.7575,lng:2.9814,feat:true,canBook:true}
     ];
-
     window.placesData = [...window.defaultPlacesList, ...localPlaces];
-
-    window.refreshCloudData = async function() {
-      if (!window.fbReady) return;
-      try { const snap = await window.fb.getDocs(window.fb.collection(window.fb.db, "health_places")); const remote = []; snap.forEach(d => remote.push({ id: d.id, ...d.data() })); window.placesData = [...window.defaultPlacesList, ...remote]; window.render(); } catch (e) {}
-    };
-
-    const T = {
-      ar:{sub:'دليلك الصحي وحجز المواعيد في الجزائر',proBtn:'🩺 بوابة المهنيين',search:'ابحث عن طبيب، صيدلية، عيادة، خدمة، أو ولاية...',emerg:'🚨 أرقام الطوارئ (اتصال مباشر)',e1:'الحماية المدنية',e2:'الشرطة',e3:'الدرك الوطني',e4:'الإسعاف',all:'الكل',fav:'❤️ المفضلة',d:'أطباء',c:'عيادات',p:'صيدليات',h:'مستشفيات',l:'مخابر',g:'أطباء أسنان',r:'أشعة',book:'📅 موعد',call:'📞 اتصال',map:'📍 الموقع',feat:'⭐ مميز',adBadge:'📢 مساحة إعلانية مميزة',adLink:'✨ احجز مساحتك الإعلانية الآن',supFab:'الدعم والإعلان',empty:'لا توجد نتائج مطابقة.'},
-      fr:{sub:'Votre guide santé et prise de RDV en Algérie',proBtn:'🩺 Espace Pro',search:'Rechercher un médecin, pharmacie, service ou wilaya...',emerg:"🚨 Numéros d'urgence (Appel direct)",e1:'Protection Civile',e2:'Police',e3:'Gendarmerie',e4:'SAMU',all:'Tout',fav:'❤️ Favoris',d:'Médecins',c:'Cliniques',p:'Pharmacies',h:'Hôpitaux',l:'Labos',g:'Dentistes',r:'Imagerie',book:'📅 RDV',call:'📞 Appeler',map:'📍 Carte',feat:'⭐ Sponsorisé',adBadge:'📢 Espace Publicitaire',adLink:'✨ Réserver votre publicité',supFab:'Support & Pub',empty:'Aucun résultat trouvé.'}
-    };
-
+    window.refreshCloudData = async function() { if (!window.fbReady) return; try { const snap = await window.fb.getDocs(window.fb.collection(window.fb.db, "health_places")); const remote = []; snap.forEach(d => remote.push({ id: d.id, ...d.data() })); window.placesData = [...window.defaultPlacesList, ...remote]; window.render(); } catch (e) {} };
+    const T = { ar:{sub:'دليلك الصحي وحجز المواعيد في الجزائر',proBtn:'🩺 بوابة المهنيين',search:'ابحث عن طبيب، صيدلية، عيادة، خدمة، أو ولاية...',emerg:'🚨 أرقام الطوارئ (اتصال مباشر)',e1:'الحماية المدنية',e2:'الشرطة',e3:'الدرك الوطني',e4:'الإسعاف',all:'الكل',fav:'❤️ المفضلة',d:'أطباء',c:'عيادات',p:'صيدليات',h:'مستشفيات',l:'مخابر',g:'أطباء أسنان',r:'أشعة',book:'📅 موعد',call:'📞 اتصال',map:'📍 الموقع',feat:'⭐ مميز',adBadge:'📢 مساحة إعلانية مميزة',adLink:'✨ احجز مساحتك الإعلانية الآن',supFab:'الدعم والإعلان',empty:'لا توجد نتائج مطابقة.'}, fr:{sub:'Votre guide santé et prise de RDV en Algérie',proBtn:'🩺 Espace Pro',search:'Rechercher un médecin, pharmacie, service ou wilaya...',emerg:"🚨 Numéros d'urgence (Appel direct)",e1:'Protection Civile',e2:'Police',e3:'Gendarmerie',e4:'SAMU',all:'Tout',fav:'❤️ Favoris',d:'Médecins',c:'Cliniques',p:'Pharmacies',h:'Hôpitaux',l:'Labos',g:'Dentistes',r:'Imagerie',book:'📅 RDV',call:'📞 Appeler',map:'📍 Carte',feat:'⭐ Sponsorisé',adBadge:'📢 Espace Publicitaire',adLink:'✨ Réserver votre publicité',supFab:'Support & Pub',empty:'Aucun résultat trouvé.'} };
     applyAdminConfigToUI();
     function showToast(msg) { const el = document.getElementById('toastMsg'); el.textContent = msg; el.style.display = 'block'; setTimeout(() => { el.style.display = 'none'; }, 3500); }
     function setLang(l) { lang = l; document.documentElement.lang = l; document.documentElement.dir = l === 'ar' ? 'rtl' : 'ltr'; document.getElementById('btnAr').classList.toggle('on', l === 'ar'); document.getElementById('btnFr').classList.toggle('on', l === 'fr'); const t = T[l]; document.getElementById('tagSub').textContent = t.sub; document.getElementById('proPortalBtn').textContent = t.proBtn; document.getElementById('searchInput').placeholder = t.search; document.getElementById('emergLabel').textContent = t.emerg; document.getElementById('e1').textContent = t.e1; document.getElementById('e2').textContent = t.e2; document.getElementById('e3').textContent = t.e3; document.getElementById('e4').textContent = t.e4; document.getElementById('adBadge').textContent = t.adBadge; document.getElementById('adLink').textContent = t.adLink; document.getElementById('supportFabText').textContent = t.supFab; document.getElementById('adDesc').textContent = l === 'fr' ? 'Multipliez vos patients ! Affichez votre clinique ou pharmacie sur la page d’accueil de SEHATI.' : adminConfig.adText; document.querySelectorAll('[data-k]').forEach(el => { el.textContent = t[el.getAttribute('data-k')]; }); render(); }
@@ -412,8 +368,7 @@
     window.loadProDashboard = async function(uid) { const found = window.placesData.find(p => p.id === uid || p.ownerUid === uid); if (found) { currentProProfile = found; localProSession = found; } };
     async function showProDashboard() { document.getElementById('proAuthView').style.display = 'none'; document.getElementById('proDashboardView').style.display = 'block'; const prof = currentProProfile || localProSession; if (!prof) return; document.getElementById('pendingWarningBox').style.display = prof.approved === true ? 'none' : 'block'; document.getElementById('editName').value = prof.nm_ar || ''; document.getElementById('editSpec').value = prof.sp_ar || ''; document.getElementById('editServices').value = prof.srv_ar || ''; document.getElementById('editAddr').value = prof.ad_ar || ''; document.getElementById('editHours').value = prof.hr_ar || ''; document.getElementById('editPhone').value = prof.ph || ''; let myAppts = localAppointments.filter(a => a.placeId === prof.id); if (window.fbReady) { try { const q = window.fb.query(window.fb.collection(window.fb.db, "appointments"), window.fb.where("placeId", "==", prof.id)); const snap = await window.fb.getDocs(q); myAppts = []; snap.forEach(d => myAppts.push({ id: d.id, ...d.data() })); } catch (e) {} } document.getElementById('apptCount').textContent = myAppts.length; const listEl = document.getElementById('apptsList'); listEl.innerHTML = myAppts.length === 0 ? '<p style="text-align:center;color:var(--muted);padding:20px;">لا توجد مواعيد محجوزة حتى الآن.</p>' : myAppts.map(a => `<div class="appt-item"><header><span>👤 ${a.patientName}</span><span style="color:var(--primary);">${a.date}</span></header><div>🕒 ${a.period} | 📝 ${a.note}</div><div style="margin-top:6px;"><a href="tel:${a.patientPhone}" style="display:inline-block;background:var(--primary);color:#fff;padding:4px 10px;border-radius:8px;text-decoration:none;font-weight:700;">📞 اتصال بالمريض: ${a.patientPhone}</a></div></div>`).join(''); }
     async function saveProProfile() { const prof = currentProProfile || localProSession; if (!prof) return; prof.nm_ar = prof.nm_fr = document.getElementById('editName').value.trim(); prof.sp_ar = prof.sp_fr = document.getElementById('editSpec').value.trim(); prof.srv_ar = prof.srv_fr = document.getElementById('editServices').value.trim(); prof.ad_ar = prof.ad_fr = document.getElementById('editAddr').value.trim(); prof.hr_ar = prof.hr_fr = document.getElementById('editHours').value.trim(); prof.ph = document.getElementById('editPhone').value.trim(); localPlaces = localPlaces.map(p => p.id === prof.id ? prof : p); localStorage.setItem('sehati_pro_places', JSON.stringify(localPlaces)); localStorage.setItem('sehati_pro_session', JSON.stringify(prof)); window.placesData = window.placesData.map(p => p.id === prof.id ? prof : p); if (window.fbReady) { try { await window.fb.updateDoc(window.fb.doc(window.fb.db, "health_places", prof.id), { nm_ar: prof.nm_ar, nm_fr: prof.nm_fr, sp_ar: prof.sp_ar, sp_fr: prof.sp_fr, srv_ar: prof.srv_ar, srv_fr: prof.srv_fr, ad_ar: prof.ad_ar, ad_fr: prof.ad_fr, hr_ar: prof.hr_ar, hr_fr: prof.hr_fr, ph: prof.ph }); } catch (e) {} } render(); showToast('✅ تم حفظ وتحديث معلوماتك وخدماتك!'); }
-    async function proLogout() { if (window.fbReady) await window.fb.signOut(window.fb.auth
-); localProSession = null; currentProProfile = null; localStorage.removeItem('sehati_pro_session'); closeModal('proModal'); showToast('تم تسجيل الخروج'); }
+    async function proLogout() { if (window.fbReady) await window.fb.signOut(window.fb.auth); localProSession = null; currentProProfile = null; localStorage.removeItem('sehati_pro_session'); closeModal('proModal'); showToast('تم تسجيل الخروج'); }
     async function unlockAdminPanel() { if (document.getElementById('adminPinInput').value.trim() !== adminConfig.pass) { showToast('❌ رمز الإدارة غير صحيح'); return; } document.getElementById('adminPinInput').value = ''; document.getElementById('secretPinBox').style.display = 'none'; document.getElementById('adminDashboardView').style.display = 'block'; document.getElementById('newAdminPass').value = adminConfig.pass; document.getElementById('newAdminPhone').value = adminConfig.phone; document.getElementById('newAdminWa').value = adminConfig.wa; document.getElementById('newAdText').value = adminConfig.adText; await window.refreshCloudData(); renderAdminAccounts(); }
     function switchAdminTab(tab) { document.getElementById('admTabAccounts').classList.toggle('active', tab === 'accounts'); document.getElementById('admTabImport').classList.toggle('active', tab === 'import'); document.getElementById('admTabSettings').classList.toggle('active', tab === 'settings'); document.getElementById('admAccountsPanel').style.display = tab === 'accounts' ? 'block' : 'none'; document.getElementById('admImportPanel').style.display = tab === 'import' ? 'block' : 'none'; document.getElementById('admSettingsPanel').style.display = tab === 'settings' ? 'block' : 'none'; }
     async function saveAdminSettings() { const newPass = document.getElementById('newAdminPass').value.trim(), newPhone = document.getElementById('newAdminPhone').value.trim(), newWa = document.getElementById('newAdminWa').value.trim(), newAd = document.getElementById('newAdText').value.trim(); if (!newPass || newPass.length < 4) { showToast('يرجى إدخال رمز إدارة من 4 أحرف على الأقل'); return; } adminConfig = { pass: newPass, phone: newPhone || adminConfig.phone, wa: newWa || adminConfig.wa, adText: newAd || adminConfig.adText }; localStorage.setItem('sehati_admin_cfg', JSON.stringify(adminConfig)); applyAdminConfigToUI(); if (window.fbReady) { try { await window.fb.setDoc(window.fb.doc(window.fb.db, "app_config", "admin"), adminConfig); } catch (e) {} } showToast('✅ تم حفظ كلمة السر الجديدة ورقم هاتفك ونص الإعلان!'); }
