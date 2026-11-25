@@ -189,6 +189,8 @@
       font-weight: 700;
       color: var(--muted);
       margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
     }
 
     .emerg-grid {
@@ -487,7 +489,7 @@
 
     .tabs-bar {
       display: flex;
-      gap: 6px;
+      gap: 4px;
       margin-bottom: 14px;
       background: var(--bg);
       padding: 4px;
@@ -496,13 +498,13 @@
 
     .tab-btn {
       flex: 1;
-      padding: 8px;
+      padding: 8px 4px;
       border: none;
       border-radius: 9px;
       background: transparent;
       color: var(--text);
       font-weight: 700;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       cursor: pointer;
     }
 
@@ -578,6 +580,7 @@
   <section class="emergency-sec">
     <div class="sec-head">
       <span id="emergLabel">🚨 أرقام الطوارئ (اتصال مباشر)</span>
+      <span id="totalCounter" style="color:var(--primary);"></span>
     </div>
     <div class="emerg-grid">
       <a href="tel:14" class="emerg-card"><span id="e1">الحماية المدنية</span><b>14</b></a>
@@ -609,6 +612,7 @@
 
   <main class="list" id="listContainer"></main>
 
+  <!-- نافذة حجز موعد للمستخدم -->
   <div class="modal" id="bookModal">
     <div class="modal-card">
       <div class="modal-header">
@@ -643,17 +647,19 @@
     </div>
   </div>
 
+  <!-- بوابة المهنيين + أداة استيراد قاعدة البيانات للمدير -->
   <div class="modal" id="proModal">
     <div class="modal-card">
       <div class="modal-header">
-        <h3 id="proModalTitle">🩺 بوابة الأطباء والصيدليات والعيادات</h3>
+        <h3 id="proModalTitle">🩺 بوابة المهنيين وإدارة البيانات</h3>
         <button class="close-x" onclick="closeModal('proModal')">✕</button>
       </div>
 
       <div id="proAuthView">
         <div class="tabs-bar">
           <button class="tab-btn active" id="tabLogin" onclick="switchAuthTab('login')">تسجيل الدخول</button>
-          <button class="tab-btn" id="tabRegister" onclick="switchAuthTab('register')">تسجيل مؤسسة جديدة</button>
+          <button class="tab-btn" id="tabRegister" onclick="switchAuthTab('register')">تسجيل مؤسسة</button>
+          <button class="tab-btn" id="tabImport" onclick="switchAuthTab('import')">📥 استيراد بيانات</button>
         </div>
 
         <div id="loginForm">
@@ -691,581 +697,6 @@
           </div>
           <div class="form-group">
             <label>الخدمات المقدمة *</label>
-            <textarea id="regServices" rows="2" placeholder="اكتب خدماتك هنا (مثال: فحص بالصدى، تخطيط القلب، قياس الضغط...)"></textarea>
+            <textarea id="regServices" rows="2" placeholder="اكتب خدماتك هنا..."></textarea>
           </div>
           <div class="form-group">
-            <label>العنوان والولاية *</label>
-            <input type="text" id="regAddr" placeholder="الحي، البلدية، الولاية" />
-          </div>
-          <div class="form-group">
-            <label>أوقات العمل *</label>
-            <input type="text" id="regHours" placeholder="مثال: السبت - الخميس (08:30 - 17:00)" />
-          </div>
-          <div class="form-group">
-            <label>رقم الهاتف المهني *</label>
-            <input type="tel" id="regPhone" placeholder="0550000000" />
-          </div>
-          <div class="form-group">
-            <label>البريد الإلكتروني للحساب *</label>
-            <input type="email" id="regEmail" placeholder="email@domain.com" />
-          </div>
-          <div class="form-group">
-            <label>كلمة المرور (6 أحرف على الأقل) *</label>
-            <input type="password" id="regPass" placeholder="••••••••" />
-          </div>
-          <button class="btn-primary" onclick="proRegister()">إنشاء الحساب ونشر الملف</button>
-        </div>
-      </div>
-
-      <div id="proDashboardView" style="display:none;">
-        <div class="tabs-bar">
-          <button class="tab-btn active" id="dashTabAppts" onclick="switchDashTab('appts')">📅 المواعيد الواردة (<span id="apptCount">0</span>)</button>
-          <button class="tab-btn" id="dashTabEdit" onclick="switchDashTab('edit')">✏️ تعديل ملفي وخدماتي</button>
-        </div>
-
-        <div id="dashApptsPanel">
-          <div id="apptsList"></div>
-        </div>
-
-        <div id="dashEditPanel" style="display:none;">
-          <div class="form-group">
-            <label>الاسم</label>
-            <input type="text" id="editName" />
-          </div>
-          <div class="form-group">
-            <label>التخصص</label>
-            <input type="text" id="editSpec" />
-          </div>
-          <div class="form-group">
-            <label>الخدمات المقدمة (تظهر للمرضى في بطاقتك)</label>
-            <textarea id="editServices" rows="3"></textarea>
-          </div>
-          <div class="form-group">
-            <label>العنوان</label>
-            <input type="text" id="editAddr" />
-          </div>
-          <div class="form-group">
-            <label>أوقات العمل وحالة المناوبة</label>
-            <input type="text" id="editHours" />
-          </div>
-          <div class="form-group">
-            <label>رقم الهاتف</label>
-            <input type="tel" id="editPhone" />
-          </div>
-          <button class="btn-primary" onclick="saveProProfile()">💾 حفظ التعديلات</button>
-        </div>
-
-        <button class="btn-secondary" onclick="proLogout()">🚪 تسجيل الخروج</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="toast" id="toastMsg"></div>
-
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getFirestore, collection, getDocs, doc, setDoc, updateDoc, addDoc, query, where } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-
-    const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_PROJECT.firebaseapp.com",
-      projectId: "YOUR_PROJECT_ID",
-      storageBucket: "YOUR_PROJECT.appspot.com",
-      messagingSenderId: "YOUR_SENDER_ID",
-      appId: "YOUR_APP_ID"
-    };
-
-    window.fbReady = false;
-    window.fb = {};
-
-    async function setupFirebase() {
-      if (firebaseConfig.apiKey === "YOUR_API_KEY") {
-        window.render();
-        return;
-      }
-      try {
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const auth = getAuth(app);
-        window.fbReady = true;
-        window.fb = { db, auth, collection, getDocs, doc, setDoc, updateDoc, addDoc, query, where, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut };
-
-        const snap = await getDocs(collection(db, "health_places"));
-        const remote = [];
-        snap.forEach(d => remote.push({ id: d.id, ...d.data() }));
-        if (remote.length > 0) {
-          window.placesData = remote;
-        }
-
-        onAuthStateChanged(auth, async (user) => {
-          if (user) {
-            window.currentProUser = user;
-            await window.loadProDashboard(user.uid);
-          } else {
-            window.currentProUser = null;
-          }
-        });
-      } catch (err) {
-        console.error("Firebase init error:", err);
-      }
-      window.render();
-    }
-
-    setupFirebase();
-  </script>
-
-  <script>
-    let lang = 'ar';
-    let currentCat = 'all';
-    let selectedPlaceForBooking = null;
-    let currentProProfile = null;
-
-    let favs = JSON.parse(localStorage.getItem('sehati_favs') || '[]');
-    let localPlaces = JSON.parse(localStorage.getItem('sehati_pro_places') || '[]');
-    let localAppointments = JSON.parse(localStorage.getItem('sehati_appointments') || '[]');
-    let localProSession = JSON.parse(localStorage.getItem('sehati_pro_session') || 'null');
-
-    const defaultPlaces = [
-      {
-        id: '1', tp: 'd',
-        nm_ar: 'د. بن زاهية - طب عام وأمراض مزمنة', nm_fr: 'Dr. Benzahia - Médecine Générale',
-        sp_ar: 'طبيب عام', sp_fr: 'Médecin Généraliste',
-        srv_ar: 'فحص عام، متابعة السكري وضغط الدم، تخطيط القلب ECG، زيارات منزلية',
-        srv_fr: 'Consultation générale, suivi diabète/HTA, ECG, visites à domicile',
-        ad_ar: 'وسط المدينة، القليعة، تيبازة', ad_fr: 'Centre-ville, Koléa, Tipaza',
-        hr_ar: '08:30 - 17:00', hr_fr: '08h30 - 17h00',
-        ph: '0550123456', lat: 36.6395, lng: 2.7690, feat: true, canBook: true
-      },
-      {
-        id: '2', tp: 'c',
-        nm_ar: 'عيادة الشفاء متعددة الخدمات', nm_fr: 'Clinique El Chifa',
-        sp_ar: 'عيادة طبية وجراحية', sp_fr: 'Clinique Médicale & Chirurgicale',
-        srv_ar: 'استعجالات 24/24، تحاليل طبية، أشعة سينية وإيكوغرافي، جراحة عامة',
-        srv_fr: 'Urgences 24/24, Analyses, Radiologie & Échographie, Chirurgie',
-        ad_ar: 'بواسماعيل، تيبازة', ad_fr: 'Bou Ismaïl, Tipaza',
-        hr_ar: 'مفتوح 24/24 ساعة', hr_fr: 'Ouvert 24h/24',
-        ph: '0770112233', lat: 36.6425, lng: 2.6901, feat: true, canBook: true
-      },
-      {
-        id: '3', tp: 'p',
-        nm_ar: 'صيدلية الأمل (مناوبة ليلية)', nm_fr: 'Pharmacie El Amel (Garde)',
-        sp_ar: 'صيدلية ومستلزمات طبية', sp_fr: 'Pharmacie & Parapharmacie',
-        srv_ar: 'أدوية، قياس الضغط والسكري مجاناً، مستلزمات الأم والطفل، مناوبة ليلية',
-        srv_fr: 'Médicaments, mesure tension/glycémie, parapharmacie, garde de nuit',
-        ad_ar: 'شارع الاستقلال، تيبازة', ad_fr: "Rue de l'Indépendance, Tipaza",
-        hr_ar: '08:00 - 23:00', hr_fr: '08h00 - 23h00',
-        ph: '0661987654', lat: 36.5897, lng: 2.4475, feat: false, canBook: false
-      },
-      {
-        id: '4', tp: 'h',
-        nm_ar: 'المؤسسة العمومية الاستشفائية - القليعة', nm_fr: 'EPH Koléa - Hôpital Public',
-        sp_ar: 'مستشفى عام', sp_fr: 'Hôpital Public',
-        srv_ar: 'استعجالات طبية وجراحية، طب الأطفال، أمراض النساء والتوليد',
-        srv_fr: 'Urgences médico-chirurgicales, Pédiatrie, Gynécologie-Obstétrique',
-        ad_ar: 'القليعة، ولاية تيبازة', ad_fr: 'Koléa, Wilaya de Tipaza',
-        hr_ar: '24 ساعة / 7 أيام', hr_fr: '24h/24 - 7j/7',
-        ph: '024380000', lat: 36.6389, lng: 2.7685, feat: false, canBook: false
-      }
-    ];
-
-    window.placesData = [...defaultPlaces, ...localPlaces];
-
-    const T = {
-      ar: {
-        sub: 'دليلك الصحي وحجز المواعيد في الجزائر',
-        proBtn: '🩺 بوابة المهنيين',
-        search: 'ابحث عن طبيب، صيدلية، عيادة، خدمة، أو ولاية...',
-        emerg: '🚨 أرقام الطوارئ (اتصال مباشر)',
-        e1: 'الحماية المدنية', e2: 'الشرطة', e3: 'الدرك الوطني', e4: 'الإسعاف',
-        all: 'الكل', fav: '❤️ المفضلة', d: 'أطباء', c: 'عيادات', p: 'صيدليات', h: 'مستشفيات', l: 'مخابر', g: 'أطباء أسنان', r: 'أشعة',
-        book: '📅 موعد', call: '📞 اتصال', map: '📍 الموقع', feat: '⭐ مميز',
-        adBadge: 'للمهنيين', adDesc: 'هل أنت طبيب أو صاحب صيدلية/عيادة؟ سجل مجاناً لاستقبال المواعيد', adLink: 'سجّل الآن',
-        empty: 'لا توجد نتائج مطابقة.'
-      },
-      fr: {
-        sub: 'Votre guide santé et prise de RDV en Algérie',
-        proBtn: '🩺 Espace Pro',
-        search: 'Rechercher un médecin, pharmacie, service ou wilaya...',
-        emerg: "🚨 Numéros d'urgence (Appel direct)",
-        e1: 'Protection Civile', e2: 'Police', e3: 'Gendarmerie', e4: 'SAMU',
-        all: 'Tout', fav: '❤️ Favoris', d: 'Médecins', c: 'Cliniques', p: 'Pharmacies', h: 'Hôpitaux', l: 'Labos', g: 'Dentistes', r: 'Imagerie',
-        book: '📅 RDV', call: '📞 Appeler', map: '📍 Carte', feat: '⭐ Sponsorisé',
-        adBadge: 'Espace Pro', adDesc: 'Médecin, pharmacie ou clinique ? Inscrivez-vous gratuitement', adLink: "S'inscrire",
-        empty: 'Aucun résultat trouvé.'
-      }
-    };
-
-    function showToast(msg) {
-      const el = document.getElementById('toastMsg');
-      el.textContent = msg;
-      el.style.display = 'block';
-      setTimeout(() => { el.style.display = 'none'; }, 3200);
-    }
-
-    function setLang(l) {
-      lang = l;
-      document.documentElement.lang = l;
-      document.documentElement.dir = l === 'ar' ? 'rtl' : 'ltr';
-      document.getElementById('btnAr').classList.toggle('on', l === 'ar');
-      document.getElementById('btnFr').classList.toggle('on', l === 'fr');
-
-      const t = T[l];
-      document.getElementById('tagSub').textContent = t.sub;
-      document.getElementById('proPortalBtn').textContent = t.proBtn;
-      document.getElementById('searchInput').placeholder = t.search;
-      document.getElementById('emergLabel').textContent = t.emerg;
-      document.getElementById('e1').textContent = t.e1;
-      document.getElementById('e2').textContent = t.e2;
-      document.getElementById('e3').textContent = t.e3;
-      document.getElementById('e4').textContent = t.e4;
-      document.getElementById('adBadge').textContent = t.adBadge;
-      document.getElementById('adDesc').textContent = t.adDesc;
-      document.getElementById('adLink').textContent = t.adLink;
-
-      document.querySelectorAll('[data-k]').forEach(el => {
-        el.textContent = t[el.getAttribute('data-k')];
-      });
-      render();
-    }
-
-    function toggleTheme() {
-      document.body.classList.toggle('dark');
-      document.getElementById('themeBtn').textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
-    }
-
-    function setCat(c, btn) {
-      currentCat = c;
-      document.querySelectorAll('.cat-pill').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      render();
-    }
-
-    function toggleFav(id) {
-      favs = favs.includes(id) ? favs.filter(x => x !== id) : [...favs, id];
-      localStorage.setItem('sehati_favs', JSON.stringify(favs));
-      render();
-    }
-
-    function closeModal(id) {
-      document.getElementById(id).classList.remove('open');
-    }
-
-    function openBooking(placeId) {
-      const place = window.placesData.find(p => p.id === placeId);
-      if (!place) return;
-      selectedPlaceForBooking = place;
-      const name = lang === 'ar' ? place.nm_ar : place.nm_fr;
-      document.getElementById('bookTargetName').textContent = '📍 ' + name;
-      document.getElementById('bDate').valueAsDate = new Date();
-      document.getElementById('bookModal').classList.add('open');
-    }
-
-    async function submitAppointment() {
-      const fullName = document.getElementById('bFullName').value.trim();
-      const phone = document.getElementById('bPhone').value.trim();
-      const date = document.getElementById('bDate').value;
-      const period = document.getElementById('bPeriod').value;
-      const note = document.getElementById('bNote').value.trim();
-
-      if (!fullName || !phone || !date) {
-        showToast(lang === 'ar' ? 'يرجى إدخال الاسم واللقب ورقم الهاتف والتاريخ' : 'Veuillez remplir les champs obligatoires');
-        return;
-      }
-
-      const appt = {
-        id: 'appt_' + Date.now(),
-        placeId: selectedPlaceForBooking.id,
-        placeName: selectedPlaceForBooking.nm_ar,
-        patientName: fullName,
-        patientPhone: phone,
-        date,
-        period,
-        note: note || 'كشف / استشارة',
-        createdAt: new Date().toISOString()
-      };
-
-      localAppointments.unshift(appt);
-      localStorage.setItem('sehati_appointments', JSON.stringify(localAppointments));
-
-      if (window.fbReady) {
-        try {
-          await window.fb.addDoc(window.fb.collection(window.fb.db, "appointments"), appt);
-        } catch (e) { console.error(e); }
-      }
-
-      document.getElementById('bFullName').value = '';
-      document.getElementById('bPhone').value = '';
-      document.getElementById('bNote').value = '';
-      closeModal('bookModal');
-      showToast(lang === 'ar' ? '✅ تم إرسال طلب الموعد بنجاح! سيتصل بك الطبيب للتأكيد.' : '✅ Rendez-vous envoyé avec succès !');
-    }
-
-    function openProPortal() {
-      document.getElementById('proModal').classList.add('open');
-      if (window.currentProUser || localProSession) {
-        showProDashboard();
-      } else {
-        document.getElementById('proAuthView').style.display = 'block';
-        document.getElementById('proDashboardView').style.display = 'none';
-      }
-    }
-
-    function switchAuthTab(tab) {
-      document.getElementById('tabLogin').classList.toggle('active', tab === 'login');
-      document.getElementById('tabRegister').classList.toggle('active', tab === 'register');
-      document.getElementById('loginForm').style.display = tab === 'login' ? 'block' : 'none';
-      document.getElementById('registerForm').style.display = tab === 'register' ? 'block' : 'none';
-    }
-
-    function switchDashTab(tab) {
-      document.getElementById('dashTabAppts').classList.toggle('active', tab === 'appts');
-      document.getElementById('dashTabEdit').classList.toggle('active', tab === 'edit');
-      document.getElementById('dashApptsPanel').style.display = tab === 'appts' ? 'block' : 'none';
-      document.getElementById('dashEditPanel').style.display = tab === 'edit' ? 'block' : 'none';
-    }
-
-    async function proRegister() {
-      const tp = document.getElementById('regType').value;
-      const nm = document.getElementById('regName').value.trim();
-      const sp = document.getElementById('regSpec').value.trim();
-      const srv = document.getElementById('regServices').value.trim();
-      const ad = document.getElementById('regAddr').value.trim();
-      const hr = document.getElementById('regHours').value.trim();
-      const ph = document.getElementById('regPhone').value.trim();
-      const email = document.getElementById('regEmail').value.trim();
-      const pass = document.getElementById('regPass').value.trim();
-
-      if (!nm || !sp || !ph || !email || pass.length < 6) {
-        showToast('يرجى ملء جميع الحقول وكلمة مرور من 6 أحرف على الأقل');
-        return;
-      }
-
-      let uid = 'pro_' + Date.now();
-      if (window.fbReady) {
-        try {
-          const cred = await window.fb.createUserWithEmailAndPassword(window.fb.auth, email, pass);
-          uid = cred.user.uid;
-        } catch (err) {
-          showToast('خطأ في التسجيل: ' + err.message);
-          return;
-        }
-      }
-
-      const profileData = {
-        id: uid,
-        ownerUid: uid,
-        email,
-        pass,
-        tp,
-        nm_ar: nm, nm_fr: nm,
-        sp_ar: sp, sp_fr: sp,
-        srv_ar: srv || 'خدمات طبية وصحية', srv_fr: srv || 'Services médicaux',
-        ad_ar: ad || 'الجزائر', ad_fr: ad || 'Algérie',
-        hr_ar: hr || '08:30 - 17:00', hr_fr: hr || '08h30 - 17h00',
-        ph,
-        feat: false,
-        canBook: tp !== 'p' && tp !== 'h'
-      };
-
-      localPlaces.push(profileData);
-      localStorage.setItem('sehati_pro_places', JSON.stringify(localPlaces));
-      window.placesData.push(profileData);
-
-      localProSession = profileData;
-      localStorage.setItem('sehati_pro_session', JSON.stringify(profileData));
-      currentProProfile = profileData;
-
-      if (window.fbReady) {
-        await window.fb.setDoc(window.fb.doc(window.fb.db, "health_places", uid), profileData);
-      }
-
-      render();
-      showProDashboard();
-      showToast('✅ تم إنشاء حسابك ونشر بطاقتك بنجاح!');
-    }
-
-    async function proLogin() {
-      const email = document.getElementById('loginEmail').value.trim();
-      const pass = document.getElementById('loginPass').value.trim();
-      if (!email || !pass) return;
-
-      if (window.fbReady) {
-        try {
-          const cred = await window.fb.signInWithEmailAndPassword(window.fb.auth, email, pass);
-          await window.loadProDashboard(cred.user.uid);
-          showProDashboard();
-          return;
-        } catch (err) {
-          showToast('بيانات الدخول غير صحيحة');
-          return;
-        }
-      }
-
-      const found = localPlaces.find(p => p.email === email && p.pass === pass);
-      if (found) {
-        localProSession = found;
-        localStorage.setItem('sehati_pro_session', JSON.stringify(found));
-        currentProProfile = found;
-        showProDashboard();
-      } else {
-        showToast('الحساب غير موجود، يمكنك إنشاء حساب مهني جديد');
-      }
-    }
-
-    window.loadProDashboard = async function(uid) {
-      const found = window.placesData.find(p => p.id === uid || p.ownerUid === uid);
-      if (found) {
-        currentProProfile = found;
-        localProSession = found;
-      }
-    };
-
-    async function showProDashboard() {
-      document.getElementById('proAuthView').style.display = 'none';
-      document.getElementById('proDashboardView').style.display = 'block';
-
-      const prof = currentProProfile || localProSession;
-      if (!prof) return;
-
-      document.getElementById('editName').value = prof.nm_ar || '';
-      document.getElementById('editSpec').value = prof.sp_ar || '';
-      document.getElementById('editServices').value = prof.srv_ar || '';
-      document.getElementById('editAddr').value = prof.ad_ar || '';
-      document.getElementById('editHours').value = prof.hr_ar || '';
-      document.getElementById('editPhone').value = prof.ph || '';
-
-      let myAppts = localAppointments.filter(a => a.placeId === prof.id);
-      if (window.fbReady) {
-        try {
-          const q = window.fb.query(window.fb.collection(window.fb.db, "appointments"), window.fb.where("placeId", "==", prof.id));
-          const snap = await window.fb.getDocs(q);
-          myAppts = [];
-          snap.forEach(d => myAppts.push({ id: d.id, ...d.data() }));
-        } catch (e) { console.error(e); }
-      }
-
-      document.getElementById('apptCount').textContent = myAppts.length;
-      const listEl = document.getElementById('apptsList');
-      if (myAppts.length === 0) {
-        listEl.innerHTML = '<p style="text-align:center; color:var(--muted); padding:20px;">لا توجد مواعيد محجوزة حتى الآن.</p>';
-      } else {
-        listEl.innerHTML = myAppts.map(a => `
-          <div class="appt-item">
-            <header>
-              <span>👤 ${a.patientName}</span>
-              <span style="color:var(--primary);">${a.date}</span>
-            </header>
-            <div>🕒 ${a.period} | 📝 ${a.note}</div>
-            <div style="margin-top:6px;">
-              <a href="tel:${a.patientPhone}" style="display:inline-block; background:var(--primary); color:#fff; padding:4px 10px; border-radius:8px; text-decoration:none; font-weight:700;">📞 اتصال بالمريض: ${a.patientPhone}</a>
-            </div>
-          </div>
-        `).join('');
-      }
-    }
-
-    async function saveProProfile() {
-      const prof = currentProProfile || localProSession;
-      if (!prof) return;
-
-      prof.nm_ar = prof.nm_fr = document.getElementById('editName').value.trim();
-      prof.sp_ar = prof.sp_fr = document.getElementById('editSpec').value.trim();
-      prof.srv_ar = prof.srv_fr = document.getElementById('editServices').value.trim();
-      prof.ad_ar = prof.ad_fr = document.getElementById('editAddr').value.trim();
-      prof.hr_ar = prof.hr_fr = document.getElementById('editHours').value.trim();
-      prof.ph = document.getElementById('editPhone').value.trim();
-
-      localPlaces = localPlaces.map(p => p.id === prof.id ? prof : p);
-      localStorage.setItem('sehati_pro_places', JSON.stringify(localPlaces));
-      localStorage.setItem('sehati_pro_session', JSON.stringify(prof));
-      window.placesData = window.placesData.map(p => p.id === prof.id ? prof : p);
-
-      if (window.fbReady) {
-        try {
-          await window.fb.updateDoc(window.fb.doc(window.fb.db, "health_places", prof.id), {
-            nm_ar: prof.nm_ar, nm_fr: prof.nm_fr,
-            sp_ar: prof.sp_ar, sp_fr: prof.sp_fr,
-            srv_ar: prof.srv_ar, srv_fr: prof.srv_fr,
-            ad_ar: prof.ad_ar, ad_fr: prof.ad_fr,
-            hr_ar: prof.hr_ar, hr_fr: prof.hr_fr,
-            ph: prof.ph
-          });
-        } catch (e) { console.error(e); }
-      }
-
-      render();
-      showToast('✅ تم حفظ وتحديث معلوماتك وخدماتك بنجاح!');
-    }
-
-    async function proLogout() {
-      if (window.fbReady) {
-        await window.fb.signOut(window.fb.auth);
-      }
-      localProSession = null;
-      currentProProfile = null;
-      localStorage.removeItem('sehati_pro_session');
-      closeModal('proModal');
-      showToast('تم تسجيل الخروج');
-    }
-
-    window.render = function() {
-      const box = document.getElementById('listContainer');
-      const q = document.getElementById('searchInput').value.toLowerCase().trim();
-      const t = T[lang];
-
-      const sorted = [...window.placesData].sort((a, b) => (b.feat === true) - (a.feat === true));
-
-      const filtered = sorted.filter(item => {
-        if (currentCat === 'fav' && !favs.includes(item.id)) return false;
-        if (currentCat !== 'all' && currentCat !== 'fav' && item.tp !== currentCat) return false;
-        const hay = `${item.nm_ar} ${item.nm_fr} ${item.sp_ar} ${item.sp_fr} ${item.srv_ar || ''} ${item.ad_ar} ${item.ad_fr}`.toLowerCase();
-        return !q || hay.includes(q);
-      });
-
-      if (!filtered.length) {
-        box.innerHTML = `<p style="text-align:center;color:var(--muted);padding:30px;">${t.empty}</p>`;
-        return;
-      }
-
-      box.innerHTML = filtered.map(item => {
-        const name = lang === 'ar' ? item.nm_ar : item.nm_fr;
-        const spec = lang === 'ar' ? item.sp_ar : item.sp_fr;
-        const srv = lang === 'ar' ? (item.srv_ar || '') : (item.srv_fr || '');
-        const addr = lang === 'ar' ? item.ad_ar : item.ad_fr;
-        const hours = lang === 'ar' ? item.hr_ar : item.hr_fr;
-        const isFav = favs.includes(item.id);
-        const allowBook = item.canBook !== false && item.tp !== 'p';
-        const mapLink = item.lat && item.lng
-          ? `https://www.google.com/maps/search/?api=1&query=${item.lat},${item.lng}`
-          : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(name + ' ' + addr)}`;
-
-        return `
-          <div class="item-card ${item.feat ? 'featured' : ''}">
-            ${item.feat ? `<span class="badge-feat">${t.feat}</span>` : ''}
-            <div class="item-title">${name}</div>
-            <div class="item-sub">${spec}</div>
-            ${srv ? `<div class="item-services">🩺 ${srv}</div>` : ''}
-            <div class="item-meta">
-              <span>📍 ${addr}</span>
-              <span><i class="dot-open"></i>🕒 ${hours}</span>
-            </div>
-            <div class="actions" style="grid-template-columns: ${allowBook ? '1fr 1fr 1fr auto' : '1fr 1fr auto'};">
-              ${allowBook ? `<button onclick="openBooking('${item.id}')" class="act-btn act-book">${t.book}</button>` : ''}
-              <a href="tel:${item.ph}" class="act-btn act-call">${t.call}</a>
-              <a href="${mapLink}" target="_blank" class="act-btn act-map">${t.map}</a>
-              <button onclick="toggleFav('${item.id}')" class="act-btn act-fav ${isFav ? 'saved' : ''}">${isFav ? '❤️' : '🤍'}</button>
-            </div>
-          </div>
-        `;
-      }).join('');
-    };
-
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./sw.js').catch(() => {});
-    }
-
-    render();
-  </script>
-</body>
-</html>
