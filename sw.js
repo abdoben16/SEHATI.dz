@@ -1,4 +1,4 @@
-const CACHE_NAME = 'sehati-v10';
+const CACHE_NAME = 'sehati-v20';
 self.addEventListener('install', e => self.skipWaiting());
 self.addEventListener('activate', e => {
   e.waitUntil(
