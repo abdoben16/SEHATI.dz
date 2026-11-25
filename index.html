@@ -777,6 +777,56 @@
   observer.observe(document.body, { childList: true, subtree: true });
 })();
 </script>
+<script>
+(() => {
+  async function syncOldCardWithAdJson() {
+    try {
+      const res = await fetch(`ad.json?v=${Date.now()}`, { cache: "no-store" });
+      if (!res.ok) return;
+      const ad = await res.json();
+      if (!ad || ad.active === false) return;
+
+      const labels = Array.from(document.querySelectorAll("div, span, p, h1, h2, h3, strong, a, button"));
+      const badgeEl = labels.find((el) => (el.textContent || "").trim().includes("SEHATI ADS"));
+      if (!badgeEl) return;
+
+      let card = badgeEl.parentElement;
+      for (let i = 0; i < 4 && card && card.parentElement; i++) {
+        if (card.offsetHeight >= 110) break;
+        card = card.parentElement;
+      }
+      if (!card) return;
+
+      if (ad.image) {
+        card.style.backgroundImage = `linear-gradient(to left, rgba(10, 25, 22, 0.88) 45%, rgba(10, 25, 22, 0.45) 100%), url('${ad.image}?v=${Date.now()}')`;
+        card.style.backgroundSize = "cover";
+        card.style.backgroundPosition = "center";
+        card.style.overflow = "hidden";
+      }
+
+      const textNodes = Array.from(card.querySelectorAll("h1, h2, h3, h4, p, div, span, a, button"))
+        .filter((el) => el.children.length === 0 && (el.textContent || "").trim().length > 0);
+
+      for (const el of textNodes) {
+        const t = (el.textContent || "").trim();
+        if (t === "SEHATI ADS" || t.includes("مساحة إعلانية مميزة")) continue;
+
+        if (el.tagName === "A" || el.tagName === "BUTTON" || t.includes("احجز") || t.includes("اتصل")) {
+          if (ad.buttonText) el.textContent = ad.buttonText;
+          if (ad.buttonLink && el.tagName === "A") el.href = ad.buttonLink;
+        } else if (t.includes("أعلن عن عيادتك") || t.length > 25) {
+          if (ad.description) el.textContent = ad.description;
+        } else if (ad.title) {
+          el.textContent = ad.title;
+        }
+      }
+    } catch (_) {}
+  }
+
+  syncOldCardWithAdJson();
+  setTimeout(syncOldCardWithAdJson, 1200);
+})();
+</script>
 
 </body>
 </html>
