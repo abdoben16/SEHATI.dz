@@ -1492,7 +1492,30 @@
     }catch(_){}
     drawAd(); loopAds();
   })();
-})();
+})();  document.addEventListener("touchstart", function(ev) {
+    const t = ev.target && ev.target.closest ? ev.target : null;
+    if (!t) return;
+    if ((t.textContent || "").trim() === "SEHATI ADS" || (t.parentElement && (t.parentElement.textContent || "").trim() === "SEHATI ADS")) {
+      clearTimeout(window.__sehatiForceTimer);
+      window.__sehatiForceTimer = setTimeout(function() {
+        document.querySelectorAll("div").forEach(function(d) {
+          if (d.id !== "sehatiQuickModal" && (d.textContent || "").includes("إدارة إعلانات صحتي") && d.style && d.style.position === "fixed") {
+            d.style.display = "none";
+          }
+        });
+        openM();
+      }, 650);
+    }
+  }, true);
+
+  document.addEventListener("touchend", function() {
+    clearTimeout(window.__sehatiForceTimer);
+  }, true);
+
+  document.addEventListener("touchcancel", function() {
+    clearTimeout(window.__sehatiForceTimer);
+  }, true);
+
 </script>
 
 </body>
