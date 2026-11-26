@@ -1,5 +1,12 @@
 {
-  "active": false,
+  "active": true,
   "defaultDurationSec": 5,
-  "ads": []
+  "ads": [
+    {
+      "title": "المطور",
+      "description": "تطبيق صحي",
+      "image": "ad-1795684935690.jpg",
+      "durationSec": 5
+    }
+  ]
 }
