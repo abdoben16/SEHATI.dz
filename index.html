@@ -12,10 +12,41 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
   <style>
-    :root{--bg:linear-gradient(160deg,#e6f4f1 0%,#d7f3eb 52%,#cbeee8 100%);--card:#ffffff;--text:#0f172a;--muted:#475569;--primary:#0f766e;--primary-light:#14b8a6;--danger:#dc2626;--accent:#eab308;--gold-bright:#facc15;--gold-light:#fef08a;--gold-deep:#a16207;--blue:#0284c7;--border:#a7f3d0;--shadow:0 6px 18px rgba(15,118,110,.09)}
-    body.dark{--bg:linear-gradient(160deg,#071a18 0%,#0b2521 55%,#091f24 100%);--card:#122d28;--text:#f8fafc;--muted:#94a3b8;--primary:#14b8a6;--primary-light:#2dd4bf;--danger:#ef4444;--accent:#eab308;--gold-bright:#fde047;--gold-light:#fef9c3;--gold-deep:#854d0e;--blue:#38bdf8;--border:#1f4e46;--shadow:0 6px 18px rgba(0,0,0,.38)}
+    :root{
+      --bg:#ffffff;
+      --card:linear-gradient(145deg,#f0fdf9 0%,#e2f8f1 100%);
+      --text:#0f172a;
+      --muted:#475569;
+      --primary:#0f766e;
+      --primary-light:#14b8a6;
+      --danger:#dc2626;
+      --accent:#eab308;
+      --gold-bright:#facc15;
+      --gold-light:#fef08a;
+      --gold-deep:#a16207;
+      --blue:#0284c7;
+      --border:#99f6e4;
+      --shadow:0 6px 18px rgba(15,118,110,.09)
+    }
+    body.dark{
+      --bg:#071513;
+      --card:linear-gradient(145deg,#0f2925 0%,#133630 100%);
+      --text:#f8fafc;
+      --muted:#94a3b8;
+      --primary:#14b8a6;
+      --primary-light:#2dd4bf;
+      --danger:#ef4444;
+      --accent:#eab308;
+      --gold-bright:#fde047;
+      --gold-light:#fef9c3;
+      --gold-deep:#854d0e;
+      --blue:#38bdf8;
+      --border:#1f4e46;
+      --shadow:0 6px 18px rgba(0,0,0,.38)
+    }
     *{box-sizing:border-box;margin:0;padding:0;font-family:'Tajawal',system-ui,-apple-system,sans-serif;-webkit-tap-highlight-color:transparent}
-    body{background:var(--bg);background-attachment:fixed;color:var(--text);line-height:1.55;padding-bottom:118px;transition:background .3s,color .3s}
+    body{background:var(--bg);color:var(--text);line-height:1.55;padding-bottom:118px;transition:background .3s,color .3s}
+
     .hero{position:relative;overflow:hidden;background:linear-gradient(135deg,#0f766e 0%,#0d9488 55%,#0284c7 100%);color:#fff;padding:18px 16px 32px;border-radius:0 0 28px 28px;box-shadow:var(--shadow)}
     .hero::before{content:"";position:absolute;inset:0;opacity:.08;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3'/%3E%3Cpath d='M8 15v1a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6v-4'/%3E%3Ccircle cx='20' cy='10' r='2'/%3E%3C/svg%3E");background-size:85px 85px;transform:rotate(-12deg)}
     .top{position:relative;z-index:2;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
@@ -39,28 +70,31 @@
     .my-appts-btn{background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.35);font-weight:800}
     .search-wrap input{width:100%;padding:11px 14px;border-radius:14px;border:none;outline:none;font-size:.95rem;background:#fff;color:#0f172a}
 
+    /* أزرار الطوارئ: الحماية المدنية أحمر، الإسعاف أبيض، ونقوش متموضعة في الأسفل عند الأرقام */
     .emergency-sec{padding:8px 14px 4px}
     .sec-head{font-size:.85rem;font-weight:700;color:var(--muted);margin-bottom:6px;display:flex;justify-content:space-between}
     .emerg-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
-    .emerg-card{position:relative;overflow:hidden;min-height:54px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;text-decoration:none;padding:7px 4px;border-radius:10px;text-align:center;font-size:.7rem;font-weight:700;box-shadow:0 2px 5px rgba(0,0,0,.12);border:1px solid rgba(255,255,255,.22)}
-    .emerg-card > span:not(.emerg-bg-icon),
-    .emerg-card > b{position:relative;z-index:2}
-    .emerg-card b{display:block;font-size:.92rem;margin-top:1px}
-    .emerg-bg-icon{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:100%;height:100%;display:flex;align-items:center;justify-content:center;opacity:.16;pointer-events:none;z-index:1}
-    .emerg-bg-icon svg{width:34px;height:34px;fill:currentColor}
-    .emerg-card.civil{background:linear-gradient(145deg,#991b1b,#b91c1c)}
-    .emerg-card.police{background:linear-gradient(145deg,#1e3a8a,#1e40af)}
-    .emerg-card.gendarme{background:linear-gradient(145deg,#14532d,#166534)}
+    .emerg-card{position:relative;overflow:hidden;min-height:58px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;color:#fff;text-decoration:none;padding:6px 4px 5px;border-radius:10px;text-align:center;font-size:.7rem;font-weight:700;box-shadow:0 2px 5px rgba(0,0,0,.12);border:1px solid rgba(255,255,255,.22)}
+    .emerg-card > span:not(.emerg-bg-icon){position:relative;z-index:2;line-height:1.15}
+    .emerg-bottom-row{position:relative;z-index:2;display:inline-flex;align-items:center;justify-content:center;gap:3px;margin-top:2px}
+    .emerg-bottom-row b{font-size:.92rem;line-height:1}
+    .emerg-num-icon{display:inline-flex;align-items:center;justify-content:center;opacity:.75;flex-shrink:0}
+    .emerg-num-icon svg{width:15px;height:15px;fill:currentColor}
+    .emerg-card.civil{background:linear-gradient(145deg,#991b1b,#dc2626)}
+    .emerg-card.police{background:linear-gradient(145deg,#1e3a8a,#1d4ed8)}
+    .emerg-card.gendarme{background:linear-gradient(145deg,#14532d,#15803d)}
     .emerg-card.ambulance{background:linear-gradient(145deg,#ffffff,#f8fafc);color:#0f172a;border-color:#cbd5e1}
-    .emerg-card.ambulance .emerg-bg-icon{color:#0f766e;opacity:.14}
+    .emerg-card.ambulance .emerg-num-icon{color:#0f766e;opacity:.8}
 
-    .ads-showcase{position:relative;margin:8px auto 6px;border-radius:14px;overflow:hidden;border:1.5px solid var(--gold-bright);box-shadow:0 6px 18px rgba(202,138,4,.18);background:#071916;width:calc(100% - 28px);max-width:336px;aspect-ratio:16 / 9;cursor:pointer;user-select:none}
+    /* مساحة الإعلان 16:9 */
+    .ads-showcase{position:relative;margin:8px auto 6px;border-radius:14px;overflow:hidden;border:1.5px solid #facc15;box-shadow:0 6px 18px rgba(202,138,4,.18);background:#071916;width:calc(100% - 28px);max-width:336px;aspect-ratio:16 / 9;cursor:pointer;user-select:none}
     .ads-full-media{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:1;filter:none;z-index:1;display:none}
     .ads-overlay-grad{position:relative;z-index:2;width:100%;height:100%;padding:8px 11px;display:flex;flex-direction:column;justify-content:flex-end;background:linear-gradient(to top,rgba(4,12,11,.72) 0%,rgba(4,12,11,.22) 34%,transparent 65%);pointer-events:none}
     .ads-title{font-size:.9rem;font-weight:800;color:#fff;margin-bottom:2px;line-height:1.25;text-shadow:0 1px 4px rgba(0,0,0,.95)}
     .ads-body{font-size:.78rem;font-weight:600;color:#f8fafc;line-height:1.3;text-shadow:0 1px 4px rgba(0,0,0,.95)}
 
-    .gold-ticker-bar{display:block;width:100%;margin:4px 0 10px;background:linear-gradient(90deg,#a16207 0%,#eab308 22%,#fef08a 50%,#eab308 78%,#a16207 100%);color:#1a1400;border-top:1.5px solid #fef9c3;border-bottom:1.5px solid #ca8a04;overflow:hidden;white-space:nowrap;padding:6px 0;box-shadow:0 3px 12px rgba(234,179,8,.28)}
+    /* شريط ذهبي مصفر متحرك دائماً تحت الإعلان */
+    .gold-ticker-bar{display:block;width:100%;margin:4px 0 10px;background:linear-gradient(90deg,#ca8a04 0%,#facc15 25%,#fef9c3 50%,#facc15 75%,#ca8a04 100%);color:#1a1400;border-top:1.5px solid #fef9c3;border-bottom:1.5px solid #eab308;overflow:hidden;white-space:nowrap;padding:6px 0;box-shadow:0 3px 12px rgba(234,179,8,.28)}
     .gold-ticker-track{display:inline-block;font-size:.82rem;font-weight:800;padding-inline:16px;will-change:transform}
     html[dir="rtl"] .gold-ticker-track{animation:tickerLtr 13s linear infinite}
     html[dir="ltr"] .gold-ticker-track{animation:tickerRtl 13s linear infinite}
@@ -81,6 +115,7 @@
     .promo-tag,
     .ads-cta {display:none !important}
 
+    /* شريط التصنيفات السفلي */
     .bottom-cats-bar{position:fixed;bottom:0;left:0;right:0;background:linear-gradient(135deg,#0f766e 0%,#0d9488 100%);border-top:1px solid rgba(255,255,255,.22);display:flex;gap:7px;overflow-x:auto;padding:9px 12px 12px;z-index:140;box-shadow:0 -4px 18px rgba(15,118,110,.32);scrollbar-width:none}
     .bottom-cats-bar::-webkit-scrollbar{display:none}
     .cat-indicator-bar{position:absolute;bottom:4px;height:3.5px;border-radius:4px;background:#fef08a;box-shadow:0 0 8px rgba(254,240,138,.85);transition:transform .3s cubic-bezier(.25,.8,.25,1),width .3s cubic-bezier(.25,.8,.25,1);pointer-events:none;z-index:3}
@@ -96,18 +131,20 @@
     .item-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px;box-shadow:var(--shadow);position:relative}
     .item-card.featured{border:2px solid #eab308;box-shadow:0 6px 18px rgba(234,179,8,.18)}
 
+    /* شارة مميز في أقصى الأعلى */
     .badge-feat{position:absolute;top:0;left:0;background:linear-gradient(135deg,#eab308,#facc15);color:#1a1400;font-size:.72rem;font-weight:800;padding:3px 10px;border-radius:0 0 12px 0;z-index:3}
     html[dir="ltr"] .badge-feat{left:auto;right:0;border-radius:0 0 0 12px}
 
     .item-title{font-size:1.08rem;font-weight:800;margin-bottom:2px;display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap}
 
-    .fb-verify-badge{display:inline-flex;align-items:center;justify-content:center;width:19px;height:19px;flex-shrink:0;vertical-align:middle}
-    .fb-verify-badge svg{width:100%;height:100%;display:block}
+    /* علامة توثيق دائرية متقنة وعلامة ✓ في المركز */
+    .fb-verify-badge{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:#1877f2;color:#ffffff;font-size:11px;font-weight:900;line-height:1;flex-shrink:0;vertical-align:middle;box-shadow:0 1px 3px rgba(24,119,242,.35)}
     .verified-pill-pro{display:inline-flex;align-items:center;gap:6px;background:rgba(24,119,242,.12);color:#1877f2;border:1px solid rgba(24,119,242,.35);padding:3px 10px;border-radius:999px;font-size:.78rem;font-weight:800}
     body.dark .verified-pill-pro{color:#60a5fa}
 
     .item-sub{font-size:.86rem;font-weight:700;color:var(--primary);margin-bottom:6px}
-    .item-services{font-size:.82rem;background:rgba(15,118,110,.07);padding:6px 10px;border-radius:8px;margin-bottom:8px;color:var(--text)}
+    .item-services{font-size:.82rem;background:rgba(255,255,255,.72);padding:6px 10px;border-radius:8px;margin-bottom:8px;color:var(--text)}
+    body.dark .item-services{background:rgba(15,118,110,.14)}
     .item-meta{font-size:.85rem;color:var(--muted);margin-bottom:12px;display:flex;flex-direction:column;gap:4px}
     .dot-open{display:inline-block;width:8px;height:8px;border-radius:50%;background:#22c55e;margin-inline-end:6px}
     .actions{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:6px}
@@ -127,14 +164,16 @@
     .close-x{background:none;border:none;font-size:1.3rem;color:var(--muted);cursor:pointer}
     .form-group{margin-bottom:10px}
     .form-group label{display:block;font-size:.82rem;font-weight:700;margin-bottom:3px;color:var(--muted)}
-    .form-group input,.form-group select,.form-group textarea{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.92rem}
+    .form-group input,.form-group select,.form-group textarea{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--border);background:#ffffff;color:var(--text);font-size:.92rem}
+    body.dark .form-group input,body.dark .form-group select,body.dark .form-group textarea{background:#0b221e}
     .btn-primary{width:100%;padding:11px;border-radius:11px;border:none;background:var(--primary);color:#fff;font-weight:800;font-size:.95rem;cursor:pointer;margin-top:6px}
     .btn-danger{width:100%;padding:10px;border-radius:11px;border:none;background:var(--danger);color:#fff;font-weight:700;font-size:.88rem;cursor:pointer;margin-top:8px}
     .btn-secondary{width:100%;padding:10px;border-radius:11px;border:1px solid var(--border);background:transparent;color:var(--text);font-weight:700;font-size:.9rem;cursor:pointer;margin-top:8px}
-    .tabs-bar{display:flex;gap:4px;margin-bottom:14px;background:var(--bg);padding:4px;border-radius:12px}
+    .tabs-bar{display:flex;gap:4px;margin-bottom:14px;background:rgba(15,118,110,.08);padding:4px;border-radius:12px}
     .tab-btn{flex:1;padding:8px 4px;border:none;border-radius:9px;background:transparent;color:var(--text);font-weight:700;font-size:.82rem;cursor:pointer}
     .tab-btn.active{background:var(--primary);color:#fff}
-    .appt-item{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:10px;margin-bottom:8px;font-size:.85rem}
+    .appt-item{background:rgba(255,255,255,.75);border:1px solid var(--border);border-radius:12px;padding:10px;margin-bottom:8px;font-size:.85rem}
+    body.dark .appt-item{background:rgba(15,118,110,.12)}
     .appt-item header{display:flex;justify-content:space-between;align-items:center;gap:6px;font-weight:800;margin-bottom:4px}
     .queue-badge{background:rgba(15,118,110,.14);color:var(--primary);border:1px solid var(--primary);padding:2px 8px;border-radius:8px;font-size:.76rem;font-weight:800}
     .status-badge{padding:2px 8px;border-radius:6px;font-size:.74rem;font-weight:800}
@@ -192,32 +231,40 @@
     </div>
     <div class="emerg-grid">
       <a href="tel:14" class="emerg-card civil">
-        <span class="emerg-bg-icon">
-          <svg viewBox="0 0 24 24"><path d="M12 2C8.5 7 6 9.8 6 14a6 6 0 0 0 12 0c0-4.2-2.5-7-6-12zm0 16a3 3 0 0 1-3-3c0-1.8 1.3-3.5 3-5.8 1.7 2.3 3 4 3 5.8a3 3 0 0 1-3 3z"/></svg>
-        </span>
         <span id="e1">الحماية المدنية</span>
-        <b>14</b>
+        <div class="emerg-bottom-row">
+          <span class="emerg-num-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 3c-4.5 0-8 2.8-8 7h16c0-4.2-3.5-7-8-7zm0-1.5a1 1 0 0 1 1 1V4h-2V2.5a1 1 0 0 1 1-1zM3 12h18v2H3v-2z"/></svg>
+          </span>
+          <b>14</b>
+        </div>
       </a>
       <a href="tel:1548" class="emerg-card police">
-        <span class="emerg-bg-icon">
-          <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.2L22 9.2l-5 4.9 1.2 7L12 17.7 5.8 21.1l1.2-7-5-4.9 7.1-1z"/></svg>
-        </span>
         <span id="e2">الشرطة</span>
-        <b>1548</b>
+        <div class="emerg-bottom-row">
+          <span class="emerg-num-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 2l7 3v6c0 5.2-3 9.9-7 11.3-4-1.4-7-6.1-7-11.3V5l7-3zm0 4.2l-1.5 3.1-3.4.5 2.5 2.4-.6 3.4 3-1.6 3 1.6-.6-3.4 2.5-2.4-3.4-.5L12 6.2z"/></svg>
+          </span>
+          <b>1548</b>
+        </div>
       </a>
       <a href="tel:1055" class="emerg-card gendarme">
-        <span class="emerg-bg-icon">
-          <svg viewBox="0 0 24 24"><path d="M12 2L4 5v6.1c0 5 3.4 9.7 8 10.9 4.6-1.2 8-5.9 8-10.9V5l-8-3zm0 4.2l1.8 3.8 4.2.6-3 2.9.7 4.2L12 14.1l-3.7 2 .7-4.2-3-2.9 4.2-.6L12 6.2z"/></svg>
-        </span>
         <span id="e3">الدرك الوطني</span>
-        <b>1055</b>
+        <div class="emerg-bottom-row">
+          <span class="emerg-num-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 2L4 5v6.1c0 5 3.4 9.7 8 10.9 4.6-1.2 8-5.9 8-10.9V5l-8-3zm0 5.5a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7z"/></svg>
+          </span>
+          <b>1055</b>
+        </div>
       </a>
       <a href="tel:115" class="emerg-card ambulance">
-        <span class="emerg-bg-icon">
-          <svg viewBox="0 0 24 24"><path d="M9 3h6v6h6v6h-6v6H9v-6H3V9h6V3z"/></svg>
-        </span>
         <span id="e4">الإسعاف</span>
-        <b>115</b>
+        <div class="emerg-bottom-row">
+          <span class="emerg-num-icon">
+            <svg viewBox="0 0 24 24"><path d="M10 3h4v7h7v4h-7v7h-4v-7H3v-4h7V3z"/></svg>
+          </span>
+          <b>115</b>
+        </div>
       </a>
     </div>
   </section>
@@ -658,7 +705,7 @@
     };
 
     function renderVerifiedBadgeHtml(titleText = '') {
-      return `<span class="fb-verify-badge" title="${titleText}"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#1877f2" d="M22.5 12c0-1.4-.7-2.6-1.8-3.3.3-1.3-.1-2.7-1.1-3.6-1-.9-2.4-1.2-3.7-.7-.7-1.1-1.9-1.8-3.4-1.8-1.4 0-2.6.7-3.3 1.8-1.3-.3-2.7.1-3.6 1.1-.9 1-1.2 2.4-.7 3.7-1.1.7-1.8 1.9-1.8 3.4 0 1.4.7 2.6 1.8 3.3-.3 1.3.1 2.7 1.1 3.6 1 .9 2.4 1.2 3.7.7.7 1.1 1.9 1.8 3.4 1.8 1.4 0 2.6-.7 3.3-1.8 1.3.3 2.7-.1 3.6-1.1.9-1 1.2-2.4.7-3.7 1.1-.7 1.8-1.9 1.8-3.4z"/><path fill="#ffffff" d="M10.4 15.9l-3.3-3.3 1.4-1.4 1.9 1.9 4.9-4.9 1.4 1.4-6.3 6.3z"/></svg></span>`;
+      return `<span class="fb-verify-badge" title="${titleText}">✓</span>`;
     }
 
     function tr(key, vars = {}) {
