@@ -36,6 +36,7 @@
     .seg button.on{background:#fff;color:#0f766e}
     .tool-btn{border:0;background:rgba(255,255,255,.22);color:#fff;padding:6px 10px;border-radius:11px;font-weight:700;font-size:.8rem;cursor:pointer}
     .portal-btn{background:#fff;color:#0f766e;font-weight:800}
+    .my-appts-btn{background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.35);font-weight:800}
     .search-wrap input{width:100%;padding:11px 14px;border-radius:14px;border:none;outline:none;font-size:.95rem;background:#fff;color:#0f172a}
 
     /* أزرار الطوارئ المدمجة بألوان هادئة وشعار شفاف في الخلفية */
@@ -102,7 +103,7 @@
     html[dir="ltr"] .support-fab{left:auto;right:16px}
     .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:200;align-items:center;justify-content:center;padding:16px;overflow-y:auto}
     .modal.open{display:flex}
-    .modal-card{background:var(--card);color:var(--text);width:100%;max-width:450px;border-radius:20px;padding:18px;box-shadow:var(--shadow);max-height:90vh;overflow-y:auto}
+    .modal-card{background:var(--card);color:var(--text);width:100%;max-width:460px;border-radius:20px;padding:18px;box-shadow:var(--shadow);max-height:90vh;overflow-y:auto}
     .modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;border-bottom:1px solid var(--border);padding-bottom:8px}
     .close-x{background:none;border:none;font-size:1.3rem;color:var(--muted);cursor:pointer}
     .form-group{margin-bottom:10px}
@@ -115,10 +116,14 @@
     .tab-btn{flex:1;padding:8px 4px;border:none;border-radius:9px;background:transparent;color:var(--text);font-weight:700;font-size:.82rem;cursor:pointer}
     .tab-btn.active{background:var(--primary);color:#fff}
     .appt-item{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:10px;margin-bottom:8px;font-size:.85rem}
-    .appt-item header{display:flex;justify-content:space-between;font-weight:800;margin-bottom:4px}
+    .appt-item header{display:flex;justify-content:space-between;align-items:center;gap:6px;font-weight:800;margin-bottom:4px}
+    .queue-badge{background:rgba(15,118,110,.14);color:var(--primary);border:1px solid var(--primary);padding:2px 8px;border-radius:8px;font-size:.76rem;font-weight:800}
     .status-badge{padding:2px 8px;border-radius:6px;font-size:.74rem;font-weight:800}
     .status-pending{background:#fef3c7;color:#b45309}
     .status-active{background:#dcfce7;color:#15803d}
+    .status-rejected{background:#fee2e2;color:#b91c1c}
+    .sub-box{background:linear-gradient(135deg,rgba(15,118,110,.1),rgba(20,184,166,.15));border:1px solid var(--primary);border-radius:12px;padding:10px 12px;margin-bottom:12px;font-size:.83rem}
+    .sub-alert-week{background:rgba(245,158,11,.16);border:1.5px solid #d97706;color:var(--text);border-radius:12px;padding:10px 12px;margin-bottom:12px;font-size:.83rem;font-weight:700}
     .vip-pitch-box{background:linear-gradient(135deg,rgba(15,118,110,.12),rgba(245,158,11,.14));border:1.5px solid var(--primary);padding:14px;border-radius:14px;font-size:.88rem;margin-bottom:12px;line-height:1.65}
     .vip-pitch-box ul{margin:8px 18px}
     .toast{position:fixed;bottom:122px;left:50%;transform:translateX(-50%);background:#0f172a;color:#fff;padding:10px 20px;border-radius:30px;font-size:.88rem;font-weight:700;z-index:300;display:none;box-shadow:0 4px 14px rgba(0,0,0,.3);text-align:center;max-width:90%}
@@ -137,7 +142,10 @@
         </div>
       </div>
       <div class="tools" style="width:100%;justify-content:space-between;">
-        <button class="tool-btn portal-btn" onclick="openProPortal()" id="proPortalBtn">🩺 بوابة المهنيين</button>
+        <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
+          <button class="tool-btn portal-btn" onclick="openProPortal()" id="proPortalBtn">🩺 بوابة المهنيين</button>
+          <button class="tool-btn my-appts-btn" onclick="openMyAppointments()" id="myApptsBtn">📋 مواعيدي (<span id="myApptsBadge">0</span>)</button>
+        </div>
         <div style="display:flex;gap:6px;align-items:center;">
           <div class="seg">
             <button id="btnAr" class="on" onclick="setLang('ar')">عربي</button>
@@ -269,6 +277,24 @@
     </button>
   </nav>
 
+  <!-- نافذة مواعيدي للمريض (متابعة الترتيب بالأسبقية، الموافقة، والوقت المحدد) -->
+  <div class="modal" id="myApptsModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>📋 مواعيدي وترتيبي في الانتظار</h3>
+        <button class="close-x" onclick="closeModal('myApptsModal')">✕</button>
+      </div>
+      <div class="form-group">
+        <label>رقم هاتفك الذي حجزت به (لعرض مواعيدك وتحديثاتها)</label>
+        <div style="display:flex;gap:6px;">
+          <input type="tel" id="myPhoneLookup" placeholder="مثال: 0550123456" />
+          <button type="button" onclick="lookupMyAppointments()" style="background:var(--primary);color:#fff;border:none;border-radius:10px;padding:0 14px;font-weight:800;cursor:pointer;">عرض</button>
+        </div>
+      </div>
+      <div id="myApptsList"></div>
+    </div>
+  </div>
+
   <!-- نافذة إدارة الإعلانات (تُفتح بالنقر 7 مرات على واجهة الإعلان) -->
   <div id="sehatiQuickModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.82);z-index:999999;padding:14px;overflow-y:auto;">
     <div style="max-width:440px;margin:24px auto;background:#102521;color:#fff;border:1px solid #1de9b6;border-radius:14px;padding:14px;font-size:13px;">
@@ -320,10 +346,11 @@
         <h3 id="bookTitle">📅 حجز موعد طبي</h3>
         <button class="close-x" onclick="closeModal('bookModal')">✕</button>
       </div>
-      <p id="bookTargetName" style="font-weight:800;color:var(--primary);margin-bottom:10px;"></p>
+      <p id="bookTargetName" style="font-weight:800;color:var(--primary);margin-bottom:6px;"></p>
+      <div id="bookQueuePreview" style="background:rgba(15,118,110,.1);border:1px solid var(--primary);border-radius:10px;padding:8px 10px;font-size:.82rem;font-weight:700;margin-bottom:10px;"></div>
       <div class="form-group"><label id="lblPatientName">الاسم واللقب *</label><input type="text" id="bFullName" placeholder="مثال: أحمد بن علي" /></div>
-      <div class="form-group"><label id="lblPatientPhone">رقم الهاتف للتأكيد *</label><input type="tel" id="bPhone" placeholder="مثال: 0550123456" /></div>
-      <div class="form-group"><label id="lblApptDate">التاريخ المفضل *</label><input type="date" id="bDate" /></div>
+      <div class="form-group"><label id="lblPatientPhone">رقم الهاتف للتأكيد ومتابعة الترتيب *</label><input type="tel" id="bPhone" onchange="updateBookQueuePreview()" placeholder="مثال: 0550123456" /></div>
+      <div class="form-group"><label id="lblApptDate">التاريخ المفضل *</label><input type="date" id="bDate" onchange="updateBookQueuePreview()" /></div>
       <div class="form-group">
         <label id="lblApptTime">الفترة المناسبة</label>
         <select id="bPeriod">
@@ -378,11 +405,13 @@
       </div>
 
       <div id="proDashboardView" style="display:none;">
+        <div id="proSubStatusBox" class="sub-box"></div>
+        <div id="proLastWeekAlert" class="sub-alert-week" style="display:none;"></div>
         <div id="pendingWarningBox" class="vip-pitch-box" style="display:none;">
           <b>🎉 تهانينا! تم استلام ملفك المهني بنجاح.</b><br>
           لظهور عيادتك أو صيدليتك أمام آلاف المرضى في ولايتك والاستفادة من المزايا الحصرية:
           <ul>
-            <li>✅ استقبال حجوزات المواعيد مباشرة على هاتفك.</li>
+            <li>✅ استقبال حجوزات المواعيد مباشرة على هاتفك مع ترتيب الأسبقية.</li>
             <li>✅ ظهور أولوية في نتائج البحث مع موقعك على الخريطة.</li>
             <li>✅ شارة التوثيق الرسمية وزيادة ثقة المرضى.</li>
           </ul>
@@ -515,7 +544,8 @@
     let favs = JSON.parse(localStorage.getItem('sehati_favs') || '[]'),
         localPlaces = JSON.parse(localStorage.getItem('sehati_pro_places') || '[]'),
         localAppointments = JSON.parse(localStorage.getItem('sehati_appointments') || '[]'),
-        localProSession = JSON.parse(localStorage.getItem('sehati_pro_session') || 'null');
+        localProSession = JSON.parse(localStorage.getItem('sehati_pro_session') || 'null'),
+        lastPatientPhone = localStorage.getItem('sehati_last_patient_phone') || '';
 
     window.defaultPlacesList = [
       {id:'dz_1',tp:'h',approved:true,nm_ar:'المستشفى الجامعي مصطفى باشا',nm_fr:'CHU Mustapha Pacha',sp_ar:'مستشفى جامعي - جميع التخصصات والاستعجالات',sp_fr:'CHU - Toutes spécialités & Urgences',srv_ar:'استعجالات 24/24، جراحة، طب القلب، طب الأطفال، تحاليل وأشعة',srv_fr:'Urgences 24/24, Chirurgie, Cardiologie, Pédiatrie, Labo & Imagerie',ad_ar:'ساحة أول ماي، الجزائر الوسطى، الجزائر',ad_fr:'Place du 1er Mai, Alger-Centre, Alger',hr_ar:'مفتوح 24 ساعة / 7 أيام',hr_fr:'Ouvert 24h/24 - 7j/7',ph:'021235555',lat:36.7628,lng:3.0536,feat:true,canBook:false},
@@ -523,6 +553,53 @@
       {id:'dz_3',tp:'h',approved:true,nm_ar:'المؤسسة العمومية الاستشفائية - مفتاح',nm_fr:'EPH Meftah - Hôpital',sp_ar:'مستشفى عمومي - استعجالات طبية وجراحية',sp_fr:'Hôpital Public - Urgences',srv_ar:'استعجالات 24/24، طب عام، أمومة وطفولة، أشعة وتحاليل',srv_fr:'Urgences 24/24, Médecine générale, Maternité, Radiologie',ad_ar:'مفتاح، ولاية البليدة',ad_fr:'Meftah, Wilaya de Blida',hr_ar:'مفتوح 24 ساعة / 7 أيام',hr_fr:'Ouvert 24h/24 - 7j/7',ph:'025331212',lat:36.6203,lng:3.2225,feat:false,canBook:false},
       {id:'dz_4',tp:'c',approved:true,nm_ar:'عيادة الأزهر الطبية الجراحية - الجزائر',nm_fr:'Clinique El Azhar - Alger',sp_ar:'عيادة خاصة متعددة التخصصات',sp_fr:'Clinique Médico-Chirurgicale',srv_ar:'جراحة القلب، القسطرة، سكانير وإيريم (IRM)، استعجالات 24/24',srv_fr:'Chirurgie cardiaque, Cathétérisme, Scanner & IRM, Urgences 24/24',ad_ar:'دالي إبراهيم، الجزائر العاصمة',ad_fr:'Dely Ibrahim, Alger',hr_ar:'مفتوح 24 ساعة / 7 أيام',hr_fr:'Ouvert 24h/24',ph:'023304040',lat:36.7575,lng:2.9814,feat:true,canBook:true}
     ];
+
+    /* حساب حالة الاشتراك والعداد العكسي للمهنيين */
+    function getSubscriptionInfo(item) {
+      const isDefaultOrImported = !item || String(item.id || '').startsWith('dz_') || String(item.id || '').startsWith('imp_');
+      if (isDefaultOrImported) {
+        return { isPro: false, isActive: item?.approved !== false, label: '', remainingDays: null, remainingText: '', expiresAt: null, isLastWeek: false };
+      }
+      const now = Date.now();
+      const expiresAt = item.subscriptionExpiresAt ? Number(item.subscriptionExpiresAt) : null;
+      const planMonths = Number(item.subscriptionMonths || 0);
+      const planLabel = planMonths === 1 ? 'شهر واحد (30 يوم)' :
+                        planMonths === 3 ? '3 أشهر (90 يوم)' :
+                        planMonths === 6 ? '6 أشهر (180 يوم)' :
+                        planMonths === 12 ? 'سنة كاملة (365 يوم)' :
+                        (item.subscriptionLabel || 'محددة');
+
+      if (!item.approved || !expiresAt) {
+        return { isPro: true, isActive: false, label: planLabel, remainingDays: 0, remainingText: 'غير مفعّل بعد', expiresAt, isLastWeek: false };
+      }
+
+      const diffMs = expiresAt - now;
+      if (diffMs <= 0) {
+        return { isPro: true, isActive: false, label: planLabel, remainingDays: 0, remainingText: 'منتهي الصلاحية', expiresAt, isLastWeek: false };
+      }
+
+      const totalHours = Math.floor(diffMs / (1000 * 60 * 60));
+      const days = Math.floor(totalHours / 24);
+      const hours = totalHours % 24;
+      const isLastWeek = days <= 7;
+
+      return {
+        isPro: true,
+        isActive: true,
+        label: planLabel,
+        remainingDays: days,
+        remainingText: `${days} يوم و ${hours} ساعة`,
+        expiresAt,
+        isLastWeek
+      };
+    }
+
+    function isItemPubliclyVisible(item) {
+      if (item.approved === false) return false;
+      const sub = getSubscriptionInfo(item);
+      if (sub.isPro && !sub.isActive) return false;
+      return true;
+    }
 
     window.placesData = [...window.defaultPlacesList, ...localPlaces];
 
@@ -533,6 +610,16 @@
         const remote = [];
         snap.forEach(d => remote.push({ id: d.id, ...d.data() }));
         window.placesData = [...window.defaultPlacesList, ...remote];
+
+        const apptSnap = await window.fb.getDocs(window.fb.collection(window.fb.db, "appointments"));
+        const remoteAppts = [];
+        apptSnap.forEach(d => remoteAppts.push({ id: d.id, ...d.data() }));
+        if (remoteAppts.length) {
+          localAppointments = remoteAppts;
+          localStorage.setItem('sehati_appointments', JSON.stringify(localAppointments));
+        }
+
+        updateMyApptsBadge();
         window.render();
       } catch (e) {}
     };
@@ -548,7 +635,7 @@
       const el = document.getElementById('toastMsg');
       el.textContent = msg;
       el.style.display = 'block';
-      setTimeout(() => { el.style.display = 'none'; }, 3500);
+      setTimeout(() => { el.style.display = 'none'; }, 3800);
     }
 
     function updateCatIndicator(btn) {
@@ -604,12 +691,102 @@
     function closeModal(id) { document.getElementById(id).classList.remove('open'); }
     function openSupportModal() { document.getElementById('supportModal').classList.add('open'); }
 
+    /* حساب ترتيب الموعد في نفس اليوم والمرفق حسب أسبقية التسجيل */
+    function getSortedDayAppointments(placeId, dateStr) {
+      return localAppointments
+        .filter(a => a.placeId === placeId && a.date === dateStr && a.status !== 'rejected')
+        .sort((a, b) => new Date(a.createdAt || 0) - new Date(b.createdAt || 0));
+    }
+
+    function getAppointmentQueueNumber(appt) {
+      const sameDayList = getSortedDayAppointments(appt.placeId, appt.date);
+      const pos = sameDayList.findIndex(x => x.id === appt.id);
+      return pos >= 0 ? (pos + 1) : (sameDayList.length + 1);
+    }
+
+    function updateBookQueuePreview() {
+      const previewEl = document.getElementById('bookQueuePreview');
+      if (!selectedPlaceForBooking || !previewEl) return;
+      const dateStr = document.getElementById('bDate').value;
+      if (!dateStr) { previewEl.textContent = ''; return; }
+      const sameDayList = getSortedDayAppointments(selectedPlaceForBooking.id, dateStr);
+      const nextRank = sameDayList.length + 1;
+      previewEl.innerHTML = `📌 الترتيب المتوقع لأسبقية تسجيلك في يوم <b>${dateStr}</b>: <b>الرقم #${nextRank}</b> (يوجد حالياً ${sameDayList.length} مسجل في هذا اليوم).`;
+    }
+
+    function updateMyApptsBadge() {
+      const badge = document.getElementById('myApptsBadge');
+      if (!badge) return;
+      const mine = lastPatientPhone ? localAppointments.filter(a => a.patientPhone === lastPatientPhone) : [];
+      badge.textContent = mine.length;
+    }
+
+    function openMyAppointments() {
+      document.getElementById('myPhoneLookup').value = lastPatientPhone || '';
+      document.getElementById('myApptsModal').classList.add('open');
+      lookupMyAppointments();
+    }
+
+    function lookupMyAppointments() {
+      const phone = document.getElementById('myPhoneLookup').value.trim();
+      const listEl = document.getElementById('myApptsList');
+      if (!phone) {
+        listEl.innerHTML = '<p style="text-align:center;color:var(--muted);padding:16px;">أدخل رقم هاتفك لعرض مواعيدك وترتيبك في القائمة.</p>';
+        return;
+      }
+      lastPatientPhone = phone;
+      localStorage.setItem('sehati_last_patient_phone', phone);
+      updateMyApptsBadge();
+
+      const mine = localAppointments
+        .filter(a => a.patientPhone === phone)
+        .sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
+
+      if (!mine.length) {
+        listEl.innerHTML = '<p style="text-align:center;color:var(--muted);padding:16px;">لا توجد مواعيد مسجلة بهذا الرقم.</p>';
+        return;
+      }
+
+      listEl.innerHTML = mine.map(a => {
+        const rank = getAppointmentQueueNumber(a);
+        const isConfirmed = a.status === 'confirmed';
+        const isRejected = a.status === 'rejected';
+        const statusHtml = isConfirmed
+          ? `<span class="status-badge status-active">✅ تمت الموافقة • في القائمة</span>`
+          : isRejected
+            ? `<span class="status-badge status-rejected">❌ غير مؤكد</span>`
+            : `<span class="status-badge status-pending">⏳ بانتظار تأكيد الطبيب</span>`;
+
+        const arrivalTimeHtml = a.assignedTime
+          ? `<div style="margin-top:6px;background:rgba(15,118,110,.12);border-right:3px solid var(--primary);padding:6px 10px;border-radius:8px;font-weight:800;color:var(--primary);">⏰ الوقت المحدد لحضورك: ${a.assignedTime} (لتفادي الانتظار في القاعة)</div>`
+          : `<div style="margin-top:6px;color:var(--muted);font-size:.8rem;">⏰ سيحدد الطبيب أو العيادة الوقت المناسب لقدومك عند تأكيد الحجز.</div>`;
+
+        return `
+          <div class="appt-item">
+            <header>
+              <span>🏥 ${a.placeName}</span>
+              <span class="queue-badge">ترتيبك: #${rank}</span>
+            </header>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px;">
+              <span>📅 ${a.date} • ${a.period}</span>
+              ${statusHtml}
+            </div>
+            ${arrivalTimeHtml}
+          </div>
+        `;
+      }).join('');
+    }
+
     function openBooking(placeId) {
       const place = window.placesData.find(p => p.id === placeId);
       if (!place) return;
       selectedPlaceForBooking = place;
       document.getElementById('bookTargetName').textContent = '📍 ' + (lang === 'ar' ? place.nm_ar : place.nm_fr);
+      if (lastPatientPhone && !document.getElementById('bPhone').value) {
+        document.getElementById('bPhone').value = lastPatientPhone;
+      }
       document.getElementById('bDate').valueAsDate = new Date();
+      updateBookQueuePreview();
       document.getElementById('bookModal').classList.add('open');
     }
 
@@ -623,17 +800,38 @@
         showToast(lang === 'ar' ? 'يرجى إدخال الاسم واللقب ورقم الهاتف والتاريخ' : 'Veuillez remplir les champs obligatoires');
         return;
       }
-      const appt = { id: 'appt_' + Date.now(), placeId: selectedPlaceForBooking.id, placeName: selectedPlaceForBooking.nm_ar, patientName: fullName, patientPhone: phone, date, period, note: note || 'كشف / استشارة', createdAt: new Date().toISOString() };
-      localAppointments.unshift(appt);
+
+      lastPatientPhone = phone;
+      localStorage.setItem('sehati_last_patient_phone', phone);
+
+      const appt = {
+        id: 'appt_' + Date.now() + '_' + Math.floor(Math.random() * 1000),
+        placeId: selectedPlaceForBooking.id,
+        placeName: selectedPlaceForBooking.nm_ar,
+        patientName: fullName,
+        patientPhone: phone,
+        date,
+        period,
+        note: note || 'كشف / استشارة',
+        status: 'pending',
+        assignedTime: '',
+        createdAt: new Date().toISOString()
+      };
+
+      localAppointments.push(appt);
       localStorage.setItem('sehati_appointments', JSON.stringify(localAppointments));
+      updateMyApptsBadge();
+
+      const rank = getAppointmentQueueNumber(appt);
+
       if (window.fbReady) {
-        try { await window.fb.addDoc(window.fb.collection(window.fb.db, "appointments"), appt); } catch (e) {}
+        try { await window.fb.setDoc(window.fb.doc(window.fb.db, "appointments", appt.id), appt); } catch (e) {}
       }
+
       document.getElementById('bFullName').value = '';
-      document.getElementById('bPhone').value = '';
       document.getElementById('bNote').value = '';
       closeModal('bookModal');
-      showToast(lang === 'ar' ? '✅ تم إرسال طلب الموعد بنجاح!' : '✅ Rendez-vous envoyé !');
+      showToast(`✅ تم تسجيل موعدك! ترتيبك في يوم ${date} هو #${rank}`);
     }
 
     function openProPortal() {
@@ -667,7 +865,7 @@
         try { const cred = await window.fb.createUserWithEmailAndPassword(window.fb.auth, email, pass); uid = cred.user.uid; }
         catch (err) { showToast('خطأ في التسجيل: ' + err.message); return; }
       }
-      const profileData = { id: uid, ownerUid: uid, email, tp, approved: false, nm_ar: nm, nm_fr: nm, sp_ar: sp, sp_fr: sp, srv_ar: srv || 'خدمات طبية وصحية', srv_fr: srv || 'Services médicaux', ad_ar: ad || 'الجزائر', ad_fr: ad || 'Algérie', hr_ar: hr || '08:30 - 17:00', hr_fr: hr || '08h30 - 17h00', ph, feat: false, canBook: tp !== 'p' && tp !== 'h', createdAt: new Date().toISOString() };
+      const profileData = { id: uid, ownerUid: uid, email, tp, approved: false, subscriptionMonths: 0, subscriptionLabel: '', subscriptionExpiresAt: null, nm_ar: nm, nm_fr: nm, sp_ar: sp, sp_fr: sp, srv_ar: srv || 'خدمات طبية وصحية', srv_fr: srv || 'Services médicaux', ad_ar: ad || 'الجزائر', ad_fr: ad || 'Algérie', hr_ar: hr || '08:30 - 17:00', hr_fr: hr || '08h30 - 17h00', ph, feat: false, canBook: tp !== 'p' && tp !== 'h', createdAt: new Date().toISOString() };
       localPlaces.push(profileData);
       localStorage.setItem('sehati_pro_places', JSON.stringify(localPlaces));
       window.placesData.push(profileData);
@@ -701,18 +899,92 @@
       if (found) { currentProProfile = found; localProSession = found; }
     };
 
+    async function confirmAppointmentWithTime(apptId) {
+      const timeInput = document.getElementById(`apptTime_${apptId}`);
+      const assignedTime = timeInput ? timeInput.value.trim() : '';
+      if (!assignedTime) {
+        showToast('يرجى إدخال الوقت المناسب لقدوم المريض أولاً (مثال: 09:30 صباحاً)');
+        return;
+      }
+
+      localAppointments = localAppointments.map(a =>
+        a.id === apptId ? { ...a, status: 'confirmed', assignedTime, confirmedAt: new Date().toISOString() } : a
+      );
+      localStorage.setItem('sehati_appointments', JSON.stringify(localAppointments));
+      updateMyApptsBadge();
+
+      if (window.fbReady) {
+        try {
+          await window.fb.updateDoc(window.fb.doc(window.fb.db, "appointments", apptId), {
+            status: 'confirmed',
+            assignedTime,
+            confirmedAt: new Date().toISOString()
+          });
+        } catch (e) {}
+      }
+
+      showToast('✅ تم تأكيد الموعد وتحديد الوقت للمريض!');
+      await showProDashboard();
+    }
+
+    async function rejectAppointment(apptId) {
+      localAppointments = localAppointments.map(a =>
+        a.id === apptId ? { ...a, status: 'rejected' } : a
+      );
+      localStorage.setItem('sehati_appointments', JSON.stringify(localAppointments));
+      updateMyApptsBadge();
+
+      if (window.fbReady) {
+        try {
+          await window.fb.updateDoc(window.fb.doc(window.fb.db, "appointments", apptId), { status: 'rejected' });
+        } catch (e) {}
+      }
+
+      showToast('تم تحديث حالة الموعد');
+      await showProDashboard();
+    }
+
     async function showProDashboard() {
       document.getElementById('proAuthView').style.display = 'none';
       document.getElementById('proDashboardView').style.display = 'block';
       const prof = currentProProfile || localProSession;
       if (!prof) return;
-      document.getElementById('pendingWarningBox').style.display = prof.approved === true ? 'none' : 'block';
+
+      const sub = getSubscriptionInfo(prof);
+      const subBox = document.getElementById('proSubStatusBox');
+      const weekAlert = document.getElementById('proLastWeekAlert');
+
+      if (sub.isActive && sub.expiresAt) {
+        const expDateStr = new Date(sub.expiresAt).toLocaleDateString('ar-DZ');
+        subBox.style.display = 'block';
+        subBox.innerHTML = `
+          <div>📦 <b>مدة الاشتراك:</b> ${sub.label}</div>
+          <div>⏳ <b>العداد العكسي للمدة المتبقية:</b> <span style="color:var(--primary);font-weight:800;">${sub.remainingText}</span></div>
+          <div style="font-size:.78rem;color:var(--muted);">تاريخ الانتهاء: ${expDateStr}</div>
+        `;
+      } else {
+        subBox.style.display = 'block';
+        subBox.innerHTML = `📦 <b>حالة الاشتراك:</b> <span style="color:#b45309;font-weight:800;">${sub.remainingText || 'غير مفعّل'}</span>`;
+      }
+
+      if (sub.isActive && sub.isLastWeek) {
+        weekAlert.style.display = 'block';
+        weekAlert.innerHTML = `
+          ⚠️ <b>تنبيه هام:</b> اشتراكك سينتهي قريباً (متبقي <b>${sub.remainingText}</b>). يرجى التواصل مع الإدارة لتجديد اشتراكك وضمان استمرار ظهور حسابك واستقبال مواعيد المرضى.
+          <button type="button" onclick="closeModal('proModal'); openSupportModal();" class="btn-primary" style="margin-top:8px;">📞 تواصل مع الإدارة لتجديد الاشتراك</button>
+        `;
+      } else {
+        weekAlert.style.display = 'none';
+      }
+
+      document.getElementById('pendingWarningBox').style.display = sub.isActive ? 'none' : 'block';
       document.getElementById('editName').value = prof.nm_ar || '';
       document.getElementById('editSpec').value = prof.sp_ar || '';
       document.getElementById('editServices').value = prof.srv_ar || '';
       document.getElementById('editAddr').value = prof.ad_ar || '';
       document.getElementById('editHours').value = prof.hr_ar || '';
       document.getElementById('editPhone').value = prof.ph || '';
+
       let myAppts = localAppointments.filter(a => a.placeId === prof.id);
       if (window.fbReady) {
         try {
@@ -722,9 +994,47 @@
           snap.forEach(d => myAppts.push({ id: d.id, ...d.data() }));
         } catch (e) {}
       }
+
+      myAppts.sort((a, b) => {
+        if (a.date !== b.date) return String(a.date || '').localeCompare(String(b.date || ''));
+        return new Date(a.createdAt || 0) - new Date(b.createdAt || 0);
+      });
+
       document.getElementById('apptCount').textContent = myAppts.length;
       const listEl = document.getElementById('apptsList');
-      listEl.innerHTML = myAppts.length === 0 ? '<p style="text-align:center;color:var(--muted);padding:20px;">لا توجد مواعيد محجوزة حتى الآن.</p>' : myAppts.map(a => `<div class="appt-item"><header><span>👤 ${a.patientName}</span><span style="color:var(--primary);">${a.date}</span></header><div>🕒 ${a.period} | 📝 ${a.note}</div><div style="margin-top:6px;"><a href="tel:${a.patientPhone}" style="display:inline-block;background:var(--primary);color:#fff;padding:4px 10px;border-radius:8px;text-decoration:none;font-weight:700;">📞 اتصال بالمريض: ${a.patientPhone}</a></div></div>`).join('');
+
+      listEl.innerHTML = myAppts.length === 0
+        ? '<p style="text-align:center;color:var(--muted);padding:20px;">لا توجد مواعيد محجوزة حتى الآن.</p>'
+        : myAppts.map(a => {
+            const rank = getAppointmentQueueNumber(a);
+            const isConfirmed = a.status === 'confirmed';
+            const isRejected = a.status === 'rejected';
+            const badge = isConfirmed
+              ? `<span class="status-badge status-active">✅ مؤكد (${a.assignedTime || ''})</span>`
+              : isRejected
+                ? `<span class="status-badge status-rejected">❌ مرفوض</span>`
+                : `<span class="status-badge status-pending">⏳ بانتظار التأكيد</span>`;
+
+            return `
+              <div class="appt-item">
+                <header>
+                  <span><span class="queue-badge">#${rank}</span> 👤 ${a.patientName}</span>
+                  ${badge}
+                </header>
+                <div>📅 <b>${a.date}</b> | 🕒 ${a.period} | 📝 ${a.note}</div>
+                <div style="margin-top:6px;">
+                  <a href="tel:${a.patientPhone}" style="display:inline-block;background:var(--primary);color:#fff;padding:3px 9px;border-radius:7px;text-decoration:none;font-size:.78rem;font-weight:700;">📞 ${a.patientPhone}</a>
+                </div>
+                ${!isRejected ? `
+                  <div style="margin-top:8px;display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
+                    <input type="text" id="apptTime_${a.id}" value="${a.assignedTime || ''}" placeholder="وقت الحضور (مثال: 10:00 صباحاً)" style="flex:1;min-width:140px;padding:6px 8px;border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:.8rem;" />
+                    <button type="button" onclick="confirmAppointmentWithTime('${a.id}')" style="background:#16a34a;color:#fff;border:none;border-radius:8px;padding:6px 10px;font-size:.78rem;font-weight:800;cursor:pointer;">✅ تأكيد وتحديد الوقت</button>
+                    <button type="button" onclick="rejectAppointment('${a.id}')" style="background:#dc2626;color:#fff;border:none;border-radius:8px;padding:6px 8px;font-size:.78rem;font-weight:700;cursor:pointer;">✕</button>
+                  </div>
+                ` : ''}
+              </div>
+            `;
+          }).join('');
     }
 
     async function saveProProfile() {
@@ -790,13 +1100,61 @@
 
     function renderAdminAccounts() {
       const registeredAccounts = window.placesData.filter(p => !p.id.startsWith('dz_') && !p.id.startsWith('imp_'));
-      document.getElementById('pendingCountBadge').textContent = registeredAccounts.filter(p => p.approved !== true).length;
+      document.getElementById('pendingCountBadge').textContent = registeredAccounts.filter(p => !getSubscriptionInfo(p).isActive).length;
       const listEl = document.getElementById('adminAccountsList');
       if (registeredAccounts.length === 0) { listEl.innerHTML = '<p style="text-align:center;color:var(--muted);padding:20px;">لا توجد حسابات مهنيين مسجلة بعد.</p>'; return; }
+
       listEl.innerHTML = registeredAccounts.map(acc => {
-        const isApproved = acc.approved === true;
-        return `<div class="appt-item"><header><span>${acc.nm_ar}</span><span class="status-badge ${isApproved ? 'status-active' : 'status-pending'}">${isApproved ? '✅ مفعّل' : '⏳ بانتظار الدفع'}</span></header><div>🩺 ${acc.sp_ar} | 📍 ${acc.ad_ar}</div><div>📞 <a href="tel:${acc.ph}">${acc.ph}</a> | 📧 ${acc.email || ''}</div><div style="display:flex;gap:6px;margin-top:8px;"><button onclick="adminToggleApprove('${acc.id}', ${!isApproved})" style="flex:1;padding:6px;border:none;border-radius:8px;background:${isApproved ? '#ef4444' : '#16a34a'};color:#fff;font-weight:700;cursor:pointer;">${isApproved ? '⛔ إيقاف' : '✅ تفعيل بعد الدفع'}</button><button onclick="adminToggleFeatured('${acc.id}', ${!acc.feat})" style="flex:1;padding:6px;border:none;border-radius:8px;background:#f59e0b;color:#000;font-weight:700;cursor:pointer;">${acc.feat ? 'إلغاء التمييز' : '⭐ تمييز إعلاني'}</button></div></div>`;
+        const sub = getSubscriptionInfo(acc);
+        const defaultMonths = Number(acc.subscriptionMonths || 1);
+        return `
+          <div class="appt-item">
+            <header>
+              <span>${acc.nm_ar}</span>
+              <span class="status-badge ${sub.isActive ? 'status-active' : 'status-pending'}">${sub.isActive ? '✅ مفعّل' : '⏳ غير مفعّل / منتهي'}</span>
+            </header>
+            <div>🩺 ${acc.sp_ar} | 📍 ${acc.ad_ar}</div>
+            <div>📞 <a href="tel:${acc.ph}">${acc.ph}</a> | 📧 ${acc.email || ''}</div>
+            <div style="margin-top:6px;font-size:.8rem;color:var(--primary);font-weight:700;">
+              ⏳ العداد العكسي: ${sub.remainingText} ${sub.isLastWeek && sub.isActive ? '⚠️ (الأسبوع الأخير)' : ''}
+            </div>
+            <div style="margin-top:8px;display:flex;gap:6px;align-items:center;">
+              <select id="subMonths_${acc.id}" style="padding:6px;border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:.8rem;font-weight:700;">
+                <option value="1" ${defaultMonths === 1 ? 'selected' : ''}>شهر (30 يوم)</option>
+                <option value="3" ${defaultMonths === 3 ? 'selected' : ''}>3 أشهر (90 يوم)</option>
+                <option value="6" ${defaultMonths === 6 ? 'selected' : ''}>6 أشهر (180 يوم)</option>
+                <option value="12" ${defaultMonths === 12 ? 'selected' : ''}>سنة (365 يوم)</option>
+              </select>
+              <button onclick="adminActivateSubscription('${acc.id}')" style="flex:1;padding:6px;border:none;border-radius:8px;background:#16a34a;color:#fff;font-weight:700;cursor:pointer;font-size:.8rem;">✅ تفعيل المدة</button>
+              <button onclick="adminToggleApprove('${acc.id}', false)" style="padding:6px 8px;border:none;border-radius:8px;background:#ef4444;color:#fff;font-weight:700;cursor:pointer;font-size:.8rem;">⛔ إيقاف</button>
+            </div>
+            <div style="display:flex;gap:6px;margin-top:6px;">
+              <button onclick="adminToggleFeatured('${acc.id}', ${!acc.feat})" style="flex:1;padding:6px;border:none;border-radius:8px;background:#f59e0b;color:#000;font-weight:700;cursor:pointer;font-size:.8rem;">${acc.feat ? 'إلغاء التمييز' : '⭐ تمييز إعلاني'}</button>
+            </div>
+          </div>
+        `;
       }).join('');
+    }
+
+    async function adminActivateSubscription(id) {
+      const sel = document.getElementById(`subMonths_${id}`);
+      const months = parseInt(sel ? sel.value : '1', 10) || 1;
+      const daysMap = { 1: 30, 3: 90, 6: 180, 12: 365 };
+      const days = daysMap[months] || (months * 30);
+      const expiresAt = Date.now() + (days * 24 * 60 * 60 * 1000);
+      const patch = { approved: true, subscriptionMonths: months, subscriptionExpiresAt: expiresAt };
+
+      window.placesData = window.placesData.map(p => p.id === id ? { ...p, ...patch } : p);
+      localPlaces = localPlaces.map(p => p.id === id ? { ...p, ...patch } : p);
+      localStorage.setItem('sehati_pro_places', JSON.stringify(localPlaces));
+
+      if (window.fbReady) {
+        try { await window.fb.updateDoc(window.fb.doc(window.fb.db, "health_places", id), patch); } catch (e) {}
+      }
+
+      render();
+      renderAdminAccounts();
+      showToast(`✅ تم تفعيل اشتراك المهني لمدة ${months} شهر!`);
     }
 
     async function adminToggleApprove(id, newStatus) {
@@ -881,7 +1239,7 @@
       const box = document.getElementById('listContainer'),
             q = document.getElementById('searchInput').value.toLowerCase().trim(),
             t = T[lang],
-            publicPlaces = window.placesData.filter(item => item.approved !== false),
+            publicPlaces = window.placesData.filter(item => isItemPubliclyVisible(item)),
             sorted = [...publicPlaces].sort((a, b) => (b.feat === true) - (a.feat === true)),
             filtered = sorted.filter(item => {
               if (currentCat === 'fav' && !favs.includes(item.id)) return false;
@@ -1154,6 +1512,7 @@
     })();
 
     if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(() => {});
+    updateMyApptsBadge();
     render();
     window.addEventListener('resize', () => updateCatIndicator(document.querySelector('.cat-pill.active')));
     setTimeout(() => updateCatIndicator(document.querySelector('.cat-pill.active')), 80);
