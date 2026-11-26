@@ -45,11 +45,11 @@
       --shadow:0 6px 18px rgba(0,0,0,.38)
     }
     *{box-sizing:border-box;margin:0;padding:0;font-family:'Tajawal',system-ui,-apple-system,sans-serif;-webkit-tap-highlight-color:transparent}
-    body{background:var(--bg);color:var(--text);line-height:1.55;padding-bottom:136px;transition:background .3s,color .3s}
+    body{background:var(--bg);color:var(--text);line-height:1.55;padding-bottom:124px;transition:background .3s,color .3s}
 
     .hero{position:relative;overflow:hidden;background:linear-gradient(135deg,#0f766e 0%,#0d9488 55%,#0284c7 100%);color:#fff;padding:18px 16px 32px;border-radius:0 0 28px 28px;box-shadow:var(--shadow)}
     .hero::before{content:"";position:absolute;inset:0;opacity:.08;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3'/%3E%3Cpath d='M8 15v1a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6v-4'/%3E%3Ccircle cx='20' cy='10' r='2'/%3E%3C/svg%3E");background-size:85px 85px;transform:rotate(-12deg)}
-    .top{position:relative;z-index:2;display:flex;flex-direction:column;gap:12px;margin-bottom:14px}
+    .top{position:relative;z-index:2;display:flex;flex-direction:column;gap:10px;margin-bottom:14px}
     .brand{display:flex;align-items:center;justify-content:space-between;width:100%;cursor:pointer;user-select:none}
     .logo{width:56px;height:56px;border-radius:16px;background:rgba(255,255,255,.18);display:grid;place-items:center;backdrop-filter:blur(6px);box-shadow:0 4px 12px rgba(0,0,0,.12);flex-shrink:0}
     .logo svg{width:38px;height:38px;stroke:#fff;fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
@@ -62,19 +62,18 @@
     .brand b{font-size:1.38rem;font-weight:800;display:block;line-height:1.1}
     .brand small{display:block;opacity:.9;font-size:.8rem;margin-top:2px}
 
-    .tools-split{display:flex;align-items:center;justify-content:space-between;width:100%;gap:12px;flex-wrap:wrap}
-    .col-pro-stack{display:flex;flex-direction:column;align-items:flex-start;gap:6px}
-    .bottom-quick-strip{position:fixed;bottom:54px;left:0;right:0;display:flex;align-items:center;justify-content:space-between;gap:6px;padding:4px 10px;background:transparent;z-index:145;pointer-events:none}
-    .bottom-quick-strip > *{pointer-events:auto}
-    .bottom-quick-left{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+    .tools-wrap{display:flex;flex-direction:column;gap:8px;width:100%}
+    .portal-row{display:flex;align-items:center;justify-content:flex-start}
+    .theme-level-row{display:flex;align-items:center;justify-content:space-between;gap:6px;flex-wrap:wrap;width:100%}
+    .theme-level-right{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
 
-    .seg{display:flex;background:rgba(15,118,110,.88);border-radius:10px;padding:2px;box-shadow:0 3px 10px rgba(0,0,0,.18)}
+    .seg{display:flex;background:rgba(255,255,255,.18);border-radius:10px;padding:2px}
     .seg button{border:0;background:transparent;color:#fff;font-weight:700;font-size:.74rem;padding:4px 7px;border-radius:8px;cursor:pointer}
     .seg button.on{background:#fff;color:#0f766e}
-    .tool-btn{border:0;background:rgba(15,118,110,.88);color:#fff;padding:6px 10px;border-radius:11px;font-weight:700;font-size:.78rem;cursor:pointer;white-space:nowrap;box-shadow:0 3px 10px rgba(0,0,0,.16)}
+    .tool-btn{border:0;background:rgba(255,255,255,.22);color:#fff;padding:6px 10px;border-radius:11px;font-weight:700;font-size:.78rem;cursor:pointer;white-space:nowrap}
     .portal-btn{background:#fff;color:#0f766e;font-weight:800;font-size:.9rem;padding:9px 15px;border-radius:12px;box-shadow:0 3px 10px rgba(0,0,0,.14)}
-    .user-acc-btn{background:linear-gradient(135deg,#0f766e,#0284c7);color:#fff;border:1px solid rgba(255,255,255,.35);font-weight:800}
-    .my-appts-btn{background:linear-gradient(135deg,#0f766e,#0284c7);color:#fff;border:1px solid rgba(255,255,255,.35);font-weight:800}
+    .user-acc-btn{background:rgba(255,255,255,.22);color:#fff;border:1px solid rgba(255,255,255,.35);font-weight:800}
+    .my-appts-btn{background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.35);font-weight:800}
     .search-wrap input{width:100%;padding:11px 14px;border-radius:14px;border:none;outline:none;font-size:.95rem;background:#fff;color:#0f172a}
 
     .emergency-sec{padding:8px 14px 4px}
@@ -134,7 +133,6 @@
 
     .item-title{font-size:1.08rem;font-weight:800;margin-bottom:2px;display:inline-flex;align-items:center;gap:5px;flex-wrap:wrap}
 
-    /* شارة توثيق مسنّنة ومتقنة وصغيرة ومرفوعة قليلاً */
     .fb-verify-badge{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;transform:translateY(-2.5px);flex-shrink:0;vertical-align:middle}
     .fb-verify-badge svg{width:100%;height:100%;display:block}
     .verified-pill-pro{display:inline-flex;align-items:center;gap:6px;background:rgba(24,119,242,.12);color:#1877f2;border:1px solid rgba(24,119,242,.35);padding:3px 10px;border-radius:999px;font-size:.78rem;font-weight:800}
@@ -154,12 +152,14 @@
     body.dark .act-fav{background:#163832}
     .act-fav.saved{color:#ef4444;border-color:#ef4444}
 
-    /* زر الدعم والإعلان وزر دوائي مطابق له تماماً في الجهة اليمنى بمستواه مع نبض */
-    .support-fab{background:linear-gradient(135deg,#0f766e,#0284c7);color:#fff;border:none;border-radius:50px;padding:8px 13px;font-size:.8rem;font-weight:800;display:inline-flex;align-items:center;gap:5px;box-shadow:0 6px 18px rgba(15,118,110,.42);cursor:pointer;white-space:nowrap}
-    .med-fab{background:linear-gradient(135deg,#0f766e,#0284c7);color:#fff;border:none;border-radius:50px;padding:8px 13px;font-size:.8rem;font-weight:800;display:inline-flex;align-items:center;gap:5px;box-shadow:0 6px 18px rgba(15,118,110,.42);cursor:pointer;white-space:nowrap;animation:medMatchPulse 1.8s ease-in-out infinite}
+    /* زر الدعم والإعلان في موضعه السفلي السابق وزر دوائي مطابق له في نفس المستوى في الجهة المقابلة مع نبض */
+    .support-fab{position:fixed;bottom:68px;left:16px;background:linear-gradient(135deg,#0f766e,#0284c7);color:#fff;border:none;border-radius:50px;padding:10px 15px;font-size:.85rem;font-weight:800;display:flex;align-items:center;gap:6px;box-shadow:0 6px 20px rgba(15,118,110,.45);cursor:pointer;z-index:150}
+    .med-fab{position:fixed;bottom:68px;right:16px;background:linear-gradient(135deg,#0f766e,#0284c7);color:#fff;border:none;border-radius:50px;padding:10px 15px;font-size:.85rem;font-weight:800;display:flex;align-items:center;gap:6px;box-shadow:0 6px 20px rgba(15,118,110,.45);cursor:pointer;z-index:150;animation:medMatchPulse 1.8s ease-in-out infinite}
+    html[dir="ltr"] .support-fab{left:auto;right:16px}
+    html[dir="ltr"] .med-fab{right:auto;left:16px}
     @keyframes medMatchPulse{
-      0%,100%{transform:scale(1);box-shadow:0 6px 18px rgba(15,118,110,.42)}
-      50%{transform:scale(1.06);box-shadow:0 8px 24px rgba(2,132,199,.68)}
+      0%,100%{transform:scale(1);box-shadow:0 6px 20px rgba(15,118,110,.45)}
+      50%{transform:scale(1.06);box-shadow:0 8px 25px rgba(2,132,199,.72)}
     }
 
     .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:200;align-items:center;justify-content:center;padding:16px;overflow-y:auto}
@@ -192,7 +192,7 @@
     .vip-pitch-box ul{margin:8px 18px}
     .otp-code-box{background:rgba(2,132,199,.12);border:1px dashed var(--blue);border-radius:10px;padding:8px 10px;font-size:.83rem;font-weight:800;color:var(--blue);margin-bottom:10px;text-align:center}
     .med-req-img{width:100%;max-height:160px;object-fit:cover;border-radius:10px;margin-top:6px;border:1px solid var(--border)}
-    .toast{position:fixed;bottom:112px;left:50%;transform:translateX(-50%);background:#0f172a;color:#fff;padding:10px 20px;border-radius:30px;font-size:.88rem;font-weight:700;z-index:300;display:none;box-shadow:0 4px 14px rgba(0,0,0,.3);text-align:center;max-width:90%}
+    .toast{position:fixed;bottom:122px;left:50%;transform:translateX(-50%);background:#0f172a;color:#fff;padding:10px 20px;border-radius:30px;font-size:.88rem;font-weight:700;z-index:300;display:none;box-shadow:0 4px 14px rgba(0,0,0,.3);text-align:center;max-width:90%}
   </style>
 </head>
 <body>
@@ -208,9 +208,20 @@
         </div>
       </div>
 
-      <div class="tools-split">
-        <div class="col-pro-stack">
+      <div class="tools-wrap">
+        <div class="portal-row">
           <button class="tool-btn portal-btn" onclick="openProPortal()" id="proPortalBtn">🩺 بوابة المهنيين</button>
+        </div>
+        <div class="theme-level-row">
+          <div class="theme-level-right">
+            <button class="tool-btn user-acc-btn" onclick="openUserAccountModal()" id="userAccBtn">👤 <span id="userAccLabel">حسابي</span></button>
+            <button class="tool-btn my-appts-btn" onclick="openMyAppointments()" id="myApptsBtn"><span id="myApptsLabel">📋 مواعيدي</span> (<span id="myApptsBadge">0</span>)</button>
+            <div class="seg">
+              <button id="btnAr" class="on" onclick="setLang('ar')">عربي</button>
+              <button id="btnFr" onclick="setLang('fr')">FR</button>
+              <button id="btnEn" onclick="setLang('en')">EN</button>
+            </div>
+          </div>
           <button class="tool-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
         </div>
       </div>
@@ -266,24 +277,13 @@
 
   <main class="list" id="listContainer"></main>
 
-  <div class="bottom-quick-strip">
-    <div class="bottom-quick-left">
-      <button class="tool-btn user-acc-btn" onclick="openUserAccountModal()" id="userAccBtn">👤 <span id="userAccLabel">حسابي</span></button>
-      <button class="tool-btn my-appts-btn" onclick="openMyAppointments()" id="myApptsBtn"><span id="myApptsLabel">📋 مواعيدي</span> (<span id="myApptsBadge">0</span>)</button>
-      <div class="seg">
-        <button id="btnAr" class="on" onclick="setLang('ar')">عربي</button>
-        <button id="btnFr" onclick="setLang('fr')">FR</button>
-        <button id="btnEn" onclick="setLang('en')">EN</button>
-      </div>
-      <button class="support-fab" onclick="openSupportModal()" id="supportFabBtn">
-        💬 <span id="supportFabText">الدعم والإعلان</span>
-      </button>
-    </div>
+  <button class="support-fab" onclick="openSupportModal()" id="supportFabBtn">
+    💬 <span id="supportFabText">الدعم والإعلان</span>
+  </button>
 
-    <button class="med-fab" onclick="openMedicineModal()" id="medFabBtn">
-      💊 <span id="medFabText">دوائي</span>
-    </button>
-  </div>
+  <button class="med-fab" onclick="openMedicineModal()" id="medFabBtn">
+    💊 <span id="medFabText">دوائي</span>
+  </button>
 
   <nav class="bottom-cats-bar" id="bottomCatsBar">
     <span class="cat-indicator-bar" id="catIndicatorBar"></span>
