@@ -49,8 +49,8 @@
 
     .hero{position:relative;overflow:hidden;background:linear-gradient(135deg,#0f766e 0%,#0d9488 55%,#0284c7 100%);color:#fff;padding:18px 16px 32px;border-radius:0 0 28px 28px;box-shadow:var(--shadow)}
     .hero::before{content:"";position:absolute;inset:0;opacity:.08;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3'/%3E%3Cpath d='M8 15v1a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6v-4'/%3E%3Ccircle cx='20' cy='10' r='2'/%3E%3C/svg%3E");background-size:85px 85px;transform:rotate(-12deg)}
-    .top{position:relative;z-index:2;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
-    .brand{display:flex;align-items:center;justify-content:space-between;width:100%;cursor:pointer;user-select:none;margin-bottom:4px}
+    .top{position:relative;z-index:2;display:flex;flex-direction:column;gap:12px;margin-bottom:14px}
+    .brand{display:flex;align-items:center;justify-content:space-between;width:100%;cursor:pointer;user-select:none}
     .logo{width:56px;height:56px;border-radius:16px;background:rgba(255,255,255,.18);display:grid;place-items:center;backdrop-filter:blur(6px);box-shadow:0 4px 12px rgba(0,0,0,.12);flex-shrink:0}
     .logo svg{width:38px;height:38px;stroke:#fff;fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
     .ecg{stroke-dasharray:120;stroke-dashoffset:240;animation:draw 2.4s linear infinite}
@@ -61,16 +61,20 @@
     @keyframes drawBottom{to{stroke-dashoffset:0}}
     .brand b{font-size:1.38rem;font-weight:800;display:block;line-height:1.1}
     .brand small{display:block;opacity:.9;font-size:.8rem;margin-top:2px}
-    .tools{display:flex;gap:6px;align-items:center;justify-content:space-between;width:100%;flex-wrap:wrap}
-    .action-bar-group{display:flex;align-items:center;justify-content:space-between;gap:6px;flex:1;min-width:230px}
-    .right-quick-group{display:flex;gap:5px;align-items:center;margin-inline-start:auto}
-    .seg{display:flex;background:rgba(255,255,255,.18);border-radius:11px;padding:3px}
-    .seg button{border:0;background:transparent;color:#fff;font-weight:700;font-size:.76rem;padding:4px 7px;border-radius:8px;cursor:pointer}
+
+    /* توزيع الأزرار في الترويسة: عمود المهنيين+اللغة/الوضع الليلي في جهة، وعمود حسابي+مواعيدي في الجهة المقابلة، والوسط فارغ */
+    .tools-split{display:flex;align-items:stretch;justify-content:space-between;width:100%;gap:16px}
+    .col-pro-stack{display:flex;flex-direction:column;align-items:stretch;gap:6px}
+    .col-pro-subrow{display:flex;align-items:center;justify-content:space-between;gap:6px}
+    .col-user-stack{display:flex;flex-direction:column;align-items:stretch;justify-content:space-between;gap:6px;min-width:118px}
+
+    .seg{display:flex;background:rgba(255,255,255,.18);border-radius:10px;padding:2px}
+    .seg button{border:0;background:transparent;color:#fff;font-weight:700;font-size:.74rem;padding:4px 7px;border-radius:8px;cursor:pointer}
     .seg button.on{background:#fff;color:#0f766e}
-    .tool-btn{border:0;background:rgba(255,255,255,.22);color:#fff;padding:6px 10px;border-radius:11px;font-weight:700;font-size:.78rem;cursor:pointer}
-    .portal-btn{background:#fff;color:#0f766e;font-weight:800}
-    .my-appts-btn{background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.35);font-weight:800}
-    .user-acc-btn{background:rgba(255,255,255,.22);color:#fff;border:1px solid rgba(255,255,255,.35);font-weight:800}
+    .tool-btn{border:0;background:rgba(255,255,255,.22);color:#fff;padding:6px 10px;border-radius:11px;font-weight:700;font-size:.78rem;cursor:pointer;white-space:nowrap}
+    .portal-btn{background:#fff;color:#0f766e;font-weight:800;font-size:.88rem;padding:9px 14px;border-radius:12px;box-shadow:0 3px 10px rgba(0,0,0,.14)}
+    .user-acc-btn{background:rgba(255,255,255,.22);color:#fff;border:1px solid rgba(255,255,255,.35);font-weight:800;text-align:center}
+    .my-appts-btn{background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.35);font-weight:800;text-align:center}
     .search-wrap input{width:100%;padding:11px 14px;border-radius:14px;border:none;outline:none;font-size:.95rem;background:#fff;color:#0f172a}
 
     .emergency-sec{padding:8px 14px 4px}
@@ -125,14 +129,13 @@
     .item-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px;box-shadow:var(--shadow);position:relative}
     .item-card.featured{border:2px solid #eab308;box-shadow:0 6px 18px rgba(234,179,8,.18)}
 
-    /* شارة مميز مسحوبة قليلاً للداخل وبلون ذهبي مصفر لمّاع */
     .badge-feat{position:absolute;top:6px;left:6px;background:linear-gradient(135deg,#fef9c3 0%,#fde047 38%,#facc15 68%,#fef08a 100%);color:#1a1400;font-size:.72rem;font-weight:800;padding:3px 10px;border-radius:0;border:1px solid #eab308;box-shadow:0 2px 8px rgba(250,204,21,.55);z-index:3}
     html[dir="ltr"] .badge-feat{left:auto;right:6px}
 
-    .item-title{font-size:1.08rem;font-weight:800;margin-bottom:2px;display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap}
+    .item-title{font-size:1.08rem;font-weight:800;margin-bottom:2px;display:inline-flex;align-items:center;gap:5px;flex-wrap:wrap}
 
-    /* علامة ✓ في دائرة التوثيق منزلة للأسفل أكثر */
-    .fb-verify-badge{display:inline-grid;place-items:center;width:19px;height:19px;border-radius:50%;background:#1877f2;color:#ffffff;font-size:11px;font-weight:900;line-height:1;padding-top:3px;flex-shrink:0;vertical-align:middle;box-shadow:0 1px 3px rgba(24,119,242,.35)}
+    /* دائرة التوثيق الزرقاء أصغر قليلاً ومرفوعة على مستوى اسم المهني */
+    .fb-verify-badge{display:inline-grid;place-items:center;width:16px;height:16px;border-radius:50%;background:#1877f2;color:#ffffff;font-size:9.5px;font-weight:900;line-height:1;padding-top:1.5px;transform:translateY(-2px);flex-shrink:0;box-shadow:0 1px 3px rgba(24,119,242,.35)}
     .verified-pill-pro{display:inline-flex;align-items:center;gap:6px;background:rgba(24,119,242,.12);color:#1877f2;border:1px solid rgba(24,119,242,.35);padding:3px 10px;border-radius:999px;font-size:.78rem;font-weight:800}
     body.dark .verified-pill-pro{color:#60a5fa}
 
@@ -150,14 +153,19 @@
     body.dark .act-fav{background:#163832}
     .act-fav.saved{color:#ef4444;border-color:#ef4444}
 
-    /* زر الدعم والإعلان + زر دوائي فوق مركزه تماماً بحواف سوداء وبدون لمعان */
+    /* زر الدعم والإعلان + زر دوائي باللون الأخضر الفاقع وينبض فوق مركزه */
     .support-fab{position:fixed;bottom:66px;left:14px;background:linear-gradient(135deg,#0f766e,#0284c7);color:#fff;border:none;border-radius:50px;padding:9px 14px;font-size:.82rem;font-weight:800;display:flex;align-items:center;gap:6px;box-shadow:0 6px 18px rgba(15,118,110,.42);cursor:pointer;z-index:150}
-    .med-fab{position:fixed;bottom:112px;left:14px;transform:translateX(calc((var(--sup-w, 120px) - 100%) / 2));background:linear-gradient(135deg,#ea580c 0%,#f97316 100%);color:#ffffff;border:1.5px solid #0f172a;border-radius:14px;padding:8px 14px;font-size:.84rem;font-weight:800;display:flex;align-items:center;gap:6px;box-shadow:0 6px 18px rgba(234,88,12,.38);cursor:pointer;z-index:151;animation:medBannerPulse 2.4s ease-in-out infinite}
+    .med-fab{position:fixed;bottom:112px;left:14px;transform:translateX(calc((var(--sup-w, 120px) - 100%) / 2)) scale(1);background:linear-gradient(135deg,#16a34a 0%,#22c55e 55%,#4ade80 100%);color:#052e16;border:1.5px solid #0f172a;border-radius:14px;padding:8px 14px;font-size:.85rem;font-weight:800;display:flex;align-items:center;gap:6px;box-shadow:0 0 16px rgba(34,197,94,.65);cursor:pointer;z-index:151;animation:medVividGreenPulse 1.5s ease-in-out infinite}
     html[dir="ltr"] .support-fab{left:auto;right:14px}
-    html[dir="ltr"] .med-fab{left:auto;right:14px;transform:translateX(calc((100% - var(--sup-w, 120px)) / 2))}
-    @keyframes medBannerPulse{
-      0%,100%{box-shadow:0 6px 18px rgba(234,88,12,.35)}
-      50%{box-shadow:0 8px 22px rgba(249,115,22,.55)}
+    html[dir="ltr"] .med-fab{left:auto;right:14px;transform:translateX(calc((100% - var(--sup-w, 120px)) / 2)) scale(1)}
+    @keyframes medVividGreenPulse{
+      0%,100%{transform:translateX(calc((var(--sup-w, 120px) - 100%) / 2)) scale(1);box-shadow:0 0 12px rgba(34,197,94,.55)}
+      50%{transform:translateX(calc((var(--sup-w, 120px) - 100%) / 2)) scale(1.07);box-shadow:0 0 24px rgba(74,222,128,.95)}
+    }
+    html[dir="ltr"] .med-fab{animation-name:medVividGreenPulseLtr}
+    @keyframes medVividGreenPulseLtr{
+      0%,100%{transform:translateX(calc((100% - var(--sup-w, 120px)) / 2)) scale(1);box-shadow:0 0 12px rgba(34,197,94,.55)}
+      50%{transform:translateX(calc((100% - var(--sup-w, 120px)) / 2)) scale(1.07);box-shadow:0 0 24px rgba(74,222,128,.95)}
     }
 
     .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:200;align-items:center;justify-content:center;padding:16px;overflow-y:auto}
@@ -170,10 +178,11 @@
     .form-group input,.form-group select,.form-group textarea{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--border);background:#ffffff;color:var(--text);font-size:.92rem}
     body.dark .form-group input,body.dark .form-group select,body.dark .form-group textarea{background:#0b221e}
     .btn-primary{width:100%;padding:11px;border-radius:11px;border:none;background:var(--primary);color:#fff;font-weight:800;font-size:.95rem;cursor:pointer;margin-top:6px}
+    .btn-receipt{width:100%;padding:8px 10px;border-radius:9px;border:none;background:linear-gradient(135deg,#0f766e,#0284c7);color:#fff;font-weight:800;font-size:.8rem;cursor:pointer;margin-top:7px;display:flex;align-items:center;justify-content:center;gap:5px}
     .btn-danger{width:100%;padding:10px;border-radius:11px;border:none;background:var(--danger);color:#fff;font-weight:700;font-size:.88rem;cursor:pointer;margin-top:8px}
     .btn-secondary{width:100%;padding:10px;border-radius:11px;border:1px solid var(--border);background:transparent;color:var(--text);font-weight:700;font-size:.9rem;cursor:pointer;margin-top:8px}
     .tabs-bar{display:flex;gap:4px;margin-bottom:14px;background:rgba(15,118,110,.08);padding:4px;border-radius:12px}
-    .tab-btn{flex:1;padding:8px 4px;border:none;border-radius:9px;background:transparent;color:var(--text);font-weight:700;font-size:.82rem;cursor:pointer}
+    .tab-btn{flex:1;padding:8px 4px;border:none;border-radius:9px;background:transparent;color:var(--text);font-weight:700;font-size:.78rem;cursor:pointer}
     .tab-btn.active{background:var(--primary);color:#fff}
     .appt-item{background:rgba(255,255,255,.78);border:1px solid var(--border);border-radius:12px;padding:10px;margin-bottom:8px;font-size:.85rem}
     body.dark .appt-item{background:rgba(15,118,110,.12)}
@@ -189,7 +198,7 @@
     .vip-pitch-box ul{margin:8px 18px}
     .otp-code-box{background:rgba(2,132,199,.12);border:1px dashed var(--blue);border-radius:10px;padding:8px 10px;font-size:.83rem;font-weight:800;color:var(--blue);margin-bottom:10px;text-align:center}
     .med-req-img{width:100%;max-height:160px;object-fit:cover;border-radius:10px;margin-top:6px;border:1px solid var(--border)}
-    .toast{position:fixed;bottom:160px;left:50%;transform:translateX(-50%);background:#0f172a;color:#fff;padding:10px 20px;border-radius:30px;font-size:.88rem;font-weight:700;z-index:300;display:none;box-shadow:0 4px 14px rgba(0,0,0,.3);text-align:center;max-width:90%}
+    .toast{position:fixed;bottom:164px;left:50%;transform:translateX(-50%);background:#0f172a;color:#fff;padding:10px 20px;border-radius:30px;font-size:.88rem;font-weight:700;z-index:300;display:none;box-shadow:0 4px 14px rgba(0,0,0,.3);text-align:center;max-width:90%}
   </style>
 </head>
 <body>
@@ -204,24 +213,27 @@
           <svg viewBox="0 0 24 24"><polyline class="ecg" points="2 12 6 12 9 3 13 21 16 12 22 12"></polyline></svg>
         </div>
       </div>
-      <div class="tools">
-        <div class="action-bar-group">
+
+      <div class="tools-split">
+        <div class="col-pro-stack">
           <button class="tool-btn portal-btn" onclick="openProPortal()" id="proPortalBtn">🩺 بوابة المهنيين</button>
-          <div class="right-quick-group">
-            <button class="tool-btn user-acc-btn" onclick="openUserAccountModal()" id="userAccBtn">👤 <span id="userAccLabel">حسابي</span></button>
-            <button class="tool-btn my-appts-btn" onclick="openMyAppointments()" id="myApptsBtn"><span id="myApptsLabel">📋 مواعيدي</span> (<span id="myApptsBadge">0</span>)</button>
+          <div class="col-pro-subrow">
+            <div class="seg">
+              <button id="btnAr" class="on" onclick="setLang('ar')">عربي</button>
+              <button id="btnFr" onclick="setLang('fr')">FR</button>
+              <button id="btnEn" onclick="setLang('en')">EN</button>
+            </div>
+            <button class="tool-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
           </div>
         </div>
-        <div style="display:flex;gap:6px;align-items:center;">
-          <div class="seg">
-            <button id="btnAr" class="on" onclick="setLang('ar')">عربي</button>
-            <button id="btnFr" onclick="setLang('fr')">FR</button>
-            <button id="btnEn" onclick="setLang('en')">EN</button>
-          </div>
-          <button class="tool-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
+
+        <div class="col-user-stack">
+          <button class="tool-btn user-acc-btn" onclick="openUserAccountModal()" id="userAccBtn">👤 <span id="userAccLabel">حسابي</span></button>
+          <button class="tool-btn my-appts-btn" onclick="openMyAppointments()" id="myApptsBtn"><span id="myApptsLabel">📋 مواعيدي</span> (<span id="myApptsBadge">0</span>)</button>
         </div>
       </div>
     </div>
+
     <div class="search-wrap" style="position:relative;z-index:2;">
       <input type="text" id="searchInput" oninput="render()" placeholder="ابحث عن طبيب، صيدلية، عيادة، خدمة، أو ولاية..." />
     </div>
@@ -338,6 +350,7 @@
     </button>
   </nav>
 
+  <!-- نافذة حساب المستخدم: تسجيل برمز تحقق + تعديل الحساب + أرشيف المواعيد والحجوزات + أرشيف دوائي -->
   <div class="modal" id="userAccountModal">
     <div class="modal-card">
       <div class="modal-header">
@@ -365,6 +378,10 @@
 
         <div id="uRegisterPanel" style="display:none;">
           <div class="form-group">
+            <label id="uLblRegName">الاسم واللقب *</label>
+            <input type="text" id="uRegFullName" placeholder="أحمد بن علي" />
+          </div>
+          <div class="form-group">
             <label id="uLblRegContact">رقم الهاتف أو البريد الإلكتروني *</label>
             <input type="text" id="uRegContact" placeholder="0550... / name@mail.com" />
           </div>
@@ -384,24 +401,47 @@
 
       <div id="userProfileBox" style="display:none;">
         <div class="sub-box" id="uActiveSummary"></div>
-        <div class="form-group">
-          <label id="uLblEditPhone">رقم الهاتف</label>
-          <input type="tel" id="uEditPhone" placeholder="0550123456" />
+
+        <div class="tabs-bar">
+          <button class="tab-btn active" id="uDashTabEdit" onclick="switchUserDashTab('edit')">⚙️ <span id="uTabEditTxt">تعديل الحساب</span></button>
+          <button class="tab-btn" id="uDashTabAppts" onclick="switchUserDashTab('appts')">📅 <span id="uTabApptsTxt">أرشيف المواعيد</span></button>
+          <button class="tab-btn" id="uDashTabMeds" onclick="switchUserDashTab('meds')">💊 <span id="uTabMedsTxt">أرشيف دوائي</span></button>
         </div>
-        <div class="form-group">
-          <label id="uLblEditEmail">البريد الإلكتروني</label>
-          <input type="email" id="uEditEmail" placeholder="name@mail.com" />
+
+        <div id="uDashEditPanel">
+          <div class="form-group">
+            <label id="uLblEditFullName">الاسم واللقب</label>
+            <input type="text" id="uEditFullName" />
+          </div>
+          <div class="form-group">
+            <label id="uLblEditPhone">رقم الهاتف</label>
+            <input type="tel" id="uEditPhone" placeholder="0550123456" />
+          </div>
+          <div class="form-group">
+            <label id="uLblEditEmail">البريد الإلكتروني</label>
+            <input type="email" id="uEditEmail" placeholder="name@mail.com" />
+          </div>
+          <div class="form-group">
+            <label id="uLblEditPass">كلمة السر الجديدة (اتركها فارغة إن لم ترد تغييرها)</label>
+            <input type="password" id="uEditPass" placeholder="••••••••" />
+          </div>
+          <button class="btn-primary" id="uBtnSaveEdit" onclick="saveUserProfileChanges()">💾 حفظ التعديلات</button>
         </div>
-        <div class="form-group">
-          <label id="uLblEditPass">كلمة السر الجديدة (اتركها فارغة إن لم ترد تغييرها)</label>
-          <input type="password" id="uEditPass" placeholder="••••••••" />
+
+        <div id="uDashApptsPanel" style="display:none;">
+          <div id="uArchiveApptsList"></div>
         </div>
-        <button class="btn-primary" id="uBtnSaveEdit" onclick="saveUserProfileChanges()">💾 حفظ التعديلات</button>
+
+        <div id="uDashMedsPanel" style="display:none;">
+          <div id="uArchiveMedsList"></div>
+        </div>
+
         <button class="btn-secondary" id="uBtnLogout" onclick="userLogout()">🚪 تسجيل الخروج</button>
       </div>
     </div>
   </div>
 
+  <!-- نافذة دوائي -->
   <div class="modal" id="medicineModal">
     <div class="modal-card">
       <div class="modal-header">
@@ -434,6 +474,7 @@
     </div>
   </div>
 
+  <!-- نافذة مواعيدي للمريض مع تحميل الوصل الرسمي عند موافقة المهني -->
   <div class="modal" id="myApptsModal">
     <div class="modal-card">
       <div class="modal-header">
@@ -679,6 +720,8 @@
         rankLabel:'ترتيبك', confirmedBadge:'✅ تمت الموافقة • في القائمة', rejectedBadge:'❌ غير مؤكد', pendingBadge:'⏳ بانتظار تأكيد الطبيب',
         arrivalTimeMsg:'⏰ الوقت المحدد لحضورك: {time} (لتفادي الانتظار في القاعة)',
         waitDoctorTimeMsg:'⏰ سيحدد الطبيب أو العيادة الوقت المناسب لقدومك عند تأكيد الحجز.',
+        downloadReceiptBtn:'📥 تحميل وصل الموعد الرسمي',
+        receiptDownloaded:'✅ تم تحميل وصل الموعد بنجاح!',
         queuePreview:'📌 الترتيب المتوقع لأسبقية تسجيلك في يوم <b>{date}</b>: <b>الرقم #{rank}</b> (يوجد حالياً {count} مسجل في هذا اليوم).',
         proTitle:'🩺 بوابة الأطباء والصيدليات والعيادات', tabLogin:'تسجيل الدخول', tabRegister:'انضم إلينا',
         loginEmail:'البريد الإلكتروني', loginPass:'كلمة المرور', loginBtn:'دخول إلى لوحة التحكم',
@@ -706,12 +749,15 @@
         defaultAdText:'ضاعف عدد مرضاك وزبائنك! أعلن عن عيادتك، صيدليتك، أو مخبرك في الواجهة الرئيسية لتطبيق صحتي أمام آلاف الباحثين يومياً.',
         uModalTitle:'👤 حساب المستخدم', uTabLogin:'تسجيل الدخول', uTabRegister:'حساب جديد',
         uLblLoginContact:'رقم الهاتف أو البريد الإلكتروني', uLblLoginPass:'كلمة السر', uBtnLogin:'دخول',
+        uLblRegName:'الاسم واللقب *',
         uLblRegContact:'رقم الهاتف أو البريد الإلكتروني *', uLblOtp:'رمز التحقق (OTP)', uLblRegPass:'تعيين كلمة السر *',
         uBtnSendOtp:'إرسال رمز التحقق', uBtnVerifyReg:'تأكيد الرمز وإنشاء الحساب',
-        uOtpSentMsg:'🔐 تم إرسال رمز التحقق إلى {target}: <b>{otp}</b>',
+        uOtpSentMsg:'🔐 تم إرسال رمز التحقق إلى حسابك ({target}): <b>{otp}</b>',
         uOtpWrong:'رمز التحقق غير صحيح', uLoginWrong:'بيانات الدخول غير صحيحة', uAccExists:'هذا الحساب مسجل مسبقاً',
-        uLblEditPhone:'رقم الهاتف', uLblEditEmail:'البريد الإلكتروني', uLblEditPass:'كلمة السر الجديدة (اختياري)',
+        uTabEditTxt:'تعديل الحساب', uTabApptsTxt:'أرشيف المواعيد', uTabMedsTxt:'أرشيف دوائي',
+        uLblEditFullName:'الاسم واللقب', uLblEditPhone:'رقم الهاتف', uLblEditEmail:'البريد الإلكتروني', uLblEditPass:'كلمة السر الجديدة (اختياري)',
         uBtnSaveEdit:'💾 حفظ التعديلات', uBtnLogout:'🚪 تسجيل الخروج', uSavedMsg:'✅ تم تحديث بيانات حسابك',
+        uNoArchAppts:'لا توجد مواعيد في أرشيفك حتى الآن.', uNoArchMeds:'لا توجد طلبات دوائي في أرشيفك حتى الآن.',
         medModalTitle:'💊 دوائي — بحث عن دواء منقطع أو قليل', medLblName:'اسم الدواء (اختياري إذا أرفقت صورة)',
         medLblImg:'صورة الدواء (اختياري إذا كتبت الاسم)', medLblPhone:'رقم الهاتف للتواصل *',
         medLblNote:'ملاحظة (الولاية، الجرعة، أو أي تفاصيل)', medSubmitBtn:'📢 نشر طلب البحث عن الدواء',
@@ -738,6 +784,8 @@
         rankLabel:'Votre rang', confirmedBadge:'✅ Approuvé • Sur la liste', rejectedBadge:'❌ Non confirmé', pendingBadge:'⏳ En attente de confirmation',
         arrivalTimeMsg:'⏰ Heure fixée pour votre venue : {time} (pour éviter l’attente en salle)',
         waitDoctorTimeMsg:'⏰ Le médecin ou la clinique précisera votre heure de passage lors de la confirmation.',
+        downloadReceiptBtn:'📥 Télécharger le reçu officiel',
+        receiptDownloaded:'✅ Reçu du rendez-vous téléchargé !',
         queuePreview:'📌 Rang estimé selon l’ordre d’inscription le <b>{date}</b> : <b>N° #{rank}</b> ({count} inscrit(s) ce jour).',
         proTitle:'🩺 Espace Médecins, Pharmacies & Cliniques', tabLogin:'Connexion', tabRegister:'Rejoignez-nous',
         loginEmail:'Adresse e-mail', loginPass:'Mot de passe', loginBtn:'Accéder au tableau de bord',
@@ -756,7 +804,7 @@
         pendingBoxHtml:'<b>🎉 Félicitations ! Votre dossier professionnel a été reçu.</b><br>Pour apparaître devant des milliers de patients dans votre wilaya :<ul><li>✅ Réception des RDV selon l’ordre d’arrivée.</li><li>✅ Priorité dans la recherche avec carte.</li><li>✅ Badge officiel de confiance.</li></ul><b>Contactez-nous maintenant pour activer votre abonnement :</b><button onclick="closeModal(\'proModal\'); openSupportModal();" class="btn-primary" style="margin-top:8px;">🚀 Activer mon compte (Appel / WhatsApp)</button>',
         noProAppts:'Aucun rendez-vous enregistré pour le moment.',
         timeInputPlaceholder:'Heure de venue (ex: 10:00)', confirmTimeBtn:'✅ Valider & fixer l’heure',
-        toastFillReq:'Veuillez remplir le nom, le téléphone et la date',
+        toastFillReq:'Veuillez remplir les champs requis',
         toastBooked:'✅ RDV enregistré ! Votre rang le {date} est #{rank}',
         toastTimeSaved:'✅ RDV confirmé et heure fixée pour le patient !',
         toastEnterTime:'Veuillez saisir l’heure de venue du patient',
@@ -765,12 +813,15 @@
         defaultAdText:'Multipliez vos patients ! Affichez votre cabinet, pharmacie ou laboratoire sur l’accueil de SEHATI.',
         uModalTitle:'👤 Mon compte utilisateur', uTabLogin:'Connexion', uTabRegister:'Nouveau compte',
         uLblLoginContact:'Téléphone ou adresse e-mail', uLblLoginPass:'Mot de passe', uBtnLogin:'Connexion',
+        uLblRegName:'Nom et prénom *',
         uLblRegContact:'Téléphone ou adresse e-mail *', uLblOtp:'Code de vérification (OTP)', uLblRegPass:'Définir un mot de passe *',
         uBtnSendOtp:'Envoyer le code', uBtnVerifyReg:'Valider le code et créer',
-        uOtpSentMsg:'🔐 Code envoyé vers {target} : <b>{otp}</b>',
+        uOtpSentMsg:'🔐 Code envoyé vers votre compte ({target}) : <b>{otp}</b>',
         uOtpWrong:'Code de vérification invalide', uLoginWrong:'Identifiants incorrects', uAccExists:'Ce compte existe déjà',
-        uLblEditPhone:'Téléphone', uLblEditEmail:'Adresse e-mail', uLblEditPass:'Nouveau mot de passe (optionnel)',
+        uTabEditTxt:'Modifier compte', uTabApptsTxt:'Archive RDV', uTabMedsTxt:'Archive Médocs',
+        uLblEditFullName:'Nom et prénom', uLblEditPhone:'Téléphone', uLblEditEmail:'Adresse e-mail', uLblEditPass:'Nouveau mot de passe (optionnel)',
         uBtnSaveEdit:'💾 Enregistrer', uBtnLogout:'🚪 Déconnexion', uSavedMsg:'✅ Profil mis à jour',
+        uNoArchAppts:'Aucun RDV dans votre archive.', uNoArchMeds:'Aucune recherche de médicament dans votre archive.',
         medModalTitle:'💊 Mon médicament — Recherche en rupture', medLblName:'Nom du médicament (optionnel si photo)',
         medLblImg:'Photo du médicament (optionnel si nom)', medLblPhone:'Téléphone de contact *',
         medLblNote:'Remarque (Wilaya, dosage ou détails)', medSubmitBtn:'📢 Publier la recherche',
@@ -797,6 +848,8 @@
         rankLabel:'Your Rank', confirmedBadge:'✅ Approved • On List', rejectedBadge:'❌ Not Confirmed', pendingBadge:'⏳ Pending Doctor Approval',
         arrivalTimeMsg:'⏰ Scheduled arrival time: {time} (to avoid waiting in the lobby)',
         waitDoctorTimeMsg:'⏰ The doctor or clinic will set your arrival time upon confirming.',
+        downloadReceiptBtn:'📥 Download Official Receipt',
+        receiptDownloaded:'✅ Appointment receipt downloaded!',
         queuePreview:'📌 Estimated first-come queue rank on <b>{date}</b>: <b>#{rank}</b> ({count} registered on this day).',
         proTitle:'🩺 Doctors, Pharmacies & Clinics Portal', tabLogin:'Sign In', tabRegister:'Join Us',
         loginEmail:'Email Address', loginPass:'Password', loginBtn:'Enter Dashboard',
@@ -824,12 +877,15 @@
         defaultAdText:'Grow your patient reach! Feature your clinic, pharmacy, or lab on the main screen of SEHATI.',
         uModalTitle:'👤 User Account', uTabLogin:'Sign In', uTabRegister:'New Account',
         uLblLoginContact:'Phone Number or Email', uLblLoginPass:'Password', uBtnLogin:'Sign In',
+        uLblRegName:'Full Name *',
         uLblRegContact:'Phone Number or Email *', uLblOtp:'Verification Code (OTP)', uLblRegPass:'Set Password *',
         uBtnSendOtp:'Send Verification Code', uBtnVerifyReg:'Verify Code & Create Account',
-        uOtpSentMsg:'🔐 Verification code sent to {target}: <b>{otp}</b>',
+        uOtpSentMsg:'🔐 Verification code sent to your account ({target}): <b>{otp}</b>',
         uOtpWrong:'Invalid verification code', uLoginWrong:'Invalid login credentials', uAccExists:'Account already registered',
-        uLblEditPhone:'Phone Number', uLblEditEmail:'Email Address', uLblEditPass:'New Password (optional)',
+        uTabEditTxt:'Edit Account', uTabApptsTxt:'Appts Archive', uTabMedsTxt:'My Med Archive',
+        uLblEditFullName:'Full Name', uLblEditPhone:'Phone Number', uLblEditEmail:'Email Address', uLblEditPass:'New Password (optional)',
         uBtnSaveEdit:'💾 Save Changes', uBtnLogout:'🚪 Sign Out', uSavedMsg:'✅ Account details updated',
+        uNoArchAppts:'No appointments in your archive yet.', uNoArchMeds:'No medicine requests in your archive yet.',
         medModalTitle:'💊 My Med — Search Short/Out-of-Stock Meds', medLblName:'Medicine Name (optional if photo attached)',
         medLblImg:'Medicine Photo (optional if name provided)', medLblPhone:'Contact Phone Number *',
         medLblNote:'Note (Wilaya, dosage, or details)', medSubmitBtn:'📢 Post Medicine Request',
@@ -1016,7 +1072,7 @@
 
       document.getElementById('tagSub').textContent = tr('sub');
       document.getElementById('proPortalBtn').textContent = tr('proBtn');
-      document.getElementById('userAccLabel').textContent = currentUserSession ? (currentUserSession.phone || currentUserSession.email || tr('userAccBtn')) : tr('userAccBtn');
+      document.getElementById('userAccLabel').textContent = currentUserSession ? (currentUserSession.fullName || currentUserSession.phone || currentUserSession.email || tr('userAccBtn')) : tr('userAccBtn');
       document.getElementById('myApptsLabel').textContent = tr('myAppts');
       document.getElementById('medFabText').textContent = tr('medFab');
       document.getElementById('searchInput').placeholder = tr('search');
@@ -1053,11 +1109,17 @@
       document.getElementById('uLblLoginContact').textContent = tr('uLblLoginContact');
       document.getElementById('uLblLoginPass').textContent = tr('uLblLoginPass');
       document.getElementById('uBtnLogin').textContent = tr('uBtnLogin');
+      document.getElementById('uLblRegName').textContent = tr('uLblRegName');
       document.getElementById('uLblRegContact').textContent = tr('uLblRegContact');
       document.getElementById('uLblOtp').textContent = tr('uLblOtp');
       document.getElementById('uLblRegPass').textContent = tr('uLblRegPass');
       document.getElementById('uBtnSendOtp').textContent = tr('uBtnSendOtp');
       document.getElementById('uBtnVerifyReg').textContent = tr('uBtnVerifyReg');
+
+      document.getElementById('uTabEditTxt').textContent = tr('uTabEditTxt');
+      document.getElementById('uTabApptsTxt').textContent = tr('uTabApptsTxt');
+      document.getElementById('uTabMedsTxt').textContent = tr('uTabMedsTxt');
+      document.getElementById('uLblEditFullName').textContent = tr('uLblEditFullName');
       document.getElementById('uLblEditPhone').textContent = tr('uLblEditPhone');
       document.getElementById('uLblEditEmail').textContent = tr('uLblEditEmail');
       document.getElementById('uLblEditPass').textContent = tr('uLblEditPass');
@@ -1147,6 +1209,100 @@
     function closeModal(id) { document.getElementById(id).classList.remove('open'); }
     function openSupportModal() { document.getElementById('supportModal').classList.add('open'); }
 
+    /* توليد وتحميل وصل الموعد الرسمي بصيغة صورة PNG عالية الوضوح */
+    function downloadAppointmentReceipt(apptId) {
+      const appt = localAppointments.find(a => a.id === apptId);
+      if (!appt) return;
+      const place = window.placesData.find(p => p.id === appt.placeId) || {};
+      const rank = getAppointmentQueueNumber(appt);
+
+      const proName = getLocalizedField(place, 'nm') || appt.placeName || '-';
+      const proSpec = getLocalizedField(place, 'sp') || '-';
+      const proAddr = getLocalizedField(place, 'ad') || '-';
+      const proPhone = place.ph || '-';
+
+      const canvas = document.createElement('canvas');
+      canvas.width = 760;
+      canvas.height = 920;
+      const ctx = canvas.getContext('2d');
+
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      const grad = ctx.createLinearGradient(0, 0, canvas.width, 160);
+      grad.addColorStop(0, '#0f766e');
+      grad.addColorStop(1, '#0284c7');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, canvas.width, 155);
+
+      ctx.fillStyle = '#ffffff';
+      ctx.textAlign = 'center';
+      ctx.font = 'bold 34px Tajawal, sans-serif';
+      ctx.fillText('صحتي | SEHATI.dz', canvas.width / 2, 66);
+      ctx.font = 'bold 22px Tajawal, sans-serif';
+      ctx.fillText('وصل تأكيد حجز موعد طبي', canvas.width / 2, 114);
+
+      ctx.strokeStyle = '#0f766e';
+      ctx.lineWidth = 3;
+      ctx.strokeRect(32, 180, canvas.width - 64, 700);
+
+      ctx.fillStyle = '#f0fdf9';
+      ctx.fillRect(52, 200, canvas.width - 104, 110);
+      ctx.fillStyle = '#0f766e';
+      ctx.font = 'bold 26px Tajawal, sans-serif';
+      ctx.fillText(`رقم الترتيب في القائمة: #${rank}`, canvas.width / 2, 246);
+      ctx.fillStyle = '#0284c7';
+      ctx.font = 'bold 23px Tajawal, sans-serif';
+      ctx.fillText(`الوقت المحدد للحضور: ${appt.assignedTime || '-'}`, canvas.width / 2, 290);
+
+      const rows = [
+        { label: 'الاسم واللقب:', val: appt.patientName || '-' },
+        { label: 'رقم هاتف المريض:', val: appt.patientPhone || '-' },
+        { label: 'تاريخ الموعد:', val: `${appt.date || '-'}` },
+        { label: 'المرفق / الطبيب:', val: proName },
+        { label: 'التخصص:', val: proSpec },
+        { label: 'العنوان:', val: proAddr },
+        { label: 'هاتف المرفق:', val: proPhone }
+      ];
+
+      let y = 365;
+      rows.forEach((r, idx) => {
+        if (idx > 0) {
+          ctx.strokeStyle = '#e2e8f0';
+          ctx.lineWidth = 1.5;
+          ctx.beginPath();
+          ctx.moveTo(56, y - 36);
+          ctx.lineTo(canvas.width - 56, y - 36);
+          ctx.stroke();
+        }
+        ctx.textAlign = 'right';
+        ctx.fillStyle = '#475569';
+        ctx.font = 'bold 20px Tajawal, sans-serif';
+        ctx.fillText(r.label, canvas.width - 64, y);
+
+        ctx.textAlign = 'left';
+        ctx.fillStyle = '#0f172a';
+        ctx.font = 'bold 20px Tajawal, sans-serif';
+        const valText = String(r.val).length > 36 ? String(r.val).slice(0, 36) + '...' : String(r.val);
+        ctx.fillText(valText, 64, y);
+        y += 68;
+      });
+
+      ctx.textAlign = 'center';
+      ctx.fillStyle = '#64748b';
+      ctx.font = '17px Tajawal, sans-serif';
+      ctx.fillText('يرجى الحضور في الوقت المحدد أعلاه لتفادي الانتظار في القاعة.', canvas.width / 2, 855);
+
+      const link = document.createElement('a');
+      link.download = `SEHATI-RDV-${rank}-${appt.date || 'receipt'}.png`;
+      link.href = canvas.toDataURL('image/png');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      showToast(tr('receiptDownloaded'));
+    }
+
+    /* حساب المستخدم العادي + الأرشيف */
     function openUserAccountModal() {
       renderUserAccountModal();
       document.getElementById('userAccountModal').classList.add('open');
@@ -1159,14 +1315,93 @@
       document.getElementById('uRegisterPanel').style.display = tab === 'register' ? 'block' : 'none';
     }
 
+    function switchUserDashTab(tab) {
+      document.getElementById('uDashTabEdit').classList.toggle('active', tab === 'edit');
+      document.getElementById('uDashTabAppts').classList.toggle('active', tab === 'appts');
+      document.getElementById('uDashTabMeds').classList.toggle('active', tab === 'meds');
+      document.getElementById('uDashEditPanel').style.display = tab === 'edit' ? 'block' : 'none';
+      document.getElementById('uDashApptsPanel').style.display = tab === 'appts' ? 'block' : 'none';
+      document.getElementById('uDashMedsPanel').style.display = tab === 'meds' ? 'block' : 'none';
+      if (tab === 'appts') renderUserArchiveAppts();
+      if (tab === 'meds') renderUserArchiveMeds();
+    }
+
+    function renderUserArchiveAppts() {
+      const box = document.getElementById('uArchiveApptsList');
+      if (!box || !currentUserSession) return;
+      const phone = (currentUserSession.phone || '').trim();
+      const mine = localAppointments
+        .filter(a => (phone && a.patientPhone === phone) || (a.userId && a.userId === currentUserSession.id))
+        .sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
+
+      if (!mine.length) {
+        box.innerHTML = `<p style="text-align:center;color:var(--muted);padding:16px;">${tr('uNoArchAppts')}</p>`;
+        return;
+      }
+
+      box.innerHTML = mine.map(a => {
+        const rank = getAppointmentQueueNumber(a);
+        const isConfirmed = a.status === 'confirmed';
+        const isRejected = a.status === 'rejected';
+        const statusHtml = isConfirmed
+          ? `<span class="status-badge status-active">${tr('confirmedBadge')}</span>`
+          : isRejected
+            ? `<span class="status-badge status-rejected">${tr('rejectedBadge')}</span>`
+            : `<span class="status-badge status-pending">${tr('pendingBadge')}</span>`;
+
+        return `
+          <div class="appt-item">
+            <header>
+              <span>🏥 ${a.placeName}</span>
+              <span class="queue-badge">${tr('rankLabel')}: #${rank}</span>
+            </header>
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap;margin-top:4px;">
+              <span>📅 ${a.date}</span>
+              ${statusHtml}
+            </div>
+            ${a.assignedTime ? `<div style="margin-top:6px;color:var(--primary);font-weight:800;">${tr('arrivalTimeMsg', { time: a.assignedTime })}</div>` : ''}
+            ${isConfirmed ? `<button type="button" onclick="downloadAppointmentReceipt('${a.id}')" class="btn-receipt">${tr('downloadReceiptBtn')}</button>` : ''}
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderUserArchiveMeds() {
+      const box = document.getElementById('uArchiveMedsList');
+      if (!box || !currentUserSession) return;
+      const phone = (currentUserSession.phone || '').trim();
+      const mine = medicineRequests.filter(r =>
+        (r.userId && r.userId === currentUserSession.id) || (phone && r.phone === phone)
+      );
+
+      if (!mine.length) {
+        box.innerHTML = `<p style="text-align:center;color:var(--muted);padding:16px;">${tr('uNoArchMeds')}</p>`;
+        return;
+      }
+
+      box.innerHTML = mine.map(r => `
+        <div class="appt-item">
+          <header>
+            <span>💊 ${r.medName || '-'}</span>
+            <span>📞 ${r.phone}</span>
+          </header>
+          ${r.note ? `<div style="margin-top:4px;">📝 ${r.note}</div>` : ''}
+          ${r.imgData ? `<img src="${r.imgData}" alt="" class="med-req-img" />` : ''}
+        </div>
+      `).join('');
+    }
+
     function renderUserAccountModal() {
       if (currentUserSession) {
         document.getElementById('userAuthBox').style.display = 'none';
         document.getElementById('userProfileBox').style.display = 'block';
-        document.getElementById('uActiveSummary').innerHTML = `👤 <b>${currentUserSession.phone || currentUserSession.email}</b>`;
+        document.getElementById('uActiveSummary').innerHTML = `👤 <b>${currentUserSession.fullName || ''}</b> (${currentUserSession.phone || currentUserSession.email || ''})`;
+        document.getElementById('uEditFullName').value = currentUserSession.fullName || '';
         document.getElementById('uEditPhone').value = currentUserSession.phone || '';
         document.getElementById('uEditEmail').value = currentUserSession.email || '';
         document.getElementById('uEditPass').value = '';
+        renderUserArchiveAppts();
+        renderUserArchiveMeds();
       } else {
         document.getElementById('userAuthBox').style.display = 'block';
         document.getElementById('userProfileBox').style.display = 'none';
@@ -1174,21 +1409,23 @@
     }
 
     function sendUserOtp() {
+      const fullName = document.getElementById('uRegFullName').value.trim();
       const contact = document.getElementById('uRegContact').value.trim();
       const pass = document.getElementById('uRegPass').value.trim();
-      if (!contact || !pass) { showToast(tr('toastFillReq')); return; }
+      if (!fullName || !contact || !pass) { showToast(tr('toastFillReq')); return; }
 
       const exists = usersList.some(u => (u.phone && u.phone === contact) || (u.email && u.email.toLowerCase() === contact.toLowerCase()));
       if (exists) { showToast(tr('uAccExists')); return; }
 
       const code = String(Math.floor(1000 + Math.random() * 9000));
-      pendingOtpData = { contact, pass, code };
+      pendingOtpData = { fullName, contact, pass, code };
 
       const otpBox = document.getElementById('uOtpDisplay');
       otpBox.style.display = 'block';
       otpBox.innerHTML = tr('uOtpSentMsg', { target: contact, otp: code });
       document.getElementById('uOtpInputGroup').style.display = 'block';
       document.getElementById('uBtnVerifyReg').style.display = 'block';
+      showToast(tr('uOtpSentMsg', { target: contact, otp: code }).replace(/<[^>]*>/g, ''));
     }
 
     function completeUserRegistration() {
@@ -1202,6 +1439,7 @@
       const isEmail = pendingOtpData.contact.includes('@');
       const newUser = {
         id: 'usr_' + Date.now(),
+        fullName: pendingOtpData.fullName,
         phone: isEmail ? '' : pendingOtpData.contact,
         email: isEmail ? pendingOtpData.contact : '',
         password: pendingOtpData.pass
@@ -1218,6 +1456,7 @@
       }
 
       pendingOtpData = null;
+      document.getElementById('uRegFullName').value = '';
       document.getElementById('uRegContact').value = '';
       document.getElementById('uRegPass').value = '';
       document.getElementById('uOtpCode').value = '';
@@ -1226,6 +1465,7 @@
       document.getElementById('uBtnVerifyReg').style.display = 'none';
       applyTranslationsToStaticUI();
       renderUserAccountModal();
+      switchUserDashTab('edit');
       showToast('✅');
     }
 
@@ -1257,6 +1497,7 @@
 
     function saveUserProfileChanges() {
       if (!currentUserSession) return;
+      const fullName = document.getElementById('uEditFullName').value.trim();
       const phone = document.getElementById('uEditPhone').value.trim();
       const email = document.getElementById('uEditEmail').value.trim();
       const newPass = document.getElementById('uEditPass').value.trim();
@@ -1265,6 +1506,7 @@
 
       const updated = {
         ...currentUserSession,
+        fullName: fullName || currentUserSession.fullName,
         phone,
         email,
         password: newPass ? newPass : currentUserSession.password
@@ -1329,6 +1571,7 @@
 
       const reqObj = {
         id: 'med_' + Date.now(),
+        userId: currentUserSession ? currentUserSession.id : '',
         medName,
         imgData,
         phone,
@@ -1396,7 +1639,7 @@
     }
 
     function openMyAppointments() {
-      document.getElementById('myPhoneLookup').value = lastPatientPhone || '';
+      document.getElementById('myPhoneLookup').value = lastPatientPhone || (currentUserSession && currentUserSession.phone) || '';
       document.getElementById('myApptsModal').classList.add('open');
       lookupMyAppointments();
     }
@@ -1447,6 +1690,7 @@
               ${statusHtml}
             </div>
             ${arrivalTimeHtml}
+            ${isConfirmed ? `<button type="button" onclick="downloadAppointmentReceipt('${a.id}')" class="btn-receipt">${tr('downloadReceiptBtn')}</button>` : ''}
           </div>
         `;
       }).join('');
@@ -1457,8 +1701,11 @@
       if (!place) return;
       selectedPlaceForBooking = place;
       document.getElementById('bookTargetName').textContent = '📍 ' + getLocalizedField(place, 'nm');
-      if (lastPatientPhone && !document.getElementById('bPhone').value) {
-        document.getElementById('bPhone').value = lastPatientPhone;
+      if (currentUserSession && currentUserSession.fullName && !document.getElementById('bFullName').value) {
+        document.getElementById('bFullName').value = currentUserSession.fullName;
+      }
+      if ((lastPatientPhone || (currentUserSession && currentUserSession.phone)) && !document.getElementById('bPhone').value) {
+        document.getElementById('bPhone').value = lastPatientPhone || currentUserSession.phone;
       }
       document.getElementById('bDate').valueAsDate = new Date();
       updateBookQueuePreview();
@@ -1481,6 +1728,7 @@
 
       const appt = {
         id: 'appt_' + Date.now() + '_' + Math.floor(Math.random() * 1000),
+        userId: currentUserSession ? currentUserSession.id : '',
         placeId: selectedPlaceForBooking.id,
         placeName: getLocalizedField(selectedPlaceForBooking, 'nm'),
         patientName: fullName,
