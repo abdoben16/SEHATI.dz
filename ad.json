@@ -1,9 +1,5 @@
 {
-  "active": true,
-  "badge": "📢 مساحة إعلانية مميزة",
-  "title": "",
-  "description": "",
-  "image": "ad-banner.webp",
-  "buttonText": "📞 اتصل الآن",
-  "buttonLink": "#"
+  "active": false,
+  "defaultDurationSec": 5,
+  "ads": []
 }
