@@ -32,9 +32,9 @@
     .brand small{display:block;opacity:.9;font-size:.8rem;margin-top:2px}
     .tools{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
     .seg{display:flex;background:rgba(255,255,255,.18);border-radius:11px;padding:3px}
-    .seg button{border:0;background:transparent;color:#fff;font-weight:700;font-size:.78rem;padding:4px 8px;border-radius:8px;cursor:pointer}
+    .seg button{border:0;background:transparent;color:#fff;font-weight:700;font-size:.76rem;padding:4px 7px;border-radius:8px;cursor:pointer}
     .seg button.on{background:#fff;color:#0f766e}
-    .tool-btn{border:0;background:rgba(255,255,255,.22);color:#fff;padding:6px 10px;border-radius:11px;font-weight:700;font-size:.8rem;cursor:pointer}
+    .tool-btn{border:0;background:rgba(255,255,255,.22);color:#fff;padding:6px 10px;border-radius:11px;font-weight:700;font-size:.78rem;cursor:pointer}
     .portal-btn{background:#fff;color:#0f766e;font-weight:800}
     .my-appts-btn{background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.35);font-weight:800}
     .search-wrap input{width:100%;padding:11px 14px;border-radius:14px;border:none;outline:none;font-size:.95rem;background:#fff;color:#0f172a}
@@ -144,12 +144,13 @@
       <div class="tools" style="width:100%;justify-content:space-between;">
         <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
           <button class="tool-btn portal-btn" onclick="openProPortal()" id="proPortalBtn">🩺 بوابة المهنيين</button>
-          <button class="tool-btn my-appts-btn" onclick="openMyAppointments()" id="myApptsBtn">📋 مواعيدي (<span id="myApptsBadge">0</span>)</button>
+          <button class="tool-btn my-appts-btn" onclick="openMyAppointments()" id="myApptsBtn"><span id="myApptsLabel">📋 مواعيدي</span> (<span id="myApptsBadge">0</span>)</button>
         </div>
         <div style="display:flex;gap:6px;align-items:center;">
           <div class="seg">
             <button id="btnAr" class="on" onclick="setLang('ar')">عربي</button>
             <button id="btnFr" onclick="setLang('fr')">FR</button>
+            <button id="btnEn" onclick="setLang('en')">EN</button>
           </div>
           <button class="tool-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
         </div>
@@ -281,14 +282,14 @@
   <div class="modal" id="myApptsModal">
     <div class="modal-card">
       <div class="modal-header">
-        <h3>📋 مواعيدي وترتيبي في الانتظار</h3>
+        <h3 id="myApptsModalTitle">📋 مواعيدي وترتيبي في الانتظار</h3>
         <button class="close-x" onclick="closeModal('myApptsModal')">✕</button>
       </div>
       <div class="form-group">
-        <label>رقم هاتفك الذي حجزت به (لعرض مواعيدك وتحديثاتها)</label>
+        <label id="myPhoneLookupLbl">رقم هاتفك الذي حجزت به (لعرض مواعيدك وتحديثاتها)</label>
         <div style="display:flex;gap:6px;">
-          <input type="tel" id="myPhoneLookup" placeholder="مثال: 0550123456" />
-          <button type="button" onclick="lookupMyAppointments()" style="background:var(--primary);color:#fff;border:none;border-radius:10px;padding:0 14px;font-weight:800;cursor:pointer;">عرض</button>
+          <input type="tel" id="myPhoneLookup" placeholder="0550123456" />
+          <button type="button" id="btnLookupAppts" onclick="lookupMyAppointments()" style="background:var(--primary);color:#fff;border:none;border-radius:10px;padding:0 14px;font-weight:800;cursor:pointer;">عرض</button>
         </div>
       </div>
       <div id="myApptsList"></div>
@@ -329,7 +330,7 @@
         <h3 id="supTitle">💬 الدعم الفني وطلبات الاشتراك والإعلان</h3>
         <button class="close-x" onclick="closeModal('supportModal')">✕</button>
       </div>
-      <div class="vip-pitch-box">
+      <div class="vip-pitch-box" id="supPitchBox">
         مرحباً بك في <b>صحتي (SEHATI.dz)</b>:<br>
         • لتفعيل حسابك المهني (طبيب / صيدلية / عيادة) والاستفادة من نظام حجز المواعيد.<br>
         • لحجز مساحة إعلانية مميزة في واجهة التطبيق.<br>
@@ -348,17 +349,17 @@
       </div>
       <p id="bookTargetName" style="font-weight:800;color:var(--primary);margin-bottom:6px;"></p>
       <div id="bookQueuePreview" style="background:rgba(15,118,110,.1);border:1px solid var(--primary);border-radius:10px;padding:8px 10px;font-size:.82rem;font-weight:700;margin-bottom:10px;"></div>
-      <div class="form-group"><label id="lblPatientName">الاسم واللقب *</label><input type="text" id="bFullName" placeholder="مثال: أحمد بن علي" /></div>
-      <div class="form-group"><label id="lblPatientPhone">رقم الهاتف للتأكيد ومتابعة الترتيب *</label><input type="tel" id="bPhone" onchange="updateBookQueuePreview()" placeholder="مثال: 0550123456" /></div>
+      <div class="form-group"><label id="lblPatientName">الاسم واللقب *</label><input type="text" id="bFullName" placeholder="أحمد بن علي" /></div>
+      <div class="form-group"><label id="lblPatientPhone">رقم الهاتف للتأكيد ومتابعة الترتيب *</label><input type="tel" id="bPhone" onchange="updateBookQueuePreview()" placeholder="0550123456" /></div>
       <div class="form-group"><label id="lblApptDate">التاريخ المفضل *</label><input type="date" id="bDate" onchange="updateBookQueuePreview()" /></div>
       <div class="form-group">
         <label id="lblApptTime">الفترة المناسبة</label>
         <select id="bPeriod">
-          <option value="صباحاً (08:30 - 12:00)">صباحاً (08:30 - 12:00)</option>
-          <option value="مساءً (13:30 - 17:00)">مساءً (13:30 - 17:00)</option>
+          <option value="morning" id="optMorning">صباحاً (08:30 - 12:00)</option>
+          <option value="evening" id="optEvening">مساءً (13:30 - 17:00)</option>
         </select>
       </div>
-      <div class="form-group"><label id="lblApptNote">سبب الزيارة / الخدمة المطلوبة (اختياري)</label><input type="text" id="bNote" placeholder="مثال: كشف عام، تحاليل، استشارة..." /></div>
+      <div class="form-group"><label id="lblApptNote">سبب الزيارة / الخدمة المطلوبة (اختياري)</label><input type="text" id="bNote" placeholder="كشف عام، تحاليل..." /></div>
       <button class="btn-primary" onclick="submitAppointment()" id="btnConfirmBook">✅ تأكيد إرسال الموعد</button>
     </div>
   </div>
@@ -372,67 +373,57 @@
       <div id="proAuthView">
         <div class="tabs-bar">
           <button class="tab-btn active" id="tabLogin" onclick="switchAuthTab('login')">تسجيل الدخول</button>
-          <button class="tab-btn" id="tabRegister" onclick="switchAuthTab('register')">انضم إلينا (تسجيل جديد)</button>
+          <button class="tab-btn" id="tabRegister" onclick="switchAuthTab('register')">انضم إلينا</button>
         </div>
         <div id="loginForm">
-          <div class="form-group"><label>البريد الإلكتروني</label><input type="email" id="loginEmail" placeholder="doctor@sehati.dz" /></div>
-          <div class="form-group"><label>كلمة المرور</label><input type="password" id="loginPass" placeholder="••••••••" /></div>
-          <button class="btn-primary" onclick="proLogin()">دخول إلى لوحة التحكم</button>
+          <div class="form-group"><label id="lblLoginEmail">البريد الإلكتروني</label><input type="email" id="loginEmail" placeholder="doctor@sehati.dz" /></div>
+          <div class="form-group"><label id="lblLoginPass">كلمة المرور</label><input type="password" id="loginPass" placeholder="••••••••" /></div>
+          <button class="btn-primary" id="btnLoginSubmit" onclick="proLogin()">دخول إلى لوحة التحكم</button>
         </div>
         <div id="registerForm" style="display:none;">
           <div class="form-group">
-            <label>نوع المؤسسة *</label>
+            <label id="lblRegType">نوع المؤسسة *</label>
             <select id="regType">
-              <option value="d">طبيب (عيادة خاصة)</option>
-              <option value="p">صيدلية</option>
-              <option value="c">عيادة متعددة الخدمات</option>
-              <option value="l">مخبر تحاليل طبية</option>
-              <option value="g">طبيب أسنان</option>
-              <option value="r">مركز أشعة</option>
-              <option value="h">مستشفى</option>
+              <option value="d" id="regOptD">طبيب (عيادة خاصة)</option>
+              <option value="p" id="regOptP">صيدلية</option>
+              <option value="c" id="regOptC">عيادة متعددة الخدمات</option>
+              <option value="l" id="regOptL">مخبر تحاليل طبية</option>
+              <option value="g" id="regOptG">طبيب أسنان</option>
+              <option value="r" id="regOptR">مركز أشعة</option>
+              <option value="h" id="regOptH">مستشفى</option>
             </select>
           </div>
-          <div class="form-group"><label>اسم الطبيب أو الصيدلية أو العيادة *</label><input type="text" id="regName" placeholder="مثال: د. محمد أمين / صيدلية الشفاء" /></div>
-          <div class="form-group"><label>التخصص الدقيق *</label><input type="text" id="regSpec" placeholder="مثال: طب الأطفال، صيدلية مناوبة..." /></div>
-          <div class="form-group"><label>الخدمات المقدمة *</label><textarea id="regServices" rows="2" placeholder="اكتب خدماتك هنا..."></textarea></div>
-          <div class="form-group"><label>العنوان والولاية *</label><input type="text" id="regAddr" placeholder="الحي، البلدية، الولاية" /></div>
-          <div class="form-group"><label>أوقات العمل *</label><input type="text" id="regHours" placeholder="مثال: السبت - الخميس (08:30 - 17:00)" /></div>
-          <div class="form-group"><label>رقم الهاتف المهني *</label><input type="tel" id="regPhone" placeholder="0550000000" /></div>
-          <div class="form-group"><label>البريد الإلكتروني للحساب *</label><input type="email" id="regEmail" placeholder="email@domain.com" /></div>
-          <div class="form-group"><label>كلمة المرور (6 أحرف على الأقل) *</label><input type="password" id="regPass" placeholder="••••••••" /></div>
-          <button class="btn-primary" onclick="proRegister()">إرسال طلب الانضمام</button>
+          <div class="form-group"><label id="lblRegName">اسم الطبيب أو الصيدلية أو العيادة *</label><input type="text" id="regName" /></div>
+          <div class="form-group"><label id="lblRegSpec">التخصص الدقيق *</label><input type="text" id="regSpec" /></div>
+          <div class="form-group"><label id="lblRegServices">الخدمات المقدمة *</label><textarea id="regServices" rows="2"></textarea></div>
+          <div class="form-group"><label id="lblRegAddr">العنوان والولاية *</label><input type="text" id="regAddr" /></div>
+          <div class="form-group"><label id="lblRegHours">أوقات العمل *</label><input type="text" id="regHours" /></div>
+          <div class="form-group"><label id="lblRegPhone">رقم الهاتف المهني *</label><input type="tel" id="regPhone" /></div>
+          <div class="form-group"><label id="lblRegEmail">البريد الإلكتروني للحساب *</label><input type="email" id="regEmail" /></div>
+          <div class="form-group"><label id="lblRegPass">كلمة المرور (6 أحرف على الأقل) *</label><input type="password" id="regPass" /></div>
+          <button class="btn-primary" id="btnRegSubmit" onclick="proRegister()">إرسال طلب الانضمام</button>
         </div>
       </div>
 
       <div id="proDashboardView" style="display:none;">
         <div id="proSubStatusBox" class="sub-box"></div>
         <div id="proLastWeekAlert" class="sub-alert-week" style="display:none;"></div>
-        <div id="pendingWarningBox" class="vip-pitch-box" style="display:none;">
-          <b>🎉 تهانينا! تم استلام ملفك المهني بنجاح.</b><br>
-          لظهور عيادتك أو صيدليتك أمام آلاف المرضى في ولايتك والاستفادة من المزايا الحصرية:
-          <ul>
-            <li>✅ استقبال حجوزات المواعيد مباشرة على هاتفك مع ترتيب الأسبقية.</li>
-            <li>✅ ظهور أولوية في نتائج البحث مع موقعك على الخريطة.</li>
-            <li>✅ شارة التوثيق الرسمية وزيادة ثقة المرضى.</li>
-          </ul>
-          <b>تواصل معنا الآن لتفعيل اشتراكك فوراً:</b>
-          <button onclick="closeModal('proModal'); openSupportModal();" class="btn-primary" style="margin-top:8px;">🚀 تفعيل حسابي الآن (اتصال / واتساب)</button>
-        </div>
+        <div id="pendingWarningBox" class="vip-pitch-box" style="display:none;"></div>
         <div class="tabs-bar">
-          <button class="tab-btn active" id="dashTabAppts" onclick="switchDashTab('appts')">📅 المواعيد (<span id="apptCount">0</span>)</button>
-          <button class="tab-btn" id="dashTabEdit" onclick="switchDashTab('edit')">✏️ تعديل ملفي</button>
+          <button class="tab-btn active" id="dashTabAppts" onclick="switchDashTab('appts')">📅 <span id="txtDashAppts">المواعيد</span> (<span id="apptCount">0</span>)</button>
+          <button class="tab-btn" id="dashTabEdit" onclick="switchDashTab('edit')">✏️ <span id="txtDashEdit">تعديل ملفي</span></button>
         </div>
         <div id="dashApptsPanel"><div id="apptsList"></div></div>
         <div id="dashEditPanel" style="display:none;">
-          <div class="form-group"><label>الاسم</label><input type="text" id="editName" /></div>
-          <div class="form-group"><label>التخصص</label><input type="text" id="editSpec" /></div>
-          <div class="form-group"><label>الخدمات المقدمة</label><textarea id="editServices" rows="3"></textarea></div>
-          <div class="form-group"><label>العنوان</label><input type="text" id="editAddr" /></div>
-          <div class="form-group"><label>أوقات العمل وحالة المناوبة</label><input type="text" id="editHours" /></div>
-          <div class="form-group"><label>رقم الهاتف</label><input type="tel" id="editPhone" /></div>
-          <button class="btn-primary" onclick="saveProProfile()">💾 حفظ التعديلات</button>
+          <div class="form-group"><label id="lblEditName">الاسم</label><input type="text" id="editName" /></div>
+          <div class="form-group"><label id="lblEditSpec">التخصص</label><input type="text" id="editSpec" /></div>
+          <div class="form-group"><label id="lblEditServices">الخدمات المقدمة</label><textarea id="editServices" rows="3"></textarea></div>
+          <div class="form-group"><label id="lblEditAddr">العنوان</label><input type="text" id="editAddr" /></div>
+          <div class="form-group"><label id="lblEditHours">أوقات العمل وحالة المناوبة</label><input type="text" id="editHours" /></div>
+          <div class="form-group"><label id="lblEditPhone">رقم الهاتف</label><input type="tel" id="editPhone" /></div>
+          <button class="btn-primary" id="btnSaveProfile" onclick="saveProProfile()">💾 حفظ التعديلات</button>
         </div>
-        <button class="btn-secondary" onclick="proLogout()">🚪 تسجيل الخروج</button>
+        <button class="btn-secondary" id="btnProLogout" onclick="proLogout()">🚪 تسجيل الخروج</button>
       </div>
     </div>
   </div>
@@ -506,11 +497,162 @@
       adText: "ضاعف عدد مرضاك وزبائنك! أعلن عن عيادتك، صيدليتك، أو مخبرك في الواجهة الرئيسية لتطبيق صحتي أمام آلاف الباحثين يومياً."
     };
 
+    let lang = 'ar', currentCat = 'all', selectedPlaceForBooking = null, currentProProfile = null;
+    let favs = JSON.parse(localStorage.getItem('sehati_favs') || '[]'),
+        localPlaces = JSON.parse(localStorage.getItem('sehati_pro_places') || '[]'),
+        localAppointments = JSON.parse(localStorage.getItem('sehati_appointments') || '[]'),
+        localProSession = JSON.parse(localStorage.getItem('sehati_pro_session') || 'null'),
+        lastPatientPhone = localStorage.getItem('sehati_last_patient_phone') || '';
+
+    const T = {
+      ar: {
+        sub:'دليلك الصحي وحجز المواعيد في الجزائر', proBtn:'🩺 بوابة المهنيين', myAppts:'📋 مواعيدي',
+        search:'ابحث عن طبيب، صيدلية، عيادة، خدمة، أو ولاية...', emerg:'🚨 أرقام الطوارئ (اتصال مباشر)',
+        e1:'الحماية المدنية', e2:'الشرطة', e3:'الدرك الوطني', e4:'الإسعاف',
+        all:'الكل', fav:'المفضلة', d:'أطباء', c:'عيادات', p:'صيدليات', h:'مستشفيات', l:'مخابر', g:'أطباء أسنان', r:'أشعة',
+        book:'📅 موعد', call:'📞 اتصال', map:'📍 الموقع', feat:'⭐ مميز', supFab:'الدعم والإعلان',
+        empty:'لا توجد نتائج مطابقة.',
+        supTitle:'💬 الدعم الفني وطلبات الاشتراك والإعلان',
+        supPitch:'مرحباً بك في <b>صحتي (SEHATI.dz)</b>:<br>• لتفعيل حسابك المهني (طبيب / صيدلية / عيادة) والاستفادة من نظام حجز المواعيد.<br>• لحجز مساحة إعلانية مميزة في واجهة التطبيق.<br>• لأي استفسار أو دعم تقني، تواصل مباشرة مع الإدارة:',
+        supCall:'📞 اتصال مباشر بالإدارة', supWa:'💬 مراسلة فورية عبر واتساب',
+        bookTitle:'📅 حجز موعد طبي', lblName:'الاسم واللقب *', lblPhone:'رقم الهاتف للتأكيد ومتابعة الترتيب *',
+        lblDate:'التاريخ المفضل *', lblPeriod:'الفترة المناسبة', morning:'صباحاً (08:30 - 12:00)', evening:'مساءً (13:30 - 17:00)',
+        lblNote:'سبب الزيارة / الخدمة المطلوبة (اختياري)', confirmBook:'✅ تأكيد إرسال الموعد',
+        myApptsTitle:'📋 مواعيدي وترتيبي في الانتظار', myPhoneLbl:'رقم هاتفك الذي حجزت به (لعرض مواعيدك وتحديثاتها)',
+        lookupBtn:'عرض', enterPhoneHint:'أدخل رقم هاتفك لعرض مواعيدك وترتيبك في القائمة.', noApptsFound:'لا توجد مواعيد مسجلة بهذا الرقم.',
+        rankLabel:'ترتيبك', confirmedBadge:'✅ تمت الموافقة • في القائمة', rejectedBadge:'❌ غير مؤكد', pendingBadge:'⏳ بانتظار تأكيد الطبيب',
+        arrivalTimeMsg:'⏰ الوقت المحدد لحضورك: {time} (لتفادي الانتظار في القاعة)',
+        waitDoctorTimeMsg:'⏰ سيحدد الطبيب أو العيادة الوقت المناسب لقدومك عند تأكيد الحجز.',
+        queuePreview:'📌 الترتيب المتوقع لأسبقية تسجيلك في يوم <b>{date}</b>: <b>الرقم #{rank}</b> (يوجد حالياً {count} مسجل في هذا اليوم).',
+        proTitle:'🩺 بوابة الأطباء والصيدليات والعيادات', tabLogin:'تسجيل الدخول', tabRegister:'انضم إلينا',
+        loginEmail:'البريد الإلكتروني', loginPass:'كلمة المرور', loginBtn:'دخول إلى لوحة التحكم',
+        regType:'نوع المؤسسة *', regOptD:'طبيب (عيادة خاصة)', regOptP:'صيدلية', regOptC:'عيادة متعددة الخدمات',
+        regOptL:'مخبر تحاليل طبية', regOptG:'طبيب أسنان', regOptR:'مركز أشعة', regOptH:'مستشفى',
+        regName:'اسم الطبيب أو الصيدلية أو العيادة *', regSpec:'التخصص الدقيق *', regServices:'الخدمات المقدمة *',
+        regAddr:'العنوان والولاية *', regHours:'أوقات العمل *', regPhone:'رقم الهاتف المهني *',
+        regEmail:'البريد الإلكتروني للحساب *', regPass:'كلمة المرور (6 أحرف على الأقل) *', regBtn:'إرسال طلب الانضمام',
+        dashAppts:'المواعيد', dashEdit:'تعديل ملفي', saveProfileBtn:'💾 حفظ التعديلات', logoutBtn:'🚪 تسجيل الخروج',
+        subDurationLbl:'مدة الاشتراك', subCountdownLbl:'العداد العكسي للمدة المتبقية', subExpiresLbl:'تاريخ الانتهاء',
+        subStatusLbl:'حالة الاشتراك', subInactive:'غير مفعّل بعد', subExpired:'منتهي الصلاحية',
+        plan1m:'شهر واحد (30 يوم)', plan3m:'3 أشهر (90 يوم)', plan6m:'6 أشهر (180 يوم)', plan12m:'سنة كاملة (365 يوم)',
+        daysUnit:'يوم', hoursUnit:'ساعة',
+        lastWeekWarn:'⚠️ <b>تنبيه هام:</b> اشتراكك سينتهي قريباً (متبقي <b>{rem}</b>). يرجى التواصل مع الإدارة لتجديد اشتراكك وضمان استمرار ظهور حسابك واستقبال مواعيد المرضى.',
+        renewContactBtn:'📞 تواصل مع الإدارة لتجديد الاشتراك',
+        pendingBoxHtml:'<b>🎉 تهانينا! تم استلام ملفك المهني بنجاح.</b><br>لظهور عيادتك أو صيدليتك أمام آلاف المرضى في ولايتك والاستفادة من المزايا الحصرية:<ul><li>✅ استقبال حجوزات المواعيد مباشرة على هاتفك مع ترتيب الأسبقية.</li><li>✅ ظهور أولوية في نتائج البحث مع موقعك على الخريطة.</li><li>✅ شارة التوثيق الرسمية وزيادة ثقة المرضى.</li></ul><b>تواصل معنا الآن لتفعيل اشتراكك فوراً:</b><button onclick="closeModal(\'proModal\'); openSupportModal();" class="btn-primary" style="margin-top:8px;">🚀 تفعيل حسابي الآن (اتصال / واتساب)</button>',
+        noProAppts:'لا توجد مواعيد محجوزة حتى الآن.',
+        timeInputPlaceholder:'وقت الحضور (مثال: 10:00 صباحاً)', confirmTimeBtn:'✅ تأكيد وتحديد الوقت',
+        toastFillReq:'يرجى إدخال الاسم واللقب ورقم الهاتف والتاريخ',
+        toastBooked:'✅ تم تسجيل موعدك! ترتيبك في يوم {date} هو #{rank}',
+        toastTimeSaved:'✅ تم تأكيد الموعد وتحديد الوقت للمريض!',
+        toastEnterTime:'يرجى إدخال الوقت المناسب لقدوم المريض أولاً',
+        toastProfileSaved:'✅ تم حفظ وتحديث معلوماتك وخدماتك!',
+        toastLoggedOut:'تم تسجيل الخروج',
+        defaultAdText:'ضاعف عدد مرضاك وزبائنك! أعلن عن عيادتك، صيدليتك، أو مخبرك في الواجهة الرئيسية لتطبيق صحتي أمام آلاف الباحثين يومياً.'
+      },
+      fr: {
+        sub:'Votre guide santé et prise de RDV en Algérie', proBtn:'🩺 Espace Pro', myAppts:'📋 Mes RDV',
+        search:'Rechercher un médecin, pharmacie, clinique, service ou wilaya...', emerg:"🚨 Numéros d'urgence (Appel direct)",
+        e1:'Protection Civile', e2:'Police', e3:'Gendarmerie', e4:'SAMU',
+        all:'Tout', fav:'Favoris', d:'Médecins', c:'Cliniques', p:'Pharmacies', h:'Hôpitaux', l:'Labos', g:'Dentistes', r:'Imagerie',
+        book:'📅 RDV', call:'📞 Appeler', map:'📍 Carte', feat:'⭐ Sponsorisé', supFab:'Support & Pub',
+        empty:'Aucun résultat trouvé.',
+        supTitle:'💬 Support & Demandes d’Abonnement / Pub',
+        supPitch:'Bienvenue sur <b>SEHATI.dz</b> :<br>• Pour activer votre compte pro (médecin / pharmacie / clinique) et la prise de RDV.<br>• Pour réserver un espace publicitaire en page d’accueil.<br>• Pour toute assistance, contactez l’administration :',
+        supCall:'📞 Appel direct administration', supWa:'💬 Message WhatsApp instantané',
+        bookTitle:'📅 Prendre un rendez-vous médical', lblName:'Nom et prénom *', lblPhone:'Téléphone de confirmation et suivi du rang *',
+        lblDate:'Date souhaitée *', lblPeriod:'Créneau souhaité', morning:'Matin (08:30 - 12:00)', evening:'Après-midi (13:30 - 17:00)',
+        lblNote:'Motif de visite / Service (optionnel)', confirmBook:'✅ Confirmer la demande de RDV',
+        myApptsTitle:'📋 Mes RDV et mon rang d’attente', myPhoneLbl:'Votre numéro de téléphone utilisé pour la réservation',
+        lookupBtn:'Voir', enterPhoneHint:'Entrez votre numéro pour voir vos RDV et votre rang.', noApptsFound:'Aucun RDV trouvé avec ce numéro.',
+        rankLabel:'Votre rang', confirmedBadge:'✅ Approuvé • Sur la liste', rejectedBadge:'❌ Non confirmé', pendingBadge:'⏳ En attente de confirmation',
+        arrivalTimeMsg:'⏰ Heure fixée pour votre venue : {time} (pour éviter l’attente en salle)',
+        waitDoctorTimeMsg:'⏰ Le médecin ou la clinique précisera votre heure de passage lors de la confirmation.',
+        queuePreview:'📌 Rang estimé selon l’ordre d’inscription le <b>{date}</b> : <b>N° #{rank}</b> ({count} inscrit(s) ce jour).',
+        proTitle:'🩺 Espace Médecins, Pharmacies & Cliniques', tabLogin:'Connexion', tabRegister:'Rejoignez-nous',
+        loginEmail:'Adresse e-mail', loginPass:'Mot de passe', loginBtn:'Accéder au tableau de bord',
+        regType:'Type d’établissement *', regOptD:'Médecin (Cabinet privé)', regOptP:'Pharmacie', regOptC:'Clinique pluridisciplinaire',
+        regOptL:'Laboratoire d’analyses', regOptG:'Chirurgien-dentiste', regOptR:'Centre d’imagerie / Radio', regOptH:'Hôpital',
+        regName:'Nom du médecin, pharmacie ou clinique *', regSpec:'Spécialité *', regServices:'Services proposés *',
+        regAddr:'Adresse et Wilaya *', regHours:'Horaires d’ouverture *', regPhone:'Téléphone professionnel *',
+        regEmail:'E-mail du compte *', regPass:'Mot de passe (6 caractères min.) *', regBtn:'Envoyer la demande',
+        dashAppts:'Rendez-vous', dashEdit:'Modifier profil', saveProfileBtn:'💾 Enregistrer les modifications', logoutBtn:'🚪 Déconnexion',
+        subDurationLbl:'Durée de l’abonnement', subCountdownLbl:'Compte à rebours restant', subExpiresLbl:'Date d’expiration',
+        subStatusLbl:'Statut de l’abonnement', subInactive:'Non activé', subExpired:'Expiré',
+        plan1m:'1 mois (30 jours)', plan3m:'3 mois (90 jours)', plan6m:'6 mois (180 jours)', plan12m:'1 an (365 jours)',
+        daysUnit:'j', hoursUnit:'h',
+        lastWeekWarn:'⚠️ <b>Alerte importante :</b> Votre abonnement expire bientôt (reste <b>{rem}</b>). Contactez l’administration pour renouveler afin de garder votre visibilité et vos RDV.',
+        renewContactBtn:'📞 Contacter l’administration pour renouveler',
+        pendingBoxHtml:'<b>🎉 Félicitations ! Votre dossier professionnel a été reçu.</b><br>Pour apparaître devant des milliers de patients dans votre wilaya :<ul><li>✅ Réception des RDV selon l’ordre d’arrivée.</li><li>✅ Priorité dans la recherche avec carte.</li><li>✅ Badge officiel de confiance.</li></ul><b>Contactez-nous maintenant pour activer votre abonnement :</b><button onclick="closeModal(\'proModal\'); openSupportModal();" class="btn-primary" style="margin-top:8px;">🚀 Activer mon compte (Appel / WhatsApp)</button>',
+        noProAppts:'Aucun rendez-vous enregistré pour le moment.',
+        timeInputPlaceholder:'Heure de venue (ex: 10:00)', confirmTimeBtn:'✅ Valider & fixer l’heure',
+        toastFillReq:'Veuillez remplir le nom, le téléphone et la date',
+        toastBooked:'✅ RDV enregistré ! Votre rang le {date} est #{rank}',
+        toastTimeSaved:'✅ RDV confirmé et heure fixée pour le patient !',
+        toastEnterTime:'Veuillez saisir l’heure de venue du patient',
+        toastProfileSaved:'✅ Informations et services mis à jour !',
+        toastLoggedOut:'Déconnexion effectuée',
+        defaultAdText:'Multipliez vos patients ! Affichez votre cabinet, pharmacie ou laboratoire sur l’accueil de SEHATI.'
+      },
+      en: {
+        sub:'Your health directory & appointment booking in Algeria', proBtn:'🩺 Pro Portal', myAppts:'📋 My Appts',
+        search:'Search doctor, pharmacy, clinic, service, or wilaya...', emerg:'🚨 Emergency Numbers (Direct Call)',
+        e1:'Civil Protection', e2:'Police', e3:'Gendarmerie', e4:'Ambulance',
+        all:'All', fav:'Favorites', d:'Doctors', c:'Clinics', p:'Pharmacies', h:'Hospitals', l:'Labs', g:'Dentists', r:'Radiology',
+        book:'📅 Book', call:'📞 Call', map:'📍 Map', feat:'⭐ Featured', supFab:'Support & Ads',
+        empty:'No matching results found.',
+        supTitle:'💬 Support, Subscriptions & Advertising',
+        supPitch:'Welcome to <b>SEHATI.dz</b>:<br>• Activate your pro account (doctor / pharmacy / clinic) for appointment booking.<br>• Book a featured ad slot on the home screen.<br>• For support or inquiries, contact administration directly:',
+        supCall:'📞 Direct Call to Admin', supWa:'💬 Instant WhatsApp Message',
+        bookTitle:'📅 Book a Medical Appointment', lblName:'Full Name *', lblPhone:'Phone Number for Confirmation & Queue *',
+        lblDate:'Preferred Date *', lblPeriod:'Preferred Period', morning:'Morning (08:30 - 12:00)', evening:'Afternoon (13:30 - 17:00)',
+        lblNote:'Visit Reason / Service (Optional)', confirmBook:'✅ Confirm Appointment Request',
+        myApptsTitle:'📋 My Appointments & Queue Position', myPhoneLbl:'Enter the phone number used when booking',
+        lookupBtn:'Show', enterPhoneHint:'Enter your phone number to view your appointments and queue position.', noApptsFound:'No appointments found for this phone number.',
+        rankLabel:'Your Rank', confirmedBadge:'✅ Approved • On List', rejectedBadge:'❌ Not Confirmed', pendingBadge:'⏳ Pending Doctor Approval',
+        arrivalTimeMsg:'⏰ Scheduled arrival time: {time} (to avoid waiting in the lobby)',
+        waitDoctorTimeMsg:'⏰ The doctor or clinic will set your arrival time upon confirming.',
+        queuePreview:'📌 Estimated first-come queue rank on <b>{date}</b>: <b>#{rank}</b> ({count} registered on this day).',
+        proTitle:'🩺 Doctors, Pharmacies & Clinics Portal', tabLogin:'Sign In', tabRegister:'Join Us',
+        loginEmail:'Email Address', loginPass:'Password', loginBtn:'Enter Dashboard',
+        regType:'Facility Type *', regOptD:'Doctor (Private Clinic)', regOptP:'Pharmacy', regOptC:'Multi-specialty Clinic',
+        regOptL:'Medical Lab', regOptG:'Dentist', regOptR:'Radiology Center', regOptH:'Hospital',
+        regName:'Doctor, Pharmacy, or Clinic Name *', regSpec:'Specialty *', regServices:'Services Offered *',
+        regAddr:'Address & Wilaya *', regHours:'Working Hours *', regPhone:'Professional Phone *',
+        regEmail:'Account Email *', regPass:'Password (min. 6 chars) *', regBtn:'Submit Request',
+        dashAppts:'Appointments', dashEdit:'Edit Profile', saveProfileBtn:'💾 Save Changes', logoutBtn:'🚪 Sign Out',
+        subDurationLbl:'Subscription Duration', subCountdownLbl:'Remaining Countdown', subExpiresLbl:'Expires On',
+        subStatusLbl:'Subscription Status', subInactive:'Not Activated', subExpired:'Expired',
+        plan1m:'1 Month (30 days)', plan3m:'3 Months (90 days)', plan6m:'6 Months (180 days)', plan12m:'1 Year (365 days)',
+        daysUnit:'d', hoursUnit:'h',
+        lastWeekWarn:'⚠️ <b>Important Reminder:</b> Your subscription is ending soon (<b>{rem}</b> left). Contact administration to renew and keep your listing & bookings active.',
+        renewContactBtn:'📞 Contact Admin to Renew Subscription',
+        pendingBoxHtml:'<b>🎉 Congratulations! Your professional profile has been received.</b><br>To appear before thousands of patients in your wilaya:<ul><li>✅ Receive appointments in first-come order.</li><li>✅ Priority search placement with map location.</li><li>✅ Official verified badge.</li></ul><b>Contact us now to activate your subscription:</b><button onclick="closeModal(\'proModal\'); openSupportModal();" class="btn-primary" style="margin-top:8px;">🚀 Activate Account (Call / WhatsApp)</button>',
+        noProAppts:'No appointments booked yet.',
+        timeInputPlaceholder:'Arrival time (e.g. 10:00 AM)', confirmTimeBtn:'✅ Confirm & Set Time',
+        toastFillReq:'Please fill in name, phone number, and date',
+        toastBooked:'✅ Appointment booked! Your rank on {date} is #{rank}',
+        toastTimeSaved:'✅ Appointment confirmed and arrival time set!',
+        toastEnterTime:'Please enter the patient arrival time first',
+        toastProfileSaved:'✅ Profile and services updated!',
+        toastLoggedOut:'Signed out',
+        defaultAdText:'Grow your patient reach! Feature your clinic, pharmacy, or lab on the main screen of SEHATI.'
+      }
+    };
+
+    function tr(key, vars = {}) {
+      const pack = T[lang] || T.ar;
+      let str = pack[key] !== undefined ? pack[key] : (T.ar[key] || '');
+      Object.keys(vars).forEach(k => {
+        str = str.replaceAll(`{${k}}`, vars[k]);
+      });
+      return str;
+    }
+
     function applyAdminConfigToUI() {
       document.getElementById('supCallLink').href = `tel:${adminConfig.phone}`;
       document.getElementById('supWaLink').href = `https://wa.me/${adminConfig.wa}`;
-      if (lang === 'ar' && adminConfig.adText && (!window.sehatiAdsList || !window.sehatiAdsList.length)) {
-        document.getElementById('adDesc').textContent = adminConfig.adText;
+      if (!window.sehatiAdsList || !window.sehatiAdsList.length) {
+        document.getElementById('adDesc').textContent = (lang === 'ar' && adminConfig.adText) ? adminConfig.adText : tr('defaultAdText');
       }
     }
 
@@ -540,21 +682,19 @@
       }
     }
 
-    let lang = 'ar', currentCat = 'all', selectedPlaceForBooking = null, currentProProfile = null;
-    let favs = JSON.parse(localStorage.getItem('sehati_favs') || '[]'),
-        localPlaces = JSON.parse(localStorage.getItem('sehati_pro_places') || '[]'),
-        localAppointments = JSON.parse(localStorage.getItem('sehati_appointments') || '[]'),
-        localProSession = JSON.parse(localStorage.getItem('sehati_pro_session') || 'null'),
-        lastPatientPhone = localStorage.getItem('sehati_last_patient_phone') || '';
-
     window.defaultPlacesList = [
-      {id:'dz_1',tp:'h',approved:true,nm_ar:'المستشفى الجامعي مصطفى باشا',nm_fr:'CHU Mustapha Pacha',sp_ar:'مستشفى جامعي - جميع التخصصات والاستعجالات',sp_fr:'CHU - Toutes spécialités & Urgences',srv_ar:'استعجالات 24/24، جراحة، طب القلب، طب الأطفال، تحاليل وأشعة',srv_fr:'Urgences 24/24, Chirurgie, Cardiologie, Pédiatrie, Labo & Imagerie',ad_ar:'ساحة أول ماي، الجزائر الوسطى، الجزائر',ad_fr:'Place du 1er Mai, Alger-Centre, Alger',hr_ar:'مفتوح 24 ساعة / 7 أيام',hr_fr:'Ouvert 24h/24 - 7j/7',ph:'021235555',lat:36.7628,lng:3.0536,feat:true,canBook:false},
-      {id:'dz_2',tp:'h',approved:true,nm_ar:'المستشفى الجامعي فرانس فانون - البليدة',nm_fr:'CHU Frantz Fanon - Blida',sp_ar:'مستشفى جامعي - مركز مكافحة السرطان والاستعجالات',sp_fr:'CHU - Centre Anti-Cancer & Urgences',srv_ar:'استعجالات، طب الأورام، جراحة الأعصاب، أمراض القلب، مخبر مركزي',srv_fr:'Urgences, Oncologie, Neurochirurgie, Cardiologie, Laboratoire central',ad_ar:'طريق زعبانة، البليدة',ad_fr:'Route de Zabana, Blida',hr_ar:'مفتوح 24 ساعة / 7 أيام',hr_fr:'Ouvert 24h/24 - 7j/7',ph:'025418888',lat:36.4795,lng:2.8124,feat:true,canBook:false},
-      {id:'dz_3',tp:'h',approved:true,nm_ar:'المؤسسة العمومية الاستشفائية - مفتاح',nm_fr:'EPH Meftah - Hôpital',sp_ar:'مستشفى عمومي - استعجالات طبية وجراحية',sp_fr:'Hôpital Public - Urgences',srv_ar:'استعجالات 24/24، طب عام، أمومة وطفولة، أشعة وتحاليل',srv_fr:'Urgences 24/24, Médecine générale, Maternité, Radiologie',ad_ar:'مفتاح، ولاية البليدة',ad_fr:'Meftah, Wilaya de Blida',hr_ar:'مفتوح 24 ساعة / 7 أيام',hr_fr:'Ouvert 24h/24 - 7j/7',ph:'025331212',lat:36.6203,lng:3.2225,feat:false,canBook:false},
-      {id:'dz_4',tp:'c',approved:true,nm_ar:'عيادة الأزهر الطبية الجراحية - الجزائر',nm_fr:'Clinique El Azhar - Alger',sp_ar:'عيادة خاصة متعددة التخصصات',sp_fr:'Clinique Médico-Chirurgicale',srv_ar:'جراحة القلب، القسطرة، سكانير وإيريم (IRM)، استعجالات 24/24',srv_fr:'Chirurgie cardiaque, Cathétérisme, Scanner & IRM, Urgences 24/24',ad_ar:'دالي إبراهيم، الجزائر العاصمة',ad_fr:'Dely Ibrahim, Alger',hr_ar:'مفتوح 24 ساعة / 7 أيام',hr_fr:'Ouvert 24h/24',ph:'023304040',lat:36.7575,lng:2.9814,feat:true,canBook:true}
+      {id:'dz_1',tp:'h',approved:true,nm_ar:'المستشفى الجامعي مصطفى باشا',nm_fr:'CHU Mustapha Pacha',nm_en:'Mustapha Pacha University Hospital',sp_ar:'مستشفى جامعي - جميع التخصصات والاستعجالات',sp_fr:'CHU - Toutes spécialités & Urgences',sp_en:'University Hospital - All Specialties & ER',srv_ar:'استعجالات 24/24، جراحة، طب القلب، طب الأطفال، تحاليل وأشعة',srv_fr:'Urgences 24/24, Chirurgie, Cardiologie, Pédiatrie, Labo & Imagerie',srv_en:'24/7 ER, Surgery, Cardiology, Pediatrics, Lab & Imaging',ad_ar:'ساحة أول ماي، الجزائر الوسطى، الجزائر',ad_fr:'Place du 1er Mai, Alger-Centre, Alger',ad_en:'1er Mai Square, Algiers Center, Algeria',hr_ar:'مفتوح 24 ساعة / 7 أيام',hr_fr:'Ouvert 24h/24 - 7j/7',hr_en:'Open 24/7',ph:'021235555',lat:36.7628,lng:3.0536,feat:true,canBook:false},
+      {id:'dz_2',tp:'h',approved:true,nm_ar:'المستشفى الجامعي فرانس فانون - البليدة',nm_fr:'CHU Frantz Fanon - Blida',nm_en:'Frantz Fanon University Hospital - Blida',sp_ar:'مستشفى جامعي - مركز مكافحة السرطان والاستعجالات',sp_fr:'CHU - Centre Anti-Cancer & Urgences',sp_en:'University Hospital - Cancer Center & ER',srv_ar:'استعجالات، طب الأورام، جراحة الأعصاب، أمراض القلب، مخبر مركزي',srv_fr:'Urgences, Oncologie, Neurochirurgie, Cardiologie, Laboratoire central',srv_en:'ER, Oncology, Neurosurgery, Cardiology, Central Lab',ad_ar:'طريق زعبانة، البليدة',ad_fr:'Route de Zabana, Blida',ad_en:'Zabana Road, Blida',hr_ar:'مفتوح 24 ساعة / 7 أيام',hr_fr:'Ouvert 24h/24 - 7j/7',hr_en:'Open 24/7',ph:'025418888',lat:36.4795,lng:2.8124,feat:true,canBook:false},
+      {id:'dz_3',tp:'h',approved:true,nm_ar:'المؤسسة العمومية الاستشفائية - مفتاح',nm_fr:'EPH Meftah - Hôpital',nm_en:'Meftah Public Hospital',sp_ar:'مستشفى عمومي - استعجالات طبية وجراحية',sp_fr:'Hôpital Public - Urgences',sp_en:'Public Hospital - Medical & Surgical ER',srv_ar:'استعجالات 24/24، طب عام، أمومة وطفولة، أشعة وتحاليل',srv_fr:'Urgences 24/24, Médecine générale, Maternité, Radiologie',srv_en:'24/7 ER, General Medicine, Maternity, Radiology & Lab',ad_ar:'مفتاح، ولاية البليدة',ad_fr:'Meftah, Wilaya de Blida',ad_en:'Meftah, Blida Province',hr_ar:'مفتوح 24 ساعة / 7 أيام',hr_fr:'Ouvert 24h/24 - 7j/7',hr_en:'Open 24/7',ph:'025331212',lat:36.6203,lng:3.2225,feat:false,canBook:false},
+      {id:'dz_4',tp:'c',approved:true,nm_ar:'عيادة الأزهر الطبية الجراحية - الجزائر',nm_fr:'Clinique El Azhar - Alger',nm_en:'El Azhar Medical & Surgical Clinic - Algiers',sp_ar:'عيادة خاصة متعددة التخصصات',sp_fr:'Clinique Médico-Chirurgicale',sp_en:'Multi-Specialty Private Clinic',srv_ar:'جراحة القلب، القسطرة، سكانير وإيريم (IRM)، استعجالات 24/24',srv_fr:'Chirurgie cardiaque, Cathétérisme, Scanner & IRM, Urgences 24/24',srv_en:'Cardiac Surgery, Catheterization, CT & MRI, 24/7 ER',ad_ar:'دالي إبراهيم، الجزائر العاصمة',ad_fr:'Dely Ibrahim, Alger',ad_en:'Dely Ibrahim, Algiers',hr_ar:'مفتوح 24 ساعة / 7 أيام',hr_fr:'Ouvert 24h/24',hr_en:'Open 24/7',ph:'023304040',lat:36.7575,lng:2.9814,feat:true,canBook:true}
     ];
 
-    /* حساب حالة الاشتراك والعداد العكسي للمهنيين */
+    function getLocalizedField(item, prefix) {
+      if (lang === 'en') return item[`${prefix}_en`] || item[`${prefix}_fr`] || item[`${prefix}_ar`] || '';
+      if (lang === 'fr') return item[`${prefix}_fr`] || item[`${prefix}_ar`] || item[`${prefix}_en`] || '';
+      return item[`${prefix}_ar`] || item[`${prefix}_fr`] || item[`${prefix}_en`] || '';
+    }
+
     function getSubscriptionInfo(item) {
       const isDefaultOrImported = !item || String(item.id || '').startsWith('dz_') || String(item.id || '').startsWith('imp_');
       if (isDefaultOrImported) {
@@ -563,19 +703,19 @@
       const now = Date.now();
       const expiresAt = item.subscriptionExpiresAt ? Number(item.subscriptionExpiresAt) : null;
       const planMonths = Number(item.subscriptionMonths || 0);
-      const planLabel = planMonths === 1 ? 'شهر واحد (30 يوم)' :
-                        planMonths === 3 ? '3 أشهر (90 يوم)' :
-                        planMonths === 6 ? '6 أشهر (180 يوم)' :
-                        planMonths === 12 ? 'سنة كاملة (365 يوم)' :
-                        (item.subscriptionLabel || 'محددة');
+      const planLabel = planMonths === 1 ? tr('plan1m') :
+                        planMonths === 3 ? tr('plan3m') :
+                        planMonths === 6 ? tr('plan6m') :
+                        planMonths === 12 ? tr('plan12m') :
+                        (item.subscriptionLabel || '-');
 
       if (!item.approved || !expiresAt) {
-        return { isPro: true, isActive: false, label: planLabel, remainingDays: 0, remainingText: 'غير مفعّل بعد', expiresAt, isLastWeek: false };
+        return { isPro: true, isActive: false, label: planLabel, remainingDays: 0, remainingText: tr('subInactive'), expiresAt, isLastWeek: false };
       }
 
       const diffMs = expiresAt - now;
       if (diffMs <= 0) {
-        return { isPro: true, isActive: false, label: planLabel, remainingDays: 0, remainingText: 'منتهي الصلاحية', expiresAt, isLastWeek: false };
+        return { isPro: true, isActive: false, label: planLabel, remainingDays: 0, remainingText: tr('subExpired'), expiresAt, isLastWeek: false };
       }
 
       const totalHours = Math.floor(diffMs / (1000 * 60 * 60));
@@ -588,7 +728,7 @@
         isActive: true,
         label: planLabel,
         remainingDays: days,
-        remainingText: `${days} يوم و ${hours} ساعة`,
+        remainingText: `${days} ${tr('daysUnit')} • ${hours} ${tr('hoursUnit')}`,
         expiresAt,
         isLastWeek
       };
@@ -624,11 +764,6 @@
       } catch (e) {}
     };
 
-    const T = {
-      ar:{sub:'دليلك الصحي وحجز المواعيد في الجزائر',proBtn:'🩺 بوابة المهنيين',search:'ابحث عن طبيب، صيدلية، عيادة، خدمة، أو ولاية...',emerg:'🚨 أرقام الطوارئ (اتصال مباشر)',e1:'الحماية المدنية',e2:'الشرطة',e3:'الدرك الوطني',e4:'الإسعاف',all:'الكل',fav:'المفضلة',d:'أطباء',c:'عيادات',p:'صيدليات',h:'مستشفيات',l:'مخابر',g:'أطباء أسنان',r:'أشعة',book:'📅 موعد',call:'📞 اتصال',map:'📍 الموقع',feat:'⭐ مميز',supFab:'الدعم والإعلان',empty:'لا توجد نتائج مطابقة.'},
-      fr:{sub:'Votre guide santé et prise de RDV en Algérie',proBtn:'🩺 Espace Pro',search:'Rechercher un médecin, pharmacie, service ou wilaya...',emerg:"🚨 Numéros d'urgence (Appel direct)",e1:'Protection Civile',e2:'Police',e3:'Gendarmerie',e4:'SAMU',all:'Tout',fav:'Favoris',d:'Médecins',c:'Cliniques',p:'Pharmacies',h:'Hôpitaux',l:'Labos',g:'Dentistes',r:'Imagerie',book:'📅 RDV',call:'📞 Appeler',map:'📍 Carte',feat:'⭐ Sponsorisé',supFab:'Support & Pub',empty:'Aucun résultat trouvé.'}
-    };
-
     applyAdminConfigToUI();
 
     function showToast(msg) {
@@ -648,23 +783,90 @@
       ind.style.transform = `translateX(${leftPos}px)`;
     }
 
+    function applyTranslationsToStaticUI() {
+      document.documentElement.lang = lang;
+      document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+      document.getElementById('btnAr').classList.toggle('on', lang === 'ar');
+      document.getElementById('btnFr').classList.toggle('on', lang === 'fr');
+      document.getElementById('btnEn').classList.toggle('on', lang === 'en');
+
+      document.getElementById('tagSub').textContent = tr('sub');
+      document.getElementById('proPortalBtn').textContent = tr('proBtn');
+      document.getElementById('myApptsLabel').textContent = tr('myAppts');
+      document.getElementById('searchInput').placeholder = tr('search');
+      document.getElementById('emergLabel').textContent = tr('emerg');
+      document.getElementById('e1').textContent = tr('e1');
+      document.getElementById('e2').textContent = tr('e2');
+      document.getElementById('e3').textContent = tr('e3');
+      document.getElementById('e4').textContent = tr('e4');
+      document.getElementById('supportFabText').textContent = tr('supFab');
+      document.querySelectorAll('[data-k]').forEach(el => { el.textContent = tr(el.getAttribute('data-k')); });
+
+      document.getElementById('supTitle').textContent = tr('supTitle');
+      document.getElementById('supPitchBox').innerHTML = tr('supPitch');
+      document.getElementById('supCallLink').textContent = tr('supCall');
+      document.getElementById('supWaLink').textContent = tr('supWa');
+
+      document.getElementById('bookTitle').textContent = tr('bookTitle');
+      document.getElementById('lblPatientName').textContent = tr('lblName');
+      document.getElementById('lblPatientPhone').textContent = tr('lblPhone');
+      document.getElementById('lblApptDate').textContent = tr('lblDate');
+      document.getElementById('lblApptTime').textContent = tr('lblPeriod');
+      document.getElementById('optMorning').textContent = tr('morning');
+      document.getElementById('optEvening').textContent = tr('evening');
+      document.getElementById('lblApptNote').textContent = tr('lblNote');
+      document.getElementById('btnConfirmBook').textContent = tr('confirmBook');
+
+      document.getElementById('myApptsModalTitle').textContent = tr('myApptsTitle');
+      document.getElementById('myPhoneLookupLbl').textContent = tr('myPhoneLbl');
+      document.getElementById('btnLookupAppts').textContent = tr('lookupBtn');
+
+      document.getElementById('proModalTitle').textContent = tr('proTitle');
+      document.getElementById('tabLogin').textContent = tr('tabLogin');
+      document.getElementById('tabRegister').textContent = tr('tabRegister');
+      document.getElementById('lblLoginEmail').textContent = tr('loginEmail');
+      document.getElementById('lblLoginPass').textContent = tr('loginPass');
+      document.getElementById('btnLoginSubmit').textContent = tr('loginBtn');
+
+      document.getElementById('lblRegType').textContent = tr('regType');
+      document.getElementById('regOptD').textContent = tr('regOptD');
+      document.getElementById('regOptP').textContent = tr('regOptP');
+      document.getElementById('regOptC').textContent = tr('regOptC');
+      document.getElementById('regOptL').textContent = tr('regOptL');
+      document.getElementById('regOptG').textContent = tr('regOptG');
+      document.getElementById('regOptR').textContent = tr('regOptR');
+      document.getElementById('regOptH').textContent = tr('regOptH');
+      document.getElementById('lblRegName').textContent = tr('regName');
+      document.getElementById('lblRegSpec').textContent = tr('regSpec');
+      document.getElementById('lblRegServices').textContent = tr('regServices');
+      document.getElementById('lblRegAddr').textContent = tr('regAddr');
+      document.getElementById('lblRegHours').textContent = tr('regHours');
+      document.getElementById('lblRegPhone').textContent = tr('regPhone');
+      document.getElementById('lblRegEmail').textContent = tr('regEmail');
+      document.getElementById('lblRegPass').textContent = tr('regPass');
+      document.getElementById('btnRegSubmit').textContent = tr('regBtn');
+
+      document.getElementById('txtDashAppts').textContent = tr('dashAppts');
+      document.getElementById('txtDashEdit').textContent = tr('dashEdit');
+      document.getElementById('lblEditName').textContent = tr('lblEditName') || tr('regName').replace(' *', '');
+      document.getElementById('lblEditSpec').textContent = tr('lblEditSpec') || tr('regSpec').replace(' *', '');
+      document.getElementById('lblEditServices').textContent = tr('lblEditServices') || tr('regServices').replace(' *', '');
+      document.getElementById('lblEditAddr').textContent = tr('lblEditAddr') || tr('regAddr').replace(' *', '');
+      document.getElementById('lblEditHours').textContent = tr('lblEditHours') || tr('regHours').replace(' *', '');
+      document.getElementById('lblEditPhone').textContent = tr('lblEditPhone') || tr('regPhone').replace(' *', '');
+      document.getElementById('btnSaveProfile').textContent = tr('saveProfileBtn');
+      document.getElementById('btnProLogout').textContent = tr('logoutBtn');
+      document.getElementById('pendingWarningBox').innerHTML = tr('pendingBoxHtml');
+
+      applyAdminConfigToUI();
+    }
+
     function setLang(l) {
       lang = l;
-      document.documentElement.lang = l;
-      document.documentElement.dir = l === 'ar' ? 'rtl' : 'ltr';
-      document.getElementById('btnAr').classList.toggle('on', l === 'ar');
-      document.getElementById('btnFr').classList.toggle('on', l === 'fr');
-      const t = T[l];
-      document.getElementById('tagSub').textContent = t.sub;
-      document.getElementById('proPortalBtn').textContent = t.proBtn;
-      document.getElementById('searchInput').placeholder = t.search;
-      document.getElementById('emergLabel').textContent = t.emerg;
-      document.getElementById('e1').textContent = t.e1;
-      document.getElementById('e2').textContent = t.e2;
-      document.getElementById('e3').textContent = t.e3;
-      document.getElementById('e4').textContent = t.e4;
-      document.getElementById('supportFabText').textContent = t.supFab;
-      document.querySelectorAll('[data-k]').forEach(el => { el.textContent = t[el.getAttribute('data-k')]; });
+      applyTranslationsToStaticUI();
+      if (document.getElementById('bookModal').classList.contains('open')) updateBookQueuePreview();
+      if (document.getElementById('myApptsModal').classList.contains('open')) lookupMyAppointments();
+      if (document.getElementById('proDashboardView').style.display === 'block') showProDashboard();
       render();
       setTimeout(() => updateCatIndicator(document.querySelector('.cat-pill.active')), 40);
     }
@@ -691,7 +893,6 @@
     function closeModal(id) { document.getElementById(id).classList.remove('open'); }
     function openSupportModal() { document.getElementById('supportModal').classList.add('open'); }
 
-    /* حساب ترتيب الموعد في نفس اليوم والمرفق حسب أسبقية التسجيل */
     function getSortedDayAppointments(placeId, dateStr) {
       return localAppointments
         .filter(a => a.placeId === placeId && a.date === dateStr && a.status !== 'rejected')
@@ -711,7 +912,7 @@
       if (!dateStr) { previewEl.textContent = ''; return; }
       const sameDayList = getSortedDayAppointments(selectedPlaceForBooking.id, dateStr);
       const nextRank = sameDayList.length + 1;
-      previewEl.innerHTML = `📌 الترتيب المتوقع لأسبقية تسجيلك في يوم <b>${dateStr}</b>: <b>الرقم #${nextRank}</b> (يوجد حالياً ${sameDayList.length} مسجل في هذا اليوم).`;
+      previewEl.innerHTML = tr('queuePreview', { date: dateStr, rank: nextRank, count: sameDayList.length });
     }
 
     function updateMyApptsBadge() {
@@ -731,7 +932,7 @@
       const phone = document.getElementById('myPhoneLookup').value.trim();
       const listEl = document.getElementById('myApptsList');
       if (!phone) {
-        listEl.innerHTML = '<p style="text-align:center;color:var(--muted);padding:16px;">أدخل رقم هاتفك لعرض مواعيدك وترتيبك في القائمة.</p>';
+        listEl.innerHTML = `<p style="text-align:center;color:var(--muted);padding:16px;">${tr('enterPhoneHint')}</p>`;
         return;
       }
       lastPatientPhone = phone;
@@ -743,7 +944,7 @@
         .sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
 
       if (!mine.length) {
-        listEl.innerHTML = '<p style="text-align:center;color:var(--muted);padding:16px;">لا توجد مواعيد مسجلة بهذا الرقم.</p>';
+        listEl.innerHTML = `<p style="text-align:center;color:var(--muted);padding:16px;">${tr('noApptsFound')}</p>`;
         return;
       }
 
@@ -752,23 +953,24 @@
         const isConfirmed = a.status === 'confirmed';
         const isRejected = a.status === 'rejected';
         const statusHtml = isConfirmed
-          ? `<span class="status-badge status-active">✅ تمت الموافقة • في القائمة</span>`
+          ? `<span class="status-badge status-active">${tr('confirmedBadge')}</span>`
           : isRejected
-            ? `<span class="status-badge status-rejected">❌ غير مؤكد</span>`
-            : `<span class="status-badge status-pending">⏳ بانتظار تأكيد الطبيب</span>`;
+            ? `<span class="status-badge status-rejected">${tr('rejectedBadge')}</span>`
+            : `<span class="status-badge status-pending">${tr('pendingBadge')}</span>`;
 
+        const periodText = a.period === 'evening' ? tr('evening') : (a.period === 'morning' ? tr('morning') : a.period);
         const arrivalTimeHtml = a.assignedTime
-          ? `<div style="margin-top:6px;background:rgba(15,118,110,.12);border-right:3px solid var(--primary);padding:6px 10px;border-radius:8px;font-weight:800;color:var(--primary);">⏰ الوقت المحدد لحضورك: ${a.assignedTime} (لتفادي الانتظار في القاعة)</div>`
-          : `<div style="margin-top:6px;color:var(--muted);font-size:.8rem;">⏰ سيحدد الطبيب أو العيادة الوقت المناسب لقدومك عند تأكيد الحجز.</div>`;
+          ? `<div style="margin-top:6px;background:rgba(15,118,110,.12);border-inline-start:3px solid var(--primary);padding:6px 10px;border-radius:8px;font-weight:800;color:var(--primary);">${tr('arrivalTimeMsg', { time: a.assignedTime })}</div>`
+          : `<div style="margin-top:6px;color:var(--muted);font-size:.8rem;">${tr('waitDoctorTimeMsg')}</div>`;
 
         return `
           <div class="appt-item">
             <header>
               <span>🏥 ${a.placeName}</span>
-              <span class="queue-badge">ترتيبك: #${rank}</span>
+              <span class="queue-badge">${tr('rankLabel')}: #${rank}</span>
             </header>
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px;">
-              <span>📅 ${a.date} • ${a.period}</span>
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap;margin-top:4px;">
+              <span>📅 ${a.date} • ${periodText}</span>
               ${statusHtml}
             </div>
             ${arrivalTimeHtml}
@@ -781,7 +983,7 @@
       const place = window.placesData.find(p => p.id === placeId);
       if (!place) return;
       selectedPlaceForBooking = place;
-      document.getElementById('bookTargetName').textContent = '📍 ' + (lang === 'ar' ? place.nm_ar : place.nm_fr);
+      document.getElementById('bookTargetName').textContent = '📍 ' + getLocalizedField(place, 'nm');
       if (lastPatientPhone && !document.getElementById('bPhone').value) {
         document.getElementById('bPhone').value = lastPatientPhone;
       }
@@ -797,7 +999,7 @@
             period = document.getElementById('bPeriod').value,
             note = document.getElementById('bNote').value.trim();
       if (!fullName || !phone || !date) {
-        showToast(lang === 'ar' ? 'يرجى إدخال الاسم واللقب ورقم الهاتف والتاريخ' : 'Veuillez remplir les champs obligatoires');
+        showToast(tr('toastFillReq'));
         return;
       }
 
@@ -807,12 +1009,12 @@
       const appt = {
         id: 'appt_' + Date.now() + '_' + Math.floor(Math.random() * 1000),
         placeId: selectedPlaceForBooking.id,
-        placeName: selectedPlaceForBooking.nm_ar,
+        placeName: getLocalizedField(selectedPlaceForBooking, 'nm'),
         patientName: fullName,
         patientPhone: phone,
         date,
         period,
-        note: note || 'كشف / استشارة',
+        note: note || '-',
         status: 'pending',
         assignedTime: '',
         createdAt: new Date().toISOString()
@@ -831,7 +1033,7 @@
       document.getElementById('bFullName').value = '';
       document.getElementById('bNote').value = '';
       closeModal('bookModal');
-      showToast(`✅ تم تسجيل موعدك! ترتيبك في يوم ${date} هو #${rank}`);
+      showToast(tr('toastBooked', { date, rank }));
     }
 
     function openProPortal() {
@@ -859,13 +1061,13 @@
 
     async function proRegister() {
       const tp = document.getElementById('regType').value, nm = document.getElementById('regName').value.trim(), sp = document.getElementById('regSpec').value.trim(), srv = document.getElementById('regServices').value.trim(), ad = document.getElementById('regAddr').value.trim(), hr = document.getElementById('regHours').value.trim(), ph = document.getElementById('regPhone').value.trim(), email = document.getElementById('regEmail').value.trim(), pass = document.getElementById('regPass').value.trim();
-      if (!nm || !sp || !ph || !email || pass.length < 6) { showToast('يرجى ملء جميع الحقول وكلمة مرور من 6 أحرف على الأقل'); return; }
+      if (!nm || !sp || !ph || !email || pass.length < 6) { showToast(tr('toastFillReq')); return; }
       let uid = 'pro_' + Date.now();
       if (window.fbReady) {
         try { const cred = await window.fb.createUserWithEmailAndPassword(window.fb.auth, email, pass); uid = cred.user.uid; }
-        catch (err) { showToast('خطأ في التسجيل: ' + err.message); return; }
+        catch (err) { showToast(err.message); return; }
       }
-      const profileData = { id: uid, ownerUid: uid, email, tp, approved: false, subscriptionMonths: 0, subscriptionLabel: '', subscriptionExpiresAt: null, nm_ar: nm, nm_fr: nm, sp_ar: sp, sp_fr: sp, srv_ar: srv || 'خدمات طبية وصحية', srv_fr: srv || 'Services médicaux', ad_ar: ad || 'الجزائر', ad_fr: ad || 'Algérie', hr_ar: hr || '08:30 - 17:00', hr_fr: hr || '08h30 - 17h00', ph, feat: false, canBook: tp !== 'p' && tp !== 'h', createdAt: new Date().toISOString() };
+      const profileData = { id: uid, ownerUid: uid, email, tp, approved: false, subscriptionMonths: 0, subscriptionLabel: '', subscriptionExpiresAt: null, nm_ar: nm, nm_fr: nm, nm_en: nm, sp_ar: sp, sp_fr: sp, sp_en: sp, srv_ar: srv || '-', srv_fr: srv || '-', srv_en: srv || '-', ad_ar: ad || '-', ad_fr: ad || '-', ad_en: ad || '-', hr_ar: hr || '08:30 - 17:00', hr_fr: hr || '08h30 - 17h00', hr_en: hr || '08:30 - 17:00', ph, feat: false, canBook: tp !== 'p' && tp !== 'h', createdAt: new Date().toISOString() };
       localPlaces.push(profileData);
       localStorage.setItem('sehati_pro_places', JSON.stringify(localPlaces));
       window.placesData.push(profileData);
@@ -887,11 +1089,10 @@
           await window.loadProDashboard(cred.user.uid);
           showProDashboard();
           return;
-        } catch (err) { showToast('بيانات الدخول غير صحيحة'); return; }
+        } catch (err) { showToast(err.message); return; }
       }
       const found = localPlaces.find(p => p.email === email);
       if (found) { localProSession = found; localStorage.setItem('sehati_pro_session', JSON.stringify(found)); currentProProfile = found; showProDashboard(); }
-      else showToast('الحساب غير موجود');
     }
 
     window.loadProDashboard = async function(uid) {
@@ -903,7 +1104,7 @@
       const timeInput = document.getElementById(`apptTime_${apptId}`);
       const assignedTime = timeInput ? timeInput.value.trim() : '';
       if (!assignedTime) {
-        showToast('يرجى إدخال الوقت المناسب لقدوم المريض أولاً (مثال: 09:30 صباحاً)');
+        showToast(tr('toastEnterTime'));
         return;
       }
 
@@ -923,7 +1124,7 @@
         } catch (e) {}
       }
 
-      showToast('✅ تم تأكيد الموعد وتحديد الوقت للمريض!');
+      showToast(tr('toastTimeSaved'));
       await showProDashboard();
     }
 
@@ -940,7 +1141,6 @@
         } catch (e) {}
       }
 
-      showToast('تم تحديث حالة الموعد');
       await showProDashboard();
     }
 
@@ -953,36 +1153,37 @@
       const sub = getSubscriptionInfo(prof);
       const subBox = document.getElementById('proSubStatusBox');
       const weekAlert = document.getElementById('proLastWeekAlert');
+      const localeCode = lang === 'en' ? 'en-GB' : (lang === 'fr' ? 'fr-FR' : 'ar-DZ');
 
       if (sub.isActive && sub.expiresAt) {
-        const expDateStr = new Date(sub.expiresAt).toLocaleDateString('ar-DZ');
+        const expDateStr = new Date(sub.expiresAt).toLocaleDateString(localeCode);
         subBox.style.display = 'block';
         subBox.innerHTML = `
-          <div>📦 <b>مدة الاشتراك:</b> ${sub.label}</div>
-          <div>⏳ <b>العداد العكسي للمدة المتبقية:</b> <span style="color:var(--primary);font-weight:800;">${sub.remainingText}</span></div>
-          <div style="font-size:.78rem;color:var(--muted);">تاريخ الانتهاء: ${expDateStr}</div>
+          <div>📦 <b>${tr('subDurationLbl')}:</b> ${sub.label}</div>
+          <div>⏳ <b>${tr('subCountdownLbl')}:</b> <span style="color:var(--primary);font-weight:800;">${sub.remainingText}</span></div>
+          <div style="font-size:.78rem;color:var(--muted);">${tr('subExpiresLbl')}: ${expDateStr}</div>
         `;
       } else {
         subBox.style.display = 'block';
-        subBox.innerHTML = `📦 <b>حالة الاشتراك:</b> <span style="color:#b45309;font-weight:800;">${sub.remainingText || 'غير مفعّل'}</span>`;
+        subBox.innerHTML = `📦 <b>${tr('subStatusLbl')}:</b> <span style="color:#b45309;font-weight:800;">${sub.remainingText || tr('subInactive')}</span>`;
       }
 
       if (sub.isActive && sub.isLastWeek) {
         weekAlert.style.display = 'block';
         weekAlert.innerHTML = `
-          ⚠️ <b>تنبيه هام:</b> اشتراكك سينتهي قريباً (متبقي <b>${sub.remainingText}</b>). يرجى التواصل مع الإدارة لتجديد اشتراكك وضمان استمرار ظهور حسابك واستقبال مواعيد المرضى.
-          <button type="button" onclick="closeModal('proModal'); openSupportModal();" class="btn-primary" style="margin-top:8px;">📞 تواصل مع الإدارة لتجديد الاشتراك</button>
+          ${tr('lastWeekWarn', { rem: sub.remainingText })}
+          <button type="button" onclick="closeModal('proModal'); openSupportModal();" class="btn-primary" style="margin-top:8px;">${tr('renewContactBtn')}</button>
         `;
       } else {
         weekAlert.style.display = 'none';
       }
 
       document.getElementById('pendingWarningBox').style.display = sub.isActive ? 'none' : 'block';
-      document.getElementById('editName').value = prof.nm_ar || '';
-      document.getElementById('editSpec').value = prof.sp_ar || '';
-      document.getElementById('editServices').value = prof.srv_ar || '';
-      document.getElementById('editAddr').value = prof.ad_ar || '';
-      document.getElementById('editHours').value = prof.hr_ar || '';
+      document.getElementById('editName').value = getLocalizedField(prof, 'nm');
+      document.getElementById('editSpec').value = getLocalizedField(prof, 'sp');
+      document.getElementById('editServices').value = getLocalizedField(prof, 'srv');
+      document.getElementById('editAddr').value = getLocalizedField(prof, 'ad');
+      document.getElementById('editHours').value = getLocalizedField(prof, 'hr');
       document.getElementById('editPhone').value = prof.ph || '';
 
       let myAppts = localAppointments.filter(a => a.placeId === prof.id);
@@ -1004,16 +1205,17 @@
       const listEl = document.getElementById('apptsList');
 
       listEl.innerHTML = myAppts.length === 0
-        ? '<p style="text-align:center;color:var(--muted);padding:20px;">لا توجد مواعيد محجوزة حتى الآن.</p>'
+        ? `<p style="text-align:center;color:var(--muted);padding:20px;">${tr('noProAppts')}</p>`
         : myAppts.map(a => {
             const rank = getAppointmentQueueNumber(a);
             const isConfirmed = a.status === 'confirmed';
             const isRejected = a.status === 'rejected';
+            const periodText = a.period === 'evening' ? tr('evening') : (a.period === 'morning' ? tr('morning') : a.period);
             const badge = isConfirmed
-              ? `<span class="status-badge status-active">✅ مؤكد (${a.assignedTime || ''})</span>`
+              ? `<span class="status-badge status-active">${tr('confirmedBadge')} (${a.assignedTime || ''})</span>`
               : isRejected
-                ? `<span class="status-badge status-rejected">❌ مرفوض</span>`
-                : `<span class="status-badge status-pending">⏳ بانتظار التأكيد</span>`;
+                ? `<span class="status-badge status-rejected">${tr('rejectedBadge')}</span>`
+                : `<span class="status-badge status-pending">${tr('pendingBadge')}</span>`;
 
             return `
               <div class="appt-item">
@@ -1021,14 +1223,14 @@
                   <span><span class="queue-badge">#${rank}</span> 👤 ${a.patientName}</span>
                   ${badge}
                 </header>
-                <div>📅 <b>${a.date}</b> | 🕒 ${a.period} | 📝 ${a.note}</div>
+                <div>📅 <b>${a.date}</b> | 🕒 ${periodText} | 📝 ${a.note}</div>
                 <div style="margin-top:6px;">
                   <a href="tel:${a.patientPhone}" style="display:inline-block;background:var(--primary);color:#fff;padding:3px 9px;border-radius:7px;text-decoration:none;font-size:.78rem;font-weight:700;">📞 ${a.patientPhone}</a>
                 </div>
                 ${!isRejected ? `
                   <div style="margin-top:8px;display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
-                    <input type="text" id="apptTime_${a.id}" value="${a.assignedTime || ''}" placeholder="وقت الحضور (مثال: 10:00 صباحاً)" style="flex:1;min-width:140px;padding:6px 8px;border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:.8rem;" />
-                    <button type="button" onclick="confirmAppointmentWithTime('${a.id}')" style="background:#16a34a;color:#fff;border:none;border-radius:8px;padding:6px 10px;font-size:.78rem;font-weight:800;cursor:pointer;">✅ تأكيد وتحديد الوقت</button>
+                    <input type="text" id="apptTime_${a.id}" value="${a.assignedTime || ''}" placeholder="${tr('timeInputPlaceholder')}" style="flex:1;min-width:140px;padding:6px 8px;border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:.8rem;" />
+                    <button type="button" onclick="confirmAppointmentWithTime('${a.id}')" style="background:#16a34a;color:#fff;border:none;border-radius:8px;padding:6px 10px;font-size:.78rem;font-weight:800;cursor:pointer;">${tr('confirmTimeBtn')}</button>
                     <button type="button" onclick="rejectAppointment('${a.id}')" style="background:#dc2626;color:#fff;border:none;border-radius:8px;padding:6px 8px;font-size:.78rem;font-weight:700;cursor:pointer;">✕</button>
                   </div>
                 ` : ''}
@@ -1040,21 +1242,29 @@
     async function saveProProfile() {
       const prof = currentProProfile || localProSession;
       if (!prof) return;
-      prof.nm_ar = prof.nm_fr = document.getElementById('editName').value.trim();
-      prof.sp_ar = prof.sp_fr = document.getElementById('editSpec').value.trim();
-      prof.srv_ar = prof.srv_fr = document.getElementById('editServices').value.trim();
-      prof.ad_ar = prof.ad_fr = document.getElementById('editAddr').value.trim();
-      prof.hr_ar = prof.hr_fr = document.getElementById('editHours').value.trim();
-      prof.ph = document.getElementById('editPhone').value.trim();
+      const nm = document.getElementById('editName').value.trim(),
+            sp = document.getElementById('editSpec').value.trim(),
+            srv = document.getElementById('editServices').value.trim(),
+            ad = document.getElementById('editAddr').value.trim(),
+            hr = document.getElementById('editHours').value.trim(),
+            ph = document.getElementById('editPhone').value.trim();
+
+      prof.nm_ar = prof.nm_fr = prof.nm_en = nm;
+      prof.sp_ar = prof.sp_fr = prof.sp_en = sp;
+      prof.srv_ar = prof.srv_fr = prof.srv_en = srv;
+      prof.ad_ar = prof.ad_fr = prof.ad_en = ad;
+      prof.hr_ar = prof.hr_fr = prof.hr_en = hr;
+      prof.ph = ph;
+
       localPlaces = localPlaces.map(p => p.id === prof.id ? prof : p);
       localStorage.setItem('sehati_pro_places', JSON.stringify(localPlaces));
       localStorage.setItem('sehati_pro_session', JSON.stringify(prof));
       window.placesData = window.placesData.map(p => p.id === prof.id ? prof : p);
       if (window.fbReady) {
-        try { await window.fb.updateDoc(window.fb.doc(window.fb.db, "health_places", prof.id), { nm_ar: prof.nm_ar, nm_fr: prof.nm_fr, sp_ar: prof.sp_ar, sp_fr: prof.sp_fr, srv_ar: prof.srv_ar, srv_fr: prof.srv_fr, ad_ar: prof.ad_ar, ad_fr: prof.ad_fr, hr_ar: prof.hr_ar, hr_fr: prof.hr_fr, ph: prof.ph }); } catch (e) {}
+        try { await window.fb.updateDoc(window.fb.doc(window.fb.db, "health_places", prof.id), { nm_ar: nm, nm_fr: nm, nm_en: nm, sp_ar: sp, sp_fr: sp, sp_en: sp, srv_ar: srv, srv_fr: srv, srv_en: srv, ad_ar: ad, ad_fr: ad, ad_en: ad, hr_ar: hr, hr_fr: hr, hr_en: hr, ph }); } catch (e) {}
       }
       render();
-      showToast('✅ تم حفظ وتحديث معلوماتك وخدماتك!');
+      showToast(tr('toastProfileSaved'));
     }
 
     async function proLogout() {
@@ -1063,11 +1273,11 @@
       currentProProfile = null;
       localStorage.removeItem('sehati_pro_session');
       closeModal('proModal');
-      showToast('تم تسجيل الخروج');
+      showToast(tr('toastLoggedOut'));
     }
 
     async function unlockAdminPanel() {
-      if (document.getElementById('adminPinInput').value.trim() !== adminConfig.pass) { showToast('❌ رمز الإدارة غير صحيح'); return; }
+      if (document.getElementById('adminPinInput').value.trim() !== adminConfig.pass) { showToast('❌'); return; }
       document.getElementById('adminPinInput').value = '';
       document.getElementById('secretPinBox').style.display = 'none';
       document.getElementById('adminDashboardView').style.display = 'block';
@@ -1090,19 +1300,19 @@
 
     async function saveAdminSettings() {
       const newPass = document.getElementById('newAdminPass').value.trim(), newPhone = document.getElementById('newAdminPhone').value.trim(), newWa = document.getElementById('newAdminWa').value.trim(), newAd = document.getElementById('newAdText').value.trim();
-      if (!newPass || newPass.length < 4) { showToast('يرجى إدخال رمز إدارة من 4 أحرف على الأقل'); return; }
+      if (!newPass || newPass.length < 4) { return; }
       adminConfig = { pass: newPass, phone: newPhone || adminConfig.phone, wa: newWa || adminConfig.wa, adText: newAd || adminConfig.adText };
       localStorage.setItem('sehati_admin_cfg', JSON.stringify(adminConfig));
       applyAdminConfigToUI();
       if (window.fbReady) { try { await window.fb.setDoc(window.fb.doc(window.fb.db, "app_config", "admin"), adminConfig); } catch (e) {} }
-      showToast('✅ تم حفظ كلمة السر الجديدة ورقم هاتفك ونص الإعلان!');
+      showToast('✅');
     }
 
     function renderAdminAccounts() {
       const registeredAccounts = window.placesData.filter(p => !p.id.startsWith('dz_') && !p.id.startsWith('imp_'));
       document.getElementById('pendingCountBadge').textContent = registeredAccounts.filter(p => !getSubscriptionInfo(p).isActive).length;
       const listEl = document.getElementById('adminAccountsList');
-      if (registeredAccounts.length === 0) { listEl.innerHTML = '<p style="text-align:center;color:var(--muted);padding:20px;">لا توجد حسابات مهنيين مسجلة بعد.</p>'; return; }
+      if (registeredAccounts.length === 0) { listEl.innerHTML = '<p style="text-align:center;color:var(--muted);padding:20px;">-</p>'; return; }
 
       listEl.innerHTML = registeredAccounts.map(acc => {
         const sub = getSubscriptionInfo(acc);
@@ -1111,25 +1321,25 @@
           <div class="appt-item">
             <header>
               <span>${acc.nm_ar}</span>
-              <span class="status-badge ${sub.isActive ? 'status-active' : 'status-pending'}">${sub.isActive ? '✅ مفعّل' : '⏳ غير مفعّل / منتهي'}</span>
+              <span class="status-badge ${sub.isActive ? 'status-active' : 'status-pending'}">${sub.isActive ? '✅' : '⏳'}</span>
             </header>
             <div>🩺 ${acc.sp_ar} | 📍 ${acc.ad_ar}</div>
             <div>📞 <a href="tel:${acc.ph}">${acc.ph}</a> | 📧 ${acc.email || ''}</div>
             <div style="margin-top:6px;font-size:.8rem;color:var(--primary);font-weight:700;">
-              ⏳ العداد العكسي: ${sub.remainingText} ${sub.isLastWeek && sub.isActive ? '⚠️ (الأسبوع الأخير)' : ''}
+              ⏳ ${sub.remainingText} ${sub.isLastWeek && sub.isActive ? '⚠️' : ''}
             </div>
             <div style="margin-top:8px;display:flex;gap:6px;align-items:center;">
               <select id="subMonths_${acc.id}" style="padding:6px;border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:.8rem;font-weight:700;">
-                <option value="1" ${defaultMonths === 1 ? 'selected' : ''}>شهر (30 يوم)</option>
-                <option value="3" ${defaultMonths === 3 ? 'selected' : ''}>3 أشهر (90 يوم)</option>
-                <option value="6" ${defaultMonths === 6 ? 'selected' : ''}>6 أشهر (180 يوم)</option>
-                <option value="12" ${defaultMonths === 12 ? 'selected' : ''}>سنة (365 يوم)</option>
+                <option value="1" ${defaultMonths === 1 ? 'selected' : ''}>1M (30d)</option>
+                <option value="3" ${defaultMonths === 3 ? 'selected' : ''}>3M (90d)</option>
+                <option value="6" ${defaultMonths === 6 ? 'selected' : ''}>6M (180d)</option>
+                <option value="12" ${defaultMonths === 12 ? 'selected' : ''}>1Y (365d)</option>
               </select>
               <button onclick="adminActivateSubscription('${acc.id}')" style="flex:1;padding:6px;border:none;border-radius:8px;background:#16a34a;color:#fff;font-weight:700;cursor:pointer;font-size:.8rem;">✅ تفعيل المدة</button>
-              <button onclick="adminToggleApprove('${acc.id}', false)" style="padding:6px 8px;border:none;border-radius:8px;background:#ef4444;color:#fff;font-weight:700;cursor:pointer;font-size:.8rem;">⛔ إيقاف</button>
+              <button onclick="adminToggleApprove('${acc.id}', false)" style="padding:6px 8px;border:none;border-radius:8px;background:#ef4444;color:#fff;font-weight:700;cursor:pointer;font-size:.8rem;">⛔</button>
             </div>
             <div style="display:flex;gap:6px;margin-top:6px;">
-              <button onclick="adminToggleFeatured('${acc.id}', ${!acc.feat})" style="flex:1;padding:6px;border:none;border-radius:8px;background:#f59e0b;color:#000;font-weight:700;cursor:pointer;font-size:.8rem;">${acc.feat ? 'إلغاء التمييز' : '⭐ تمييز إعلاني'}</button>
+              <button onclick="adminToggleFeatured('${acc.id}', ${!acc.feat})" style="flex:1;padding:6px;border:none;border-radius:8px;background:#f59e0b;color:#000;font-weight:700;cursor:pointer;font-size:.8rem;">${acc.feat ? '★' : '☆'}</button>
             </div>
           </div>
         `;
@@ -1154,7 +1364,7 @@
 
       render();
       renderAdminAccounts();
-      showToast(`✅ تم تفعيل اشتراك المهني لمدة ${months} شهر!`);
+      showToast('✅');
     }
 
     async function adminToggleApprove(id, newStatus) {
@@ -1164,7 +1374,7 @@
       if (window.fbReady) { try { await window.fb.updateDoc(window.fb.doc(window.fb.db, "health_places", id), { approved: newStatus }); } catch (e) {} }
       render();
       renderAdminAccounts();
-      showToast(newStatus ? '✅ تم تفعيل الحساب ونشره في التطبيق!' : '⛔ تم إيقاف ظهور الحساب');
+      showToast('✅');
     }
 
     async function adminToggleFeatured(id, newFeat) {
@@ -1174,12 +1384,11 @@
       if (window.fbReady) { try { await window.fb.updateDoc(window.fb.doc(window.fb.db, "health_places", id), { feat: newFeat }); } catch (e) {} }
       render();
       renderAdminAccounts();
-      showToast(newFeat ? '⭐ تم تمييز الحساب!' : 'تم إلغاء التمييز');
+      showToast('✅');
     }
 
     async function clearImportedData() {
       const statusEl = document.getElementById('importStatus');
-      statusEl.textContent = '⏳ جاري حذف البيانات المستوردة السابقة...';
       const toDelete = window.placesData.filter(p => p.id.startsWith('imp_'));
       if (window.fbReady && toDelete.length > 0) {
         try { const batch = window.fb.writeBatch(window.fb.db); toDelete.forEach(item => batch.delete(window.fb.doc(window.fb.db, "health_places", item.id))); await batch.commit(); } catch (e) {}
@@ -1188,7 +1397,7 @@
       localStorage.setItem('sehati_pro_places', JSON.stringify(localPlaces));
       window.placesData = window.placesData.filter(p => !p.id.startsWith('imp_'));
       render();
-      statusEl.textContent = `🗑️ تم حذف ${toDelete.length} سجل مستورد بنجاح!`;
+      statusEl.textContent = `🗑️ ${toDelete.length}`;
     }
 
     function extractCoords(geometry) {
@@ -1201,13 +1410,12 @@
 
     async function processBulkImport() {
       const fileInput = document.getElementById('importFile'), limit = parseInt(document.getElementById('importLimit').value, 10), statusEl = document.getElementById('importStatus');
-      if (!fileInput.files || !fileInput.files[0]) { showToast('يرجى اختيار ملف health_facilities.geojson أولاً'); return; }
-      statusEl.textContent = '⏳ جاري تحليل الملف واستخراج المرافق...';
+      if (!fileInput.files || !fileInput.files[0]) return;
       const text = await fileInput.files[0].text();
       try {
         const json = JSON.parse(text), features = json.features || (Array.isArray(json) ? json : []), candidates = [];
         for (let i = 0; i < features.length; i++) {
-          const f = features[i], props = f.properties || f, nameAr = props['name:ar'] || props.name || '', nameFr = props['name:fr'] || props.name || nameAr;
+          const f = features[i], props = f.properties || f, nameAr = props['name:ar'] || props.name || '', nameFr = props['name:fr'] || props.name || nameAr, nameEn = props['name:en'] || nameFr || nameAr;
           if (!nameAr && !nameFr) continue;
           const amenity = (props.amenity || props.healthcare || '').toLowerCase();
           let tp = 'c';
@@ -1215,12 +1423,11 @@
           const phone = (props.phone || props['contact:phone'] || props['contact:mobile'] || props.telephone || '').toString().trim(), city = props['addr:city'] || props['addr:state'] || props['addr:street'] || 'الجزائر', hours = props.opening_hours || '08:00 - 17:00', { lat, lng } = extractCoords(f.geometry);
           let score = 0;
           if (phone.length > 4) score += 10; if (lat && lng) score += 5; if (city !== 'الجزائر') score += 2;
-          candidates.push({ score, data: { id: 'imp_' + Date.now() + '_' + i, tp, approved: true, nm_ar: nameAr || nameFr, nm_fr: nameFr || nameAr, sp_ar: props.healthcare_speciality || (tp === 'p' ? 'صيدلية' : (tp === 'h' ? 'مستشفى' : 'مرفق صحي')), sp_fr: props.healthcare_speciality || (tp === 'p' ? 'Pharmacie' : (tp === 'h' ? 'Hôpital' : 'Établissement de santé')), srv_ar: '', srv_fr: '', ad_ar: city, ad_fr: city, hr_ar: hours, hr_fr: hours, ph: phone, lat, lng, feat: false, canBook: tp === 'd' || tp === 'c' } });
+          candidates.push({ score, data: { id: 'imp_' + Date.now() + '_' + i, tp, approved: true, nm_ar: nameAr || nameFr, nm_fr: nameFr || nameAr, nm_en: nameEn || nameFr || nameAr, sp_ar: props.healthcare_speciality || '', sp_fr: props.healthcare_speciality || '', sp_en: props.healthcare_speciality || '', srv_ar: '', srv_fr: '', srv_en: '', ad_ar: city, ad_fr: city, ad_en: city, hr_ar: hours, hr_fr: hours, hr_en: hours, ph: phone, lat, lng, feat: false, canBook: tp === 'd' || tp === 'c' } });
         }
         candidates.sort((a, b) => b.score - a.score);
-        const importedItems = candidates.slice(0, limit).map(c => c.data), withPhoneCount = importedItems.filter(x => x.ph.length > 4).length;
-        if (importedItems.length === 0) { statusEl.textContent = '❌ لم يتم العثور على سجلات صالحة.'; return; }
-        statusEl.textContent = `⏳ جاري حفظ ${importedItems.length} مرفق في Firebase...`;
+        const importedItems = candidates.slice(0, limit).map(c => c.data);
+        if (importedItems.length === 0) return;
         if (window.fbReady) {
           const batch = window.fb.writeBatch(window.fb.db);
           importedItems.forEach(item => batch.set(window.fb.doc(window.fb.db, "health_places", item.id), item));
@@ -1230,44 +1437,42 @@
         localStorage.setItem('sehati_pro_places', JSON.stringify(localPlaces));
         window.placesData = [...window.placesData, ...importedItems];
         render();
-        statusEl.textContent = `✅ تم استيراد ${importedItems.length} مرفق بنجاح (${withPhoneCount} برقم هاتف)!`;
-        showToast(`✅ تمت إضافة ${importedItems.length} مرفق صحي!`);
-      } catch (err) { statusEl.textContent = '❌ خطأ في قراءة الملف.'; }
+        statusEl.textContent = `✅ ${importedItems.length}`;
+      } catch (err) { statusEl.textContent = '❌'; }
     }
 
     window.render = function() {
       const box = document.getElementById('listContainer'),
             q = document.getElementById('searchInput').value.toLowerCase().trim(),
-            t = T[lang],
             publicPlaces = window.placesData.filter(item => isItemPubliclyVisible(item)),
             sorted = [...publicPlaces].sort((a, b) => (b.feat === true) - (a.feat === true)),
             filtered = sorted.filter(item => {
               if (currentCat === 'fav' && !favs.includes(item.id)) return false;
               if (currentCat !== 'all' && currentCat !== 'fav' && item.tp !== currentCat) return false;
-              const hay = `${item.nm_ar} ${item.nm_fr} ${item.sp_ar} ${item.sp_fr} ${item.srv_ar || ''} ${item.ad_ar} ${item.ad_fr}`.toLowerCase();
+              const hay = `${item.nm_ar || ''} ${item.nm_fr || ''} ${item.nm_en || ''} ${item.sp_ar || ''} ${item.sp_fr || ''} ${item.sp_en || ''} ${item.srv_ar || ''} ${item.srv_fr || ''} ${item.srv_en || ''} ${item.ad_ar || ''} ${item.ad_fr || ''} ${item.ad_en || ''}`.toLowerCase();
               return !q || hay.includes(q);
             });
 
       document.getElementById('totalCounter').textContent = `(${filtered.length})`;
 
       if (!filtered.length) {
-        box.innerHTML = `<p style="text-align:center;color:var(--muted);padding:30px;">${t.empty}</p>`;
+        box.innerHTML = `<p style="text-align:center;color:var(--muted);padding:30px;">${tr('empty')}</p>`;
         return;
       }
 
       box.innerHTML = filtered.slice(0, 100).map(item => {
-        const name = lang === 'ar' ? item.nm_ar : item.nm_fr,
-              spec = lang === 'ar' ? item.sp_ar : item.sp_fr,
-              srv = lang === 'ar' ? (item.srv_ar || '') : (item.srv_fr || ''),
-              addr = lang === 'ar' ? item.ad_ar : item.ad_fr,
-              hours = lang === 'ar' ? item.hr_ar : item.hr_fr,
+        const name = getLocalizedField(item, 'nm'),
+              spec = getLocalizedField(item, 'sp'),
+              srv = getLocalizedField(item, 'srv'),
+              addr = getLocalizedField(item, 'ad'),
+              hours = getLocalizedField(item, 'hr'),
               isFav = favs.includes(item.id),
               allowBook = item.canBook !== false && item.tp !== 'p' && item.tp !== 'h',
               hasPhone = item.ph && item.ph.trim().length > 3,
               mapLink = (typeof item.lat === 'number' && typeof item.lng === 'number') ? `https://maps.google.com/?q=${item.lat},${item.lng}` : `https://maps.google.com/?q=${encodeURIComponent(name + ' ' + addr + ' Algerie')}`,
               cols = [allowBook, hasPhone, true].filter(Boolean).length,
               gridCols = cols === 3 ? '1fr 1fr 1fr auto' : (cols === 2 ? '1fr 1fr auto' : '1fr auto');
-        return `<div class="item-card ${item.feat ? 'featured' : ''}">${item.feat ? `<span class="badge-feat">${t.feat}</span>` : ''}<div class="item-title">${name}</div><div class="item-sub">${spec}</div>${srv ? `<div class="item-services">🩺 ${srv}</div>` : ''}<div class="item-meta"><span>📍 ${addr}</span><span><i class="dot-open"></i>🕒 ${hours}</span></div><div class="actions" style="grid-template-columns:${gridCols};">${allowBook ? `<button onclick="openBooking('${item.id}')" class="act-btn act-book">${t.book}</button>` : ''}${hasPhone ? `<a href="tel:${item.ph}" class="act-btn act-call">${t.call}</a>` : ''}<a href="${mapLink}" class="act-btn act-map">${t.map}</a><button onclick="toggleFav('${item.id}')" class="act-btn act-fav ${isFav ? 'saved' : ''}">${isFav ? '❤️' : '🤍'}</button></div></div>`;
+        return `<div class="item-card ${item.feat ? 'featured' : ''}">${item.feat ? `<span class="badge-feat">${tr('feat')}</span>` : ''}<div class="item-title">${name}</div><div class="item-sub">${spec}</div>${srv ? `<div class="item-services">🩺 ${srv}</div>` : ''}<div class="item-meta"><span>📍 ${addr}</span><span><i class="dot-open"></i>🕒 ${hours}</span></div><div class="actions" style="grid-template-columns:${gridCols};">${allowBook ? `<button onclick="openBooking('${item.id}')" class="act-btn act-book">${tr('book')}</button>` : ''}${hasPhone ? `<a href="tel:${item.ph}" class="act-btn act-call">${tr('call')}</a>` : ''}<a href="${mapLink}" class="act-btn act-map">${tr('map')}</a><button onclick="toggleFav('${item.id}')" class="act-btn act-fav ${isFav ? 'saved' : ''}">${isFav ? '❤️' : '🤍'}</button></div></div>`;
       }).join('');
     };
 
@@ -1355,7 +1560,7 @@
         });
         if (!r.ok) {
           const e = await r.json().catch(() => ({}));
-          throw new Error(e.message || "خطأ في الرفع");
+          throw new Error(e.message || "Error");
         }
       }
 
@@ -1379,7 +1584,7 @@
           vidEl.style.display = "none";
           vidEl.removeAttribute("src");
           titleEl.textContent = "";
-          descEl.textContent = adminConfig.adText || "";
+          descEl.textContent = (lang === 'ar' && adminConfig.adText) ? adminConfig.adText : tr('defaultAdText');
           return;
         }
         if (idx >= ads.length) idx = 0;
@@ -1423,16 +1628,16 @@
 
       function drawList() {
         if (!ads.length) {
-          lstE.innerHTML = `<div style="color:#90a4ae;">لا توجد إعلانات منشورة</div>`;
+          lstE.innerHTML = `<div style="color:#90a4ae;">-</div>`;
           return;
         }
         lstE.innerHTML = ads.map((a, i) => {
           const mediaSrc = a.media || a.video || a.image || "";
-          const kind = isVideoFile(mediaSrc, a.mediaType) ? "🎬 فيديو" : "🖼️ صورة";
+          const kind = isVideoFile(mediaSrc, a.mediaType) ? "🎬" : "🖼️";
           return `
             <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;background:#091815;border:1px solid #1f453e;border-radius:8px;padding:6px 8px;">
-              <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">#${i + 1} [${kind}] ${a.title || a.description || "إعلان"}</span>
-              <button data-del="${i}" type="button" style="background:#c62828;color:#fff;border:none;border-radius:6px;padding:3px 8px;cursor:pointer;">حذف</button>
+              <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">#${i + 1} ${kind} ${a.title || a.description || ""}</span>
+              <button data-del="${i}" type="button" style="background:#c62828;color:#fff;border:none;border-radius:6px;padding:3px 8px;cursor:pointer;">✕</button>
             </div>
           `;
         }).join("");
@@ -1440,23 +1645,20 @@
         lstE.querySelectorAll("button[data-del]").forEach(b => {
           b.onclick = async () => {
             const tok = (tokI.value || localStorage.getItem(TKEY) || "").trim();
-            if (!tok) { stE.textContent = "أدخل Token أولاً"; return; }
+            if (!tok) return;
             const i = Number(b.getAttribute("data-del"));
             try {
-              stE.textContent = "جاري الحذف...";
               await saveAll(ads.filter((_, x) => x !== i), secI.value || dur, tok);
-              stE.textContent = "تم الحذف";
-            } catch (e) { stE.textContent = "خطأ: " + e.message; }
+            } catch (e) { stE.textContent = e.message; }
           };
         });
       }
 
       addB.onclick = async () => {
         const tok = tokI.value.trim();
-        if (!tok) { stE.textContent = "أدخل GitHub Token أولاً"; return; }
+        if (!tok) return;
         localStorage.setItem(TKEY, tok);
         addB.disabled = true;
-        stE.textContent = "جاري الرفع والنشر...";
         try {
           let mediaPath = "";
           let mediaType = "image";
@@ -1481,9 +1683,9 @@
           titI.value = "";
           desI.value = "";
           filI.value = "";
-          stE.textContent = "تم النشر بنجاح";
+          stE.textContent = "✅";
         } catch (e) {
-          stE.textContent = "خطأ: " + e.message;
+          stE.textContent = e.message;
         } finally {
           addB.disabled = false;
         }
@@ -1512,6 +1714,7 @@
     })();
 
     if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(() => {});
+    applyTranslationsToStaticUI();
     updateMyApptsBadge();
     render();
     window.addEventListener('resize', () => updateCatIndicator(document.querySelector('.cat-pill.active')));
