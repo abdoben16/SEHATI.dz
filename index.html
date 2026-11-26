@@ -53,12 +53,26 @@
     .emerg-card.gendarme{background:linear-gradient(145deg,#14532d,#166534)}
     .emerg-card.ambulance{background:linear-gradient(145deg,#7f1d1d,#991b1b)}
 
-    /* واجهة إعلان بنسبة 16:9 (صورة أو فيديو قصير) مع وضوح تام بدون تعتيم باهت */
-    .ads-showcase{position:relative;margin:10px 14px 14px;border-radius:16px;overflow:hidden;border:1.5px solid var(--accent);box-shadow:var(--shadow);background:#071916;width:calc(100% - 28px);aspect-ratio:16 / 9;cursor:pointer;user-select:none}
+    /* واجهة إعلان مصغرة مع الحفاظ على نسبة 16:9 + شريط ذهبي متحرك تحتها عند عدم وجود إعلان */
+    .ads-showcase{position:relative;margin:8px auto 6px;border-radius:14px;overflow:hidden;border:1.5px solid var(--accent);box-shadow:var(--shadow);background:#071916;width:calc(100% - 28px);max-width:336px;aspect-ratio:16 / 9;cursor:pointer;user-select:none}
     .ads-full-media{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:1;filter:none;z-index:1;display:none}
-    .ads-overlay-grad{position:relative;z-index:2;width:100%;height:100%;padding:10px 14px;display:flex;flex-direction:column;justify-content:flex-end;background:linear-gradient(to top,rgba(4,12,11,.72) 0%,rgba(4,12,11,.22) 34%,transparent 65%);pointer-events:none}
-    .ads-title{font-size:1rem;font-weight:800;color:#fff;margin-bottom:2px;line-height:1.25;text-shadow:0 1px 4px rgba(0,0,0,.95)}
-    .ads-body{font-size:.82rem;font-weight:600;color:#f8fafc;line-height:1.35;text-shadow:0 1px 4px rgba(0,0,0,.95)}
+    .ads-overlay-grad{position:relative;z-index:2;width:100%;height:100%;padding:8px 11px;display:flex;flex-direction:column;justify-content:flex-end;background:linear-gradient(to top,rgba(4,12,11,.72) 0%,rgba(4,12,11,.22) 34%,transparent 65%);pointer-events:none}
+    .ads-title{font-size:.9rem;font-weight:800;color:#fff;margin-bottom:2px;line-height:1.25;text-shadow:0 1px 4px rgba(0,0,0,.95)}
+    .ads-body{font-size:.78rem;font-weight:600;color:#f8fafc;line-height:1.3;text-shadow:0 1px 4px rgba(0,0,0,.95)}
+
+    /* شريط ذهبي حقيقي من أقصى اليمين إلى أقصى اليسار يظهر تحت الإعلان عندما لا يكون هناك إعلان */
+    .gold-ticker-bar{display:none;width:100%;margin:4px 0 10px;background:linear-gradient(90deg,#b45309 0%,#f59e0b 28%,#fde047 50%,#f59e0b 72%,#b45309 100%);color:#1e1300;border-top:1.5px solid #fef08a;border-bottom:1.5px solid #d97706;overflow:hidden;white-space:nowrap;padding:6px 0;box-shadow:0 3px 10px rgba(245,158,11,.28)}
+    .gold-ticker-track{display:inline-block;font-size:.82rem;font-weight:800;padding-inline:16px;will-change:transform}
+    html[dir="rtl"] .gold-ticker-track{animation:tickerLtr 13s linear infinite}
+    html[dir="ltr"] .gold-ticker-track{animation:tickerRtl 13s linear infinite}
+    @keyframes tickerLtr{
+      0%{transform:translateX(-100%)}
+      100%{transform:translateX(100vw)}
+    }
+    @keyframes tickerRtl{
+      0%{transform:translateX(100vw)}
+      100%{transform:translateX(-100%)}
+    }
 
     /* إخفاء أي عناصر أو حاويات غير مطلوبة */
     #sehatiAdSys_liveBox,
@@ -86,7 +100,10 @@
     .item-card.featured{border:2px solid var(--accent)}
     .badge-feat{position:absolute;top:12px;left:12px;background:var(--accent);color:#000;font-size:.72rem;font-weight:800;padding:2px 8px;border-radius:8px}
     html[dir="ltr"] .badge-feat{left:auto;right:12px}
-    .item-title{font-size:1.08rem;font-weight:800;margin-bottom:2px}
+    .item-title{font-size:1.08rem;font-weight:800;margin-bottom:2px;display:inline-flex;align-items:center;gap:5px;flex-wrap:wrap}
+    .verified-badge-sm{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:#1d9bf0;color:#fff;font-size:11px;font-weight:900;line-height:1;box-shadow:0 1px 4px rgba(29,155,240,.45);flex-shrink:0}
+    .verified-pill-pro{display:inline-flex;align-items:center;gap:4px;background:rgba(29,155,240,.14);color:#0284c7;border:1px solid rgba(29,155,240,.45);padding:2px 8px;border-radius:999px;font-size:.76rem;font-weight:800}
+    body.dark .verified-pill-pro{color:#38bdf8}
     .item-sub{font-size:.86rem;font-weight:700;color:var(--primary);margin-bottom:6px}
     .item-services{font-size:.82rem;background:linear-gradient(135deg,rgba(15,118,110,.08),rgba(20,184,166,.12));padding:6px 10px;border-radius:8px;margin-bottom:8px;color:var(--text)}
     .item-meta{font-size:.85rem;color:var(--muted);margin-bottom:12px;display:flex;flex-direction:column;gap:4px}
@@ -203,7 +220,7 @@
     </div>
   </section>
 
-  <!-- واجهة إعلان بنسبة 16:9 (صورة أو فيديو قصير) والدخول للإدارة بـ 7 نقرات -->
+  <!-- واجهة إعلان مصغرة بنسبة 16:9 (صورة أو فيديو قصير) والدخول للإدارة بـ 7 نقرات -->
   <section class="ads-showcase" id="mainAdBox">
     <img class="ads-full-media" id="adImgEl" src="" alt="" />
     <video class="ads-full-media" id="adVideoEl" autoplay muted loop playsinline></video>
@@ -212,6 +229,11 @@
       <div class="ads-body" id="adDesc"></div>
     </div>
   </section>
+
+  <!-- شريط ذهبي متحرك من أقصى اليمين إلى أقصى اليسار يظهر تحت الإعلان عند عدم وجود إعلان -->
+  <div class="gold-ticker-bar" id="goldTickerBar">
+    <div class="gold-ticker-track" id="goldTickerText"></div>
+  </div>
 
   <main class="list" id="listContainer"></main>
 
@@ -330,12 +352,7 @@
         <h3 id="supTitle">💬 الدعم الفني وطلبات الاشتراك والإعلان</h3>
         <button class="close-x" onclick="closeModal('supportModal')">✕</button>
       </div>
-      <div class="vip-pitch-box" id="supPitchBox">
-        مرحباً بك في <b>صحتي (SEHATI.dz)</b>:<br>
-        • لتفعيل حسابك المهني (طبيب / صيدلية / عيادة) والاستفادة من نظام حجز المواعيد.<br>
-        • لحجز مساحة إعلانية مميزة في واجهة التطبيق.<br>
-        • لأي استفسار أو دعم تقني، تواصل مباشرة مع الإدارة:
-      </div>
+      <div class="vip-pitch-box" id="supPitchBox"></div>
       <a id="supCallLink" href="tel:0550000000" class="btn-primary" style="display:block;text-align:center;text-decoration:none;margin-bottom:8px;">📞 اتصال مباشر بالإدارة</a>
       <a id="supWaLink" href="https://wa.me/213550000000" class="btn-primary" style="display:block;text-align:center;text-decoration:none;background:#16a34a;">💬 مراسلة فورية عبر واتساب</a>
     </div>
@@ -406,6 +423,7 @@
       </div>
 
       <div id="proDashboardView" style="display:none;">
+        <div id="proVerifiedBanner" style="display:none;margin-bottom:10px;"></div>
         <div id="proSubStatusBox" class="sub-box"></div>
         <div id="proLastWeekAlert" class="sub-alert-week" style="display:none;"></div>
         <div id="pendingWarningBox" class="vip-pitch-box" style="display:none;"></div>
@@ -512,6 +530,7 @@
         all:'الكل', fav:'المفضلة', d:'أطباء', c:'عيادات', p:'صيدليات', h:'مستشفيات', l:'مخابر', g:'أطباء أسنان', r:'أشعة',
         book:'📅 موعد', call:'📞 اتصال', map:'📍 الموقع', feat:'⭐ مميز', supFab:'الدعم والإعلان',
         empty:'لا توجد نتائج مطابقة.',
+        verifiedLbl:'حساب موثّق', verifyAction:'✓ توثيق الحساب', unverifyAction:'إلغاء التوثيق',
         supTitle:'💬 الدعم الفني وطلبات الاشتراك والإعلان',
         supPitch:'مرحباً بك في <b>صحتي (SEHATI.dz)</b>:<br>• لتفعيل حسابك المهني (طبيب / صيدلية / عيادة) والاستفادة من نظام حجز المواعيد.<br>• لحجز مساحة إعلانية مميزة في واجهة التطبيق.<br>• لأي استفسار أو دعم تقني، تواصل مباشرة مع الإدارة:',
         supCall:'📞 اتصال مباشر بالإدارة', supWa:'💬 مراسلة فورية عبر واتساب',
@@ -556,6 +575,7 @@
         all:'Tout', fav:'Favoris', d:'Médecins', c:'Cliniques', p:'Pharmacies', h:'Hôpitaux', l:'Labos', g:'Dentistes', r:'Imagerie',
         book:'📅 RDV', call:'📞 Appeler', map:'📍 Carte', feat:'⭐ Sponsorisé', supFab:'Support & Pub',
         empty:'Aucun résultat trouvé.',
+        verifiedLbl:'Compte vérifié', verifyAction:'✓ Certifier', unverifyAction:'Retirer badge',
         supTitle:'💬 Support & Demandes d’Abonnement / Pub',
         supPitch:'Bienvenue sur <b>SEHATI.dz</b> :<br>• Pour activer votre compte pro (médecin / pharmacie / clinique) et la prise de RDV.<br>• Pour réserver un espace publicitaire en page d’accueil.<br>• Pour toute assistance, contactez l’administration :',
         supCall:'📞 Appel direct administration', supWa:'💬 Message WhatsApp instantané',
@@ -600,6 +620,7 @@
         all:'All', fav:'Favorites', d:'Doctors', c:'Clinics', p:'Pharmacies', h:'Hospitals', l:'Labs', g:'Dentists', r:'Radiology',
         book:'📅 Book', call:'📞 Call', map:'📍 Map', feat:'⭐ Featured', supFab:'Support & Ads',
         empty:'No matching results found.',
+        verifiedLbl:'Verified Account', verifyAction:'✓ Verify Account', unverifyAction:'Unverify',
         supTitle:'💬 Support, Subscriptions & Advertising',
         supPitch:'Welcome to <b>SEHATI.dz</b>:<br>• Activate your pro account (doctor / pharmacy / clinic) for appointment booking.<br>• Book a featured ad slot on the home screen.<br>• For support or inquiries, contact administration directly:',
         supCall:'📞 Direct Call to Admin', supWa:'💬 Instant WhatsApp Message',
@@ -648,11 +669,26 @@
       return str;
     }
 
+    function updateGoldTickerState(hasActiveAds) {
+      const tickerBar = document.getElementById('goldTickerBar');
+      const tickerText = document.getElementById('goldTickerText');
+      if (!tickerBar || !tickerText) return;
+      if (hasActiveAds) {
+        tickerBar.style.display = 'none';
+      } else {
+        tickerText.textContent = (lang === 'ar' && adminConfig.adText) ? adminConfig.adText : tr('defaultAdText');
+        tickerBar.style.display = 'block';
+      }
+    }
+
     function applyAdminConfigToUI() {
       document.getElementById('supCallLink').href = `tel:${adminConfig.phone}`;
       document.getElementById('supWaLink').href = `https://wa.me/${adminConfig.wa}`;
       if (!window.sehatiAdsList || !window.sehatiAdsList.length) {
         document.getElementById('adDesc').textContent = (lang === 'ar' && adminConfig.adText) ? adminConfig.adText : tr('defaultAdText');
+        updateGoldTickerState(false);
+      } else {
+        updateGoldTickerState(true);
       }
     }
 
@@ -683,10 +719,10 @@
     }
 
     window.defaultPlacesList = [
-      {id:'dz_1',tp:'h',approved:true,nm_ar:'المستشفى الجامعي مصطفى باشا',nm_fr:'CHU Mustapha Pacha',nm_en:'Mustapha Pacha University Hospital',sp_ar:'مستشفى جامعي - جميع التخصصات والاستعجالات',sp_fr:'CHU - Toutes spécialités & Urgences',sp_en:'University Hospital - All Specialties & ER',srv_ar:'استعجالات 24/24، جراحة، طب القلب، طب الأطفال، تحاليل وأشعة',srv_fr:'Urgences 24/24, Chirurgie, Cardiologie, Pédiatrie, Labo & Imagerie',srv_en:'24/7 ER, Surgery, Cardiology, Pediatrics, Lab & Imaging',ad_ar:'ساحة أول ماي، الجزائر الوسطى، الجزائر',ad_fr:'Place du 1er Mai, Alger-Centre, Alger',ad_en:'1er Mai Square, Algiers Center, Algeria',hr_ar:'مفتوح 24 ساعة / 7 أيام',hr_fr:'Ouvert 24h/24 - 7j/7',hr_en:'Open 24/7',ph:'021235555',lat:36.7628,lng:3.0536,feat:true,canBook:false},
-      {id:'dz_2',tp:'h',approved:true,nm_ar:'المستشفى الجامعي فرانس فانون - البليدة',nm_fr:'CHU Frantz Fanon - Blida',nm_en:'Frantz Fanon University Hospital - Blida',sp_ar:'مستشفى جامعي - مركز مكافحة السرطان والاستعجالات',sp_fr:'CHU - Centre Anti-Cancer & Urgences',sp_en:'University Hospital - Cancer Center & ER',srv_ar:'استعجالات، طب الأورام، جراحة الأعصاب، أمراض القلب، مخبر مركزي',srv_fr:'Urgences, Oncologie, Neurochirurgie, Cardiologie, Laboratoire central',srv_en:'ER, Oncology, Neurosurgery, Cardiology, Central Lab',ad_ar:'طريق زعبانة، البليدة',ad_fr:'Route de Zabana, Blida',ad_en:'Zabana Road, Blida',hr_ar:'مفتوح 24 ساعة / 7 أيام',hr_fr:'Ouvert 24h/24 - 7j/7',hr_en:'Open 24/7',ph:'025418888',lat:36.4795,lng:2.8124,feat:true,canBook:false},
-      {id:'dz_3',tp:'h',approved:true,nm_ar:'المؤسسة العمومية الاستشفائية - مفتاح',nm_fr:'EPH Meftah - Hôpital',nm_en:'Meftah Public Hospital',sp_ar:'مستشفى عمومي - استعجالات طبية وجراحية',sp_fr:'Hôpital Public - Urgences',sp_en:'Public Hospital - Medical & Surgical ER',srv_ar:'استعجالات 24/24، طب عام، أمومة وطفولة، أشعة وتحاليل',srv_fr:'Urgences 24/24, Médecine générale, Maternité, Radiologie',srv_en:'24/7 ER, General Medicine, Maternity, Radiology & Lab',ad_ar:'مفتاح، ولاية البليدة',ad_fr:'Meftah, Wilaya de Blida',ad_en:'Meftah, Blida Province',hr_ar:'مفتوح 24 ساعة / 7 أيام',hr_fr:'Ouvert 24h/24 - 7j/7',hr_en:'Open 24/7',ph:'025331212',lat:36.6203,lng:3.2225,feat:false,canBook:false},
-      {id:'dz_4',tp:'c',approved:true,nm_ar:'عيادة الأزهر الطبية الجراحية - الجزائر',nm_fr:'Clinique El Azhar - Alger',nm_en:'El Azhar Medical & Surgical Clinic - Algiers',sp_ar:'عيادة خاصة متعددة التخصصات',sp_fr:'Clinique Médico-Chirurgicale',sp_en:'Multi-Specialty Private Clinic',srv_ar:'جراحة القلب، القسطرة، سكانير وإيريم (IRM)، استعجالات 24/24',srv_fr:'Chirurgie cardiaque, Cathétérisme, Scanner & IRM, Urgences 24/24',srv_en:'Cardiac Surgery, Catheterization, CT & MRI, 24/7 ER',ad_ar:'دالي إبراهيم، الجزائر العاصمة',ad_fr:'Dely Ibrahim, Alger',ad_en:'Dely Ibrahim, Algiers',hr_ar:'مفتوح 24 ساعة / 7 أيام',hr_fr:'Ouvert 24h/24',hr_en:'Open 24/7',ph:'023304040',lat:36.7575,lng:2.9814,feat:true,canBook:true}
+      {id:'dz_1',tp:'h',approved:true,verified:true,nm_ar:'المستشفى الجامعي مصطفى باشا',nm_fr:'CHU Mustapha Pacha',nm_en:'Mustapha Pacha University Hospital',sp_ar:'مستشفى جامعي - جميع التخصصات والاستعجالات',sp_fr:'CHU - Toutes spécialités & Urgences',sp_en:'University Hospital - All Specialties & ER',srv_ar:'استعجالات 24/24، جراحة، طب القلب، طب الأطفال، تحاليل وأشعة',srv_fr:'Urgences 24/24, Chirurgie, Cardiologie, Pédiatrie, Labo & Imagerie',srv_en:'24/7 ER, Surgery, Cardiology, Pediatrics, Lab & Imaging',ad_ar:'ساحة أول ماي، الجزائر الوسطى، الجزائر',ad_fr:'Place du 1er Mai, Alger-Centre, Alger',ad_en:'1er Mai Square, Algiers Center, Algeria',hr_ar:'مفتوح 24 ساعة / 7 أيام',hr_fr:'Ouvert 24h/24 - 7j/7',hr_en:'Open 24/7',ph:'021235555',lat:36.7628,lng:3.0536,feat:true,canBook:false},
+      {id:'dz_2',tp:'h',approved:true,verified:true,nm_ar:'المستشفى الجامعي فرانس فانون - البليدة',nm_fr:'CHU Frantz Fanon - Blida',nm_en:'Frantz Fanon University Hospital - Blida',sp_ar:'مستشفى جامعي - مركز مكافحة السرطان والاستعجالات',sp_fr:'CHU - Centre Anti-Cancer & Urgences',sp_en:'University Hospital - Cancer Center & ER',srv_ar:'استعجالات، طب الأورام، جراحة الأعصاب، أمراض القلب، مخبر مركزي',srv_fr:'Urgences, Oncologie, Neurochirurgie, Cardiologie, Laboratoire central',srv_en:'ER, Oncology, Neurosurgery, Cardiology, Central Lab',ad_ar:'طريق زعبانة، البليدة',ad_fr:'Route de Zabana, Blida',ad_en:'Zabana Road, Blida',hr_ar:'مفتوح 24 ساعة / 7 أيام',hr_fr:'Ouvert 24h/24 - 7j/7',hr_en:'Open 24/7',ph:'025418888',lat:36.4795,lng:2.8124,feat:true,canBook:false},
+      {id:'dz_3',tp:'h',approved:true,verified:false,nm_ar:'المؤسسة العمومية الاستشفائية - مفتاح',nm_fr:'EPH Meftah - Hôpital',nm_en:'Meftah Public Hospital',sp_ar:'مستشفى عمومي - استعجالات طبية وجراحية',sp_fr:'Hôpital Public - Urgences',sp_en:'Public Hospital - Medical & Surgical ER',srv_ar:'استعجالات 24/24، طب عام، أمومة وطفولة، أشعة وتحاليل',srv_fr:'Urgences 24/24, Médecine générale, Maternité, Radiologie',srv_en:'24/7 ER, General Medicine, Maternity, Radiology & Lab',ad_ar:'مفتاح، ولاية البليدة',ad_fr:'Meftah, Wilaya de Blida',ad_en:'Meftah, Blida Province',hr_ar:'مفتوح 24 ساعة / 7 أيام',hr_fr:'Ouvert 24h/24 - 7j/7',hr_en:'Open 24/7',ph:'025331212',lat:36.6203,lng:3.2225,feat:false,canBook:false},
+      {id:'dz_4',tp:'c',approved:true,verified:true,nm_ar:'عيادة الأزهر الطبية الجراحية - الجزائر',nm_fr:'Clinique El Azhar - Alger',nm_en:'El Azhar Medical & Surgical Clinic - Algiers',sp_ar:'عيادة خاصة متعددة التخصصات',sp_fr:'Clinique Médico-Chirurgicale',sp_en:'Multi-Specialty Private Clinic',srv_ar:'جراحة القلب، القسطرة، سكانير وإيريم (IRM)، استعجالات 24/24',srv_fr:'Chirurgie cardiaque, Cathétérisme, Scanner & IRM, Urgences 24/24',srv_en:'Cardiac Surgery, Catheterization, CT & MRI, 24/7 ER',ad_ar:'دالي إبراهيم، الجزائر العاصمة',ad_fr:'Dely Ibrahim, Alger',ad_en:'Dely Ibrahim, Algiers',hr_ar:'مفتوح 24 ساعة / 7 أيام',hr_fr:'Ouvert 24h/24',hr_en:'Open 24/7',ph:'023304040',lat:36.7575,lng:2.9814,feat:true,canBook:true}
     ];
 
     function getLocalizedField(item, prefix) {
@@ -848,12 +884,12 @@
 
       document.getElementById('txtDashAppts').textContent = tr('dashAppts');
       document.getElementById('txtDashEdit').textContent = tr('dashEdit');
-      document.getElementById('lblEditName').textContent = tr('lblEditName') || tr('regName').replace(' *', '');
-      document.getElementById('lblEditSpec').textContent = tr('lblEditSpec') || tr('regSpec').replace(' *', '');
-      document.getElementById('lblEditServices').textContent = tr('lblEditServices') || tr('regServices').replace(' *', '');
-      document.getElementById('lblEditAddr').textContent = tr('lblEditAddr') || tr('regAddr').replace(' *', '');
-      document.getElementById('lblEditHours').textContent = tr('lblEditHours') || tr('regHours').replace(' *', '');
-      document.getElementById('lblEditPhone').textContent = tr('lblEditPhone') || tr('regPhone').replace(' *', '');
+      document.getElementById('lblEditName').textContent = tr('regName').replace(' *', '');
+      document.getElementById('lblEditSpec').textContent = tr('regSpec').replace(' *', '');
+      document.getElementById('lblEditServices').textContent = tr('regServices').replace(' *', '');
+      document.getElementById('lblEditAddr').textContent = tr('regAddr').replace(' *', '');
+      document.getElementById('lblEditHours').textContent = tr('regHours').replace(' *', '');
+      document.getElementById('lblEditPhone').textContent = tr('regPhone').replace(' *', '');
       document.getElementById('btnSaveProfile').textContent = tr('saveProfileBtn');
       document.getElementById('btnProLogout').textContent = tr('logoutBtn');
       document.getElementById('pendingWarningBox').innerHTML = tr('pendingBoxHtml');
@@ -1067,7 +1103,7 @@
         try { const cred = await window.fb.createUserWithEmailAndPassword(window.fb.auth, email, pass); uid = cred.user.uid; }
         catch (err) { showToast(err.message); return; }
       }
-      const profileData = { id: uid, ownerUid: uid, email, tp, approved: false, subscriptionMonths: 0, subscriptionLabel: '', subscriptionExpiresAt: null, nm_ar: nm, nm_fr: nm, nm_en: nm, sp_ar: sp, sp_fr: sp, sp_en: sp, srv_ar: srv || '-', srv_fr: srv || '-', srv_en: srv || '-', ad_ar: ad || '-', ad_fr: ad || '-', ad_en: ad || '-', hr_ar: hr || '08:30 - 17:00', hr_fr: hr || '08h30 - 17h00', hr_en: hr || '08:30 - 17:00', ph, feat: false, canBook: tp !== 'p' && tp !== 'h', createdAt: new Date().toISOString() };
+      const profileData = { id: uid, ownerUid: uid, email, tp, approved: false, verified: false, subscriptionMonths: 0, subscriptionLabel: '', subscriptionExpiresAt: null, nm_ar: nm, nm_fr: nm, nm_en: nm, sp_ar: sp, sp_fr: sp, sp_en: sp, srv_ar: srv || '-', srv_fr: srv || '-', srv_en: srv || '-', ad_ar: ad || '-', ad_fr: ad || '-', ad_en: ad || '-', hr_ar: hr || '08:30 - 17:00', hr_fr: hr || '08h30 - 17h00', hr_en: hr || '08:30 - 17:00', ph, feat: false, canBook: tp !== 'p' && tp !== 'h', createdAt: new Date().toISOString() };
       localPlaces.push(profileData);
       localStorage.setItem('sehati_pro_places', JSON.stringify(localPlaces));
       window.placesData.push(profileData);
@@ -1149,6 +1185,14 @@
       document.getElementById('proDashboardView').style.display = 'block';
       const prof = currentProProfile || localProSession;
       if (!prof) return;
+
+      const verBanner = document.getElementById('proVerifiedBanner');
+      if (prof.verified === true) {
+        verBanner.style.display = 'block';
+        verBanner.innerHTML = `<span class="verified-pill-pro"><span class="verified-badge-sm">✓</span> ${tr('verifiedLbl')}</span>`;
+      } else {
+        verBanner.style.display = 'none';
+      }
 
       const sub = getSubscriptionInfo(prof);
       const subBox = document.getElementById('proSubStatusBox');
@@ -1317,10 +1361,11 @@
       listEl.innerHTML = registeredAccounts.map(acc => {
         const sub = getSubscriptionInfo(acc);
         const defaultMonths = Number(acc.subscriptionMonths || 1);
+        const isVer = acc.verified === true;
         return `
           <div class="appt-item">
             <header>
-              <span>${acc.nm_ar}</span>
+              <span>${acc.nm_ar} ${isVer ? '<span class="verified-badge-sm">✓</span>' : ''}</span>
               <span class="status-badge ${sub.isActive ? 'status-active' : 'status-pending'}">${sub.isActive ? '✅' : '⏳'}</span>
             </header>
             <div>🩺 ${acc.sp_ar} | 📍 ${acc.ad_ar}</div>
@@ -1339,11 +1384,31 @@
               <button onclick="adminToggleApprove('${acc.id}', false)" style="padding:6px 8px;border:none;border-radius:8px;background:#ef4444;color:#fff;font-weight:700;cursor:pointer;font-size:.8rem;">⛔</button>
             </div>
             <div style="display:flex;gap:6px;margin-top:6px;">
-              <button onclick="adminToggleFeatured('${acc.id}', ${!acc.feat})" style="flex:1;padding:6px;border:none;border-radius:8px;background:#f59e0b;color:#000;font-weight:700;cursor:pointer;font-size:.8rem;">${acc.feat ? '★' : '☆'}</button>
+              <button onclick="adminToggleVerified('${acc.id}', ${!isVer})" style="flex:1;padding:6px;border:none;border-radius:8px;background:${isVer ? '#334155' : '#1d9bf0'};color:#fff;font-weight:700;cursor:pointer;font-size:.8rem;">${isVer ? tr('unverifyAction') : tr('verifyAction')}</button>
+              <button onclick="adminToggleFeatured('${acc.id}', ${!acc.feat})" style="padding:6px 10px;border:none;border-radius:8px;background:#f59e0b;color:#000;font-weight:700;cursor:pointer;font-size:.8rem;">${acc.feat ? '★' : '☆'}</button>
             </div>
           </div>
         `;
       }).join('');
+    }
+
+    async function adminToggleVerified(id, newVer) {
+      window.placesData = window.placesData.map(p => p.id === id ? { ...p, verified: newVer } : p);
+      localPlaces = localPlaces.map(p => p.id === id ? { ...p, verified: newVer } : p);
+      localStorage.setItem('sehati_pro_places', JSON.stringify(localPlaces));
+      if (localProSession && localProSession.id === id) {
+        localProSession = { ...localProSession, verified: newVer };
+        localStorage.setItem('sehati_pro_session', JSON.stringify(localProSession));
+      }
+      if (currentProProfile && currentProProfile.id === id) {
+        currentProProfile = { ...currentProProfile, verified: newVer };
+      }
+      if (window.fbReady) {
+        try { await window.fb.updateDoc(window.fb.doc(window.fb.db, "health_places", id), { verified: newVer }); } catch (e) {}
+      }
+      render();
+      renderAdminAccounts();
+      showToast('✅');
     }
 
     async function adminActivateSubscription(id) {
@@ -1423,7 +1488,7 @@
           const phone = (props.phone || props['contact:phone'] || props['contact:mobile'] || props.telephone || '').toString().trim(), city = props['addr:city'] || props['addr:state'] || props['addr:street'] || 'الجزائر', hours = props.opening_hours || '08:00 - 17:00', { lat, lng } = extractCoords(f.geometry);
           let score = 0;
           if (phone.length > 4) score += 10; if (lat && lng) score += 5; if (city !== 'الجزائر') score += 2;
-          candidates.push({ score, data: { id: 'imp_' + Date.now() + '_' + i, tp, approved: true, nm_ar: nameAr || nameFr, nm_fr: nameFr || nameAr, nm_en: nameEn || nameFr || nameAr, sp_ar: props.healthcare_speciality || '', sp_fr: props.healthcare_speciality || '', sp_en: props.healthcare_speciality || '', srv_ar: '', srv_fr: '', srv_en: '', ad_ar: city, ad_fr: city, ad_en: city, hr_ar: hours, hr_fr: hours, hr_en: hours, ph: phone, lat, lng, feat: false, canBook: tp === 'd' || tp === 'c' } });
+          candidates.push({ score, data: { id: 'imp_' + Date.now() + '_' + i, tp, approved: true, verified: false, nm_ar: nameAr || nameFr, nm_fr: nameFr || nameAr, nm_en: nameEn || nameFr || nameAr, sp_ar: props.healthcare_speciality || '', sp_fr: props.healthcare_speciality || '', sp_en: props.healthcare_speciality || '', srv_ar: '', srv_fr: '', srv_en: '', ad_ar: city, ad_fr: city, ad_en: city, hr_ar: hours, hr_fr: hours, hr_en: hours, ph: phone, lat, lng, feat: false, canBook: tp === 'd' || tp === 'c' } });
         }
         candidates.sort((a, b) => b.score - a.score);
         const importedItems = candidates.slice(0, limit).map(c => c.data);
@@ -1467,16 +1532,17 @@
               addr = getLocalizedField(item, 'ad'),
               hours = getLocalizedField(item, 'hr'),
               isFav = favs.includes(item.id),
+              verBadge = item.verified === true ? `<span class="verified-badge-sm" title="${tr('verifiedLbl')}">✓</span>` : '',
               allowBook = item.canBook !== false && item.tp !== 'p' && item.tp !== 'h',
               hasPhone = item.ph && item.ph.trim().length > 3,
               mapLink = (typeof item.lat === 'number' && typeof item.lng === 'number') ? `https://maps.google.com/?q=${item.lat},${item.lng}` : `https://maps.google.com/?q=${encodeURIComponent(name + ' ' + addr + ' Algerie')}`,
               cols = [allowBook, hasPhone, true].filter(Boolean).length,
               gridCols = cols === 3 ? '1fr 1fr 1fr auto' : (cols === 2 ? '1fr 1fr auto' : '1fr auto');
-        return `<div class="item-card ${item.feat ? 'featured' : ''}">${item.feat ? `<span class="badge-feat">${tr('feat')}</span>` : ''}<div class="item-title">${name}</div><div class="item-sub">${spec}</div>${srv ? `<div class="item-services">🩺 ${srv}</div>` : ''}<div class="item-meta"><span>📍 ${addr}</span><span><i class="dot-open"></i>🕒 ${hours}</span></div><div class="actions" style="grid-template-columns:${gridCols};">${allowBook ? `<button onclick="openBooking('${item.id}')" class="act-btn act-book">${tr('book')}</button>` : ''}${hasPhone ? `<a href="tel:${item.ph}" class="act-btn act-call">${tr('call')}</a>` : ''}<a href="${mapLink}" class="act-btn act-map">${tr('map')}</a><button onclick="toggleFav('${item.id}')" class="act-btn act-fav ${isFav ? 'saved' : ''}">${isFav ? '❤️' : '🤍'}</button></div></div>`;
+        return `<div class="item-card ${item.feat ? 'featured' : ''}">${item.feat ? `<span class="badge-feat">${tr('feat')}</span>` : ''}<div class="item-title"><span>${name}</span>${verBadge}</div><div class="item-sub">${spec}</div>${srv ? `<div class="item-services">🩺 ${srv}</div>` : ''}<div class="item-meta"><span>📍 ${addr}</span><span><i class="dot-open"></i>🕒 ${hours}</span></div><div class="actions" style="grid-template-columns:${gridCols};">${allowBook ? `<button onclick="openBooking('${item.id}')" class="act-btn act-book">${tr('book')}</button>` : ''}${hasPhone ? `<a href="tel:${item.ph}" class="act-btn act-call">${tr('call')}</a>` : ''}<a href="${mapLink}" class="act-btn act-map">${tr('map')}</a><button onclick="toggleFav('${item.id}')" class="act-btn act-fav ${isFav ? 'saved' : ''}">${isFav ? '❤️' : '🤍'}</button></div></div>`;
       }).join('');
     };
 
-    /* نظام الإعلانات الموحد 16:9 (صورة أو فيديو قصير + وضوح تام + دخول الإدارة بـ 7 نقرات) */
+    /* نظام الإعلانات الموحد 16:9 + شريط ذهبي متحرك عند عدم وجود إعلان + حذف آمن بدون تعليق */
     (function() {
       const OWNER = "abdoben16", REPO = "SEHATI.dz", BRANCH = "main", PATH = "ad.json", TKEY = "sehatiAdSys_gh_token";
       const adBox = document.getElementById("mainAdBox");
@@ -1496,7 +1562,7 @@
       const titleEl = document.getElementById("adTitle");
       const descEl = document.getElementById("adDesc");
 
-      let ads = [], dur = 6, idx = 0, timer = null;
+      let ads = [], dur = 6, idx = 0, timer = null, isBusy = false;
       let adTapCount = 0, adTapTimer = null;
       window.sehatiAdsList = ads;
 
@@ -1540,24 +1606,38 @@
         return btoa(o);
       };
 
+      async function fetchWithTimeout(url, options = {}, timeoutMs = 8000) {
+        const controller = new AbortController();
+        const id = setTimeout(() => controller.abort(), timeoutMs);
+        try {
+          return await fetch(url, { ...options, signal: controller.signal });
+        } finally {
+          clearTimeout(id);
+        }
+      }
+
       async function getSha(p, tok) {
-        const r = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${p}?ref=${BRANCH}`, {
-          headers: { Authorization: `Bearer ${tok}` }
-        });
-        if (!r.ok) return null;
-        const j = await r.json();
-        return j.sha || null;
+        try {
+          const r = await fetchWithTimeout(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${p}?ref=${BRANCH}`, {
+            headers: { Authorization: `Bearer ${tok}` }
+          });
+          if (!r.ok) return null;
+          const j = await r.json();
+          return j.sha || null;
+        } catch (_) {
+          return null;
+        }
       }
 
       async function putF(p, b64, msg, tok) {
         const body = { message: msg, content: b64, branch: BRANCH };
         const sha = await getSha(p, tok);
         if (sha) body.sha = sha;
-        const r = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${p}`, {
+        const r = await fetchWithTimeout(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${p}`, {
           method: "PUT",
           headers: { Authorization: `Bearer ${tok}`, "Content-Type": "application/json" },
           body: JSON.stringify(body)
-        });
+        }, 12000);
         if (!r.ok) {
           const e = await r.json().catch(() => ({}));
           throw new Error(e.message || "Error");
@@ -1565,15 +1645,20 @@
       }
 
       async function saveAll(nextAds, nextDur, tok) {
-        const payload = { active: nextAds.length > 0, defaultDurationSec: Math.max(1, Number(nextDur) || 6), ads: nextAds };
-        await putF(PATH, utf8B64(JSON.stringify(payload, null, 2)), "Update ads", tok);
+        const safeDur = Math.max(1, Number(nextDur) || 6);
+        const payload = { active: nextAds.length > 0, defaultDurationSec: safeDur, ads: nextAds };
+
         ads = nextAds;
         window.sehatiAdsList = ads;
-        dur = payload.defaultDurationSec;
+        dur = safeDur;
         idx = 0;
         drawAd();
         loopAds();
         drawList();
+
+        if (tok) {
+          await putF(PATH, utf8B64(JSON.stringify(payload, null, 2)), "Update ads", tok);
+        }
       }
 
       function drawAd() {
@@ -1584,9 +1669,11 @@
           vidEl.style.display = "none";
           vidEl.removeAttribute("src");
           titleEl.textContent = "";
-          descEl.textContent = (lang === 'ar' && adminConfig.adText) ? adminConfig.adText : tr('defaultAdText');
+          descEl.textContent = "";
+          updateGoldTickerState(false);
           return;
         }
+        updateGoldTickerState(true);
         if (idx >= ads.length) idx = 0;
         const a = ads[idx];
         const mediaSrc = a.media || a.video || a.image || "";
@@ -1644,22 +1731,35 @@
 
         lstE.querySelectorAll("button[data-del]").forEach(b => {
           b.onclick = async () => {
+            if (isBusy) return;
+            isBusy = true;
+            lstE.querySelectorAll("button[data-del]").forEach(btn => { btn.disabled = true; });
             const tok = (tokI.value || localStorage.getItem(TKEY) || "").trim();
-            if (!tok) return;
             const i = Number(b.getAttribute("data-del"));
+            const filteredAds = ads.filter((_, x) => x !== i);
             try {
-              await saveAll(ads.filter((_, x) => x !== i), secI.value || dur, tok);
-            } catch (e) { stE.textContent = e.message; }
+              stE.textContent = "...";
+              await saveAll(filteredAds, secI.value || dur, tok);
+              stE.textContent = "✅";
+            } catch (e) {
+              stE.textContent = e.message;
+            } finally {
+              isBusy = false;
+              lstE.querySelectorAll("button[data-del]").forEach(btn => { btn.disabled = false; });
+            }
           };
         });
       }
 
       addB.onclick = async () => {
+        if (isBusy) return;
         const tok = tokI.value.trim();
         if (!tok) return;
         localStorage.setItem(TKEY, tok);
+        isBusy = true;
         addB.disabled = true;
         try {
+          stE.textContent = "...";
           let mediaPath = "";
           let mediaType = "image";
           const f = filI.files && filI.files[0];
@@ -1687,13 +1787,14 @@
         } catch (e) {
           stE.textContent = e.message;
         } finally {
+          isBusy = false;
           addB.disabled = false;
         }
       };
 
       async function initAds() {
         try {
-          const r = await fetch(`${PATH}?t=${Date.now()}`, { cache: "no-store" });
+          const r = await fetchWithTimeout(`${PATH}?t=${Date.now()}`, { cache: "no-store" }, 6000);
           if (r.ok) {
             const d = await r.json();
             if (d) {
