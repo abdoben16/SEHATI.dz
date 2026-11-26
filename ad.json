@@ -1,12 +1,18 @@
 {
   "active": true,
-  "defaultDurationSec": 5,
+  "defaultDurationSec": 3,
   "ads": [
     {
       "title": "",
       "description": "",
       "image": "ad-1795685030379.jpg",
       "durationSec": 5
+    },
+    {
+      "title": "",
+      "description": "",
+      "image": "ad-1795686282739.jpg",
+      "durationSec": 3
     }
   ]
 }
