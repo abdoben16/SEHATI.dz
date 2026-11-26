@@ -1,15 +1,5 @@
 {
-  "active": true,
+  "active": false,
   "defaultDurationSec": 11,
-  "ads": [
-    {
-      "title": "",
-      "description": "",
-      "image": "",
-      "video": "ad-1795697571074.mp4",
-      "media": "ad-1795697571074.mp4",
-      "mediaType": "video",
-      "durationSec": 11
-    }
-  ]
+  "ads": []
 }
