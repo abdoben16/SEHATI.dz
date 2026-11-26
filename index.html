@@ -62,20 +62,20 @@
     .brand b{font-size:1.38rem;font-weight:800;display:block;line-height:1.1}
     .brand small{display:block;opacity:.9;font-size:.8rem;margin-top:2px}
 
-    /* الترويسة: المهنيين فوق، تحته اللغة بجوار الوضع الليلي، وفي الجهة اليسرى حسابي ثم بجانبها مواعيدي */
+    /* الترويسة: المهنيين فوق، تحته اللغة بجوار الوضع الليلي، وفي الجهة اليسرى حسابي فوق مواعيدي */
     .tools-wrap{display:flex;flex-direction:column;gap:8px;width:100%}
     .portal-row{display:flex;align-items:center;justify-content:flex-start}
-    .sub-controls-row{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;width:100%}
+    .sub-controls-row{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;width:100%}
     .lang-theme-pair{display:flex;align-items:center;gap:6px}
-    .account-appts-pair{display:flex;align-items:center;gap:6px;margin-inline-start:auto}
+    .account-appts-stack{display:flex;flex-direction:column;align-items:stretch;gap:6px;margin-inline-start:auto}
 
     .seg{display:flex;background:rgba(255,255,255,.18);border-radius:10px;padding:2px}
     .seg button{border:0;background:transparent;color:#fff;font-weight:700;font-size:.74rem;padding:4px 7px;border-radius:8px;cursor:pointer}
     .seg button.on{background:#fff;color:#0f766e}
     .tool-btn{border:0;background:rgba(255,255,255,.22);color:#fff;padding:6px 10px;border-radius:11px;font-weight:700;font-size:.78rem;cursor:pointer;white-space:nowrap}
     .portal-btn{background:#fff;color:#0f766e;font-weight:800;font-size:.9rem;padding:9px 15px;border-radius:12px;box-shadow:0 3px 10px rgba(0,0,0,.14)}
-    .user-acc-btn{background:rgba(255,255,255,.22);color:#fff;border:1px solid rgba(255,255,255,.35);font-weight:800}
-    .my-appts-btn{background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.35);font-weight:800}
+    .user-acc-btn{background:rgba(255,255,255,.22);color:#fff;border:1px solid rgba(255,255,255,.35);font-weight:800;text-align:center}
+    .my-appts-btn{background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.35);font-weight:800;text-align:center}
     .search-wrap input{width:100%;padding:11px 14px;border-radius:14px;border:none;outline:none;font-size:.95rem;background:#fff;color:#0f172a}
 
     .emergency-sec{padding:8px 14px 4px}
@@ -222,7 +222,7 @@
             </div>
             <button class="tool-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
           </div>
-          <div class="account-appts-pair">
+          <div class="account-appts-stack">
             <button class="tool-btn user-acc-btn" onclick="openUserAccountModal()" id="userAccBtn">👤 <span id="userAccLabel">حسابي</span></button>
             <button class="tool-btn my-appts-btn" onclick="openMyAppointments()" id="myApptsBtn"><span id="myApptsLabel">📋 مواعيدي</span> (<span id="myApptsBadge">0</span>)</button>
           </div>
