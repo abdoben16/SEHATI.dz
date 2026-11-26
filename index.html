@@ -39,19 +39,21 @@
     .my-appts-btn{background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.35);font-weight:800}
     .search-wrap input{width:100%;padding:11px 14px;border-radius:14px;border:none;outline:none;font-size:.95rem;background:#fff;color:#0f172a}
 
-    /* أزرار الطوارئ المدمجة بألوان هادئة وشعار شفاف في الخلفية */
+    /* أزرار الطوارئ: الحماية المدنية أحمر، الإسعاف أبيض، ونقوش متمركزة في المنتصف */
     .emergency-sec{padding:8px 14px 4px}
     .sec-head{font-size:.85rem;font-weight:700;color:var(--muted);margin-bottom:6px;display:flex;justify-content:space-between}
     .emerg-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
-    .emerg-card{position:relative;overflow:hidden;color:#fff;text-decoration:none;padding:7px 4px;border-radius:10px;text-align:center;font-size:.7rem;font-weight:700;box-shadow:0 2px 5px rgba(0,0,0,.12);border:1px solid rgba(255,255,255,.18)}
-    .emerg-card > *{position:relative;z-index:2}
+    .emerg-card{position:relative;overflow:hidden;min-height:54px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;text-decoration:none;padding:7px 4px;border-radius:10px;text-align:center;font-size:.7rem;font-weight:700;box-shadow:0 2px 5px rgba(0,0,0,.12);border:1px solid rgba(255,255,255,.22)}
+    .emerg-card > span:not(.emerg-bg-icon),
+    .emerg-card > b{position:relative;z-index:2}
     .emerg-card b{display:block;font-size:.92rem;margin-top:1px}
-    .emerg-bg-icon{position:absolute;inset:0;display:grid;place-items:center;opacity:.16;pointer-events:none;z-index:1}
+    .emerg-bg-icon{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:100%;height:100%;display:flex;align-items:center;justify-content:center;opacity:.16;pointer-events:none;z-index:1}
     .emerg-bg-icon svg{width:34px;height:34px;fill:currentColor}
-    .emerg-card.civil{background:linear-gradient(145deg,#9a3412,#c2410c)}
+    .emerg-card.civil{background:linear-gradient(145deg,#991b1b,#b91c1c)}
     .emerg-card.police{background:linear-gradient(145deg,#1e3a8a,#1e40af)}
     .emerg-card.gendarme{background:linear-gradient(145deg,#14532d,#166534)}
-    .emerg-card.ambulance{background:linear-gradient(145deg,#7f1d1d,#991b1b)}
+    .emerg-card.ambulance{background:linear-gradient(145deg,#ffffff,#f8fafc);color:#0f172a;border-color:#cbd5e1}
+    .emerg-card.ambulance .emerg-bg-icon{color:#0f766e;opacity:.14}
 
     /* واجهة إعلان مصغرة مع الحفاظ على نسبة 16:9 */
     .ads-showcase{position:relative;margin:8px auto 6px;border-radius:14px;overflow:hidden;border:1.5px solid var(--gold-bright);box-shadow:0 6px 18px rgba(202,138,4,.18);background:#071916;width:calc(100% - 28px);max-width:336px;aspect-ratio:16 / 9;cursor:pointer;user-select:none}
@@ -107,12 +109,11 @@
 
     .item-title{font-size:1.08rem;font-weight:800;margin-bottom:2px;display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap}
 
-    /* علامة توثيق متقنة ومتمركزة في الوسط تماماً */
-    .verified-gear-badge{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;position:relative;color:#1d9bf0;flex-shrink:0;vertical-align:middle}
-    .verified-gear-badge svg{position:absolute;inset:0;width:100%;height:100%;fill:currentColor}
-    .verified-gear-badge .check-center{position:relative;z-index:2;color:#ffffff;font-size:10px;font-weight:900;line-height:1;display:flex;align-items:center;justify-content:center;width:100%;height:100%}
-    .verified-pill-pro{display:inline-flex;align-items:center;gap:6px;background:rgba(29,155,240,.12);color:#0284c7;border:1px solid rgba(29,155,240,.4);padding:3px 10px;border-radius:999px;font-size:.78rem;font-weight:800}
-    body.dark .verified-pill-pro{color:#38bdf8}
+    /* علامة توثيق هندسية متقنة مثل علامة فيسبوك وعلامة الصح في المنتصف تماماً */
+    .fb-verify-badge{display:inline-flex;align-items:center;justify-content:center;width:19px;height:19px;flex-shrink:0;vertical-align:middle}
+    .fb-verify-badge svg{width:100%;height:100%;display:block}
+    .verified-pill-pro{display:inline-flex;align-items:center;gap:6px;background:rgba(24,119,242,.12);color:#1877f2;border:1px solid rgba(24,119,242,.35);padding:3px 10px;border-radius:999px;font-size:.78rem;font-weight:800}
+    body.dark .verified-pill-pro{color:#60a5fa}
 
     .item-sub{font-size:.86rem;font-weight:700;color:var(--primary);margin-bottom:6px}
     .item-services{font-size:.82rem;background:rgba(15,118,110,.07);padding:6px 10px;border-radius:8px;margin-bottom:8px;color:var(--text)}
@@ -671,7 +672,7 @@
     };
 
     function renderVerifiedBadgeHtml(titleText = '') {
-      return `<span class="verified-gear-badge" title="${titleText}"><svg viewBox="0 0 24 24"><path d="M12 1.5l2.3 2.1 3.1-.4.9 3 2.9 1.3-.4 3.1 2.1 2.3-2.1 2.3.4 3.1-2.9 1.3-.9 3-3.1-.4L12 22.5l-2.3-2.1-3.1.4-.9-3-2.9-1.3.4-3.1L1.5 12l2.1-2.3-.4-3.1 2.9-1.3.9-3 3.1.4L12 1.5z"/></svg><span class="check-center">✓</span></span>`;
+      return `<span class="fb-verify-badge" title="${titleText}"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#1877f2" d="M22.5 12c0-1.4-.7-2.6-1.8-3.3.3-1.3-.1-2.7-1.1-3.6-1-.9-2.4-1.2-3.7-.7-.7-1.1-1.9-1.8-3.4-1.8-1.4 0-2.6.7-3.3 1.8-1.3-.3-2.7.1-3.6 1.1-.9 1-1.2 2.4-.7 3.7-1.1.7-1.8 1.9-1.8 3.4 0 1.4.7 2.6 1.8 3.3-.3 1.3.1 2.7 1.1 3.6 1 .9 2.4 1.2 3.7.7.7 1.1 1.9 1.8 3.4 1.8 1.4 0 2.6-.7 3.3-1.8 1.3.3 2.7-.1 3.6-1.1.9-1 1.2-2.4.7-3.7 1.1-.7 1.8-1.9 1.8-3.4z"/><path fill="#ffffff" d="M10.4 15.9l-3.3-3.3 1.4-1.4 1.9 1.9 4.9-4.9 1.4 1.4-6.3 6.3z"/></svg></span>`;
     }
 
     function tr(key, vars = {}) {
@@ -1396,7 +1397,7 @@
               <button onclick="adminToggleApprove('${acc.id}', false)" style="padding:6px 8px;border:none;border-radius:8px;background:#ef4444;color:#fff;font-weight:700;cursor:pointer;font-size:.8rem;">⛔</button>
             </div>
             <div style="display:flex;gap:6px;margin-top:6px;">
-              <button onclick="adminToggleVerified('${acc.id}', ${!isVer})" style="flex:1;padding:6px;border:none;border-radius:8px;background:${isVer ? '#334155' : '#1d9bf0'};color:#fff;font-weight:700;cursor:pointer;font-size:.8rem;">${isVer ? tr('unverifyAction') : tr('verifyAction')}</button>
+              <button onclick="adminToggleVerified('${acc.id}', ${!isVer})" style="flex:1;padding:6px;border:none;border-radius:8px;background:${isVer ? '#334155' : '#1877f2'};color:#fff;font-weight:700;cursor:pointer;font-size:.8rem;">${isVer ? tr('unverifyAction') : tr('verifyAction')}</button>
               <button onclick="adminToggleFeatured('${acc.id}', ${!acc.feat})" style="padding:6px 10px;border:none;border-radius:8px;background:#eab308;color:#1a1400;font-weight:800;cursor:pointer;font-size:.8rem;">${acc.feat ? '★' : '☆'}</button>
             </div>
           </div>
