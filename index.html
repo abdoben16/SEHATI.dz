@@ -12,8 +12,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
   <style>
-    :root{--bg:linear-gradient(160deg,#e6f4f1 0%,#d7f3eb 52%,#cbeee8 100%);--card:linear-gradient(145deg,#ffffff 0%,#f0fdf9 100%);--text:#0f172a;--muted:#475569;--primary:#0f766e;--primary-light:#14b8a6;--danger:#dc2626;--accent:#f59e0b;--blue:#0284c7;--border:#a7f3d0;--shadow:0 6px 18px rgba(15,118,110,.09)}
-    body.dark{--bg:linear-gradient(160deg,#071a18 0%,#0b2521 55%,#091f24 100%);--card:linear-gradient(145deg,#102a26 0%,#14332e 100%);--text:#f8fafc;--muted:#94a3b8;--primary:#14b8a6;--primary-light:#2dd4bf;--danger:#ef4444;--accent:#fbbf24;--blue:#38bdf8;--border:#1f4e46;--shadow:0 6px 18px rgba(0,0,0,.38)}
+    :root{--bg:linear-gradient(160deg,#e6f4f1 0%,#d7f3eb 52%,#cbeee8 100%);--card:linear-gradient(145deg,#ffffff 0%,#f0fdf9 100%);--text:#0f172a;--muted:#475569;--primary:#0f766e;--primary-light:#14b8a6;--danger:#dc2626;--accent:#eab308;--gold-bright:#facc15;--gold-light:#fef08a;--gold-deep:#a16207;--blue:#0284c7;--border:#a7f3d0;--shadow:0 6px 18px rgba(15,118,110,.09)}
+    body.dark{--bg:linear-gradient(160deg,#071a18 0%,#0b2521 55%,#091f24 100%);--card:linear-gradient(145deg,#102a26 0%,#14332e 100%);--text:#f8fafc;--muted:#94a3b8;--primary:#14b8a6;--primary-light:#2dd4bf;--danger:#ef4444;--accent:#eab308;--gold-bright:#fde047;--gold-light:#fef9c3;--gold-deep:#854d0e;--blue:#38bdf8;--border:#1f4e46;--shadow:0 6px 18px rgba(0,0,0,.38)}
     *{box-sizing:border-box;margin:0;padding:0;font-family:'Tajawal',system-ui,-apple-system,sans-serif;-webkit-tap-highlight-color:transparent}
     body{background:var(--bg);background-attachment:fixed;color:var(--text);line-height:1.55;padding-bottom:118px;transition:background .3s,color .3s}
     .hero{position:relative;overflow:hidden;background:linear-gradient(135deg,#0f766e 0%,#0d9488 55%,#0284c7 100%);color:#fff;padding:18px 16px 32px;border-radius:0 0 28px 28px;box-shadow:var(--shadow)}
@@ -53,15 +53,15 @@
     .emerg-card.gendarme{background:linear-gradient(145deg,#14532d,#166534)}
     .emerg-card.ambulance{background:linear-gradient(145deg,#7f1d1d,#991b1b)}
 
-    /* واجهة إعلان مصغرة مع الحفاظ على نسبة 16:9 + شريط ذهبي متحرك تحتها عند عدم وجود إعلان */
-    .ads-showcase{position:relative;margin:8px auto 6px;border-radius:14px;overflow:hidden;border:1.5px solid var(--accent);box-shadow:var(--shadow);background:#071916;width:calc(100% - 28px);max-width:336px;aspect-ratio:16 / 9;cursor:pointer;user-select:none}
+    /* واجهة إعلان مصغرة مع الحفاظ على نسبة 16:9 */
+    .ads-showcase{position:relative;margin:8px auto 6px;border-radius:14px;overflow:hidden;border:1.5px solid var(--gold-bright);box-shadow:0 6px 18px rgba(202,138,4,.18);background:#071916;width:calc(100% - 28px);max-width:336px;aspect-ratio:16 / 9;cursor:pointer;user-select:none}
     .ads-full-media{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:1;filter:none;z-index:1;display:none}
     .ads-overlay-grad{position:relative;z-index:2;width:100%;height:100%;padding:8px 11px;display:flex;flex-direction:column;justify-content:flex-end;background:linear-gradient(to top,rgba(4,12,11,.72) 0%,rgba(4,12,11,.22) 34%,transparent 65%);pointer-events:none}
     .ads-title{font-size:.9rem;font-weight:800;color:#fff;margin-bottom:2px;line-height:1.25;text-shadow:0 1px 4px rgba(0,0,0,.95)}
     .ads-body{font-size:.78rem;font-weight:600;color:#f8fafc;line-height:1.3;text-shadow:0 1px 4px rgba(0,0,0,.95)}
 
-    /* شريط ذهبي حقيقي من أقصى اليمين إلى أقصى اليسار يظهر تحت الإعلان عندما لا يكون هناك إعلان */
-    .gold-ticker-bar{display:none;width:100%;margin:4px 0 10px;background:linear-gradient(90deg,#b45309 0%,#f59e0b 28%,#fde047 50%,#f59e0b 72%,#b45309 100%);color:#1e1300;border-top:1.5px solid #fef08a;border-bottom:1.5px solid #d97706;overflow:hidden;white-space:nowrap;padding:6px 0;box-shadow:0 3px 10px rgba(245,158,11,.28)}
+    /* لافتة ذهبية مصفرة حقيقية متحركة دائماً تحت الإعلان وتنعكس حسب اللغة */
+    .gold-ticker-bar{display:block;width:100%;margin:4px 0 10px;background:linear-gradient(90deg,#a16207 0%,#eab308 22%,#fef08a 50%,#eab308 78%,#a16207 100%);color:#1a1400;border-top:1.5px solid #fef9c3;border-bottom:1.5px solid #ca8a04;overflow:hidden;white-space:nowrap;padding:6px 0;box-shadow:0 3px 12px rgba(234,179,8,.28)}
     .gold-ticker-track{display:inline-block;font-size:.82rem;font-weight:800;padding-inline:16px;will-change:transform}
     html[dir="rtl"] .gold-ticker-track{animation:tickerLtr 13s linear infinite}
     html[dir="ltr"] .gold-ticker-track{animation:tickerRtl 13s linear infinite}
@@ -86,24 +86,42 @@
     /* شريط التصنيفات السفلي بخلفية أخضر طبي + بار متحرك + أزرار بيضاء وأيقونة أخضر طبي */
     .bottom-cats-bar{position:fixed;bottom:0;left:0;right:0;background:linear-gradient(135deg,#0f766e 0%,#0d9488 100%);border-top:1px solid rgba(255,255,255,.22);display:flex;gap:7px;overflow-x:auto;padding:9px 12px 12px;z-index:140;box-shadow:0 -4px 18px rgba(15,118,110,.32);scrollbar-width:none}
     .bottom-cats-bar::-webkit-scrollbar{display:none}
-    .cat-indicator-bar{position:absolute;bottom:4px;height:3.5px;border-radius:4px;background:#fde047;box-shadow:0 0 8px rgba(253,224,71,.75);transition:transform .3s cubic-bezier(.25,.8,.25,1),width .3s cubic-bezier(.25,.8,.25,1);pointer-events:none;z-index:3}
+    .cat-indicator-bar{position:absolute;bottom:4px;height:3.5px;border-radius:4px;background:#fef08a;box-shadow:0 0 8px rgba(254,240,138,.85);transition:transform .3s cubic-bezier(.25,.8,.25,1),width .3s cubic-bezier(.25,.8,.25,1);pointer-events:none;z-index:3}
     .cat-pill{position:relative;overflow:hidden;display:inline-flex;align-items:center;gap:6px;background:#ffffff;color:#0f766e;border:1px solid rgba(15,118,110,.22);padding:7px 13px;border-radius:16px;white-space:nowrap;font-size:.84rem;font-weight:700;cursor:pointer;transition:background .25s,color .25s,transform .2s,box-shadow .25s;flex-shrink:0;box-shadow:0 2px 6px rgba(0,0,0,.1)}
     .cat-pill:active{transform:scale(.96)}
     .cat-pill .cat-motif{position:absolute;inset-inline-end:4px;bottom:-3px;width:24px;height:24px;color:#0f766e;opacity:.12;pointer-events:none;transition:opacity .25s,transform .25s}
     .cat-pill .cat-ico{width:15px;height:15px;color:#0f766e;flex-shrink:0;opacity:1}
-    .cat-pill.active{background:#f0fdf9;color:#065f46;border-color:#fde047;font-weight:800;box-shadow:0 3px 10px rgba(0,0,0,.18)}
+    .cat-pill.active{background:#f0fdf9;color:#065f46;border-color:#facc15;font-weight:800;box-shadow:0 3px 10px rgba(0,0,0,.18)}
     .cat-pill.active .cat-ico{color:#0f766e}
     .cat-pill.active .cat-motif{opacity:.18;transform:scale(1.1)}
 
     .list{padding:0 16px;display:flex;flex-direction:column;gap:12px}
     .item-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px;box-shadow:var(--shadow);position:relative}
-    .item-card.featured{border:2px solid var(--accent)}
-    .badge-feat{position:absolute;top:12px;left:12px;background:var(--accent);color:#000;font-size:.72rem;font-weight:800;padding:2px 8px;border-radius:8px}
+
+    /* حواف ذهبية مصفرة مع انعكاس ضوء متحرك لمقدمي الخدمات المميزين أو الموثقين */
+    .item-card.featured,
+    .item-card.verified-card{position:relative;overflow:hidden;border:2px solid transparent;background:linear-gradient(var(--card),var(--card)) padding-box,linear-gradient(120deg,#ca8a04 0%,#fef08a 25%,#eab308 50%,#fef9c3 75%,#a16207 100%) border-box;box-shadow:0 6px 20px rgba(234,179,8,.22)}
+    .item-card.featured::after,
+    .item-card.verified-card::after{content:"";position:absolute;inset:-40% -80%;width:45%;height:180%;background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.08) 35%,rgba(254,249,195,.68) 50%,rgba(255,255,255,.08) 65%,transparent 100%);transform:rotate(22deg) translateX(-220%);animation:goldEdgeShine 3.8s ease-in-out infinite;pointer-events:none;z-index:1}
+    .item-card.featured > *,
+    .item-card.verified-card > *{position:relative;z-index:2}
+    @keyframes goldEdgeShine{
+      0%,65%{transform:rotate(22deg) translateX(-240%)}
+      100%{transform:rotate(22deg) translateX(480%)}
+    }
+
+    .badge-feat{position:absolute;top:12px;left:12px;background:linear-gradient(135deg,#eab308,#fef08a,#ca8a04);color:#1a1400;font-size:.72rem;font-weight:800;padding:2px 8px;border-radius:8px;z-index:3}
     html[dir="ltr"] .badge-feat{left:auto;right:12px}
-    .item-title{font-size:1.08rem;font-weight:800;margin-bottom:2px;display:inline-flex;align-items:center;gap:5px;flex-wrap:wrap}
-    .verified-badge-sm{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:#1d9bf0;color:#fff;font-size:11px;font-weight:900;line-height:1;box-shadow:0 1px 4px rgba(29,155,240,.45);flex-shrink:0}
-    .verified-pill-pro{display:inline-flex;align-items:center;gap:4px;background:rgba(29,155,240,.14);color:#0284c7;border:1px solid rgba(29,155,240,.45);padding:2px 8px;border-radius:999px;font-size:.76rem;font-weight:800}
+
+    .item-title{font-size:1.08rem;font-weight:800;margin-bottom:2px;display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap}
+
+    /* علامة توثيق مسننة وعلامة ✔️ متمركزة في الوسط تماماً */
+    .verified-gear-badge{display:inline-flex;align-items:center;justify-content:center;width:21px;height:21px;position:relative;color:#1d9bf0;flex-shrink:0;vertical-align:middle}
+    .verified-gear-badge svg{position:absolute;inset:0;width:100%;height:100%;fill:currentColor;filter:drop-shadow(0 1px 2px rgba(29,155,240,.35))}
+    .verified-gear-badge .check-center{position:relative;z-index:2;color:#ffffff;font-size:10.5px;font-weight:900;line-height:1;display:flex;align-items:center;justify-content:center;width:100%;height:100%;padding-top:1px}
+    .verified-pill-pro{display:inline-flex;align-items:center;gap:6px;background:rgba(29,155,240,.12);color:#0284c7;border:1px solid rgba(29,155,240,.4);padding:3px 10px;border-radius:999px;font-size:.78rem;font-weight:800}
     body.dark .verified-pill-pro{color:#38bdf8}
+
     .item-sub{font-size:.86rem;font-weight:700;color:var(--primary);margin-bottom:6px}
     .item-services{font-size:.82rem;background:linear-gradient(135deg,rgba(15,118,110,.08),rgba(20,184,166,.12));padding:6px 10px;border-radius:8px;margin-bottom:8px;color:var(--text)}
     .item-meta{font-size:.85rem;color:var(--muted);margin-bottom:12px;display:flex;flex-direction:column;gap:4px}
@@ -141,7 +159,7 @@
     .status-rejected{background:#fee2e2;color:#b91c1c}
     .sub-box{background:linear-gradient(135deg,rgba(15,118,110,.1),rgba(20,184,166,.15));border:1px solid var(--primary);border-radius:12px;padding:10px 12px;margin-bottom:12px;font-size:.83rem}
     .sub-alert-week{background:rgba(245,158,11,.16);border:1.5px solid #d97706;color:var(--text);border-radius:12px;padding:10px 12px;margin-bottom:12px;font-size:.83rem;font-weight:700}
-    .vip-pitch-box{background:linear-gradient(135deg,rgba(15,118,110,.12),rgba(245,158,11,.14));border:1.5px solid var(--primary);padding:14px;border-radius:14px;font-size:.88rem;margin-bottom:12px;line-height:1.65}
+    .vip-pitch-box{background:linear-gradient(135deg,rgba(15,118,110,.12),rgba(234,179,8,.14));border:1.5px solid var(--primary);padding:14px;border-radius:14px;font-size:.88rem;margin-bottom:12px;line-height:1.65}
     .vip-pitch-box ul{margin:8px 18px}
     .toast{position:fixed;bottom:122px;left:50%;transform:translateX(-50%);background:#0f172a;color:#fff;padding:10px 20px;border-radius:30px;font-size:.88rem;font-weight:700;z-index:300;display:none;box-shadow:0 4px 14px rgba(0,0,0,.3);text-align:center;max-width:90%}
   </style>
@@ -230,7 +248,7 @@
     </div>
   </section>
 
-  <!-- شريط ذهبي متحرك من أقصى اليمين إلى أقصى اليسار يظهر تحت الإعلان عند عدم وجود إعلان -->
+  <!-- لافتة ذهبية مصفرة حقيقية متحركة دائماً تحت الإعلان -->
   <div class="gold-ticker-bar" id="goldTickerBar">
     <div class="gold-ticker-track" id="goldTickerText"></div>
   </div>
@@ -341,7 +359,7 @@
         <input id="sehatiQuickDesc" type="text" style="width:100%;margin-top:4px;padding:7px;border-radius:7px;border:1px solid #37474f;background:#091614;color:#fff;box-sizing:border-box;">
       </label>
       <button id="sehatiQuickAdd" type="button" style="width:100%;background:#00bfa5;color:#051613;font-weight:bold;border:none;border-radius:9px;padding:9px;cursor:pointer;">إضافة ونشر الإعلان</button>
-      <div id="sehatiQuickStatus" style="margin-top:8px;color:#ffd54f;font-size:12px;"></div>
+      <div id="sehatiQuickStatus" style="margin-top:8px;color:#fef08a;font-size:12px;"></div>
       <div id="sehatiQuickList" style="margin-top:10px;display:flex;flex-direction:column;gap:6px;"></div>
     </div>
   </div>
@@ -480,7 +498,7 @@
           <div class="form-group"><label>رمز الدخول السري الجديد للإدارة</label><input type="text" id="newAdminPass" placeholder="مثال: abdo2026" /></div>
           <div class="form-group"><label>رقم هاتفك للاتصال المباشر</label><input type="tel" id="newAdminPhone" placeholder="مثال: 0550123456" /></div>
           <div class="form-group"><label>رقم واتساب الخاص بك (بصيغة 213 بدون صفر)</label><input type="tel" id="newAdminWa" placeholder="مثال: 213550123456" /></div>
-          <div class="form-group"><label>نص الإعلان الظاهر في وسط التطبيق</label><textarea id="newAdText" rows="3"></textarea></div>
+          <div class="form-group"><label>نص الإعلان / اللافتة الذهبية</label><textarea id="newAdText" rows="3"></textarea></div>
           <button class="btn-primary" onclick="saveAdminSettings()">💾 حفظ الإعدادات وكلمة السر</button>
         </div>
       </div>
@@ -660,6 +678,10 @@
       }
     };
 
+    function renderVerifiedBadgeHtml(titleText = '') {
+      return `<span class="verified-gear-badge" title="${titleText}"><svg viewBox="0 0 24 24"><path d="M12 1.5l2.3 2.1 3.1-.4.9 3 2.9 1.3-.4 3.1 2.1 2.3-2.1 2.3.4 3.1-2.9 1.3-.9 3-3.1-.4L12 22.5l-2.3-2.1-3.1.4-.9-3-2.9-1.3.4-3.1L1.5 12l2.1-2.3-.4-3.1 2.9-1.3.9-3 3.1.4L12 1.5z"/></svg><span class="check-center">✓</span></span>`;
+    }
+
     function tr(key, vars = {}) {
       const pack = T[lang] || T.ar;
       let str = pack[key] !== undefined ? pack[key] : (T.ar[key] || '');
@@ -669,26 +691,24 @@
       return str;
     }
 
-    function updateGoldTickerState(hasActiveAds) {
+    function getTickerBannerMessage() {
+      return (lang === 'ar' && adminConfig.adText) ? adminConfig.adText : tr('defaultAdText');
+    }
+
+    function updateGoldTickerState() {
       const tickerBar = document.getElementById('goldTickerBar');
       const tickerText = document.getElementById('goldTickerText');
       if (!tickerBar || !tickerText) return;
-      if (hasActiveAds) {
-        tickerBar.style.display = 'none';
-      } else {
-        tickerText.textContent = (lang === 'ar' && adminConfig.adText) ? adminConfig.adText : tr('defaultAdText');
-        tickerBar.style.display = 'block';
-      }
+      tickerText.textContent = getTickerBannerMessage();
+      tickerBar.style.display = 'block';
     }
 
     function applyAdminConfigToUI() {
       document.getElementById('supCallLink').href = `tel:${adminConfig.phone}`;
       document.getElementById('supWaLink').href = `https://wa.me/${adminConfig.wa}`;
+      updateGoldTickerState();
       if (!window.sehatiAdsList || !window.sehatiAdsList.length) {
-        document.getElementById('adDesc').textContent = (lang === 'ar' && adminConfig.adText) ? adminConfig.adText : tr('defaultAdText');
-        updateGoldTickerState(false);
-      } else {
-        updateGoldTickerState(true);
+        document.getElementById('adDesc').textContent = getTickerBannerMessage();
       }
     }
 
@@ -1189,7 +1209,7 @@
       const verBanner = document.getElementById('proVerifiedBanner');
       if (prof.verified === true) {
         verBanner.style.display = 'block';
-        verBanner.innerHTML = `<span class="verified-pill-pro"><span class="verified-badge-sm">✓</span> ${tr('verifiedLbl')}</span>`;
+        verBanner.innerHTML = `<span class="verified-pill-pro">${renderVerifiedBadgeHtml(tr('verifiedLbl'))} <span>${tr('verifiedLbl')}</span></span>`;
       } else {
         verBanner.style.display = 'none';
       }
@@ -1365,7 +1385,7 @@
         return `
           <div class="appt-item">
             <header>
-              <span>${acc.nm_ar} ${isVer ? '<span class="verified-badge-sm">✓</span>' : ''}</span>
+              <span>${acc.nm_ar} ${isVer ? renderVerifiedBadgeHtml(tr('verifiedLbl')) : ''}</span>
               <span class="status-badge ${sub.isActive ? 'status-active' : 'status-pending'}">${sub.isActive ? '✅' : '⏳'}</span>
             </header>
             <div>🩺 ${acc.sp_ar} | 📍 ${acc.ad_ar}</div>
@@ -1385,7 +1405,7 @@
             </div>
             <div style="display:flex;gap:6px;margin-top:6px;">
               <button onclick="adminToggleVerified('${acc.id}', ${!isVer})" style="flex:1;padding:6px;border:none;border-radius:8px;background:${isVer ? '#334155' : '#1d9bf0'};color:#fff;font-weight:700;cursor:pointer;font-size:.8rem;">${isVer ? tr('unverifyAction') : tr('verifyAction')}</button>
-              <button onclick="adminToggleFeatured('${acc.id}', ${!acc.feat})" style="padding:6px 10px;border:none;border-radius:8px;background:#f59e0b;color:#000;font-weight:700;cursor:pointer;font-size:.8rem;">${acc.feat ? '★' : '☆'}</button>
+              <button onclick="adminToggleFeatured('${acc.id}', ${!acc.feat})" style="padding:6px 10px;border:none;border-radius:8px;background:#eab308;color:#1a1400;font-weight:800;cursor:pointer;font-size:.8rem;">${acc.feat ? '★' : '☆'}</button>
             </div>
           </div>
         `;
@@ -1532,17 +1552,19 @@
               addr = getLocalizedField(item, 'ad'),
               hours = getLocalizedField(item, 'hr'),
               isFav = favs.includes(item.id),
-              verBadge = item.verified === true ? `<span class="verified-badge-sm" title="${tr('verifiedLbl')}">✓</span>` : '',
+              isVer = item.verified === true,
+              verBadge = isVer ? renderVerifiedBadgeHtml(tr('verifiedLbl')) : '',
+              cardClasses = ['item-card', item.feat ? 'featured' : '', isVer ? 'verified-card' : ''].filter(Boolean).join(' '),
               allowBook = item.canBook !== false && item.tp !== 'p' && item.tp !== 'h',
               hasPhone = item.ph && item.ph.trim().length > 3,
               mapLink = (typeof item.lat === 'number' && typeof item.lng === 'number') ? `https://maps.google.com/?q=${item.lat},${item.lng}` : `https://maps.google.com/?q=${encodeURIComponent(name + ' ' + addr + ' Algerie')}`,
               cols = [allowBook, hasPhone, true].filter(Boolean).length,
               gridCols = cols === 3 ? '1fr 1fr 1fr auto' : (cols === 2 ? '1fr 1fr auto' : '1fr auto');
-        return `<div class="item-card ${item.feat ? 'featured' : ''}">${item.feat ? `<span class="badge-feat">${tr('feat')}</span>` : ''}<div class="item-title"><span>${name}</span>${verBadge}</div><div class="item-sub">${spec}</div>${srv ? `<div class="item-services">🩺 ${srv}</div>` : ''}<div class="item-meta"><span>📍 ${addr}</span><span><i class="dot-open"></i>🕒 ${hours}</span></div><div class="actions" style="grid-template-columns:${gridCols};">${allowBook ? `<button onclick="openBooking('${item.id}')" class="act-btn act-book">${tr('book')}</button>` : ''}${hasPhone ? `<a href="tel:${item.ph}" class="act-btn act-call">${tr('call')}</a>` : ''}<a href="${mapLink}" class="act-btn act-map">${tr('map')}</a><button onclick="toggleFav('${item.id}')" class="act-btn act-fav ${isFav ? 'saved' : ''}">${isFav ? '❤️' : '🤍'}</button></div></div>`;
+        return `<div class="${cardClasses}">${item.feat ? `<span class="badge-feat">${tr('feat')}</span>` : ''}<div class="item-title"><span>${name}</span>${verBadge}</div><div class="item-sub">${spec}</div>${srv ? `<div class="item-services">🩺 ${srv}</div>` : ''}<div class="item-meta"><span>📍 ${addr}</span><span><i class="dot-open"></i>🕒 ${hours}</span></div><div class="actions" style="grid-template-columns:${gridCols};">${allowBook ? `<button onclick="openBooking('${item.id}')" class="act-btn act-book">${tr('book')}</button>` : ''}${hasPhone ? `<a href="tel:${item.ph}" class="act-btn act-call">${tr('call')}</a>` : ''}<a href="${mapLink}" class="act-btn act-map">${tr('map')}</a><button onclick="toggleFav('${item.id}')" class="act-btn act-fav ${isFav ? 'saved' : ''}">${isFav ? '❤️' : '🤍'}</button></div></div>`;
       }).join('');
     };
 
-    /* نظام الإعلانات الموحد 16:9 + شريط ذهبي متحرك عند عدم وجود إعلان + حذف آمن بدون تعليق */
+    /* نظام الإعلانات الموحد 16:9 + لافتة ذهبية مصفرة دائمة + حذف آمن بدون تعليق */
     (function() {
       const OWNER = "abdoben16", REPO = "SEHATI.dz", BRANCH = "main", PATH = "ad.json", TKEY = "sehatiAdSys_gh_token";
       const adBox = document.getElementById("mainAdBox");
@@ -1662,6 +1684,7 @@
       }
 
       function drawAd() {
+        updateGoldTickerState();
         if (!ads.length) {
           imgEl.style.display = "none";
           imgEl.src = "";
@@ -1669,11 +1692,9 @@
           vidEl.style.display = "none";
           vidEl.removeAttribute("src");
           titleEl.textContent = "";
-          descEl.textContent = "";
-          updateGoldTickerState(false);
+          descEl.textContent = getTickerBannerMessage();
           return;
         }
-        updateGoldTickerState(true);
         if (idx >= ads.length) idx = 0;
         const a = ads[idx];
         const mediaSrc = a.media || a.video || a.image || "";
