@@ -39,7 +39,6 @@
     .my-appts-btn{background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.35);font-weight:800}
     .search-wrap input{width:100%;padding:11px 14px;border-radius:14px;border:none;outline:none;font-size:.95rem;background:#fff;color:#0f172a}
 
-    /* أزرار الطوارئ: الحماية المدنية أحمر، الإسعاف أبيض، ونقوش متمركزة في المنتصف */
     .emergency-sec{padding:8px 14px 4px}
     .sec-head{font-size:.85rem;font-weight:700;color:var(--muted);margin-bottom:6px;display:flex;justify-content:space-between}
     .emerg-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
@@ -55,14 +54,12 @@
     .emerg-card.ambulance{background:linear-gradient(145deg,#ffffff,#f8fafc);color:#0f172a;border-color:#cbd5e1}
     .emerg-card.ambulance .emerg-bg-icon{color:#0f766e;opacity:.14}
 
-    /* واجهة إعلان مصغرة مع الحفاظ على نسبة 16:9 */
     .ads-showcase{position:relative;margin:8px auto 6px;border-radius:14px;overflow:hidden;border:1.5px solid var(--gold-bright);box-shadow:0 6px 18px rgba(202,138,4,.18);background:#071916;width:calc(100% - 28px);max-width:336px;aspect-ratio:16 / 9;cursor:pointer;user-select:none}
     .ads-full-media{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:1;filter:none;z-index:1;display:none}
     .ads-overlay-grad{position:relative;z-index:2;width:100%;height:100%;padding:8px 11px;display:flex;flex-direction:column;justify-content:flex-end;background:linear-gradient(to top,rgba(4,12,11,.72) 0%,rgba(4,12,11,.22) 34%,transparent 65%);pointer-events:none}
     .ads-title{font-size:.9rem;font-weight:800;color:#fff;margin-bottom:2px;line-height:1.25;text-shadow:0 1px 4px rgba(0,0,0,.95)}
     .ads-body{font-size:.78rem;font-weight:600;color:#f8fafc;line-height:1.3;text-shadow:0 1px 4px rgba(0,0,0,.95)}
 
-    /* لافتة ذهبية مصفرة حقيقية متحركة دائماً تحت الإعلان وتنعكس حسب اللغة */
     .gold-ticker-bar{display:block;width:100%;margin:4px 0 10px;background:linear-gradient(90deg,#a16207 0%,#eab308 22%,#fef08a 50%,#eab308 78%,#a16207 100%);color:#1a1400;border-top:1.5px solid #fef9c3;border-bottom:1.5px solid #ca8a04;overflow:hidden;white-space:nowrap;padding:6px 0;box-shadow:0 3px 12px rgba(234,179,8,.28)}
     .gold-ticker-track{display:inline-block;font-size:.82rem;font-weight:800;padding-inline:16px;will-change:transform}
     html[dir="rtl"] .gold-ticker-track{animation:tickerLtr 13s linear infinite}
@@ -76,7 +73,6 @@
       100%{transform:translateX(-100%)}
     }
 
-    /* إخفاء أي عناصر أو حاويات غير مطلوبة */
     #sehatiAdSys_liveBox,
     #sehatiAllInOne_box,
     #sehatiQuickBox,
@@ -85,7 +81,6 @@
     .promo-tag,
     .ads-cta {display:none !important}
 
-    /* شريط التصنيفات السفلي بخلفية أخضر طبي + بار متحرك + أزرار بيضاء وأيقونة أخضر طبي */
     .bottom-cats-bar{position:fixed;bottom:0;left:0;right:0;background:linear-gradient(135deg,#0f766e 0%,#0d9488 100%);border-top:1px solid rgba(255,255,255,.22);display:flex;gap:7px;overflow-x:auto;padding:9px 12px 12px;z-index:140;box-shadow:0 -4px 18px rgba(15,118,110,.32);scrollbar-width:none}
     .bottom-cats-bar::-webkit-scrollbar{display:none}
     .cat-indicator-bar{position:absolute;bottom:4px;height:3.5px;border-radius:4px;background:#fef08a;box-shadow:0 0 8px rgba(254,240,138,.85);transition:transform .3s cubic-bezier(.25,.8,.25,1),width .3s cubic-bezier(.25,.8,.25,1);pointer-events:none;z-index:3}
@@ -99,17 +94,13 @@
 
     .list{padding:0 16px;display:flex;flex-direction:column;gap:12px}
     .item-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px;box-shadow:var(--shadow);position:relative}
-
-    /* حافة ذهبية خاصة بالمهني المشترك في خدمة المميز فقط دون حركة أو خلفية متغيرة */
     .item-card.featured{border:2px solid #eab308;box-shadow:0 6px 18px rgba(234,179,8,.18)}
 
-    /* شارة مميز في أقصى الأعلى: يسار في العربية ويمين في اللاتينية */
     .badge-feat{position:absolute;top:0;left:0;background:linear-gradient(135deg,#eab308,#facc15);color:#1a1400;font-size:.72rem;font-weight:800;padding:3px 10px;border-radius:0 0 12px 0;z-index:3}
     html[dir="ltr"] .badge-feat{left:auto;right:0;border-radius:0 0 0 12px}
 
     .item-title{font-size:1.08rem;font-weight:800;margin-bottom:2px;display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap}
 
-    /* علامة توثيق هندسية متقنة مثل علامة فيسبوك وعلامة الصح في المنتصف تماماً */
     .fb-verify-badge{display:inline-flex;align-items:center;justify-content:center;width:19px;height:19px;flex-shrink:0;vertical-align:middle}
     .fb-verify-badge svg{width:100%;height:100%;display:block}
     .verified-pill-pro{display:inline-flex;align-items:center;gap:6px;background:rgba(24,119,242,.12);color:#1877f2;border:1px solid rgba(24,119,242,.35);padding:3px 10px;border-radius:999px;font-size:.78rem;font-weight:800}
@@ -231,7 +222,6 @@
     </div>
   </section>
 
-  <!-- واجهة إعلان مصغرة بنسبة 16:9 (صورة أو فيديو قصير) والدخول للإدارة بـ 7 نقرات -->
   <section class="ads-showcase" id="mainAdBox">
     <img class="ads-full-media" id="adImgEl" src="" alt="" />
     <video class="ads-full-media" id="adVideoEl" autoplay muted loop playsinline></video>
@@ -241,7 +231,6 @@
     </div>
   </section>
 
-  <!-- لافتة ذهبية مصفرة حقيقية متحركة دائماً تحت الإعلان -->
   <div class="gold-ticker-bar" id="goldTickerBar">
     <div class="gold-ticker-track" id="goldTickerText"></div>
   </div>
@@ -252,7 +241,6 @@
     💬 <span id="supportFabText">الدعم والإعلان</span>
   </button>
 
-  <!-- شريط التصنيفات السفلي بالأخضر الطبي + بار متحرك + أزرار بيضاء وأيقونة أخضر طبي -->
   <nav class="bottom-cats-bar" id="bottomCatsBar">
     <span class="cat-indicator-bar" id="catIndicatorBar"></span>
 
@@ -311,7 +299,6 @@
     </button>
   </nav>
 
-  <!-- نافذة مواعيدي للمريض (متابعة الترتيب بالأسبقية، الموافقة، والوقت المحدد) -->
   <div class="modal" id="myApptsModal">
     <div class="modal-card">
       <div class="modal-header">
@@ -329,7 +316,6 @@
     </div>
   </div>
 
-  <!-- نافذة إدارة الإعلانات (تُفتح بالنقر 7 مرات على واجهة الإعلان) -->
   <div id="sehatiQuickModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.82);z-index:999999;padding:14px;overflow-y:auto;">
     <div style="max-width:440px;margin:24px auto;background:#102521;color:#fff;border:1px solid #1de9b6;border-radius:14px;padding:14px;font-size:13px;">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
@@ -1558,7 +1544,6 @@
       }).join('');
     };
 
-    /* نظام الإعلانات الموحد 16:9 + لافتة ذهبية مصفرة دائمة + حذف آمن بدون تعليق */
     (function() {
       const OWNER = "abdoben16", REPO = "SEHATI.dz", BRANCH = "main", PATH = "ad.json", TKEY = "sehatiAdSys_gh_token";
       const adBox = document.getElementById("mainAdBox");
