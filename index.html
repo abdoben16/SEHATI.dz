@@ -47,10 +47,9 @@
     *{box-sizing:border-box;margin:0;padding:0;font-family:'Tajawal',system-ui,-apple-system,sans-serif;-webkit-tap-highlight-color:transparent}
     body{background:var(--bg);color:var(--text);line-height:1.55;padding-bottom:124px;transition:background .3s,color .3s}
 
-    /* مساحة الأخضر الطبي مصغرة قليلاً ومرتبة */
     .hero{position:relative;overflow:hidden;background:linear-gradient(135deg,#0f766e 0%,#0d9488 55%,#0284c7 100%);color:#fff;padding:13px 14px 24px;border-radius:0 0 24px 24px;box-shadow:var(--shadow)}
     .hero::before{content:"";position:absolute;inset:0;opacity:.08;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3'/%3E%3Cpath d='M8 15v1a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6v-4'/%3E%3Ccircle cx='20' cy='10' r='2'/%3E%3C/svg%3E");background-size:85px 85px;transform:rotate(-12deg)}
-    .top{position:relative;z-index:2;display:flex;flex-direction:column;gap:8px;margin-bottom:9px}
+    .top{position:relative;z-index:2;display:flex;flex-direction:column;gap:8px;margin-bottom:10px}
     .brand{display:flex;align-items:center;justify-content:space-between;width:100%;cursor:pointer;user-select:none}
     .logo{width:48px;height:48px;border-radius:14px;background:rgba(255,255,255,.18);display:grid;place-items:center;backdrop-filter:blur(6px);box-shadow:0 4px 12px rgba(0,0,0,.12);flex-shrink:0}
     .logo svg{width:32px;height:32px;stroke:#fff;fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
@@ -63,9 +62,6 @@
     .brand b{font-size:1.25rem;font-weight:800;display:block;line-height:1.1}
     .brand small{display:block;opacity:.9;font-size:.76rem;margin-top:2px}
 
-    /* صفان متوازيان بدقة:
-       السطر 1: بوابة المهنيين | مواعيدي
-       السطر 2: اللغة + الوضع الليلي | حسابي */
     .header-matrix{display:flex;flex-direction:column;gap:6px;width:100%}
     .header-row-top{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%}
     .header-row-bottom{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%}
@@ -178,6 +174,8 @@
     .btn-receipt{width:100%;padding:8px 10px;border-radius:9px;border:none;background:linear-gradient(135deg,#0f766e,#0284c7);color:#fff;font-weight:800;font-size:.8rem;cursor:pointer;margin-top:7px;display:flex;align-items:center;justify-content:center;gap:5px}
     .btn-danger{width:100%;padding:10px;border-radius:11px;border:none;background:var(--danger);color:#fff;font-weight:700;font-size:.88rem;cursor:pointer;margin-top:8px}
     .btn-secondary{width:100%;padding:10px;border-radius:11px;border:1px solid var(--border);background:transparent;color:var(--text);font-weight:700;font-size:.9rem;cursor:pointer;margin-top:8px}
+    .btn-edit-med{background:#0284c7;color:#fff;border:none;border-radius:7px;padding:2px 8px;font-size:.76rem;font-weight:800;cursor:pointer}
+    .btn-del-med{background:#dc2626;color:#fff;border:none;border-radius:7px;padding:2px 8px;font-size:.76rem;font-weight:800;cursor:pointer}
     .tabs-bar{display:flex;gap:4px;margin-bottom:14px;background:rgba(15,118,110,.08);padding:4px;border-radius:12px}
     .tab-btn{flex:1;padding:8px 4px;border:none;border-radius:9px;background:transparent;color:var(--text);font-weight:700;font-size:.78rem;cursor:pointer}
     .tab-btn.active{background:var(--primary);color:#fff}
@@ -439,7 +437,7 @@
   <div class="modal" id="medicineModal">
     <div class="modal-card">
       <div class="modal-header">
-        <h3 id="medModalTitle">💊 دوائي — بحث عن دواء منقطع أو قليل</h3>
+        <h3 id="medModalTitle">💊 دوائي — بحث عن دواء غير متوفر</h3>
         <button class="close-x" onclick="closeModal('medicineModal')">✕</button>
       </div>
 
@@ -459,7 +457,7 @@
         <label id="medLblNote">ملاحظة (الولاية، الجرعة، أو أي تفاصيل)</label>
         <textarea id="medNoteInput" rows="2" placeholder="ملاحظات إضافية..."></textarea>
       </div>
-      <button class="btn-primary" id="medSubmitBtn" onclick="submitMedicineRequest()">📢 نشر طلب البحث عن الدواء</button>
+      <button class="btn-primary" id="medSubmitBtn" onclick="submitMedicineRequest()">📢 نشر طلب بحث عن دواء غير متوفر</button>
 
       <div style="margin-top:14px;">
         <div class="sec-head"><span id="medListTitle">📋 طلبات الأدوية المنشورة</span></div>
@@ -690,6 +688,7 @@
         usersList = JSON.parse(localStorage.getItem('sehati_users_list') || '[]'),
         currentUserSession = JSON.parse(localStorage.getItem('sehati_current_user') || 'null'),
         medicineRequests = JSON.parse(localStorage.getItem('sehati_med_requests') || '[]'),
+        editingMedId = null,
         pendingOtpData = null;
 
     const T = {
@@ -751,11 +750,12 @@
         uLblEditFullName:'الاسم واللقب', uLblEditPhone:'رقم الهاتف', uLblEditEmail:'البريد الإلكتروني', uLblEditPass:'كلمة السر الجديدة (اختياري)',
         uBtnSaveEdit:'💾 حفظ التعديلات', uBtnLogout:'🚪 تسجيل الخروج', uSavedMsg:'✅ تم تحديث بيانات حسابك',
         uNoArchAppts:'لا توجد مواعيد في أرشيفك حتى الآن.', uNoArchMeds:'لا توجد طلبات دوائي في أرشيفك حتى الآن.',
-        medModalTitle:'💊 دوائي — بحث عن دواء منقطع أو قليل', medLblName:'اسم الدواء (اختياري إذا أرفقت صورة)',
+        medModalTitle:'💊 دوائي — بحث عن دواء غير متوفر', medLblName:'اسم الدواء (اختياري إذا أرفقت صورة)',
         medLblImg:'صورة الدواء (اختياري إذا كتبت الاسم)', medLblPhone:'رقم الهاتف للتواصل *',
-        medLblNote:'ملاحظة (الولاية، الجرعة، أو أي تفاصيل)', medSubmitBtn:'📢 نشر طلب البحث عن الدواء',
-        medListTitle:'📋 طلبات الأدوية المنشورة', medNeedNameOrImg:'يرجى كتابة اسم الدواء أو إرفاق صورة له',
-        medPostedMsg:'✅ تم نشر طلب البحث عن الدواء', medNoReqs:'لا توجد طلبات أدوية حتى الآن.'
+        medLblNote:'ملاحظة (الولاية، الجرعة، أو أي تفاصيل)', medSubmitBtn:'📢 نشر طلب بحث عن دواء غير متوفر',
+        medUpdateBtn:'💾 حفظ تعديل الطلب',
+        medListTitle:'📋 طلبات بحث عن دواء غير متوفر', medNeedNameOrImg:'يرجى كتابة اسم الدواء أو إرفاق صورة له',
+        medPostedMsg:'✅ تم نشر طلب بحث عن دواء غير متوفر لجميع المستخدمين', medUpdatedMsg:'✅ تم تعديل طلب البحث عن الدواء', medDeletedMsg:'🗑️ تم حذف طلب البحث عن الدواء', medNoReqs:'لا توجد طلبات أدوية حتى الآن.'
       },
       fr: {
         sub:'Votre guide santé et prise de RDV en Algérie', proBtn:'🩺 Espace Pro', userAccBtn:'حسابي', myAppts:'📋 مواعيدي',
@@ -815,14 +815,15 @@
         uLblEditFullName:'Nom et prénom', uLblEditPhone:'Téléphone', uLblEditEmail:'Adresse e-mail', uLblEditPass:'Nouveau mot de passe (optionnel)',
         uBtnSaveEdit:'💾 Enregistrer', uBtnLogout:'🚪 Déconnexion', uSavedMsg:'✅ Profil mis à jour',
         uNoArchAppts:'Aucun RDV dans votre archive.', uNoArchMeds:'Aucune recherche de médicament dans votre archive.',
-        medModalTitle:'💊 Mon médicament — Recherche en rupture', medLblName:'Nom du médicament (optionnel si photo)',
+        medModalTitle:'💊 دوائي — بحث عن دواء غير متوفر', medLblName:'Nom du médicament (optionnel si photo)',
         medLblImg:'Photo du médicament (optionnel si nom)', medLblPhone:'Téléphone de contact *',
-        medLblNote:'Remarque (Wilaya, dosage ou détails)', medSubmitBtn:'📢 Publier la recherche',
-        medListTitle:'📋 Demandes publiées', medNeedNameOrImg:'Indiquez le nom ou la photo du médicament',
-        medPostedMsg:'✅ Demande publiée', medNoReqs:'Aucune demande pour le moment.'
+        medLblNote:'Remarque (Wilaya, dosage ou détails)', medSubmitBtn:'📢 Publier بحث عن دواء غير متوفر',
+        medUpdateBtn:'💾 Enregistrer la modification',
+        medListTitle:'📋 Demandes بحث عن دواء غير متوفر', medNeedNameOrImg:'Indiquez le nom ou la photo du médicament',
+        medPostedMsg:'✅ Demande publiée pour tous les utilisateurs', medUpdatedMsg:'✅ Demande modifiée', medDeletedMsg:'🗑️ Demande supprimée', medNoReqs:'Aucune demande pour le moment.'
       },
       en: {
-        sub:'Your health directory & appointment booking in Algeria', proBtn:'🩺 Pro Portal', userAccBtn:'حسابي', myAppts:'📋 مواعيدي',
+        sub:'Your health directory & appointment booking in Algeria', proBtn:'🩺 Espace Pro', userAccBtn:'حسابي', myAppts:'📋 مواعيدي',
         medFab:'دوائي',
         search:'Search doctor, pharmacy, clinic, service, or wilaya...', emerg:'🚨 Emergency Numbers (Direct Call)',
         e1:'Civil Protection', e2:'Police', e3:'Gendarmerie', e4:'Ambulance',
@@ -879,11 +880,12 @@
         uLblEditFullName:'Full Name', uLblEditPhone:'Phone Number', uLblEditEmail:'Email Address', uLblEditPass:'New Password (optional)',
         uBtnSaveEdit:'💾 Save Changes', uBtnLogout:'🚪 Sign Out', uSavedMsg:'✅ Account details updated',
         uNoArchAppts:'No appointments in your archive yet.', uNoArchMeds:'No medicine requests in your archive yet.',
-        medModalTitle:'💊 My Med — Search Short/Out-of-Stock Meds', medLblName:'Medicine Name (optional if photo attached)',
+        medModalTitle:'💊 دوائي — بحث عن دواء غير متوفر', medLblName:'Medicine Name (optional if photo attached)',
         medLblImg:'Medicine Photo (optional if name provided)', medLblPhone:'Contact Phone Number *',
-        medLblNote:'Note (Wilaya, dosage, or details)', medSubmitBtn:'📢 Post Medicine Request',
-        medListTitle:'📋 Posted Medicine Requests', medNeedNameOrImg:'Please enter medicine name or upload a photo',
-        medPostedMsg:'✅ Medicine request posted', medNoReqs:'No medicine requests yet.'
+        medLblNote:'Note (Wilaya, dosage, or details)', medSubmitBtn:'📢 Post بحث عن دواء غير متوفر',
+        medUpdateBtn:'💾 Save Edited Request',
+        medListTitle:'📋 بحث عن دواء غير متوفر Requests', medNeedNameOrImg:'Please enter medicine name or upload a photo',
+        medPostedMsg:'✅ Request posted for all users', medUpdatedMsg:'✅ Request updated', medDeletedMsg:'🗑️ Request deleted', medNoReqs:'No medicine requests yet.'
       }
     };
 
@@ -1008,6 +1010,27 @@
 
     window.placesData = [...window.defaultPlacesList, ...localPlaces];
 
+    window.refreshMedicineRequestsCloud = async function() {
+      if (!window.fbReady) return;
+      try {
+        const snap = await window.fb.getDocs(window.fb.collection(window.fb.db, "medicine_requests"));
+        const remoteMeds = [];
+        snap.forEach(d => {
+          const data = d.data() || {};
+          remoteMeds.push({ id: data.id || d.id, ...data });
+        });
+        remoteMeds.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
+        medicineRequests = remoteMeds;
+        localStorage.setItem('sehati_med_requests', JSON.stringify(medicineRequests));
+        if (document.getElementById('medicineModal').classList.contains('open')) {
+          renderMedicineRequests();
+        }
+        if (document.getElementById('userAccountModal').classList.contains('open') && currentUserSession) {
+          renderUserArchiveMeds();
+        }
+      } catch (e) {}
+    };
+
     window.refreshCloudData = async function() {
       if (!window.fbReady) return;
       try {
@@ -1024,6 +1047,7 @@
           localStorage.setItem('sehati_appointments', JSON.stringify(localAppointments));
         }
 
+        await window.refreshMedicineRequestsCloud();
         updateMyApptsBadge();
         window.render();
       } catch (e) {}
@@ -1116,7 +1140,7 @@
       document.getElementById('medLblImg').textContent = tr('medLblImg');
       document.getElementById('medLblPhone').textContent = tr('medLblPhone');
       document.getElementById('medLblNote').textContent = tr('medLblNote');
-      document.getElementById('medSubmitBtn').textContent = tr('medSubmitBtn');
+      document.getElementById('medSubmitBtn').textContent = editingMedId ? tr('medUpdateBtn') : tr('medSubmitBtn');
       document.getElementById('medListTitle').textContent = tr('medListTitle');
 
       document.getElementById('proModalTitle').textContent = tr('proTitle');
@@ -1193,6 +1217,44 @@
     function closeModal(id) { document.getElementById(id).classList.remove('open'); }
     function openSupportModal() { document.getElementById('supportModal').classList.add('open'); }
 
+    function drawHealthWatermarkOnReceipt(ctx, width, height) {
+      ctx.save();
+      ctx.globalAlpha = 0.075;
+      ctx.strokeStyle = '#0f766e';
+      ctx.fillStyle = '#0f766e';
+
+      const cx = width / 2;
+      const cy = 535;
+      const r = 155;
+
+      ctx.lineWidth = 7;
+      ctx.beginPath();
+      ctx.arc(cx, cy, r, 0, Math.PI * 2);
+      ctx.stroke();
+
+      ctx.lineWidth = 10;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.beginPath();
+      ctx.moveTo(cx - 115, cy);
+      ctx.lineTo(cx - 58, cy);
+      ctx.lineTo(cx - 32, cy - 66);
+      ctx.lineTo(cx, cy + 74);
+      ctx.lineTo(cx + 34, cy - 48);
+      ctx.lineTo(cx + 60, cy);
+      ctx.lineTo(cx + 115, cy);
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.roundRect(cx - 20, cy - 112, 40, 28, 7);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.roundRect(cx - 20, cy + 84, 40, 28, 7);
+      ctx.fill();
+
+      ctx.restore();
+    }
+
     function downloadAppointmentReceipt(apptId) {
       const appt = localAppointments.find(a => a.id === apptId);
       if (!appt) return;
@@ -1212,6 +1274,8 @@
       ctx.fillStyle = '#ffffff';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+      drawHealthWatermarkOnReceipt(ctx, canvas.width, canvas.height);
+
       const grad = ctx.createLinearGradient(0, 0, canvas.width, 160);
       grad.addColorStop(0, '#0f766e');
       grad.addColorStop(1, '#0284c7');
@@ -1229,7 +1293,7 @@
       ctx.lineWidth = 3;
       ctx.strokeRect(32, 180, canvas.width - 64, 700);
 
-      ctx.fillStyle = '#f0fdf9';
+      ctx.fillStyle = 'rgba(240, 253, 249, 0.85)';
       ctx.fillRect(52, 200, canvas.width - 104, 110);
       ctx.fillStyle = '#0f766e';
       ctx.font = 'bold 26px Tajawal, sans-serif';
@@ -1288,6 +1352,7 @@
     function openUserAccountModal() {
       renderUserAccountModal();
       document.getElementById('userAccountModal').classList.add('open');
+      if (window.refreshMedicineRequestsCloud) window.refreshMedicineRequestsCloud();
     }
 
     function switchUserAuthTab(tab) {
@@ -1365,7 +1430,11 @@
         <div class="appt-item">
           <header>
             <span>💊 ${r.medName || '-'}</span>
-            <span>📞 ${r.phone}</span>
+            <div style="display:flex;align-items:center;gap:5px;">
+              <span>📞 ${r.phone}</span>
+              <button type="button" class="btn-edit-med" onclick="editMedicineRequest('${r.id}')" title="تعديل">✏️</button>
+              <button type="button" class="btn-del-med" onclick="deleteMedicineRequest('${r.id}')" title="حذف">🗑️</button>
+            </div>
           </header>
           ${r.note ? `<div style="margin-top:4px;">📝 ${r.note}</div>` : ''}
           ${r.imgData ? `<img src="${r.imgData}" alt="" class="med-req-img" />` : ''}
@@ -1516,12 +1585,15 @@
       showToast(tr('toastLoggedOut'));
     }
 
-    function openMedicineModal() {
+    async function openMedicineModal() {
       if (currentUserSession && currentUserSession.phone && !document.getElementById('medPhoneInput').value) {
         document.getElementById('medPhoneInput').value = currentUserSession.phone;
       }
       renderMedicineRequests();
       document.getElementById('medicineModal').classList.add('open');
+      if (window.refreshMedicineRequestsCloud) {
+        await window.refreshMedicineRequestsCloud();
+      }
     }
 
     const readFileAsDataUrl = f => new Promise((res, rej) => {
@@ -1530,6 +1602,19 @@
       r.onerror = rej;
       r.readAsDataURL(f);
     });
+
+    function editMedicineRequest(reqId) {
+      const target = medicineRequests.find(r => r.id === reqId);
+      if (!target) return;
+      editingMedId = reqId;
+      document.getElementById('medNameInput').value = target.medName || '';
+      document.getElementById('medPhoneInput').value = target.phone || '';
+      document.getElementById('medNoteInput').value = target.note || '';
+      document.getElementById('medImgInput').value = '';
+      document.getElementById('medSubmitBtn').textContent = tr('medUpdateBtn');
+      closeModal('userAccountModal');
+      document.getElementById('medicineModal').classList.add('open');
+    }
 
     async function submitMedicineRequest() {
       const medName = document.getElementById('medNameInput').value.trim();
@@ -1542,7 +1627,10 @@
         try { imgData = await readFileAsDataUrl(imgFile); } catch (_) {}
       }
 
-      if (!medName && !imgData) {
+      const existingItem = editingMedId ? medicineRequests.find(r => r.id === editingMedId) : null;
+      const finalImg = (imgData && imgData.length < 750000) ? imgData : (existingItem ? (existingItem.imgData || '') : '');
+
+      if (!medName && !finalImg) {
         showToast(tr('medNeedNameOrImg'));
         return;
       }
@@ -1551,11 +1639,36 @@
         return;
       }
 
+      if (editingMedId && existingItem) {
+        const updatedReq = {
+          ...existingItem,
+          medName,
+          imgData: finalImg,
+          phone,
+          note,
+          updatedAt: new Date().toISOString()
+        };
+        medicineRequests = medicineRequests.map(r => r.id === editingMedId ? updatedReq : r);
+        localStorage.setItem('sehati_med_requests', JSON.stringify(medicineRequests));
+        if (window.fbReady) {
+          try { await window.fb.setDoc(window.fb.doc(window.fb.db, "medicine_requests", updatedReq.id), updatedReq); } catch (e) {}
+        }
+        editingMedId = null;
+        document.getElementById('medSubmitBtn').textContent = tr('medSubmitBtn');
+        document.getElementById('medNameInput').value = '';
+        document.getElementById('medImgInput').value = '';
+        document.getElementById('medNoteInput').value = '';
+        renderMedicineRequests();
+        renderUserArchiveMeds();
+        showToast(tr('medUpdatedMsg'));
+        return;
+      }
+
       const reqObj = {
-        id: 'med_' + Date.now(),
+        id: 'med_' + Date.now() + '_' + Math.floor(Math.random() * 1000),
         userId: currentUserSession ? currentUserSession.id : '',
         medName,
-        imgData,
+        imgData: finalImg,
         phone,
         note,
         createdAt: new Date().toISOString()
@@ -1564,11 +1677,37 @@
       medicineRequests.unshift(reqObj);
       localStorage.setItem('sehati_med_requests', JSON.stringify(medicineRequests));
 
+      if (window.fbReady) {
+        try {
+          await window.fb.setDoc(window.fb.doc(window.fb.db, "medicine_requests", reqObj.id), reqObj);
+        } catch (e) {}
+      }
+
       document.getElementById('medNameInput').value = '';
       document.getElementById('medImgInput').value = '';
       document.getElementById('medNoteInput').value = '';
       renderMedicineRequests();
+      renderUserArchiveMeds();
       showToast(tr('medPostedMsg'));
+    }
+
+    async function deleteMedicineRequest(reqId) {
+      if (editingMedId === reqId) {
+        editingMedId = null;
+        document.getElementById('medSubmitBtn').textContent = tr('medSubmitBtn');
+      }
+      medicineRequests = medicineRequests.filter(r => r.id !== reqId);
+      localStorage.setItem('sehati_med_requests', JSON.stringify(medicineRequests));
+
+      if (window.fbReady) {
+        try {
+          await window.fb.deleteDoc(window.fb.doc(window.fb.db, "medicine_requests", reqId));
+        } catch (e) {}
+      }
+
+      renderMedicineRequests();
+      renderUserArchiveMeds();
+      showToast(tr('medDeletedMsg'));
     }
 
     function renderMedicineRequests() {
@@ -1583,7 +1722,11 @@
         <div class="appt-item">
           <header>
             <span>💊 ${r.medName || ''}</span>
-            <a href="tel:${r.phone}" style="background:var(--primary);color:#fff;padding:2px 8px;border-radius:7px;text-decoration:none;font-size:.76rem;">📞 ${r.phone}</a>
+            <div style="display:flex;align-items:center;gap:5px;">
+              <a href="tel:${r.phone}" style="background:var(--primary);color:#fff;padding:2px 8px;border-radius:7px;text-decoration:none;font-size:.76rem;">📞 ${r.phone}</a>
+              <button type="button" class="btn-edit-med" onclick="editMedicineRequest('${r.id}')" title="تعديل">✏️</button>
+              <button type="button" class="btn-del-med" onclick="deleteMedicineRequest('${r.id}')" title="حذف">🗑️</button>
+            </div>
           </header>
           ${r.note ? `<div style="margin-top:4px;">📝 ${r.note}</div>` : ''}
           ${r.imgData ? `<img src="${r.imgData}" alt="" class="med-req-img" />` : ''}
