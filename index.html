@@ -1569,15 +1569,13 @@ div:not(.ads-showcase):has(> .ads-header) {
     const img=a.image?`${a.image}?v=${Date.now()}`:"";
     box.innerHTML=`<div style="border:1px solid #1de9b6;border-radius:14px;overflow:hidden;background:#0d2622;min-height:240px;">
       <div style="display:flex;justify-content:space-between;padding:7px 12px;background:#081815;font-size:11px;">
-        <span style="background:#e53935;color:#fff;padding:2px 8px;border-radius:12px;">إعلان ${idx+1}/${ads.length} • ${s}ث</span>
+        
         <span class="sehati-q-trig" style="color:#80cbc4;font-weight:bold;">SEHATI ADS</span>
       </div>
       ${img?`<img src="${img}" style="display:block;width:100%;max-height:280px;object-fit:cover;opacity:1;filter:none;">`:""}
       <div style="padding:10px 12px;background:#0e2924;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">
         <div><div style="color:#fff;font-weight:bold;font-size:14px;">${a.title||""}</div><div style="color:#d0ece7;font-size:12px;">${a.description||""}</div></div>
-        ${a.buttonText?`<a href="${a.buttonLink||"#"}" style="background:#00bfa5;color:#051613;text-decoration:none;padding:7px 12px;border-radius:9px;font-weight:bold;font-size:12px;">${a.buttonText}</a>`:""}
-      </div>
-    </div>`;
+        
     box.querySelectorAll(".sehati-q-trig").forEach(el=>{
       let t=null;
       el.addEventListener("pointerdown",()=>{t=setTimeout(openM,650);});
