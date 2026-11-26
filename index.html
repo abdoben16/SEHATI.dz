@@ -62,10 +62,12 @@
     .brand b{font-size:1.38rem;font-weight:800;display:block;line-height:1.1}
     .brand small{display:block;opacity:.9;font-size:.8rem;margin-top:2px}
 
+    /* الترويسة: المهنيين فوق، تحته اللغة بجوار الوضع الليلي، وفي الجهة اليسرى حسابي ثم بجانبها مواعيدي */
     .tools-wrap{display:flex;flex-direction:column;gap:8px;width:100%}
     .portal-row{display:flex;align-items:center;justify-content:flex-start}
-    .theme-level-row{display:flex;align-items:center;justify-content:space-between;gap:6px;flex-wrap:wrap;width:100%}
-    .theme-level-right{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+    .sub-controls-row{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;width:100%}
+    .lang-theme-pair{display:flex;align-items:center;gap:6px}
+    .account-appts-pair{display:flex;align-items:center;gap:6px;margin-inline-start:auto}
 
     .seg{display:flex;background:rgba(255,255,255,.18);border-radius:10px;padding:2px}
     .seg button{border:0;background:transparent;color:#fff;font-weight:700;font-size:.74rem;padding:4px 7px;border-radius:8px;cursor:pointer}
@@ -152,7 +154,6 @@
     body.dark .act-fav{background:#163832}
     .act-fav.saved{color:#ef4444;border-color:#ef4444}
 
-    /* زر الدعم والإعلان في موضعه السفلي السابق وزر دوائي مطابق له في نفس المستوى في الجهة المقابلة مع نبض */
     .support-fab{position:fixed;bottom:68px;left:16px;background:linear-gradient(135deg,#0f766e,#0284c7);color:#fff;border:none;border-radius:50px;padding:10px 15px;font-size:.85rem;font-weight:800;display:flex;align-items:center;gap:6px;box-shadow:0 6px 20px rgba(15,118,110,.45);cursor:pointer;z-index:150}
     .med-fab{position:fixed;bottom:68px;right:16px;background:linear-gradient(135deg,#0f766e,#0284c7);color:#fff;border:none;border-radius:50px;padding:10px 15px;font-size:.85rem;font-weight:800;display:flex;align-items:center;gap:6px;box-shadow:0 6px 20px rgba(15,118,110,.45);cursor:pointer;z-index:150;animation:medMatchPulse 1.8s ease-in-out infinite}
     html[dir="ltr"] .support-fab{left:auto;right:16px}
@@ -212,17 +213,19 @@
         <div class="portal-row">
           <button class="tool-btn portal-btn" onclick="openProPortal()" id="proPortalBtn">🩺 بوابة المهنيين</button>
         </div>
-        <div class="theme-level-row">
-          <div class="theme-level-right">
-            <button class="tool-btn user-acc-btn" onclick="openUserAccountModal()" id="userAccBtn">👤 <span id="userAccLabel">حسابي</span></button>
-            <button class="tool-btn my-appts-btn" onclick="openMyAppointments()" id="myApptsBtn"><span id="myApptsLabel">📋 مواعيدي</span> (<span id="myApptsBadge">0</span>)</button>
+        <div class="sub-controls-row">
+          <div class="lang-theme-pair">
             <div class="seg">
               <button id="btnAr" class="on" onclick="setLang('ar')">عربي</button>
               <button id="btnFr" onclick="setLang('fr')">FR</button>
               <button id="btnEn" onclick="setLang('en')">EN</button>
             </div>
+            <button class="tool-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
           </div>
-          <button class="tool-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
+          <div class="account-appts-pair">
+            <button class="tool-btn user-acc-btn" onclick="openUserAccountModal()" id="userAccBtn">👤 <span id="userAccLabel">حسابي</span></button>
+            <button class="tool-btn my-appts-btn" onclick="openMyAppointments()" id="myApptsBtn"><span id="myApptsLabel">📋 مواعيدي</span> (<span id="myApptsBadge">0</span>)</button>
+          </div>
         </div>
       </div>
     </div>
@@ -794,7 +797,7 @@
         pendingBoxHtml:'<b>🎉 Félicitations ! Votre dossier professionnel a été reçu.</b><br>Pour apparaître devant des milliers de patients dans votre wilaya :<ul><li>✅ Réception des RDV selon l’ordre d’arrivée.</li><li>✅ Priorité dans la recherche avec carte.</li><li>✅ Badge officiel de confiance.</li></ul><b>Contactez-nous maintenant pour activer votre abonnement :</b><button onclick="closeModal(\'proModal\'); openSupportModal();" class="btn-primary" style="margin-top:8px;">🚀 Activer mon compte (Appel / WhatsApp)</button>',
         noProAppts:'Aucun rendez-vous enregistré pour le moment.',
         timeInputPlaceholder:'Heure de venue (ex: 10:00)', confirmTimeBtn:'✅ Valider & fixer l’heure',
-        toastFillReq:'Veuillez remplir les champs requis',
+        toastFillReq:'Veuillez remplir le nom, le téléphone et la date',
         toastBooked:'✅ RDV enregistré ! Votre rang le {date} est #{rank}',
         toastTimeSaved:'✅ RDV confirmé et heure fixée pour le patient !',
         toastEnterTime:'Veuillez saisir l’heure de venue du patient',
