@@ -12,10 +12,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
   <style>
-    :root{--bg:#f1f5f9;--card:#fff;--text:#0f172a;--muted:#64748b;--primary:#0f766e;--primary-light:#14b8a6;--danger:#dc2626;--accent:#f59e0b;--blue:#0284c7;--border:#e2e8f0;--shadow:0 6px 18px rgba(15,23,42,.06)}
-    body.dark{--bg:#0b1120;--card:#1e293b;--text:#f8fafc;--muted:#94a3b8;--primary:#14b8a6;--primary-light:#2dd4bf;--danger:#ef4444;--accent:#fbbf24;--blue:#38bdf8;--border:#334155;--shadow:0 6px 18px rgba(0,0,0,.35)}
+    :root{--bg:linear-gradient(160deg,#e6f4f1 0%,#d7f3eb 52%,#cbeee8 100%);--card:linear-gradient(145deg,#ffffff 0%,#f0fdf9 100%);--text:#0f172a;--muted:#475569;--primary:#0f766e;--primary-light:#14b8a6;--danger:#dc2626;--accent:#f59e0b;--blue:#0284c7;--border:#a7f3d0;--shadow:0 6px 18px rgba(15,118,110,.09)}
+    body.dark{--bg:linear-gradient(160deg,#071a18 0%,#0b2521 55%,#091f24 100%);--card:linear-gradient(145deg,#102a26 0%,#14332e 100%);--text:#f8fafc;--muted:#94a3b8;--primary:#14b8a6;--primary-light:#2dd4bf;--danger:#ef4444;--accent:#fbbf24;--blue:#38bdf8;--border:#1f4e46;--shadow:0 6px 18px rgba(0,0,0,.38)}
     *{box-sizing:border-box;margin:0;padding:0;font-family:'Tajawal',system-ui,-apple-system,sans-serif;-webkit-tap-highlight-color:transparent}
-    body{background:var(--bg);color:var(--text);line-height:1.55;padding-bottom:118px;transition:background .3s,color .3s}
+    body{background:var(--bg);background-attachment:fixed;color:var(--text);line-height:1.55;padding-bottom:118px;transition:background .3s,color .3s}
     .hero{position:relative;overflow:hidden;background:linear-gradient(135deg,#0f766e 0%,#0d9488 55%,#0284c7 100%);color:#fff;padding:18px 16px 32px;border-radius:0 0 28px 28px;box-shadow:var(--shadow)}
     .hero::before{content:"";position:absolute;inset:0;opacity:.08;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3'/%3E%3Cpath d='M8 15v1a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6v-4'/%3E%3Ccircle cx='20' cy='10' r='2'/%3E%3C/svg%3E");background-size:85px 85px;transform:rotate(-12deg)}
     .top{position:relative;z-index:2;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
@@ -52,7 +52,7 @@
     .emerg-card.gendarme{background:linear-gradient(145deg,#14532d,#166534)}
     .emerg-card.ambulance{background:linear-gradient(145deg,#7f1d1d,#991b1b)}
 
-    /* واجهة إعلان بنسبة 16:9 للصور والفيديو مع وضوح تام بدون تعتيم باهت */
+    /* واجهة إعلان بنسبة 16:9 (صورة أو فيديو قصير) مع وضوح تام بدون تعتيم باهت */
     .ads-showcase{position:relative;margin:10px 14px 14px;border-radius:16px;overflow:hidden;border:1.5px solid var(--accent);box-shadow:var(--shadow);background:#071916;width:calc(100% - 28px);aspect-ratio:16 / 9;cursor:pointer;user-select:none}
     .ads-full-media{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:1;filter:none;z-index:1;display:none}
     .ads-overlay-grad{position:relative;z-index:2;width:100%;height:100%;padding:10px 14px;display:flex;flex-direction:column;justify-content:flex-end;background:linear-gradient(to top,rgba(4,12,11,.72) 0%,rgba(4,12,11,.22) 34%,transparent 65%);pointer-events:none}
@@ -68,16 +68,17 @@
     .promo-tag,
     .ads-cta {display:none !important}
 
-    /* شريط التصنيفات السفلي بخلفية أخضر طبي وبار متحرك ونقوش معبرة */
-    .bottom-cats-bar{position:fixed;bottom:0;left:0;right:0;background:linear-gradient(135deg,#0f766e 0%,#0d9488 100%);border-top:1px solid rgba(255,255,255,.18);display:flex;gap:7px;overflow-x:auto;padding:9px 12px 12px;z-index:140;box-shadow:0 -4px 18px rgba(15,118,110,.32);scrollbar-width:none}
+    /* شريط التصنيفات السفلي بخلفية أخضر طبي + بار متحرك + أزرار بيضاء وأيقونة أخضر طبي */
+    .bottom-cats-bar{position:fixed;bottom:0;left:0;right:0;background:linear-gradient(135deg,#0f766e 0%,#0d9488 100%);border-top:1px solid rgba(255,255,255,.22);display:flex;gap:7px;overflow-x:auto;padding:9px 12px 12px;z-index:140;box-shadow:0 -4px 18px rgba(15,118,110,.32);scrollbar-width:none}
     .bottom-cats-bar::-webkit-scrollbar{display:none}
     .cat-indicator-bar{position:absolute;bottom:4px;height:3.5px;border-radius:4px;background:#fde047;box-shadow:0 0 8px rgba(253,224,71,.75);transition:transform .3s cubic-bezier(.25,.8,.25,1),width .3s cubic-bezier(.25,.8,.25,1);pointer-events:none;z-index:3}
-    .cat-pill{position:relative;overflow:hidden;display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.22);padding:7px 13px;border-radius:16px;white-space:nowrap;font-size:.84rem;font-weight:700;cursor:pointer;transition:background .25s,color .25s,transform .2s;flex-shrink:0}
+    .cat-pill{position:relative;overflow:hidden;display:inline-flex;align-items:center;gap:6px;background:#ffffff;color:#0f766e;border:1px solid rgba(15,118,110,.22);padding:7px 13px;border-radius:16px;white-space:nowrap;font-size:.84rem;font-weight:700;cursor:pointer;transition:background .25s,color .25s,transform .2s,box-shadow .25s;flex-shrink:0;box-shadow:0 2px 6px rgba(0,0,0,.1)}
     .cat-pill:active{transform:scale(.96)}
-    .cat-pill .cat-motif{position:absolute;inset-inline-end:4px;bottom:-3px;width:24px;height:24px;opacity:.16;pointer-events:none;transition:opacity .25s,transform .25s}
-    .cat-pill .cat-ico{width:15px;height:15px;flex-shrink:0;opacity:.92}
-    .cat-pill.active{background:#ffffff;color:#0f766e;border-color:#ffffff;font-weight:800;box-shadow:0 3px 10px rgba(0,0,0,.15)}
-    .cat-pill.active .cat-motif{opacity:.14;transform:scale(1.1)}
+    .cat-pill .cat-motif{position:absolute;inset-inline-end:4px;bottom:-3px;width:24px;height:24px;color:#0f766e;opacity:.12;pointer-events:none;transition:opacity .25s,transform .25s}
+    .cat-pill .cat-ico{width:15px;height:15px;color:#0f766e;flex-shrink:0;opacity:1}
+    .cat-pill.active{background:#f0fdf9;color:#065f46;border-color:#fde047;font-weight:800;box-shadow:0 3px 10px rgba(0,0,0,.18)}
+    .cat-pill.active .cat-ico{color:#0f766e}
+    .cat-pill.active .cat-motif{opacity:.18;transform:scale(1.1)}
 
     .list{padding:0 16px;display:flex;flex-direction:column;gap:12px}
     .item-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px;box-shadow:var(--shadow);position:relative}
@@ -86,7 +87,7 @@
     html[dir="ltr"] .badge-feat{left:auto;right:12px}
     .item-title{font-size:1.08rem;font-weight:800;margin-bottom:2px}
     .item-sub{font-size:.86rem;font-weight:700;color:var(--primary);margin-bottom:6px}
-    .item-services{font-size:.82rem;background:var(--bg);padding:6px 10px;border-radius:8px;margin-bottom:8px;color:var(--text)}
+    .item-services{font-size:.82rem;background:linear-gradient(135deg,rgba(15,118,110,.08),rgba(20,184,166,.12));padding:6px 10px;border-radius:8px;margin-bottom:8px;color:var(--text)}
     .item-meta{font-size:.85rem;color:var(--muted);margin-bottom:12px;display:flex;flex-direction:column;gap:4px}
     .dot-open{display:inline-block;width:8px;height:8px;border-radius:50%;background:#22c55e;margin-inline-end:6px}
     .actions{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:6px}
@@ -94,7 +95,8 @@
     .act-book{background:var(--blue);color:#fff}
     .act-call{background:var(--primary);color:#fff}
     .act-map{background:transparent;color:var(--primary);border:1px solid var(--primary)}
-    .act-fav{background:var(--bg);color:var(--text);border:1px solid var(--border);padding:8px 10px}
+    .act-fav{background:#ffffff;color:var(--text);border:1px solid var(--border);padding:8px 10px}
+    body.dark .act-fav{background:#163832}
     .act-fav.saved{color:#ef4444;border-color:#ef4444}
     .support-fab{position:fixed;bottom:68px;left:16px;background:linear-gradient(135deg,#0f766e,#0284c7);color:#fff;border:none;border-radius:50px;padding:10px 15px;font-size:.85rem;font-weight:800;display:flex;align-items:center;gap:6px;box-shadow:0 6px 20px rgba(15,118,110,.45);cursor:pointer;z-index:150}
     html[dir="ltr"] .support-fab{left:auto;right:16px}
@@ -192,7 +194,7 @@
     </div>
   </section>
 
-  <!-- واجهة الإعلان بنسبة 16:9 (صورة أو فيديو قصير) والدخول للإدارة بـ 7 نقرات -->
+  <!-- واجهة إعلان بنسبة 16:9 (صورة أو فيديو قصير) والدخول للإدارة بـ 7 نقرات -->
   <section class="ads-showcase" id="mainAdBox">
     <img class="ads-full-media" id="adImgEl" src="" alt="" />
     <video class="ads-full-media" id="adVideoEl" autoplay muted loop playsinline></video>
@@ -208,7 +210,7 @@
     💬 <span id="supportFabText">الدعم والإعلان</span>
   </button>
 
-  <!-- شريط التصنيفات السفلي بالأخضر الطبي + بار متحرك + نقوش معبرة لكل تخصص -->
+  <!-- شريط التصنيفات السفلي بالأخضر الطبي + بار متحرك + أزرار بيضاء وأيقونة أخضر طبي -->
   <nav class="bottom-cats-bar" id="bottomCatsBar">
     <span class="cat-indicator-bar" id="catIndicatorBar"></span>
 
