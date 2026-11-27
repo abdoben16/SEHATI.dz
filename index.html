@@ -66,7 +66,7 @@
     }
     .top{position:relative;z-index:2;display:flex;flex-direction:column;gap:14px;margin-bottom:8px}
     .brand{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%}
-    .brand-info{display:flex;flex-direction:column;align-items:flex-start;cursor:pointer;user-select:none}
+    .brand-info{display:flex;flex-direction:column;align-items:flex-start;user-select:none}
     .brand-info b{font-size:1.58rem;font-weight:900;display:block;line-height:1.12;letter-spacing:.2px}
     .brand-info small{display:block;opacity:.92;font-size:.78rem;margin-top:3px}
     .brand-controls-under{display:flex;align-items:center;gap:6px;margin-top:7px;flex-wrap:wrap}
@@ -106,11 +106,12 @@
     .seg button.on{background:#fff;color:#0f766e}
     .tool-btn{border:0;background:rgba(255,255,255,.22);color:#fff;padding:6px 10px;border-radius:10px;font-weight:700;font-size:.78rem;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;gap:4px}
 
-    .quick-nav-bar{display:grid;grid-template-columns:1.25fr 1fr;gap:7px;width:100%;padding:0;margin-top:6px;background:transparent;border:none}
-    .quick-nav-bar.with-appts{grid-template-columns:1.25fr 1fr .9fr}
+    /* الإبقاء على خانة مواعيدي فارغة دون تمدد الأزرار الأخرى */
+    .quick-nav-bar{display:grid;grid-template-columns:1.25fr 1fr .9fr;gap:7px;width:100%;padding:0;margin-top:6px;background:transparent;border:none}
     .quick-nav-bar .bar-item{position:relative;border:0;border-radius:11px;padding:8px 6px;font-size:.8rem;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:4px;white-space:nowrap;overflow:visible;box-shadow:0 3px 9px rgba(0,0,0,.12)}
     .portal-btn{background:#fff;color:#0f766e}
-    .my-appts-btn{background:rgba(255,255,255,.22);color:#fff;backdrop-filter:blur(4px);display:none}
+    .my-appts-btn{background:rgba(255,255,255,.22);color:#fff;backdrop-filter:blur(4px);visibility:hidden;pointer-events:none}
+    .my-appts-btn.show-slot{visibility:visible;pointer-events:auto}
     .user-acc-btn{background:rgba(255,255,255,.22);color:#fff;backdrop-filter:blur(4px)}
 
     .red-count-badge{
@@ -281,6 +282,12 @@
     .privacy-body-box h4:first-child{margin-top:0}
     .privacy-body-box ul{margin:4px 18px 8px}
     .med-req-img{width:100%;max-height:175px;object-fit:cover;border-radius:10px;margin-top:7px;border:1px solid var(--border)}
+
+    .admin-section-box{background:rgba(255,255,255,.72);border:1px solid var(--border);border-radius:14px;padding:12px;margin-bottom:12px}
+    body.dark .admin-section-box{background:rgba(15,118,110,.14)}
+    .admin-section-title{font-size:.9rem;font-weight:900;color:var(--primary);margin-bottom:8px;display:flex;align-items:center;justify-content:space-between}
+    .admin-ad-card{background:#091815;color:#fff;border:1px solid #1f453e;border-radius:10px;padding:8px 10px;display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:.82rem}
+
     .toast{position:fixed;bottom:122px;left:50%;transform:translateX(-50%);background:#0f172a;color:#fff;padding:10px 20px;border-radius:30px;font-size:.9rem;font-weight:700;z-index:300;display:none;box-shadow:0 4px 14px rgba(0,0,0,.3);text-align:center;max-width:90%}
   </style>
 </head>
@@ -289,7 +296,7 @@
     <div class="top">
       <div class="brand">
         <div class="brand-info">
-          <div onclick="handleSecretLogoTap()">
+          <div>
             <b>صحتي | SEHATI</b>
             <small id="tagSub">دليلك الصحي وحجز المواعيد في الجزائر</small>
           </div>
@@ -316,7 +323,7 @@
           <span id="proPortalTxt">🩺 بوابة المهنيين</span>
           <span class="red-count-badge" id="proBookingsBadge">0</span>
         </button>
-        <button class="bar-item my-appts-btn" onclick="openMyAppointments()" id="myApptsBtn" style="display:none;">
+        <button class="bar-item my-appts-btn" onclick="openMyAppointments()" id="myApptsBtn">
           <span id="myApptsLabel">📋 مواعيدي</span> (<span id="myApptsBadge">0</span>)
         </button>
         <button class="bar-item user-acc-btn" onclick="openUserAccountModal()" id="userAccBtn">
@@ -460,7 +467,7 @@
     </div>
   </div>
 
-  <!-- نافذة حساب المستخدم: التسجيل برقم الهاتف + كلمة المرور + الرقم التسلسلي -->
+  <!-- نافذة حساب المستخدم -->
   <div class="modal" id="userAccountModal">
     <div class="modal-card">
       <div class="modal-header">
@@ -621,38 +628,6 @@
     </div>
   </div>
 
-  <!-- نافذة إدارة الإعلانات عبر Firebase Storage و Firestore -->
-  <div id="sehatiQuickModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.82);z-index:999999;padding:14px;overflow-y:auto;">
-    <div style="max-width:440px;margin:24px auto;background:#102521;color:#fff;border:1px solid #1de9b6;border-radius:14px;padding:14px;font-size:13px;">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
-        <strong style="color:#1de9b6;">إدارة إعلانات صحتي (Firebase Storage)</strong>
-        <button id="sehatiQuickClose" type="button" style="background:#263238;color:#fff;border:none;border-radius:6px;padding:3px 9px;cursor:pointer;">✕</button>
-      </div>
-      <div style="background:rgba(20,184,166,.12);border:1px solid rgba(20,184,166,.35);border-radius:8px;padding:8px;margin-bottom:8px;font-size:11.5px;color:#ccfbf1;">
-        🔒 يتم الرفع مباشرة إلى Firebase Storage مع بديل احتياطي تلقائي للصور.
-      </div>
-      <label style="display:block;margin-bottom:8px;">مدة العرض (ثواني):
-        <input id="sehatiQuickSec" type="number" min="1" max="120" value="6" style="width:100%;margin-top:4px;padding:7px;border-radius:7px;border:1px solid #37474f;background:#091614;color:#fff;box-sizing:border-box;">
-      </label>
-      <label style="display:block;margin-bottom:8px;">صورة أو فيديو ترويجي قصير (مقاس 16:9):
-        <input id="sehatiQuickFile" type="file" accept="image/*,video/*" style="width:100%;margin-top:4px;color:#fff;">
-      </label>
-      <label style="display:block;margin-bottom:8px;">العنوان (اختياري):
-        <input id="sehatiQuickTitle" type="text" style="width:100%;margin-top:4px;padding:7px;border-radius:7px;border:1px solid #37474f;background:#091614;color:#fff;box-sizing:border-box;">
-      </label>
-      <label style="display:block;margin-bottom:8px;">الوصف (اختياري):
-        <input id="sehatiQuickDesc" type="text" style="width:100%;margin-top:4px;padding:7px;border-radius:7px;border:1px solid #37474f;background:#091614;color:#fff;box-sizing:border-box;">
-      </label>
-      <label style="display:block;margin-bottom:8px;">رابط عند الضغط على الإعلان (اختياري):
-        <input id="sehatiQuickLink" type="url" placeholder="https://wa.me/213..." style="width:100%;margin-top:4px;padding:7px;border-radius:7px;border:1px solid #37474f;background:#091614;color:#fff;box-sizing:border-box;">
-      </label>
-      <button id="sehatiQuickAdd" type="button" style="width:100%;background:#00bfa5;color:#051613;font-weight:bold;border:none;border-radius:9px;padding:9px;cursor:pointer;">إضافة ونشر الإعلان</button>
-      <button id="sehatiQuickCancelEdit" type="button" style="display:none;width:100%;margin-top:6px;background:#37474f;color:#fff;font-weight:bold;border:none;border-radius:9px;padding:8px;cursor:pointer;">إلغاء التعديل</button>
-      <div id="sehatiQuickStatus" style="margin-top:8px;color:#fef08a;font-size:12px;"></div>
-      <div id="sehatiQuickList" style="margin-top:10px;display:flex;flex-direction:column;gap:6px;"></div>
-    </div>
-  </div>
-
   <div class="modal" id="supportModal">
     <div class="modal-card">
       <div class="modal-header">
@@ -684,6 +659,7 @@
     </div>
   </div>
 
+  <!-- بوابة المهنيين: رقم الهاتف + كلمة المرور، والبريد الإلكتروني اختياري لاحقاً -->
   <div class="modal" id="proModal">
     <div class="modal-card">
       <div class="modal-header">
@@ -696,8 +672,8 @@
           <button class="tab-btn" id="tabRegister" onclick="switchAuthTab('register')">انضم إلينا</button>
         </div>
         <div id="loginForm">
-          <div class="form-group"><label id="lblLoginEmail">البريد الإلكتروني</label><input type="email" id="loginEmail" placeholder="doctor@sehati.dz" /></div>
-          <div class="form-group"><label id="lblLoginPass">كلمة المرور</label><input type="password" id="loginPass" placeholder="••••••••" /></div>
+          <div class="form-group"><label id="lblLoginPhone">رقم الهاتف المهني *</label><input type="tel" id="loginPhone" placeholder="0550123456" /></div>
+          <div class="form-group"><label id="lblLoginPass">كلمة المرور *</label><input type="password" id="loginPass" placeholder="••••••••" /></div>
           <button class="btn-primary" id="btnLoginSubmit" onclick="proLogin()">دخول إلى لوحة التحكم</button>
         </div>
         <div id="registerForm" style="display:none;">
@@ -724,7 +700,6 @@
           </div>
           <div class="form-group"><label id="lblRegHours">أوقات العمل *</label><input type="text" id="regHours" /></div>
           <div class="form-group"><label id="lblRegPhone">رقم الهاتف المهني *</label><input type="tel" id="regPhone" /></div>
-          <div class="form-group"><label id="lblRegEmail">البريد الإلكتروني للحساب *</label><input type="email" id="regEmail" /></div>
           <div class="form-group"><label id="lblRegPass">كلمة المرور (6 أحرف على الأقل) *</label><input type="password" id="regPass" /></div>
           <button class="btn-primary" id="btnRegSubmit" onclick="proRegister()">إرسال طلب الانضمام</button>
         </div>
@@ -753,6 +728,7 @@
           </div>
           <div class="form-group"><label id="lblEditHours">أوقات العمل وحالة المناوبة</label><input type="text" id="editHours" /></div>
           <div class="form-group"><label id="lblEditPhone">رقم الهاتف</label><input type="tel" id="editPhone" /></div>
+          <div class="form-group"><label id="lblEditEmailOpt">البريد الإلكتروني (اختياري)</label><input type="email" id="editEmail" placeholder="name@example.com" /></div>
           <button class="btn-primary" id="btnSaveProfile" onclick="saveProProfile()">💾 حفظ التعديلات</button>
         </div>
         <button class="btn-secondary" id="btnProLogout" onclick="proLogout()">🚪 تسجيل الخروج</button>
@@ -760,7 +736,7 @@
     </div>
   </div>
 
-  <!-- لوحة تحكم المدير عبر حساب Firebase Auth الموثق -->
+  <!-- لوحة تحكم المدير المرتبة: تفتح بعد 10 نقرات على شعار ECG المتحرك -->
   <div class="modal" id="secretAdminModal">
     <div class="modal-card">
       <div class="modal-header">
@@ -776,51 +752,94 @@
         <div class="tabs-bar">
           <button class="tab-btn active" id="admTabAccounts" onclick="switchAdminTab('accounts')">🩺 المهنيون (<span id="pendingCountBadge">0</span>)</button>
           <button class="tab-btn" id="admTabUsers" onclick="switchAdminTab('users')">👤 المستخدمون (<span id="admUsersBadge">0</span>)</button>
+          <button class="tab-btn" id="admTabAds" onclick="switchAdminTab('ads')">🖼️ الإعلانات (<span id="admAdsBadge">0</span>)</button>
           <button class="tab-btn" id="admTabMeds" onclick="switchAdminTab('meds')">💊 دوائي (<span id="admMedsBadge">0</span>)</button>
           <button class="tab-btn" id="admTabImport" onclick="switchAdminTab('import')">📥 استيراد</button>
           <button class="tab-btn" id="admTabSettings" onclick="switchAdminTab('settings')">⚙️ إعداداتي</button>
         </div>
+
         <div id="admAccountsPanel"><div id="adminAccountsList"></div></div>
+
         <div id="admUsersPanel" style="display:none;">
-          <div class="form-group" style="margin-bottom:10px;">
-            <label>🔎 بحث عن مستخدم برقم الهاتف (أو الاسم / الرقم التسلسلي)</label>
-            <input
-              type="text"
-              id="adminUserPhoneSearchInput"
-              oninput="renderAdminUsers()"
-              placeholder="مثال: 0550123456 أو SHT-..."
-            />
+          <div class="admin-section-box">
+            <div class="form-group" style="margin-bottom:8px;">
+              <label>🔎 بحث عن مستخدم برقم الهاتف (أو الاسم / الرقم التسلسلي)</label>
+              <input
+                type="text"
+                id="adminUserPhoneSearchInput"
+                oninput="renderAdminUsers()"
+                placeholder="مثال: 0550123456 أو SHT-..."
+              />
+            </div>
+            <div id="adminUserSearchCount" style="font-size:.8rem;font-weight:700;color:var(--muted);"></div>
           </div>
-          <div id="adminUserSearchCount" style="font-size:.8rem;font-weight:700;color:var(--muted);margin-bottom:8px;"></div>
           <div id="adminUsersList"></div>
         </div>
-        <div id="admMedsPanel" style="display:none;"><div id="adminMedsList"></div></div>
-        <div id="admImportPanel" style="display:none;">
-          <div class="form-group"><label>اختر ملف البيانات (health_facilities.geojson)</label><input type="file" id="importFile" accept=".json,.geojson" /></div>
-          <div class="form-group">
-            <label>الحد الأقصى للاستيراد</label>
-            <select id="importLimit">
-              <option value="200">أفضل 200 مرفق (بأرقام الهواتف والمواقع)</option>
-              <option value="500">أفضل 500 مرفق</option>
-            </select>
+
+        <div id="admAdsPanel" style="display:none;">
+          <div class="admin-section-box">
+            <div class="admin-section-title">
+              <span>📢 إضافة أو تعديل إعلان في الواجهة الرئيسية</span>
+            </div>
+            <div class="form-group">
+              <label>مدة العرض (ثواني)</label>
+              <input id="admAdSecInput" type="number" min="1" max="120" value="6" />
+            </div>
+            <div class="form-group">
+              <label>صورة أو فيديو ترويجي (مقاس 16:9)</label>
+              <input id="admAdFileInput" type="file" accept="image/*,video/*" />
+            </div>
+            <div class="form-group">
+              <label>العنوان (اختياري)</label>
+              <input id="admAdTitleInput" type="text" placeholder="عنوان الإعلان..." />
+            </div>
+            <div class="form-group">
+              <label>الوصف (اختياري)</label>
+              <input id="admAdDescInput" type="text" placeholder="وصف مختصر..." />
+            </div>
+            <div class="form-group">
+              <label>رابط عند الضغط على الإعلان (اختياري)</label>
+              <input id="admAdLinkInput" type="url" placeholder="https://wa.me/213..." />
+            </div>
+            <button id="admAdPublishBtn" type="button" class="btn-primary" onclick="admPublishAdItem()">🚀 إضافة ونشر الإعلان</button>
+            <button id="admAdCancelEditBtn" type="button" class="btn-secondary" style="display:none;" onclick="admResetAdForm()">✕ إلغاء التعديل</button>
+            <div id="admAdStatusMsg" style="margin-top:8px;font-size:.82rem;font-weight:800;color:var(--primary);"></div>
           </div>
-          <button class="btn-primary" onclick="processBulkImport()">🚀 استيراد المرافق الكاملة إلى Firebase</button>
-          <button class="btn-danger" onclick="clearImportedData()">🗑️ حذف البيانات المستوردة السابقة</button>
-          <p id="importStatus" style="font-size:.84rem;color:var(--primary);font-weight:700;margin-top:8px;"></p>
+          <div class="admin-section-box">
+            <div class="admin-section-title"><span>📋 الإعلانات المنشورة</span></div>
+            <div id="admAdsListBox" style="display:flex;flex-direction:column;gap:7px;"></div>
+          </div>
         </div>
+
+        <div id="admMedsPanel" style="display:none;"><div id="adminMedsList"></div></div>
+
+        <div id="admImportPanel" style="display:none;">
+          <div class="admin-section-box">
+            <div class="form-group"><label>اختر ملف البيانات (health_facilities.geojson)</label><input type="file" id="importFile" accept=".json,.geojson" /></div>
+            <div class="form-group">
+              <label>الحد الأقصى للاستيراد</label>
+              <select id="importLimit">
+                <option value="200">أفضل 200 مرفق (بأرقام الهواتف والمواقع)</option>
+                <option value="500">أفضل 500 مرفق</option>
+              </select>
+            </div>
+            <button class="btn-primary" onclick="processBulkImport()">🚀 استيراد المرافق الكاملة إلى Firebase</button>
+            <button class="btn-danger" onclick="clearImportedData()">🗑️ حذف البيانات المستوردة السابقة</button>
+            <p id="importStatus" style="font-size:.84rem;color:var(--primary);font-weight:700;margin-top:8px;"></p>
+          </div>
+        </div>
+
         <div id="admSettingsPanel" style="display:none;">
-          <div class="form-group">
-            <label>صوت آلة ECG المستمر لحالة مستقرة (داخل التطبيق فقط)</label>
-            <button type="button" id="adminEcgToggleBtn" onclick="toggleAdminEcgSound()" style="width:100%;padding:10px;border-radius:10px;border:1px solid var(--border);background:#0f766e;color:#fff;font-weight:800;cursor:pointer;">💓 تشغيل صوت النبض الحقيقي</button>
+          <div class="admin-section-box">
+            <div class="form-group">
+              <label>صوت آلة ECG المستمر لحالة مستقرة (داخل التطبيق فقط)</label>
+              <button type="button" id="adminEcgToggleBtn" onclick="toggleAdminEcgSound()" style="width:100%;padding:10px;border-radius:10px;border:1px solid var(--border);background:#0f766e;color:#fff;font-weight:800;cursor:pointer;">💓 تشغيل صوت النبض الحقيقي</button>
+            </div>
+            <div class="form-group"><label>رقم هاتفك للاتصال المباشر</label><input type="tel" id="newAdminPhone" placeholder="مثال: 0550123456" /></div>
+            <div class="form-group"><label>رقم واتساب الخاص بك (بصيغة 213 بدون صفر)</label><input type="tel" id="newAdminWa" placeholder="مثال: 213550123456" /></div>
+            <div class="form-group"><label>نص الإعلان / اللافتة الذهبية</label><textarea id="newAdText" rows="3"></textarea></div>
+            <button class="btn-primary" onclick="saveAdminSettings()">💾 حفظ الإعدادات</button>
           </div>
-          <div class="form-group">
-            <label>إدارة إعلانات الواجهة الرئيسية (Firebase Storage)</label>
-            <button type="button" onclick="closeModal('secretAdminModal'); window.openSehatiAdsManager();" style="width:100%;padding:10px;border-radius:10px;border:none;background:#0284c7;color:#fff;font-weight:800;cursor:pointer;">🖼️ فتح مدير الإعلانات</button>
-          </div>
-          <div class="form-group"><label>رقم هاتفك للاتصال المباشر</label><input type="tel" id="newAdminPhone" placeholder="مثال: 0550123456" /></div>
-          <div class="form-group"><label>رقم واتساب الخاص بك (بصيغة 213 بدون صفر)</label><input type="tel" id="newAdminWa" placeholder="مثال: 213550123456" /></div>
-          <div class="form-group"><label>نص الإعلان / اللافتة الذهبية</label><textarea id="newAdText" rows="3"></textarea></div>
-          <button class="btn-primary" onclick="saveAdminSettings()">💾 حفظ الإعدادات</button>
         </div>
       </div>
     </div>
@@ -831,7 +850,7 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
     import { getFirestore, collection, getDocs, doc, getDoc, setDoc, updateDoc, deleteDoc, addDoc, query, where, writeBatch } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, getIdTokenResult } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut, getIdTokenResult } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
     import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 
     const firebaseConfig = { apiKey: "AIzaSyAdWXDD0whg8vgdBuULaGR1IkrXDRvKQgA", authDomain: "sehati-7eaba.firebaseapp.com", projectId: "sehati-7eaba", storageBucket: "sehati-7eaba.firebasestorage.app", messagingSenderId: "688720404426", appId: "1:688720404426:web:b05c9e67a60cc8c2773933" };
@@ -864,7 +883,7 @@
           db, auth, storage,
           collection, getDocs, doc, getDoc, setDoc, updateDoc, deleteDoc, addDoc,
           query, where, writeBatch,
-          createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut,
+          signInWithEmailAndPassword, signOut,
           ref, uploadBytes, getDownloadURL, deleteObject,
           checkAdminRoleForUser
         };
@@ -875,12 +894,11 @@
 
         onAuthStateChanged(auth, async (user) => {
           if (user) {
-            window.currentProUser = user;
+            window.currentAdminUser = user;
             const isAdm = await checkAdminRoleForUser(db, user);
             window.setAdminAuthState(isAdm);
-            await window.loadProDashboard(user.uid);
           } else {
-            window.currentProUser = null;
+            window.currentAdminUser = null;
             window.setAdminAuthState(false);
           }
           window.updateMyApptsVisibility();
@@ -921,6 +939,10 @@
         editingMedId = null,
         showSerialBannerOnce = false;
 
+    if (localProSession && localProSession.id && !currentProProfile) {
+      currentProProfile = localProSession;
+    }
+
     function normalizePhoneDigits(val) {
       return String(val || '').replace(/\D/g, '');
     }
@@ -943,7 +965,7 @@
     }
 
     function isProSessionActive() {
-      return Boolean((window.currentProUser && (currentProProfile || localProSession)) || (localProSession && localProSession.id));
+      return Boolean((currentProProfile && currentProProfile.id) || (localProSession && localProSession.id));
     }
 
     function isUserAuthenticatedActive() {
@@ -962,8 +984,8 @@
       if (!btn || !bar) return;
 
       const showForLoggedInUser = isUserAuthenticatedActive();
-      btn.style.display = showForLoggedInUser ? 'inline-flex' : 'none';
-      bar.classList.toggle('with-appts', showForLoggedInUser);
+      btn.classList.toggle('show-slot', showForLoggedInUser);
+      bar.style.gridTemplateColumns = '1.25fr 1fr .9fr';
     };
 
     window.clearActiveUserSessionOnSignOut = function() {
@@ -996,6 +1018,7 @@
         renderAdminAccounts();
         renderAdminUsers();
         renderAdminMedicineRequests();
+        if (window.refreshAdminAdsPanel) window.refreshAdminAdsPanel();
       }
       if (document.getElementById('medicineModal').classList.contains('open')) {
         renderMedicineRequests();
@@ -1192,7 +1215,7 @@
           <ul>
             <li><b>بيانات الحجز والمريض:</b> الاسم واللقب، رقم الهاتف، التاريخ والساعة المطلوبة، وسبب الزيارة لتأكيد الموعد وتحديد الترتيب.</li>
             <li><b>طلبات «دوائي»:</b> اسم أو صورة الدواء المطلوب، رقم الهاتف، وملاحظات البحث.</li>
-            <li><b>بيانات المهنيين الصحيين:</b> اسم المؤسسة، التخصص، العنوان، أوقات العمل، والإحداثيات الجغرافية لمشاركتها على الخرائط.</li>
+            <li><b>بيانات المهنيين الصحيين:</b> اسم المؤسسة، التخصص، العنوان، أوقات العمل، والبريد الإلكتروني الاختياري، والإحداثيات الجغرافية لمشاركتها على الخرائط.</li>
           </ul>
           <h4>3. الغرض من المعالجة والأمان</h4>
           <p>تُستخدم هذه المعطيات حصراً لتقديم خدمة الدليل الصحي، تنظيم المواعيد، وإرسال التنبيهات داخل التطبيق، وتُحمى عبر قواعد صلاحيات Firebase دون بيعها أو تأجيرها لأطراف تجارية.</p>
@@ -1208,7 +1231,7 @@
         phoneNotifNewApptTitle:'حجز جديد في صحتي',
         phoneNotifNewApptBody:'تم تسجيل حجز جديد باسم {patient} بتاريخ {date} الساعة {time}.',
         phoneNotifApprovedTitle:'تمت الموافقة على حجزك',
-        phoneNotifApprovedBody:'وافق الطبيب على حجزك لدى {place} • ترتيبك #{rank} • الوقت: {time}.',
+        phoneNotifApprovedBody:'تم تأكيد حجزك لدى {place} • ترتيبك #{rank} • الوقت: {time}.',
         search:'ابحث عن طبيب، صيدلية، عيادة، خدمة، أو ولاية...', emerg:'🚨 أرقام الطوارئ (اتصال مباشر)',
         e1:'الحماية المدنية', e2:'الشرطة', e3:'الدرك الوطني', e4:'الإسعاف',
         all:'الكل', fav:'المفضلة', d:'أطباء', c:'عيادات', p:'صيدليات', h:'مستشفيات', l:'مخابر', g:'أطباء أسنان', r:'أشعة',
@@ -1240,13 +1263,14 @@
         receiptDownloaded:'✅ تم تحميل وصل الموعد بنجاح!',
         queuePreview:'📌 الترتيب المتوقع لأسبقية تسجيلك في يوم <b>{date}</b>: <b>الرقم #{rank}</b> (يوجد حالياً {count} مسجل في هذا اليوم).',
         proTitle:'🩺 بوابة الأطباء والصيدليات والعيادات', tabLogin:'تسجيل الدخول', tabRegister:'انضم إلينا',
-        loginEmail:'البريد الإلكتروني', loginPass:'كلمة المرور', loginBtn:'دخول إلى لوحة التحكم',
+        loginPhone:'رقم الهاتف المهني *', loginPass:'كلمة المرور *', loginBtn:'دخول إلى لوحة التحكم',
         regType:'نوع المؤسسة *', regOptD:'طبيب (عيادة خاصة)', regOptP:'صيدلية', regOptC:'عيادة متعددة الخدمات',
         regOptL:'مخبر تحاليل طبية', regOptG:'طبيب أسنان', regOptR:'مركز أشعة', regOptH:'مستشفى',
         regName:'اسم الطبيب أو الصيدلية أو العيادة *', regSpec:'التخصص الدقيق *', regServices:'الخدمات المقدمة *',
         regAddr:'العنوان والولاية *', regHours:'أوقات العمل *', regPhone:'رقم الهاتف المهني *',
-        regEmail:'البريد الإلكتروني للحساب *', regPass:'كلمة المرور (6 أحرف على الأقل) *', regBtn:'إرسال طلب الانضمام',
+        regPass:'كلمة المرور (6 أحرف على الأقل) *', regBtn:'إرسال طلب الانضمام',
         dashAppts:'المواعيد', dashEdit:'تعديل ملفي والموقع', saveProfileBtn:'💾 حفظ التعديلات', logoutBtn:'🚪 تسجيل الخروج',
+        lblEditEmailOpt:'البريد الإلكتروني (اختياري)',
         btnShareLocReg:'مشاركة موقعي على الخرائط', btnShareLocEdit:'تحديث ومشاركة موقعي على الخرائط تلقائياً',
         locFetching:'⏳ جاري تحديد موقعك الجغرافي...', locUpdatedAuto:'✅ تم تحديد موقعك وتحديثه تلقائياً في حسابك!',
         locCaptured:'✅ تم التقاط الإحداثيات بنجاح', locNotSet:'لم يتم تحديد إحداثيات الخريطة بعد', locUnsupported:'تحديد الموقع غير مدعوم أو مرفوض',
@@ -1298,7 +1322,25 @@
         medUpdateBtn:'💾 حفظ تعديل الطلب',
         medEditBtnTxt:'تعديل', medDelBtnTxt:'حذف',
         medListTitle:'📋 طلبات بحث عن دواء غير متوفر', medNeedNameOrImg:'يرجى كتابة اسم الدواء أو إرفاق صورة له',
-        medPostedMsg:'✅ تم نشر طلب بحث عن دواء غير متوفر لجميع المستخدمين', medUpdatedMsg:'✅ تم تعديل طلب البحث عن الدواء', medDeletedMsg:'🗑️ تم حذف طلب البحث عن الدواء', medNoReqs:'لا توجد طلبات أدوية حتى الآن.'
+        medPostedMsg:'✅ تم نشر طلب بحث عن دواء غير متوفر لجميع المستخدمين', medUpdatedMsg:'✅ تم تعديل طلب البحث عن الدواء', medDeletedMsg:'🗑️ تم حذف طلب البحث عن الدواء', medNoReqs:'لا توجد طلبات أدوية حتى الآن.',
+        receiptHeaderTitle:'وصل تأكيد حجز موعد طبي',
+        receiptRankBadge:'رقم الترتيب: #{rank}',
+        receiptTimeBadge:'الساعة المحددة: {time}',
+        receiptRowRank:'رقم الترتيب',
+        receiptRowPatient:'الاسم واللقب',
+        receiptRowPhone:'رقم هاتف المريض',
+        receiptRowDateTime:'التاريخ والساعة',
+        receiptRowPro:'المرفق / الطبيب',
+        receiptRowSpec:'التخصص',
+        receiptRowAddr:'العنوان',
+        receiptFooterNote:'يرجى الحضور في الوقت المحدد أعلاه لتفادي الإنتظار في القاعة.',
+        proKindDoctor:'الطبيب',
+        proKindDentist:'طبيب الأسنان',
+        proKindPharmacy:'الصيدلية',
+        proKindClinic:'العيادة',
+        proKindLab:'المخبر',
+        proKindRadio:'مركز الأشعة',
+        proKindHospital:'المستشفى'
       },
       fr: {
         sub:'Votre guide santé et prise de RDV en Algérie', proBtn:'🩺 Espace Pro', userAccBtn:'Mon compte', myAppts:'📋 Mes RDV',
@@ -1312,7 +1354,7 @@
           <ul>
             <li><b>RDV & Patient :</b> nom, prénom, téléphone, date, heure exacte et motif de visite.</li>
             <li><b>Mon Médoc :</b> nom ou photo du médicament recherché, téléphone et remarques.</li>
-            <li><b>Professionnels de santé :</b> nom, spécialité, adresse, horaires et coordonnées GPS pour la carte.</li>
+            <li><b>Professionnels de santé :</b> nom, spécialité, adresse, horaires, e-mail optionnel et coordonnées GPS.</li>
           </ul>
           <h4>3. Finalité & sécurité</h4>
           <p>Les données servent uniquement à l’annuaire santé, la gestion des files d’attente et les notifications, protégées par des règles d’accès Firebase.</p>
@@ -1360,13 +1402,14 @@
         receiptDownloaded:'✅ Reçu du rendez-vous téléchargé !',
         queuePreview:'📌 Rang estimé selon l’ordre d’inscription le <b>{date}</b> : <b>N° #{rank}</b> ({count} inscrit(s) ce jour).',
         proTitle:'🩺 Espace Médecins, Pharmacies & Cliniques', tabLogin:'Connexion', tabRegister:'Rejoignez-nous',
-        loginEmail:'Adresse e-mail', loginPass:'Mot de passe', loginBtn:'Accéder au tableau de bord',
+        loginPhone:'Téléphone professionnel *', loginPass:'Mot de passe *', loginBtn:'Accéder au tableau de bord',
         regType:'Type d’établissement *', regOptD:'Médecin (Cabinet privé)', regOptP:'Pharmacie', regOptC:'Clinique pluridisciplinaire',
         regOptL:'Laboratoire d’analyses', regOptG:'Chirurgien-dentiste', regOptR:'Centre d’imagerie / Radio', regOptH:'Hôpital',
         regName:'Nom du médecin, pharmacie ou clinique *', regSpec:'Spécialité *', regServices:'Services proposés *',
         regAddr:'Adresse et Wilaya *', regHours:'Horaires d’ouverture *', regPhone:'Téléphone professionnel *',
-        regEmail:'E-mail du compte *', regPass:'Mot de passe (6 caractères min.) *', regBtn:'Envoyer la demande',
+        regPass:'Mot de passe (6 caractères min.) *', regBtn:'Envoyer la demande',
         dashAppts:'Rendez-vous', dashEdit:'Profil & Carte', saveProfileBtn:'💾 Enregistrer les modifications', logoutBtn:'🚪 Déconnexion',
+        lblEditEmailOpt:'Adresse e-mail (optionnel)',
         btnShareLocReg:'Partager ma position sur la carte', btnShareLocEdit:'Mettre à jour ma position GPS automatiquement',
         locFetching:'⏳ Localisation GPS en cours...', locUpdatedAuto:'✅ Position mise à jour automatiquement dans votre compte !',
         locCaptured:'✅ Coordonnées enregistrées', locNotSet:'Position carte non définie', locUnsupported:'Géolocalisation indisponible',
@@ -1415,10 +1458,28 @@
         medLblName:'Nom du médicament (optionnel si photo)',
         medLblImg:'Photo du médicament (optionnel si nom)', medLblPhone:'Téléphone de contact *',
         medLblNote:'Remarque (Wilaya, dosage ou détails)', medSubmitBtn:'📢 Publier la recherche de médicament',
-        medUpdateBtn:'💾 Enregistrer la modification',
+        medUpdateBtn:'💾 حفظ تعديل الطلب',
         medEditBtnTxt:'Modifier', medDelBtnTxt:'Supprimer',
         medListTitle:'📋 Recherches de médicaments indisponibles', medNeedNameOrImg:'Indiquez le nom ou la photo du médicament',
-        medPostedMsg:'✅ Recherche publiée pour tous les utilisateurs', medUpdatedMsg:'✅ Recherche modifiée', medDeletedMsg:'🗑️ Recherche supprimée', medNoReqs:'Aucune demande pour le moment.'
+        medPostedMsg:'✅ Recherche publiée pour tous les utilisateurs', medUpdatedMsg:'✅ Recherche modifiée', medDeletedMsg:'🗑️ Recherche supprimée', medNoReqs:'Aucune demande pour le moment.',
+        receiptHeaderTitle:'Reçu de confirmation de rendez-vous médical',
+        receiptRankBadge:'Rang : #{rank}',
+        receiptTimeBadge:'Heure fixée : {time}',
+        receiptRowRank:'Rang',
+        receiptRowPatient:'Nom et prénom',
+        receiptRowPhone:'Téléphone du patient',
+        receiptRowDateTime:'Date et heure',
+        receiptRowPro:'Établissement / Praticien',
+        receiptRowSpec:'Spécialité',
+        receiptRowAddr:'Adresse',
+        receiptFooterNote:'Merci de venir à l’heure indiquée ci-dessus pour éviter l’attente.',
+        proKindDoctor:'du médecin',
+        proKindDentist:'du chirurgien-dentiste',
+        proKindPharmacy:'de la pharmacie',
+        proKindClinic:'de la clinique',
+        proKindLab:'du laboratoire',
+        proKindRadio:'du centre d’imagerie',
+        proKindHospital:'de l’hôpital'
       },
       en: {
         sub:'Your health directory & appointment booking in Algeria', proBtn:'🩺 Pro Portal', userAccBtn:'My Account', myAppts:'📋 My Appts',
@@ -1432,7 +1493,7 @@
           <ul>
             <li><b>Appointments:</b> full name, phone number, preferred date, exact time, and visit reason.</li>
             <li><b>My Meds:</b> medicine name or photo, contact phone, and search notes.</li>
-            <li><b>Health Professionals:</b> facility name, specialty, address, working hours, and map coordinates.</li>
+            <li><b>Health Professionals:</b> facility name, specialty, address, working hours, optional email, and map coordinates.</li>
           </ul>
           <h4>3. Purpose & Security</h4>
           <p>Data is used solely to operate the directory, appointment queue, and alerts under Firebase access rules, without selling data to third parties.</p>
@@ -1480,13 +1541,14 @@
         receiptDownloaded:'✅ Appointment receipt downloaded!',
         queuePreview:'📌 Estimated first-come queue rank on <b>{date}</b>: <b>#{rank}</b> ({count} registered on this day).',
         proTitle:'🩺 Doctors, Pharmacies & Clinics Portal', tabLogin:'Sign In', tabRegister:'Join Us',
-        loginEmail:'Email Address', loginPass:'Password', loginBtn:'Enter Dashboard',
+        loginPhone:'Professional Phone *', loginPass:'Password *', loginBtn:'Enter Dashboard',
         regType:'Facility Type *', regOptD:'Doctor (Private Clinic)', regOptP:'Pharmacy', regOptC:'Multi-specialty Clinic',
         regOptL:'Medical Lab', regOptG:'Dentist', regOptR:'Radiology Center', regOptH:'Hospital',
         regName:'Doctor, Pharmacy, or Clinic Name *', regSpec:'Specialty *', regServices:'Services Offered *',
         regAddr:'Address & Wilaya *', regHours:'Working Hours *', regPhone:'Professional Phone *',
-        regEmail:'Account Email *', regPass:'Password (min. 6 chars) *', regBtn:'Submit Request',
+        regPass:'Password (min. 6 chars) *', regBtn:'Submit Request',
         dashAppts:'Appointments', dashEdit:'Profile & Map', saveProfileBtn:'💾 Save Changes', logoutBtn:'🚪 Sign Out',
+        lblEditEmailOpt:'Email Address (Optional)',
         btnShareLocReg:'Share My Location on Maps', btnShareLocEdit:'Auto-Update & Share My Map Location',
         locFetching:'⏳ Detecting GPS location...', locUpdatedAuto:'✅ Location updated automatically in your profile!',
         locCaptured:'✅ Coordinates captured', locNotSet:'Map location not set yet', locUnsupported:'Geolocation unavailable or denied',
@@ -1538,7 +1600,25 @@
         medUpdateBtn:'💾 Save Edited Request',
         medEditBtnTxt:'Edit', medDelBtnTxt:'Delete',
         medListTitle:'📋 Unavailable Medicine Requests', medNeedNameOrImg:'Please enter medicine name or upload a photo',
-        medPostedMsg:'✅ Request posted for all users', medUpdatedMsg:'✅ Request updated', medDeletedMsg:'🗑️ Request deleted', medNoReqs:'No medicine requests yet.'
+        medPostedMsg:'✅ Request posted for all users', medUpdatedMsg:'✅ Request updated', medDeletedMsg:'🗑️ Request deleted', medNoReqs:'No medicine requests yet.',
+        receiptHeaderTitle:'Medical Appointment Confirmation Receipt',
+        receiptRankBadge:'Rank: #{rank}',
+        receiptTimeBadge:'Scheduled Time: {time}',
+        receiptRowRank:'Rank',
+        receiptRowPatient:'Full Name',
+        receiptRowPhone:'Patient Phone',
+        receiptRowDateTime:'Date & Time',
+        receiptRowPro:'Facility / Practitioner',
+        receiptRowSpec:'Specialty',
+        receiptRowAddr:'Address',
+        receiptFooterNote:'Please arrive at the scheduled time above to avoid waiting.',
+        proKindDoctor:"of the doctor",
+        proKindDentist:"of the dentist",
+        proKindPharmacy:"of the pharmacy",
+        proKindClinic:"of the clinic",
+        proKindLab:"of the lab",
+        proKindRadio:"of the radiology center",
+        proKindHospital:"of the hospital"
       }
     };
 
@@ -1550,9 +1630,6 @@
     }
 
     async function deleteUserSessionAndData() {
-      if (window.fbReady && window.fb.auth && window.fb.auth.currentUser) {
-        try { await window.fb.signOut(window.fb.auth); } catch (_) {}
-      }
       window.clearActiveUserSessionOnSignOut();
       showToast(tr('localDataDeletedMsg'));
     }
@@ -1601,11 +1678,12 @@
       } catch (e) {}
     };
 
+    /* 10 نقرات على شعار ECG المتحرك لفتح لوحة المدير */
     let logoTapCount = 0, logoTapTimer = null;
     function handleSecretLogoTap() {
       logoTapCount++;
       clearTimeout(logoTapTimer);
-      if (logoTapCount >= 5) {
+      if (logoTapCount >= 10) {
         logoTapCount = 0;
         if (isAdminUnlocked) {
           document.getElementById('secretPinBox').style.display = 'none';
@@ -1613,13 +1691,14 @@
           renderAdminAccounts();
           renderAdminUsers();
           renderAdminMedicineRequests();
+          if (window.refreshAdminAdsPanel) window.refreshAdminAdsPanel();
         } else {
           document.getElementById('secretPinBox').style.display = 'block';
           document.getElementById('adminDashboardView').style.display = 'none';
         }
         document.getElementById('secretAdminModal').classList.add('open');
       } else {
-        logoTapTimer = setTimeout(() => { logoTapCount = 0; }, 1800);
+        logoTapTimer = setTimeout(() => { logoTapCount = 0; }, 2600);
       }
     }
 
@@ -1631,6 +1710,7 @@
     ];
 
     function getLocalizedField(item, prefix) {
+      if (!item) return '';
       if (lang === 'en') return item[`${prefix}_en`] || item[`${prefix}_fr`] || item[`${prefix}_ar`] || '';
       if (lang === 'fr') return item[`${prefix}_fr`] || item[`${prefix}_ar`] || item[`${prefix}_en`] || '';
       return item[`${prefix}_ar`] || item[`${prefix}_fr`] || item[`${prefix}_en`] || '';
@@ -1746,6 +1826,15 @@
         localPlaces = remote;
         localStorage.setItem('sehati_pro_places', JSON.stringify(localPlaces));
         window.placesData = [...window.defaultPlacesList, ...remote];
+
+        if (currentProProfile && currentProProfile.id) {
+          const refreshedPro = window.placesData.find(p => p.id === currentProProfile.id || p.ownerUid === currentProProfile.id);
+          if (refreshedPro) {
+            currentProProfile = { ...currentProProfile, ...refreshedPro };
+            localProSession = currentProProfile;
+            localStorage.setItem('sehati_pro_session', JSON.stringify(currentProProfile));
+          }
+        }
 
         const apptSnap = await window.fb.getDocs(window.fb.collection(window.fb.db, "appointments"));
         const remoteAppts = [];
@@ -1870,7 +1959,7 @@
       document.getElementById('proModalTitle').textContent = tr('proTitle');
       document.getElementById('tabLogin').textContent = tr('tabLogin');
       document.getElementById('tabRegister').textContent = tr('tabRegister');
-      document.getElementById('lblLoginEmail').textContent = tr('loginEmail');
+      document.getElementById('lblLoginPhone').textContent = tr('loginPhone');
       document.getElementById('lblLoginPass').textContent = tr('loginPass');
       document.getElementById('btnLoginSubmit').textContent = tr('loginBtn');
 
@@ -1890,7 +1979,6 @@
       document.getElementById('btnShareLocEditTxt').textContent = tr('btnShareLocEdit');
       document.getElementById('lblRegHours').textContent = tr('regHours');
       document.getElementById('lblRegPhone').textContent = tr('regPhone');
-      document.getElementById('lblRegEmail').textContent = tr('regEmail');
       document.getElementById('lblRegPass').textContent = tr('regPass');
       document.getElementById('btnRegSubmit').textContent = tr('regBtn');
 
@@ -1902,6 +1990,7 @@
       document.getElementById('lblEditAddr').textContent = tr('regAddr').replace(' *', '');
       document.getElementById('lblEditHours').textContent = tr('regHours').replace(' *', '');
       document.getElementById('lblEditPhone').textContent = tr('regPhone').replace(' *', '');
+      document.getElementById('lblEditEmailOpt').textContent = tr('lblEditEmailOpt');
       document.getElementById('btnSaveProfile').textContent = tr('saveProfileBtn');
       document.getElementById('btnProLogout').textContent = tr('logoutBtn');
       document.getElementById('pendingWarningBox').innerHTML = tr('pendingBoxHtml');
@@ -1953,36 +2042,111 @@
     function closeModal(id) { document.getElementById(id).classList.remove('open'); }
     function openSupportModal() { document.getElementById('supportModal').classList.add('open'); }
 
-    function drawStethoscopeMotif(ctx, x, y, scale = 1, angle = 0) {
+    /* رسوم التخصصات الطبية المتنوعة في خلفية وصل الحجز */
+    function drawSpecialtyIcon(ctx, kind, x, y, scale = 1, angle = 0) {
       ctx.save();
       ctx.translate(x, y);
       ctx.rotate(angle);
       ctx.scale(scale, scale);
       ctx.strokeStyle = '#0f766e';
       ctx.fillStyle = '#0f766e';
-      ctx.lineWidth = 4.5;
+      ctx.lineWidth = 4;
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
-      ctx.beginPath();
-      ctx.moveTo(-26, -34); ctx.lineTo(-26, -8);
-      ctx.arc(0, -8, 26, Math.PI, 0, true);
-      ctx.lineTo(26, -34); ctx.stroke();
-      ctx.beginPath(); ctx.arc(-26, -37, 4, 0, Math.PI * 2); ctx.arc(26, -37, 4, 0, Math.PI * 2); ctx.fill();
-      ctx.beginPath(); ctx.moveTo(0, 18); ctx.lineTo(0, 36);
-      ctx.bezierCurveTo(0, 52, 34, 52, 34, 32);
-      ctx.bezierCurveTo(34, 18, 18, 16, 18, 28); ctx.stroke();
-      ctx.beginPath(); ctx.arc(18, 33, 8, 0, Math.PI * 2); ctx.stroke();
+
+      if (kind === 'dentist') {
+        ctx.beginPath();
+        ctx.moveTo(-16, -24);
+        ctx.bezierCurveTo(-28, -24, -26, -4, -18, 18);
+        ctx.lineTo(-12, 32);
+        ctx.quadraticCurveTo(-8, 12, 0, 12);
+        ctx.quadraticCurveTo(8, 12, 12, 32);
+        ctx.lineTo(18, 18);
+        ctx.bezierCurveTo(26, -4, 28, -24, 16, -24);
+        ctx.quadraticCurveTo(0, -18, -16, -24);
+        ctx.stroke();
+      } else if (kind === 'pharmacy') {
+        ctx.strokeRect(-22, -16, 44, 34);
+        ctx.beginPath();
+        ctx.moveTo(0, -8); ctx.lineTo(0, 10);
+        ctx.moveTo(-9, 1); ctx.lineTo(9, 1);
+        ctx.stroke();
+      } else if (kind === 'lab') {
+        ctx.beginPath();
+        ctx.moveTo(-10, -24); ctx.lineTo(10, -24);
+        ctx.moveTo(-6, -24); ctx.lineTo(-6, -6); ctx.lineTo(-24, 24); ctx.lineTo(24, 24); ctx.lineTo(6, -6); ctx.lineTo(6, -24);
+        ctx.stroke();
+      } else if (kind === 'radio') {
+        ctx.beginPath();
+        ctx.arc(0, 0, 24, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.arc(0, 0, 6, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.moveTo(0, -24); ctx.lineTo(0, -9);
+        ctx.moveTo(-21, 12); ctx.lineTo(-8, 4);
+        ctx.moveTo(21, 12); ctx.lineTo(8, 4);
+        ctx.stroke();
+      } else {
+        // رمز نبض القلب والطب العام
+        ctx.beginPath();
+        ctx.moveTo(0, 26);
+        ctx.bezierCurveTo(-34, 4, -34, -24, -14, -24);
+        ctx.bezierCurveTo(-4, -24, 0, -16, 0, -12);
+        ctx.bezierCurveTo(0, -16, 4, -24, 14, -24);
+        ctx.bezierCurveTo(34, -24, 34, 4, 0, 26);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(-18, 0); ctx.lineTo(-7, 0); ctx.lineTo(-2, -11); ctx.lineTo(4, 11); ctx.lineTo(9, 0); ctx.lineTo(18, 0);
+        ctx.stroke();
+      }
+
       ctx.restore();
     }
 
-    function drawStethoscopeBackgroundOnReceipt(ctx) {
+    function drawSpecialtiesBackgroundOnReceipt(ctx, primaryKind) {
       ctx.save();
       ctx.globalAlpha = 0.08;
-      [
-        { x: 145, y: 450, s: 1.05, a: -0.22 }, { x: 380, y: 475, s: 1.15, a: 0.16 }, { x: 615, y: 450, s: 1.05, a: -0.18 },
-        { x: 155, y: 675, s: 1.1, a: 0.2 }, { x: 380, y: 700, s: 1.2, a: -0.14 }, { x: 605, y: 675, s: 1.1, a: 0.22 }
-      ].forEach(p => drawStethoscopeMotif(ctx, p.x, p.y, p.s, p.a));
+      const kinds = [primaryKind, 'dentist', 'pharmacy', 'lab', 'radio', 'heart'];
+      const spots = [
+        { x: 145, y: 455, s: 1.05, a: -0.2 },
+        { x: 380, y: 480, s: 1.15, a: 0.14 },
+        { x: 615, y: 455, s: 1.05, a: -0.16 },
+        { x: 155, y: 685, s: 1.1, a: 0.18 },
+        { x: 380, y: 710, s: 1.2, a: -0.12 },
+        { x: 605, y: 685, s: 1.1, a: 0.2 }
+      ];
+      spots.forEach((sp, i) => drawSpecialtyIcon(ctx, kinds[i % kinds.length], sp.x, sp.y, sp.s, sp.a));
       ctx.restore();
+    }
+
+    function resolvePractitionerTypeInfo(place, appt) {
+      const specText = `${getLocalizedField(place, 'sp')} ${place?.sp_ar || ''} ${place?.sp_fr || ''} ${place?.sp_en || ''} ${appt?.placeName || ''}`.toLowerCase();
+      let tp = place?.tp || '';
+
+      if (!tp) {
+        if (specText.includes('أسنان') || specText.includes('دنت') || specText.includes('dent')) tp = 'g';
+        else if (specText.includes('صيدل') || specText.includes('pharmac')) tp = 'p';
+        else if (specText.includes('مخبر') || specText.includes('تحاليل') || specText.includes('labo')) tp = 'l';
+        else if (specText.includes('أشعة') || specText.includes('سكانير') || specText.includes('radio') || specText.includes('imager')) tp = 'r';
+        else if (specText.includes('مستشف') || specText.includes('chu') || specText.includes('eph') || specText.includes('hôp') || specText.includes('hop')) tp = 'h';
+        else if (specText.includes('عياد') || specText.includes('cliniqu')) tp = 'c';
+        else tp = 'd';
+      }
+
+      const kindMap = {
+        g: { iconKind: 'dentist', labelKey: 'proKindDentist' },
+        p: { iconKind: 'pharmacy', labelKey: 'proKindPharmacy' },
+        l: { iconKind: 'lab', labelKey: 'proKindLab' },
+        r: { iconKind: 'radio', labelKey: 'proKindRadio' },
+        h: { iconKind: 'heart', labelKey: 'proKindHospital' },
+        c: { iconKind: 'heart', labelKey: 'proKindClinic' },
+        d: { iconKind: 'heart', labelKey: 'proKindDoctor' }
+      };
+
+      const chosen = kindMap[tp] || kindMap.d;
+      return { tp, iconKind: chosen.iconKind, kindLabel: tr(chosen.labelKey) };
     }
 
     function downloadAppointmentReceipt(apptId) {
@@ -1990,12 +2154,14 @@
       if (!appt) return;
       const place = window.placesData.find(p => p.id === appt.placeId) || {};
       const rank = getAppointmentQueueNumber(appt);
+      const proInfo = resolvePractitionerTypeInfo(place, appt);
 
       const proName = getLocalizedField(place, 'nm') || appt.placeName || '-';
       const proSpec = getLocalizedField(place, 'sp') || '-';
       const proAddr = getLocalizedField(place, 'ad') || '-';
       const proPhone = place.ph || '-';
       const timeDetails = appt.assignedTime || appt.exactTime || appt.period || '-';
+      const isRtl = lang === 'ar';
 
       const canvas = document.createElement('canvas');
       canvas.width = 760;
@@ -2004,7 +2170,7 @@
 
       ctx.fillStyle = '#ffffff';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-      drawStethoscopeBackgroundOnReceipt(ctx);
+      drawSpecialtiesBackgroundOnReceipt(ctx, proInfo.iconKind);
 
       const grad = ctx.createLinearGradient(0, 0, canvas.width, 160);
       grad.addColorStop(0, '#0f766e');
@@ -2017,7 +2183,7 @@
       ctx.font = 'bold 34px Tajawal, sans-serif';
       ctx.fillText('صحتي | SEHATI.dz', canvas.width / 2, 66);
       ctx.font = 'bold 22px Tajawal, sans-serif';
-      ctx.fillText('وصل تأكيد حجز موعد طبي', canvas.width / 2, 114);
+      ctx.fillText(tr('receiptHeaderTitle'), canvas.width / 2, 114);
 
       ctx.strokeStyle = '#0f766e';
       ctx.lineWidth = 3;
@@ -2031,21 +2197,25 @@
 
       ctx.fillStyle = '#0f766e';
       ctx.font = '900 38px Tajawal, sans-serif';
-      ctx.fillText(`رقم الترتيب: #${rank}`, canvas.width / 2, 256);
+      ctx.fillText(tr('receiptRankBadge', { rank }), canvas.width / 2, 256);
 
       ctx.fillStyle = '#0284c7';
       ctx.font = 'bold 22px Tajawal, sans-serif';
-      ctx.fillText(`الساعة المحددة: ${timeDetails}`, canvas.width / 2, 308);
+      ctx.fillText(tr('receiptTimeBadge', { time: timeDetails }), canvas.width / 2, 308);
+
+      const phoneRowTitle = lang === 'ar'
+        ? `رقم ${proInfo.kindLabel}`
+        : `${tr('receiptRowPhone').split(':')[0]} (${proInfo.kindLabel})`;
 
       const rows = [
-        { label: 'رقم الترتيب:', val: `#${rank}` },
-        { label: 'الاسم واللقب:', val: appt.patientName || '-' },
-        { label: 'رقم هاتف المريض:', val: appt.patientPhone || '-' },
-        { label: 'التاريخ والساعة:', val: `${appt.date || '-'} • ${timeDetails}` },
-        { label: 'المرفق / الطبيب:', val: proName },
-        { label: 'التخصص:', val: proSpec },
-        { label: 'العنوان:', val: proAddr },
-        { label: 'هاتف المرفق:', val: proPhone }
+        { label: tr('receiptRowRank'), val: `#${rank}` },
+        { label: tr('receiptRowPatient'), val: appt.patientName || '-' },
+        { label: tr('receiptRowPhone'), val: appt.patientPhone || '-' },
+        { label: tr('receiptRowDateTime'), val: `${appt.date || '-'} • ${timeDetails}` },
+        { label: tr('receiptRowPro'), val: proName },
+        { label: tr('receiptRowSpec'), val: proSpec },
+        { label: tr('receiptRowAddr'), val: proAddr },
+        { label: phoneRowTitle, val: proPhone }
       ];
 
       let y = 382;
@@ -2058,23 +2228,20 @@
           ctx.lineTo(canvas.width - 56, y - 34);
           ctx.stroke();
         }
-        ctx.textAlign = 'right';
-        ctx.fillStyle = '#475569';
-        ctx.font = 'bold 20px Tajawal, sans-serif';
-        ctx.fillText(r.label, canvas.width - 64, y);
-
-        ctx.textAlign = 'left';
+        const combinedLine = isRtl ? `${r.label}: ${r.val}` : `${r.label}: ${r.val}`;
+        ctx.textAlign = isRtl ? 'right' : 'left';
         ctx.fillStyle = idx === 0 ? '#0f766e' : '#0f172a';
-        ctx.font = idx === 0 ? '900 28px Tajawal, sans-serif' : 'bold 20px Tajawal, sans-serif';
-        const valText = String(r.val).length > 38 ? String(r.val).slice(0, 38) + '...' : String(r.val);
-        ctx.fillText(valText, 64, y);
+        ctx.font = idx === 0 ? '900 26px Tajawal, sans-serif' : 'bold 21px Tajawal, sans-serif';
+        const displayStr = combinedLine.length > 52 ? combinedLine.slice(0, 52) + '...' : combinedLine;
+        const xPos = isRtl ? (canvas.width - 64) : 64;
+        ctx.fillText(displayStr, xPos, y);
         y += 64;
       });
 
       ctx.textAlign = 'center';
       ctx.fillStyle = '#64748b';
       ctx.font = '17px Tajawal, sans-serif';
-      ctx.fillText('يرجى الحضور في الوقت المحدد أعلاه لتفادي الإنتظار في القاعة.', canvas.width / 2, 896);
+      ctx.fillText(tr('receiptFooterNote'), canvas.width / 2, 896);
 
       const link = document.createElement('a');
       link.download = `SEHATI-RDV-${rank}-${appt.date || 'receipt'}.png`;
@@ -3032,13 +3199,16 @@
       );
     }
 
-    function openProPortal() {
+    async function openProPortal() {
       markProBookingsAsChecked();
       window.updateMyApptsVisibility();
       window.updateHeaderProBadge();
       document.getElementById('proModal').classList.add('open');
-      if (window.currentProUser || localProSession) showProDashboard();
-      else {
+      const activePro = currentProProfile || localProSession;
+      if (activePro && activePro.id) {
+        currentProProfile = activePro;
+        await showProDashboard();
+      } else {
         document.getElementById('proAuthView').style.display = 'block';
         document.getElementById('proDashboardView').style.display = 'none';
       }
@@ -3059,79 +3229,111 @@
       if (tab === 'appts') markProBookingsAsChecked();
     }
 
+    /* تسجيل مهني جديد برقم الهاتف وكلمة المرور (بدون إجبارية الإيميل) */
     async function proRegister() {
-      const tp = document.getElementById('regType').value, nm = document.getElementById('regName').value.trim(), sp = document.getElementById('regSpec').value.trim(), srv = document.getElementById('regServices').value.trim(), ad = document.getElementById('regAddr').value.trim(), hr = document.getElementById('regHours').value.trim(), ph = document.getElementById('regPhone').value.trim(), email = document.getElementById('regEmail').value.trim(), pass = document.getElementById('regPass').value.trim();
-      if (!nm || !sp || !ph || !email || pass.length < 6) { showToast(tr('toastFillReq')); return; }
+      const tp = document.getElementById('regType').value,
+            nm = document.getElementById('regName').value.trim(),
+            sp = document.getElementById('regSpec').value.trim(),
+            srv = document.getElementById('regServices').value.trim(),
+            ad = document.getElementById('regAddr').value.trim(),
+            hr = document.getElementById('regHours').value.trim(),
+            ph = document.getElementById('regPhone').value.trim(),
+            pass = document.getElementById('regPass').value.trim();
+
+      if (!nm || !sp || normalizePhoneDigits(ph).length < 6 || pass.length < 6) {
+        showToast(tr('toastFillReq'));
+        return;
+      }
 
       const parsedManual = extractLatLngFromText(document.getElementById('regMapInput').value);
       const finalLat = regTempCoords.lat !== null ? regTempCoords.lat : (parsedManual ? parsedManual.lat : null);
       const finalLng = regTempCoords.lng !== null ? regTempCoords.lng : (parsedManual ? parsedManual.lng : null);
 
-      let uid = 'pro_' + Date.now();
-      if (window.fbReady) {
-        try { const cred = await window.fb.createUserWithEmailAndPassword(window.fb.auth, email, pass); uid = cred.user.uid; }
-        catch (err) { showToast(err.message); return; }
-      }
+      const uid = 'pro_' + normalizePhoneDigits(ph) + '_' + Date.now();
+      const passHash = await hashPasswordText(pass);
+
       const profileData = {
-        id: uid, ownerUid: uid, email, tp, approved: false, verified: false,
-        subscriptionMonths: 0, subscriptionLabel: '', subscriptionExpiresAt: null,
-        nm_ar: nm, nm_fr: nm, nm_en: nm, sp_ar: sp, sp_fr: sp, sp_en: sp,
+        id: uid,
+        ownerUid: uid,
+        email: '',
+        passHash,
+        tp,
+        approved: false,
+        verified: false,
+        subscriptionMonths: 0,
+        subscriptionLabel: '',
+        subscriptionExpiresAt: null,
+        nm_ar: nm, nm_fr: nm, nm_en: nm,
+        sp_ar: sp, sp_fr: sp, sp_en: sp,
         srv_ar: srv || '-', srv_fr: srv || '-', srv_en: srv || '-',
         ad_ar: ad || '-', ad_fr: ad || '-', ad_en: ad || '-',
         hr_ar: hr || '08:00 - 17:00', hr_fr: hr || '08:00 - 17:00', hr_en: hr || '08:00 - 17:00',
-        ph, lat: finalLat, lng: finalLng,
+        ph,
+        lat: finalLat,
+        lng: finalLng,
         mapUrl: (finalLat !== null && finalLng !== null) ? `https://maps.google.com/?q=${finalLat},${finalLng}` : '',
-        feat: false, canBook: tp !== 'p' && tp !== 'h', createdAt: new Date().toISOString()
+        feat: false,
+        canBook: tp !== 'p' && tp !== 'h',
+        createdAt: new Date().toISOString()
       };
-      localPlaces.push(profileData);
+
+      localPlaces = [...localPlaces.filter(p => normalizePhoneDigits(p.ph) !== normalizePhoneDigits(ph)), profileData];
       localStorage.setItem('sehati_pro_places', JSON.stringify(localPlaces));
-      window.placesData.push(profileData);
+      window.placesData = [...window.defaultPlacesList, ...localPlaces];
       localProSession = profileData;
       localStorage.setItem('sehati_pro_session', JSON.stringify(profileData));
       currentProProfile = profileData;
       regTempCoords = { lat: null, lng: null };
-      if (window.fbReady) await window.fb.setDoc(window.fb.doc(window.fb.db, "health_places", uid), profileData);
+      document.getElementById('regPass').value = '';
+
+      if (window.fbReady && window.fb.db) {
+        try { await window.fb.setDoc(window.fb.doc(window.fb.db, "health_places", uid), profileData, { merge: true }); } catch (_) {}
+      }
+
       render();
       window.updateMyApptsVisibility();
       markProBookingsAsChecked();
       window.updateHeaderProBadge();
-      showProDashboard();
+      await showProDashboard();
     }
 
+    /* دخول المهني برقم الهاتف وكلمة المرور */
     async function proLogin() {
-      const email = document.getElementById('loginEmail').value.trim(), pass = document.getElementById('loginPass').value.trim();
-      if (!email || !pass) return;
-      if (window.fbReady) {
-        try {
-          const cred = await window.fb.signInWithEmailAndPassword(window.fb.auth, email, pass);
-          await window.refreshCloudData();
-          await window.loadProDashboard(cred.user.uid);
-          window.updateMyApptsVisibility();
-          markProBookingsAsChecked();
-          window.updateHeaderProBadge();
-          showProDashboard();
-          return;
-        } catch (err) { showToast(err.message); return; }
-      }
-      const found = localPlaces.find(p => p.email === email);
-      if (found) {
-        localProSession = found;
-        localStorage.setItem('sehati_pro_session', JSON.stringify(found));
-        currentProProfile = found;
-        window.updateMyApptsVisibility();
-        markProBookingsAsChecked();
-        window.updateHeaderProBadge();
-        showProDashboard();
-      }
-    }
+      const phoneInput = document.getElementById('loginPhone').value.trim();
+      const pass = document.getElementById('loginPass').value.trim();
+      const phoneDigits = normalizePhoneDigits(phoneInput);
 
-    window.loadProDashboard = async function(uid) {
-      const found = window.placesData.find(p => p.id === uid || p.ownerUid === uid);
-      if (found) { currentProProfile = found; localProSession = found; }
+      if (phoneDigits.length < 6 || !pass) {
+        showToast(tr('toastFillReq'));
+        return;
+      }
+
+      const pool = [...localPlaces, ...window.placesData];
+      const found = pool.find(p => p && normalizePhoneDigits(p.ph) === phoneDigits);
+      if (!found) {
+        showToast(tr('uInvalidLoginMsg'));
+        return;
+      }
+
+      const enteredHash = await hashPasswordText(pass);
+      const hasSavedHash = Boolean(found.passHash);
+      if (hasSavedHash && found.passHash !== enteredHash && found.password !== pass) {
+        showToast(tr('uInvalidLoginMsg'));
+        return;
+      }
+
+      const mergedSession = { ...found, passHash: found.passHash || enteredHash };
+      localProSession = mergedSession;
+      currentProProfile = mergedSession;
+      localStorage.setItem('sehati_pro_session', JSON.stringify(mergedSession));
+      document.getElementById('loginPass').value = '';
+
       window.updateMyApptsVisibility();
-      window.updateHeaderAlertBadges();
+      markProBookingsAsChecked();
       window.updateHeaderProBadge();
-    };
+      await showProDashboard();
+      showToast('✅');
+    }
 
     async function confirmAppointmentWithTime(apptId) {
       const timeInput = document.getElementById(`apptTime_${apptId}`);
@@ -3181,10 +3383,15 @@
     }
 
     async function showProDashboard() {
+      const prof = currentProProfile || localProSession;
+      if (!prof || !prof.id) {
+        document.getElementById('proAuthView').style.display = 'block';
+        document.getElementById('proDashboardView').style.display = 'none';
+        return;
+      }
+
       document.getElementById('proAuthView').style.display = 'none';
       document.getElementById('proDashboardView').style.display = 'block';
-      const prof = currentProProfile || localProSession;
-      if (!prof) return;
 
       const sub = getSubscriptionInfo(prof);
       const typeIcons = { d:'👨‍⚕️', p:'💊', c:'🏥', l:'🔬', g:'🦷', r:'🩻', h:'🏨' };
@@ -3240,6 +3447,7 @@
       document.getElementById('editAddr').value = getLocalizedField(prof, 'ad');
       document.getElementById('editHours').value = getLocalizedField(prof, 'hr');
       document.getElementById('editPhone').value = prof.ph || '';
+      document.getElementById('editEmail').value = prof.email || '';
 
       const editMapInput = document.getElementById('editMapInput');
       const editLocStatus = document.getElementById('editLocStatus');
@@ -3338,7 +3546,8 @@
             srv = document.getElementById('editServices').value.trim(),
             ad = document.getElementById('editAddr').value.trim(),
             hr = document.getElementById('editHours').value.trim(),
-            ph = document.getElementById('editPhone').value.trim();
+            ph = document.getElementById('editPhone').value.trim(),
+            emailOpt = document.getElementById('editEmail').value.trim();
 
       const manualCoords = extractLatLngFromText(document.getElementById('editMapInput').value);
       if (manualCoords) {
@@ -3353,6 +3562,7 @@
       prof.ad_ar = prof.ad_fr = prof.ad_en = ad;
       prof.hr_ar = prof.hr_fr = prof.hr_en = hr;
       prof.ph = ph;
+      prof.email = emailOpt;
 
       localPlaces = localPlaces.map(p => p.id === prof.id ? prof : p);
       localStorage.setItem('sehati_pro_places', JSON.stringify(localPlaces));
@@ -3363,17 +3573,17 @@
           await window.fb.updateDoc(window.fb.doc(window.fb.db, "health_places", prof.id), {
             nm_ar: nm, nm_fr: nm, nm_en: nm, sp_ar: sp, sp_fr: sp, sp_en: sp,
             srv_ar: srv, srv_fr: srv, srv_en: srv, ad_ar: ad, ad_fr: ad, ad_en: ad,
-            hr_ar: hr, hr_fr: hr, hr_en: hr, ph, lat: prof.lat ?? null, lng: prof.lng ?? null, mapUrl: prof.mapUrl || ''
+            hr_ar: hr, hr_fr: hr, hr_en: hr, ph, email: emailOpt,
+            lat: prof.lat ?? null, lng: prof.lng ?? null, mapUrl: prof.mapUrl || ''
           });
         } catch (e) {}
       }
       render();
-      showProDashboard();
+      await showProDashboard();
       showToast(tr('toastProfileSaved'));
     }
 
     async function proLogout() {
-      if (window.fbReady) await window.fb.signOut(window.fb.auth);
       localProSession = null;
       currentProProfile = null;
       localStorage.removeItem('sehati_pro_session');
@@ -3410,6 +3620,7 @@
         renderAdminUsers();
         renderAdminMedicineRequests();
         renderMedicineRequests();
+        if (window.refreshAdminAdsPanel) window.refreshAdminAdsPanel();
       } catch (err) {
         showToast('❌ ' + (err.message || tr('adminLoginFailed')));
       }
@@ -3418,15 +3629,20 @@
     function switchAdminTab(tab) {
       document.getElementById('admTabAccounts').classList.toggle('active', tab === 'accounts');
       document.getElementById('admTabUsers').classList.toggle('active', tab === 'users');
+      document.getElementById('admTabAds').classList.toggle('active', tab === 'ads');
       document.getElementById('admTabMeds').classList.toggle('active', tab === 'meds');
       document.getElementById('admTabImport').classList.toggle('active', tab === 'import');
       document.getElementById('admTabSettings').classList.toggle('active', tab === 'settings');
+
       document.getElementById('admAccountsPanel').style.display = tab === 'accounts' ? 'block' : 'none';
       document.getElementById('admUsersPanel').style.display = tab === 'users' ? 'block' : 'none';
+      document.getElementById('admAdsPanel').style.display = tab === 'ads' ? 'block' : 'none';
       document.getElementById('admMedsPanel').style.display = tab === 'meds' ? 'block' : 'none';
       document.getElementById('admImportPanel').style.display = tab === 'import' ? 'block' : 'none';
       document.getElementById('admSettingsPanel').style.display = tab === 'settings' ? 'block' : 'none';
+
       if (tab === 'users') renderAdminUsers();
+      if (tab === 'ads' && window.refreshAdminAdsPanel) window.refreshAdminAdsPanel();
       if (tab === 'meds') renderAdminMedicineRequests();
     }
 
@@ -3458,7 +3674,7 @@
               <span class="status-badge ${activatedPro ? 'status-active' : 'status-pending'}">${activatedPro ? '✅' : '⏳'}</span>
             </header>
             <div>🩺 ${acc.sp_ar} | 📍 ${acc.ad_ar}</div>
-            <div>📞 <a href="tel:${acc.ph}">${acc.ph}</a> | 📧 ${acc.email || ''}</div>
+            <div>📞 <a href="tel:${acc.ph}">${acc.ph}</a>${acc.email ? ` | 📧 ${acc.email}` : ''}</div>
             <div style="margin-top:6px;font-size:.8rem;color:var(--primary);font-weight:700;">
               ⏳ ${sub.remainingText} ${sub.isLastWeek && sub.isActive ? '⚠️' : ''}
             </div>
@@ -3507,6 +3723,7 @@
         }
       }
 
+      window.updateMyApptsVisibility();
       updateMyApptsBadge();
       window.updateHeaderAlertBadges();
       window.updateHeaderProBadge();
@@ -3775,27 +3992,26 @@
       }).join('');
     };
 
-    /* نظام الإعلانات المُصلَح والمتكامل (Firebase Storage + Firestore + Fallback) */
+    /* نظام الإعلانات المُصلَح والمتكامل (لا يعلّق أبداً، يدعم الصور والفيديو والروابط، ويدار من لوحة المدير) */
     (function() {
       const adBox = document.getElementById("mainAdBox");
       const emptyPlaceholder = document.getElementById("adEmptyPlaceholder");
-      const modal = document.getElementById("sehatiQuickModal");
-      const closeB = document.getElementById("sehatiQuickClose");
-      const addB = document.getElementById("sehatiQuickAdd");
-      const cancelEditB = document.getElementById("sehatiQuickCancelEdit");
-      const secI = document.getElementById("sehatiQuickSec");
-      const filI = document.getElementById("sehatiQuickFile");
-      const titI = document.getElementById("sehatiQuickTitle");
-      const desI = document.getElementById("sehatiQuickDesc");
-      const linkI = document.getElementById("sehatiQuickLink");
-      const stE = document.getElementById("sehatiQuickStatus");
-      const lstE = document.getElementById("sehatiQuickList");
-
       const imgEl = document.getElementById("adImgEl");
       const vidEl = document.getElementById("adVideoEl");
       const overlayEl = document.getElementById("adOverlayBox");
       const titleEl = document.getElementById("adTitle");
       const descEl = document.getElementById("adDesc");
+
+      const secI = document.getElementById("admAdSecInput");
+      const filI = document.getElementById("admAdFileInput");
+      const titI = document.getElementById("admAdTitleInput");
+      const desI = document.getElementById("admAdDescInput");
+      const linkI = document.getElementById("admAdLinkInput");
+      const pubB = document.getElementById("admAdPublishBtn");
+      const cancelB = document.getElementById("admAdCancelEditBtn");
+      const stE = document.getElementById("admAdStatusMsg");
+      const lstE = document.getElementById("admAdsListBox");
+      const badgeE = document.getElementById("admAdsBadge");
 
       let dotsBar = document.getElementById("sehatiAdDots");
       if (!dotsBar && adBox) {
@@ -3812,7 +4028,6 @@
       } catch (_) { ads = []; }
 
       let dur = 6, idx = 0, timer = null, isBusy = false, editAdIdx = -1;
-      let adTapCount = 0, adTapTimer = null;
       window.sehatiAdsList = ads;
 
       function isVideoFile(path, type) {
@@ -3838,10 +4053,7 @@
 
       function renderDots(count) {
         if (!dotsBar) return;
-        if (count <= 1) {
-          dotsBar.innerHTML = "";
-          return;
-        }
+        if (count <= 1) { dotsBar.innerHTML = ""; return; }
         dotsBar.innerHTML = Array.from({ length: count }, (_, i) => `
           <span data-dot="${i}" style="width:${i === idx ? '18px' : '7px'};height:7px;border-radius:99px;background:${i === idx ? '#facc15' : 'rgba(255,255,255,0.55)'};transition:all .25s;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.5);"></span>
         `).join("");
@@ -3849,77 +4061,44 @@
           dot.onclick = (e) => {
             e.stopPropagation();
             idx = Number(dot.getAttribute("data-dot")) || 0;
-            drawAd();
-            loopAds();
+            drawAd(); loopAds();
           };
         });
       }
 
-      function resetAdForm() {
+      window.admResetAdForm = function() {
         editAdIdx = -1;
         if (titI) titI.value = "";
         if (desI) desI.value = "";
         if (linkI) linkI.value = "";
         if (filI) filI.value = "";
-        if (addB) addB.textContent = "إضافة ونشر الإعلان";
-        if (cancelEditB) cancelEditB.style.display = "none";
-      }
-
-      window.openSehatiAdsManager = function() {
-        if (!isAdminUnlocked) {
-          document.getElementById('secretPinBox').style.display = 'block';
-          document.getElementById('adminDashboardView').style.display = 'none';
-          document.getElementById('secretAdminModal').classList.add('open');
-          showToast(tr('adminAuthRequired'));
-          return;
-        }
-        if (secI) secI.value = dur;
-        if (stE) stE.textContent = "";
-        resetAdForm();
-        drawList();
-        if (modal) modal.style.display = "block";
+        if (pubB) { pubB.disabled = false; pubB.textContent = "🚀 إضافة ونشر الإعلان"; }
+        if (cancelB) cancelB.style.display = "none";
       };
-
-      if (closeB) {
-        closeB.onclick = () => { resetAdForm(); modal.style.display = "none"; };
-      }
-      if (cancelEditB) {
-        cancelEditB.onclick = () => { resetAdForm(); stE.textContent = ""; };
-      }
 
       if (adBox) {
         adBox.addEventListener("click", () => {
-          adTapCount++;
-          clearTimeout(adTapTimer);
-          if (adTapCount >= 5) {
-            adTapCount = 0;
-            window.openSehatiAdsManager();
-            return;
+          const currentAd = ads[idx];
+          if (currentAd && currentAd.link) {
+            window.open(currentAd.link, "_blank", "noopener");
           }
-          adTapTimer = setTimeout(() => {
-            adTapCount = 0;
-            const currentAd = ads[idx];
-            if (currentAd && currentAd.link) {
-              window.open(currentAd.link, "_blank", "noopener");
-            }
-          }, 450);
         });
       }
 
-      function compressImageFallback(file) {
+      function compressImageSmart(file) {
         return new Promise((resolve, reject) => {
           const reader = new FileReader();
           reader.onload = () => {
             const img = new Image();
             img.onload = () => {
               const canvas = document.createElement("canvas");
-              const maxW = 960;
+              const maxW = 900;
               const scale = img.width > maxW ? maxW / img.width : 1;
               canvas.width = Math.round(img.width * scale);
               canvas.height = Math.round(img.height * scale);
               const ctx = canvas.getContext("2d");
               ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-              resolve(canvas.toDataURL("image/jpeg", 0.78));
+              resolve(canvas.toDataURL("image/jpeg", 0.74));
             };
             img.onerror = reject;
             img.src = reader.result;
@@ -3929,7 +4108,39 @@
         });
       }
 
-      async function uploadAdMediaToFirebaseStorage(file, adId) {
+      function readVideoAsObjectUrlOrDataUrl(file) {
+        return new Promise((resolve, reject) => {
+          if (file.size <= 1400000) {
+            const r = new FileReader();
+            r.onload = () => resolve(String(r.result || ""));
+            r.onerror = reject;
+            r.readAsDataURL(file);
+          } else {
+            try {
+              const objUrl = URL.createObjectURL(file);
+              resolve(objUrl);
+            } catch (e) {
+              reject(e);
+            }
+          }
+        });
+      }
+
+      function withTimeout(promise, ms, fallbackValue) {
+        return new Promise((resolve) => {
+          let settled = false;
+          const t = setTimeout(() => {
+            if (!settled) { settled = true; resolve(fallbackValue); }
+          }, ms);
+          promise.then((val) => {
+            if (!settled) { settled = true; clearTimeout(t); resolve(val); }
+          }).catch(() => {
+            if (!settled) { settled = true; clearTimeout(t); resolve(fallbackValue); }
+          });
+        });
+      }
+
+      async function prepareAdMedia(file, adId) {
         const isVid = (file.type || "").startsWith("video/") || isVideoFile(file.name);
         const mediaType = isVid ? "video" : "image";
 
@@ -3938,59 +4149,84 @@
             const ext = (file.name.split(".").pop() || (isVid ? "mp4" : "jpg")).toLowerCase().replace(/[^a-z0-9]/g, "") || (isVid ? "mp4" : "jpg");
             const storagePath = `ads/${adId}/${Date.now()}.${ext}`;
             const storageRef = window.fb.ref(window.fb.storage, storagePath);
-            await window.fb.uploadBytes(storageRef, file, { contentType: file.type || (isVid ? "video/mp4" : "image/jpeg") });
-            const downloadUrl = await window.fb.getDownloadURL(storageRef);
-            return { downloadUrl, storagePath, mediaType };
-          } catch (storageErr) {
-            if (isVid) {
-              throw new Error("تعذّر رفع الفيديو إلى Storage: " + (storageErr.message || "تحقق من قواعد Storage"));
+            const cloudUrl = await withTimeout(
+              (async () => {
+                await window.fb.uploadBytes(storageRef, file, { contentType: file.type || (isVid ? "video/mp4" : "image/jpeg") });
+                return await window.fb.getDownloadURL(storageRef);
+              })(),
+              9000,
+              null
+            );
+            if (cloudUrl) {
+              return { downloadUrl: cloudUrl, storagePath, mediaType };
             }
-            const dataUrl = await compressImageFallback(file);
-            return { downloadUrl: dataUrl, storagePath: "", mediaType: "image" };
-          }
+          } catch (_) {}
         }
 
         if (isVid) {
-          throw new Error("رفع الفيديو يتطلب اتصالاً مفعّلاً بـ Firebase Storage");
+          const vidUrl = await readVideoAsObjectUrlOrDataUrl(file);
+          return { downloadUrl: vidUrl, storagePath: "", mediaType: "video" };
         }
-        const dataUrl = await compressImageFallback(file);
+
+        const dataUrl = await compressImageSmart(file);
         return { downloadUrl: dataUrl, storagePath: "", mediaType: "image" };
       }
 
-      async function removeStorageFileIfUnused(storagePath, remainingAds) {
-        if (!window.fbReady || !window.fb.storage || !storagePath) return;
-        if (remainingAds.some(item => item && item.storagePath === storagePath)) return;
-        try { await window.fb.deleteObject(window.fb.ref(window.fb.storage, storagePath)); } catch (_) {}
-      }
-
-      async function syncAdsCollectionToCloud(nextAds, nextDur) {
+      async function syncAdsToCloudSafe(nextAds, nextDur) {
         if (!window.fbReady || !window.fb.db) return;
-        const snap = await window.fb.getDocs(window.fb.collection(window.fb.db, "ads"));
-        const nextIds = new Set(nextAds.map(x => x.id));
-        const batch = window.fb.writeBatch(window.fb.db);
+        await withTimeout(
+          (async () => {
+            const snap = await window.fb.getDocs(window.fb.collection(window.fb.db, "ads"));
+            const nextIds = new Set(nextAds.map(x => x.id));
+            const batch = window.fb.writeBatch(window.fb.db);
 
-        snap.forEach(d => {
-          if (!nextIds.has(d.id)) batch.delete(d.ref);
-        });
+            snap.forEach(d => {
+              if (!nextIds.has(d.id)) batch.delete(d.ref);
+            });
 
-        nextAds.forEach((item, orderIndex) => {
-          batch.set(window.fb.doc(window.fb.db, "ads", item.id), { ...item, orderIndex, defaultDurationSec: nextDur }, { merge: true });
-        });
-        await batch.commit();
+            nextAds.forEach((item, orderIndex) => {
+              const safeUrl = String(item.url || "").startsWith("blob:") ? "" : item.url;
+              const docRef = window.fb.doc(window.fb.db, "ads", item.id);
+              batch.set(docRef, {
+                ...item,
+                url: safeUrl,
+                image: item.mediaType === "image" ? safeUrl : "",
+                video: item.mediaType === "video" ? safeUrl : "",
+                media: safeUrl,
+                orderIndex,
+                defaultDurationSec: nextDur
+              }, { merge: true });
+            });
+
+            await batch.commit();
+          })(),
+          7000,
+          null
+        );
       }
 
-      async function saveAll(nextAds, nextDur) {
-        if (!isAdminUnlocked) { showToast(tr('adminAuthRequired')); return; }
+      async function saveAdsState(nextAds, nextDur) {
         const safeDur = Math.max(1, Number(nextDur) || 6);
         ads = nextAds;
-        localStorage.setItem('sehati_ads_cache', JSON.stringify(ads));
+        try {
+          localStorage.setItem('sehati_ads_cache', JSON.stringify(ads));
+        } catch (_) {
+          // إذا تجاوز حجم البيانات حد التخزين المحلي، احتفظ بالروابط والنصوص فقط
+          const slim = ads.map(x => ({
+            ...x,
+            url: String(x.url || "").startsWith("data:") ? "" : x.url,
+            image: String(x.image || "").startsWith("data:") ? "" : x.image,
+            media: String(x.media || "").startsWith("data:") ? "" : x.media
+          }));
+          try { localStorage.setItem('sehati_ads_cache', JSON.stringify(slim)); } catch (_) {}
+        }
         window.sehatiAdsList = ads;
         dur = safeDur;
         if (idx >= ads.length) idx = 0;
         drawAd();
         loopAds();
-        drawList();
-        await syncAdsCollectionToCloud(nextAds, safeDur);
+        window.refreshAdminAdsPanel();
+        await syncAdsToCloudSafe(nextAds, safeDur);
       }
 
       function drawAd() {
@@ -4034,14 +4270,13 @@
             vidEl.style.display = "none";
             if (!hasText && emptyPlaceholder) emptyPlaceholder.style.display = "flex";
           };
-          const playPromise = vidEl.play();
-          if (playPromise && typeof playPromise.catch === "function") playPromise.catch(() => {});
+          const p = vidEl.play();
+          if (p && typeof p.catch === "function") p.catch(() => {});
         } else if (mediaSrc) {
           if (emptyPlaceholder) emptyPlaceholder.style.display = "none";
           imgEl.style.display = "block";
           imgEl.onerror = () => {
-            imgEl.style.display = "none";
-            imgEl.removeAttribute("src");
+            imgEl.style.display = "none"; imgEl.removeAttribute("src");
             if (!hasText && emptyPlaceholder) emptyPlaceholder.style.display = "flex";
           };
           imgEl.src = mediaSrc;
@@ -4055,22 +4290,22 @@
         const s = Math.max(2, Number(current.durationSec || dur) || 6);
         timer = setTimeout(() => {
           idx = (idx + 1) % ads.length;
-          drawAd();
-          loopAds();
+          drawAd(); loopAds();
         }, s * 1000);
       }
 
-      function drawList() {
+      window.refreshAdminAdsPanel = function() {
+        if (badgeE) badgeE.textContent = ads.length;
         if (!lstE) return;
         if (!ads.length) {
-          lstE.innerHTML = `<div style="color:#90a4ae;text-align:center;padding:8px;">لا توجد إعلانات منشورة حالياً</div>`;
+          lstE.innerHTML = `<div style="color:var(--muted);text-align:center;padding:8px;">لا توجد إعلانات منشورة حالياً</div>`;
           return;
         }
         lstE.innerHTML = ads.map((a, i) => {
           const mediaSrc = a.url || a.media || a.video || a.image || "";
           const kind = isVideoFile(mediaSrc, a.mediaType) ? "🎬" : "🖼️";
           return `
-            <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;background:#091815;border:1px solid #1f453e;border-radius:8px;padding:7px 9px;">
+            <div class="admin-ad-card">
               <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">#${i + 1} ${kind} ${a.title || a.description || "إعلان"} (${a.durationSec || dur}ث)</span>
               <div style="display:flex;align-items:center;gap:5px;flex-shrink:0;">
                 <button data-edit="${i}" type="button" style="background:#0284c7;color:#fff;border:none;border-radius:6px;padding:4px 9px;font-weight:bold;cursor:pointer;">تعديل</button>
@@ -4092,8 +4327,8 @@
             if (linkI) linkI.value = target.link || "";
             if (secI) secI.value = Math.max(1, Number(target.durationSec || dur) || 6);
             if (filI) filI.value = "";
-            if (addB) addB.textContent = "حفظ تعديل الإعلان";
-            if (cancelEditB) cancelEditB.style.display = "block";
+            if (pubB) pubB.textContent = "💾 حفظ تعديل الإعلان";
+            if (cancelB) cancelB.style.display = "block";
             if (stE) stE.textContent = `جاري تعديل الإعلان #${i + 1}`;
           };
         });
@@ -4108,116 +4343,14 @@
             const removedAd = ads[i];
             const removedStoragePath = removedAd ? (removedAd.storagePath || "") : "";
             const filteredAds = ads.filter((_, x) => x !== i);
-            if (editAdIdx === i) resetAdForm();
+            if (editAdIdx === i) window.admResetAdForm();
             try {
-              stE.textContent = "⏳ جاري الحذف...";
-              await saveAll(filteredAds, secI.value || dur);
-              await removeStorageFileIfUnused(removedStoragePath, filteredAds);
-              stE.textContent = "✅ تم حذف الإعلان بنجاح";
-            } catch (e) { stE.textContent = "❌ " + (e.message || "خطأ أثناء الحذف"); }
-            finally {
-              isBusy = false;
-              lstE.querySelectorAll("button[data-del], button[data-edit]").forEach(btn => { btn.disabled = false; });
-            }
-          };
-        });
-      }
-
-      if (addB) {
-        addB.onclick = async () => {
-          if (isBusy) return;
-          if (!isAdminUnlocked) { showToast(tr('adminAuthRequired')); return; }
-          isBusy = true;
-          addB.disabled = true;
-          try {
-            stE.textContent = "⏳ جاري الرفع والحفظ...";
-            const isEditing = editAdIdx >= 0 && editAdIdx < ads.length;
-            const prevAd = isEditing ? ads[editAdIdx] : null;
-            const adId = prevAd?.id || ("ad_" + Date.now() + "_" + Math.floor(Math.random() * 1000));
-
-            let mediaUrl = prevAd ? (prevAd.url || prevAd.media || prevAd.video || prevAd.image || "") : "";
-            let storagePath = prevAd ? (prevAd.storagePath || "") : "";
-            let mediaType = prevAd ? (prevAd.mediaType || (isVideoFile(mediaUrl) ? "video" : "image")) : "image";
-            let oldStoragePathToClean = "";
-
-            const f = filI.files && filI.files[0];
-            if (f) {
-              oldStoragePathToClean = storagePath;
-              const uploaded = await uploadAdMediaToFirebaseStorage(f, adId);
-              mediaUrl = uploaded.downloadUrl;
-              storagePath = uploaded.storagePath;
-              mediaType = uploaded.mediaType;
-            }
-
-            const titleVal = (titI?.value || "").trim();
-            const descVal = (desI?.value || "").trim();
-            const linkVal = (linkI?.value || "").trim();
-            if (!mediaUrl && !titleVal && !descVal) {
-              throw new Error("يرجى اختيار صورة/فيديو أو كتابة عنوان/وصف للإعلان");
-            }
-
-            const updatedObj = {
-              id: adId,
-              title: titleVal,
-              description: descVal,
-              link: linkVal,
-              url: mediaUrl,
-              storagePath,
-              image: mediaType === "image" ? mediaUrl : "",
-              video: mediaType === "video" ? mediaUrl : "",
-              media: mediaUrl,
-              mediaType,
-              durationSec: Math.max(1, Number(secI?.value) || dur),
-              updatedAt: new Date().toISOString()
-            };
-
-            const next = isEditing
-              ? ads.map((item, x) => x === editAdIdx ? updatedObj : item)
-              : [...ads, updatedObj];
-
-            await saveAll(next, secI?.value || dur);
-            if (oldStoragePathToClean) {
-              await removeStorageFileIfUnused(oldStoragePathToClean, next);
-            }
-            resetAdForm();
-            stE.textContent = "✅ تم نشر الإعلان بنجاح";
-          } catch (e) { stE.textContent = "❌ " + (e.message || "حدث خطأ أثناء نشر الإعلان"); }
-          finally { isBusy = false; addB.disabled = false; }
-        };
-      }
-
-      window.initStorageAdsSystem = async function() {
-        if (!window.fbReady || !window.fb.db) { drawAd(); loopAds(); return; }
-        try {
-          const snap = await window.fb.getDocs(window.fb.collection(window.fb.db, "ads"));
-          const loaded = [];
-          snap.forEach(d => loaded.push({ id: d.id, ...d.data() }));
-          loaded.sort((a, b) => (Number(a.orderIndex ?? 999) - Number(b.orderIndex ?? 999)));
-          if (loaded.length && loaded[0].defaultDurationSec) {
-            dur = Math.max(1, Number(loaded[0].defaultDurationSec) || 6);
-          }
-          ads = loaded;
-          localStorage.setItem('sehati_ads_cache', JSON.stringify(ads));
-        } catch (_) {}
-        window.sehatiAdsList = ads;
-        idx = 0;
-        drawAd();
-        loopAds();
-      };
-
-      drawAd();
-      loopAds();
-    })();
-
-    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(() => {});
-    applyTranslationsToStaticUI();
-    window.updateMyApptsVisibility();
-    updateMyApptsBadge();
-    window.updateHeaderAlertBadges();
-    window.updateHeaderProBadge();
-    render();
-    window.addEventListener('resize', () => updateCatIndicator(document.querySelector('.cat-pill.active')));
-    setTimeout(() => updateCatIndicator(document.querySelector('.cat-pill.active')), 80);
-  </script>
-</body>
-</html>
+              if (stE) stE.textContent = "⏳ جاري الحذف...";
+              await saveAdsState(filteredAds, secI?.value || dur);
+              if (removedStoragePath && window.fbReady && window.fb.storage) {
+                try { await window.fb.deleteObject(window.fb.ref(window.fb.storage, removedStoragePath)); } catch (_) {}
+              }
+              if (stE) stE.textContent = "✅ تم حذف الإعلان بنجاح";
+            } catch (e) {
+              if (stE) stE.textContent = "❌ " + (e.message || "خطأ أثناء الحذف");
+            } finally
