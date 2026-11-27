@@ -186,10 +186,13 @@
     .emerg-card.gendarme{background:linear-gradient(145deg,#14532d,#15803d)}
     .emerg-card.ambulance{background:linear-gradient(145deg,#ffffff,#f8fafc);color:#0f172a;border-color:#cbd5e1}
 
-    .ads-showcase{display:none;position:relative;margin:8px auto 6px;border-radius:14px;overflow:hidden;border:1.5px solid #facc15;box-shadow:0 6px 18px rgba(202,138,4,.18);background:var(--card);width:calc(100% - 28px);max-width:336px;aspect-ratio:16 / 9;cursor:pointer;user-select:none}
-    .ads-showcase.has-active-ad{display:block}
-    .ads-full-media{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:1;filter:none;z-index:1;display:none}
-    .ads-overlay-grad{position:relative;z-index:2;width:100%;height:100%;padding:8px 11px;display:none;flex-direction:column;justify-content:flex-end;background:linear-gradient(to top,rgba(4,12,11,.72) 0%,rgba(4,12,11,.22) 34%,transparent 65%);pointer-events:none}
+    /* مساحة الإعلان الرئيسية ظاهرة دائماً مع خلفية أنيقة عند الفراغ وبدون صورة سوداء عالقة */
+    .ads-showcase{display:block;position:relative;margin:8px auto 6px;border-radius:14px;overflow:hidden;border:1.5px solid #facc15;box-shadow:0 6px 18px rgba(202,138,4,.18);background:linear-gradient(135deg,#0f766e 0%,#0d9488 55%,#0284c7 100%);width:calc(100% - 28px);max-width:336px;aspect-ratio:16 / 9;cursor:pointer;user-select:none}
+    .ads-empty-placeholder{position:absolute;inset:0;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12px;text-align:center;color:#ffffff;pointer-events:none}
+    .ads-empty-placeholder b{font-size:1.05rem;font-weight:900;letter-spacing:.3px}
+    .ads-empty-placeholder small{font-size:.78rem;opacity:.92;margin-top:4px}
+    .ads-full-media{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:1;filter:none;z-index:2;display:none}
+    .ads-overlay-grad{position:relative;z-index:3;width:100%;height:100%;padding:8px 11px;display:none;flex-direction:column;justify-content:flex-end;background:linear-gradient(to top,rgba(4,12,11,.72) 0%,rgba(4,12,11,.22) 34%,transparent 65%);pointer-events:none}
     .ads-title{font-size:.92rem;font-weight:800;color:#fff;margin-bottom:2px;line-height:1.25;text-shadow:0 1px 4px rgba(0,0,0,.95)}
     .ads-body{font-size:.8rem;font-weight:600;color:#f8fafc;line-height:1.3;text-shadow:0 1px 4px rgba(0,0,0,.95)}
 
@@ -353,6 +356,7 @@
     .sub-alert-week{background:rgba(234,179,8,.16);border:1.5px solid #ca8a04;color:var(--text);border-radius:12px;padding:10px 12px;margin-bottom:12px;font-size:.85rem;font-weight:700}
     .vip-pitch-box{background:rgba(15,118,110,.09);border:1.5px solid var(--primary);padding:14px;border-radius:14px;font-size:.9rem;margin-bottom:12px;line-height:1.65}
     .vip-pitch-box ul{margin:8px 18px}
+    .otp-code-box{background:rgba(2,132,199,.12);border:1px dashed var(--blue);border-radius:10px;padding:8px 10px;font-size:.84rem;font-weight:800;color:var(--blue);margin-bottom:10px;text-align:center}
     .privacy-body-box{background:rgba(255,255,255,.75);border:1px solid var(--border);border-radius:14px;padding:13px;font-size:.86rem;line-height:1.65;max-height:58vh;overflow-y:auto}
     body.dark .privacy-body-box{background:rgba(15,118,110,.14)}
     .privacy-body-box h4{color:var(--primary);margin:10px 0 4px;font-size:.92rem}
@@ -439,7 +443,12 @@
     </div>
   </section>
 
+  <!-- مساحة الإعلانات الرئيسية -->
   <section class="ads-showcase" id="mainAdBox">
+    <div class="ads-empty-placeholder" id="adEmptyPlaceholder">
+      <b>صحتي | SEHATI.dz</b>
+      <small id="adPlaceholderSub">مساحة إعلانية للمؤسسات الصحية والصيدليات</small>
+    </div>
     <img class="ads-full-media" id="adImgEl" src="" alt="" />
     <video class="ads-full-media" id="adVideoEl" autoplay muted loop playsinline></video>
     <div class="ads-overlay-grad" id="adOverlayBox">
@@ -520,7 +529,7 @@
     </button>
   </nav>
 
-  <!-- نافذة سياسة الخصوصية (قانون 18-07 الجزائري ومتطلبات Play Store) -->
+  <!-- نافذة سياسة الخصوصية -->
   <div class="modal" id="privacyModal">
     <div class="modal-card">
       <div class="modal-header">
@@ -533,6 +542,7 @@
     </div>
   </div>
 
+  <!-- نافذة حساب المستخدم المحمي بكلمة سر مشفرة SHA-256 + OTP + قفل المحاولات -->
   <div class="modal" id="userAccountModal">
     <div class="modal-card">
       <div class="modal-header">
@@ -548,10 +558,14 @@
 
         <div id="uLoginPanel">
           <div class="form-group">
-            <label id="uLblLoginContact">رقم الهاتف أو البريد الإلكتروني</label>
+            <label id="uLblLoginContact">رقم الهاتف أو البريد الإلكتروني *</label>
             <input type="text" id="uLoginContact" placeholder="0550... / name@mail.com" />
           </div>
-          <button class="btn-primary" id="uBtnLogin" onclick="userLogin()">دخول</button>
+          <div class="form-group">
+            <label id="uLblLoginPass">كلمة السر *</label>
+            <input type="password" id="uLoginPass" placeholder="••••••••" />
+          </div>
+          <button class="btn-primary" id="uBtnLogin" onclick="userLogin()">دخول آمن</button>
         </div>
 
         <div id="uRegisterPanel" style="display:none;">
@@ -563,7 +577,17 @@
             <label id="uLblRegContact">رقم الهاتف أو البريد الإلكتروني *</label>
             <input type="text" id="uRegContact" placeholder="0550... / name@mail.com" />
           </div>
-          <button class="btn-primary" id="uBtnVerifyReg" style="background:#16a34a;" onclick="completeUserRegistration()">إنشاء الحساب</button>
+          <div class="form-group">
+            <label id="uLblRegPass">تعيين كلمة السر (6 أحرف على الأقل) *</label>
+            <input type="password" id="uRegPass" placeholder="••••••••" />
+          </div>
+          <div id="uOtpDisplay" class="otp-code-box" style="display:none;"></div>
+          <div id="uOtpInputGroup" class="form-group" style="display:none;">
+            <label id="uLblOtp">رمز التحقق (OTP) *</label>
+            <input type="text" id="uOtpCode" placeholder="123456" maxlength="6" />
+          </div>
+          <button class="btn-primary" id="uBtnSendOtp" onclick="sendUserOtp()">🔐 إرسال رمز التحقق</button>
+          <button class="btn-primary" id="uBtnVerifyReg" style="display:none;background:#16a34a;" onclick="completeUserRegistration()">✅ تأكيد الرمز وإنشاء الحساب</button>
         </div>
       </div>
 
@@ -588,6 +612,10 @@
           <div class="form-group">
             <label id="uLblEditEmail">البريد الإلكتروني</label>
             <input type="email" id="uEditEmail" placeholder="name@mail.com" />
+          </div>
+          <div class="form-group">
+            <label id="uLblEditPass">كلمة السر الجديدة (اتركها فارغة إن لم ترد تغييرها)</label>
+            <input type="password" id="uEditPass" placeholder="••••••••" />
           </div>
           <button class="btn-primary" id="uBtnSaveEdit" onclick="saveUserProfileChanges()">💾 حفظ التعديلات</button>
         </div>
@@ -661,7 +689,7 @@
     </div>
   </div>
 
-  <!-- نافذة إدارة الإعلانات عبر Firebase Storage و Firestore (بدون GitHub Token) -->
+  <!-- نافذة إدارة الإعلانات عبر Firebase Storage و Firestore -->
   <div id="sehatiQuickModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.82);z-index:999999;padding:14px;overflow-y:auto;">
     <div style="max-width:440px;margin:24px auto;background:#102521;color:#fff;border:1px solid #1de9b6;border-radius:14px;padding:14px;font-size:13px;">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
@@ -669,7 +697,7 @@
         <button id="sehatiQuickClose" type="button" style="background:#263238;color:#fff;border:none;border-radius:6px;padding:3px 9px;cursor:pointer;">✕</button>
       </div>
       <div style="background:rgba(20,184,166,.12);border:1px solid rgba(20,184,166,.35);border-radius:8px;padding:8px;margin-bottom:8px;font-size:11.5px;color:#ccfbf1;">
-        🔒 يتم الرفع مباشرة إلى Firebase Storage وفق قواعد الصلاحيات دون تخزين أي مفاتيح سرية في المتصفح.
+        🔒 يتم الرفع مباشرة إلى Firebase Storage وفق قواعد الصلاحيات.
       </div>
       <label style="display:block;margin-bottom:8px;">مدة العرض (ثواني):
         <input id="sehatiQuickSec" type="number" min="1" max="120" value="6" style="width:100%;margin-top:4px;padding:7px;border-radius:7px;border:1px solid #37474f;background:#091614;color:#fff;box-sizing:border-box;">
@@ -812,10 +840,12 @@
       <div id="adminDashboardView" style="display:none;">
         <div class="tabs-bar">
           <button class="tab-btn active" id="admTabAccounts" onclick="switchAdminTab('accounts')">👥 الحسابات (<span id="pendingCountBadge">0</span>)</button>
+          <button class="tab-btn" id="admTabMeds" onclick="switchAdminTab('meds')">💊 دوائي (<span id="admMedsBadge">0</span>)</button>
           <button class="tab-btn" id="admTabImport" onclick="switchAdminTab('import')">📥 استيراد</button>
           <button class="tab-btn" id="admTabSettings" onclick="switchAdminTab('settings')">⚙️ إعداداتي</button>
         </div>
         <div id="admAccountsPanel"><div id="adminAccountsList"></div></div>
+        <div id="admMedsPanel" style="display:none;"><div id="adminMedsList"></div></div>
         <div id="admImportPanel" style="display:none;">
           <div class="form-group"><label>اختر ملف البيانات (health_facilities.geojson)</label><input type="file" id="importFile" accept=".json,.geojson" /></div>
           <div class="form-group">
@@ -833,6 +863,10 @@
           <div class="form-group">
             <label>صوت آلة ECG المستمر لحالة مستقرة (داخل التطبيق فقط)</label>
             <button type="button" id="adminEcgToggleBtn" onclick="toggleAdminEcgSound()" style="width:100%;padding:10px;border-radius:10px;border:1px solid var(--border);background:#0f766e;color:#fff;font-weight:800;cursor:pointer;">💓 تشغيل صوت النبض الحقيقي</button>
+          </div>
+          <div class="form-group">
+            <label>إدارة إعلانات الواجهة الرئيسية (Firebase Storage)</label>
+            <button type="button" onclick="closeModal('secretAdminModal'); window.openSehatiAdsManager();" style="width:100%;padding:10px;border-radius:10px;border:none;background:#0284c7;color:#fff;font-weight:800;cursor:pointer;">🖼️ فتح مدير الإعلانات</button>
           </div>
           <div class="form-group"><label>رقم هاتفك للاتصال المباشر</label><input type="tel" id="newAdminPhone" placeholder="مثال: 0550123456" /></div>
           <div class="form-group"><label>رقم واتساب الخاص بك (بصيغة 213 بدون صفر)</label><input type="tel" id="newAdminWa" placeholder="مثال: 213550123456" /></div>
@@ -913,6 +947,8 @@
 
   <script>
     localStorage.removeItem('sehatiAdSys_gh_token');
+    /* عدم تعبئة رقم الهاتف تلقائياً قبل تسجيل الدخول في حساب المستخدم */
+    localStorage.removeItem('sehati_last_patient_phone');
 
     let adminConfig = JSON.parse(localStorage.getItem('sehati_admin_cfg') || 'null') || {
       phone: "0550000000",
@@ -929,11 +965,25 @@
         seenProApptIds = JSON.parse(localStorage.getItem('sehati_seen_pro_appts') || '[]'),
         seenUserApprovedIds = JSON.parse(localStorage.getItem('sehati_seen_user_approved') || '[]'),
         localProSession = JSON.parse(localStorage.getItem('sehati_pro_session') || 'null'),
-        lastPatientPhone = localStorage.getItem('sehati_last_patient_phone') || '',
+        sessionLookupPhone = '',
         usersList = JSON.parse(localStorage.getItem('sehati_users_list') || '[]'),
         currentUserSession = JSON.parse(localStorage.getItem('sehati_current_user') || 'null'),
         medicineRequests = JSON.parse(localStorage.getItem('sehati_med_requests') || '[]'),
-        editingMedId = null;
+        editingMedId = null,
+        pendingUserOtp = null,
+        userLoginAttempts = JSON.parse(localStorage.getItem('sehati_user_lock') || '{"count":0,"lockUntil":0}');
+
+    async function sha256Hex(plainText) {
+      const data = new TextEncoder().encode(String(plainText || ''));
+      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+      return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    function getActiveSessionUserPhone() {
+      if (currentUserSession && currentUserSession.phone) return String(currentUserSession.phone).trim();
+      if (sessionLookupPhone) return String(sessionLookupPhone).trim();
+      return '';
+    }
 
     window.setAdminAuthState = function(verifiedAdmin) {
       isAdminUnlocked = Boolean(verifiedAdmin);
@@ -945,6 +995,9 @@
         document.getElementById('newAdText').value = adminConfig.adText;
         syncEcgSoundLoop();
         renderAdminAccounts();
+        renderAdminMedicineRequests();
+      }
+      if (document.getElementById('medicineModal').classList.contains('open')) {
         renderMedicineRequests();
       }
     };
@@ -1081,8 +1134,12 @@
     }
 
     function markUserApprovedBookingsAsChecked() {
-      const uPhone = (currentUserSession && currentUserSession.phone || lastPatientPhone || '').trim();
+      const uPhone = getActiveSessionUserPhone();
       const uId = (currentUserSession && currentUserSession.id || '').trim();
+      if (!uPhone && !uId) {
+        window.updateHeaderAlertBadges();
+        return;
+      }
       const approvedIds = localAppointments
         .filter(a => a.status === 'confirmed' && ((uPhone && a.patientPhone === uPhone) || (uId && a.userId === uId)))
         .map(a => a.id);
@@ -1098,7 +1155,7 @@
       const activePro = currentProProfile || localProSession;
       const proAppts = activePro && activePro.id
         ? localAppointments.filter(a => a.placeId === activePro.id && a.status !== 'rejected')
-        : localAppointments.filter(a => a.status === 'pending');
+        : [];
 
       const unreadProCount = proAppts.filter(a => !seenProApptIds.includes(a.id)).length;
       if (proBadge) {
@@ -1106,7 +1163,7 @@
         proBadge.style.display = unreadProCount > 0 ? 'inline-flex' : 'none';
       }
 
-      const uPhone = (currentUserSession && currentUserSession.phone || lastPatientPhone || '').trim();
+      const uPhone = getActiveSessionUserPhone();
       const uId = (currentUserSession && currentUserSession.id || '').trim();
       let unreadApprovedCount = 0;
       if (uPhone || uId) {
@@ -1134,6 +1191,7 @@
       ar: {
         sub:'دليلك الصحي وحجز المواعيد في الجزائر', proBtn:'🩺 بوابة المهنيين', userAccBtn:'حسابي', myAppts:'📋 مواعيدي',
         medFab:'دوائي', privacyTop:'الخصوصية',
+        adPlaceholderSub:'مساحة إعلانية للمؤسسات الصحية والصيدليات',
         privacyTitle:'🛡️ سياسة الخصوصية وحماية البيانات (قانون 18-07)',
         privacyHtml:`
           <h4>1. الإطار القانوني (القانون الجزائري 18-07 و Google Play)</h4>
@@ -1175,8 +1233,8 @@
         availableSlotsTitle:'✅ الأوقات المتاحة للحجز في {date} (اضغط للاختيار):',
         noSlotsLeftMsg:'❌ لا توجد أوقات متاحة في هذا اليوم ضمن أوقات العمل. يرجى اختيار تاريخ آخر.',
         lblNote:'سبب الزيارة / الخدمة المطلوبة (اختياري)', confirmBook:'✅ تأكيد إرسال الموعد',
-        myApptsTitle:'📋 مواعيدي وترتيبي في الانتظار', myPhoneLbl:'رقم هاتفك الذي حجزت به (لعرض مواعيدك وتحديثاتها)',
-        lookupBtn:'عرض', enterPhoneHint:'أدخل رقم هاتفك لعرض مواعيدك وترتيبك في القائمة.', noApptsFound:'لا توجد مواعيد مسجلة بهذا الرقم.',
+        myApptsTitle:'📋 مواعيدي وترتيبي في الانتظار', myPhoneLbl:'سجّل دخولك في «حسابي» أو أدخل رقم هاتفك لعرض مواعيدك',
+        lookupBtn:'عرض', enterPhoneHint:'يرجى تسجيل الدخول في «حسابي» أو إدخال رقم هاتفك لعرض مواعيدك.', noApptsFound:'لا توجد مواعيد مسجلة بهذا الرقم.',
         rankLabel:'رقم الترتيب', confirmedBadge:'✅ تمت الموافقة • في القائمة', rejectedBadge:'❌ غير مؤكد', pendingBadge:'⏳ بانتظار تأكيد الطبيب',
         arrivalTimeMsg:'⏰ الوقت المحدد لحضورك: {time} (لتفادي الانتظار في القاعة)',
         waitDoctorTimeMsg:'⏰ سيحدد الطبيب أو العيادة الوقت المناسب لقدومك عند تأكيد الحجز.',
@@ -1204,20 +1262,26 @@
         pendingBoxHtml:'<b>🎉 تهانينا! تم استلام ملفك المهني بنجاح.</b><br>لظهور عيادتك أو صيدليتك أمام آلاف المرضى في ولايتك والاستفادة من المزايا الحصرية:<ul><li>✅ استقبال حجوزات المواعيد مباشرة على هاتفك مع ترتيب الأسبقية.</li><li>✅ ظهور أولوية في نتائج البحث مع موقعك على الخريطة.</li><li>✅ شارة التوثيق الرسمية وزيادة ثقة المرضى.</li></ul><b>تواصل معنا الآن لتفعيل اشتراكك فوراً:</b><button onclick="closeModal(\'proModal\'); openSupportModal();" class="btn-primary" style="margin-top:8px;">🚀 تفعيل حسابي الآن (اتصال / واتساب)</button>',
         noProAppts:'لا توجد مواعيد محجوزة حتى الآن.',
         timeInputPlaceholder:'وقت الحضور (مثال: 09:00)', confirmTimeBtn:'✅ تأكيد وتحديد الوقت',
-        toastFillReq:'يرجى إدخال البيانات المطلوبة (الاسم، الهاتف، التاريخ، والساعة)',
+        toastFillReq:'يرجى إدخال البيانات المطلوبة بشكل صحيح',
+        toastPassShort:'كلمة السر يجب أن تكون 6 أحرف على الأقل',
         toastBooked:'✅ تم تسجيل موعدك في {date} الساعة {time}! ترتيبك هو #{rank}',
         toastTimeSaved:'✅ تم تأكيد الموعد وتحديد الوقت للمريض!',
         toastEnterTime:'يرجى إدخال الوقت المناسب لقدوم المريض أولاً',
         toastProfileSaved:'✅ تم حفظ وتحديث معلوماتك وموقعك!',
         toastLoggedOut:'تم تسجيل الخروج',
         defaultAdText:'ضاعف عدد مرضاك وزبائنك! أعلن عن عيادتك، صيدليتك، أو مخبرك في الواجهة الرئيسية لتطبيق صحتي أمام آلاف الباحثين يومياً.',
-        uModalTitle:'👤 حساب المستخدم', uTabLogin:'تسجيل الدخول', uTabRegister:'حساب جديد',
-        uLblLoginContact:'رقم الهاتف أو البريد الإلكتروني', uBtnLogin:'دخول',
+        uModalTitle:'👤 حساب المستخدم المحمي', uTabLogin:'تسجيل الدخول', uTabRegister:'حساب جديد',
+        uLblLoginContact:'رقم الهاتف أو البريد الإلكتروني *', uLblLoginPass:'كلمة السر *', uBtnLogin:'🔐 دخول آمن',
         uLblRegName:'الاسم واللقب *',
-        uLblRegContact:'رقم الهاتف أو البريد الإلكتروني *', uBtnVerifyReg:'إنشاء الحساب',
-        uLoginWrong:'بيانات الدخول غير صحيحة', uAccExists:'هذا الحساب مسجل مسبقاً',
+        uLblRegContact:'رقم الهاتف أو البريد الإلكتروني *', uLblRegPass:'تعيين كلمة السر (6 أحرف على الأقل) *',
+        uLblOtp:'رمز التحقق (OTP) *', uBtnSendOtp:'🔐 إرسال رمز التحقق', uBtnVerifyReg:'✅ تأكيد الرمز وإنشاء الحساب',
+        uOtpSentMsg:'🔐 رمز التحقق الخاص بتفعيل حسابك ({target}): <b>{otp}</b>',
+        uOtpWrong:'❌ رمز التحقق غير صحيح', uLoginWrong:'❌ رقم الهاتف/البريد أو كلمة السر غير صحيحة',
+        uAccountLocked:'⏳ تم قفل الدخول مؤقتاً بسبب تكرار المحاولات الخاطئة. حاول بعد {sec} ثانية.',
+        uAccExists:'هذا الحساب مسجل مسبقاً',
         uTabEditTxt:'تعديل الحساب', uTabApptsTxt:'أرشيف المواعيد', uTabMedsTxt:'أرشيف دوائي',
         uLblEditFullName:'الاسم واللقب', uLblEditPhone:'رقم الهاتف', uLblEditEmail:'البريد الإلكتروني',
+        uLblEditPass:'كلمة السر الجديدة (اتركها فارغة إن لم ترد تغييرها)',
         uBtnSaveEdit:'💾 حفظ التعديلات', uBtnLogout:'🚪 تسجيل الخروج', uSavedMsg:'✅ تم تحديث بيانات حسابك',
         uNoArchAppts:'لا توجد مواعيد في أرشيفك حتى الآن.', uNoArchMeds:'لا توجد طلبات دوائي في أرشيفك حتى الآن.',
         medModalTitle:'💊 دوائي — بحث عن دواء غير متوفر',
@@ -1234,6 +1298,7 @@
       fr: {
         sub:'Votre guide santé et prise de RDV en Algérie', proBtn:'🩺 Espace Pro', userAccBtn:'Mon compte', myAppts:'📋 Mes RDV',
         medFab:'Mon Médoc', privacyTop:'Confidentialité',
+        adPlaceholderSub:'Espace publicitaire pour cabinets, cliniques et pharmacies',
         privacyTitle:'🛡️ Politique de confidentialité (Loi 18-07)',
         privacyHtml:`
           <h4>1. Cadre légal (Loi algérienne 18-07 & Google Play)</h4>
@@ -1275,8 +1340,8 @@
         availableSlotsTitle:'✅ Créneaux disponibles le {date} (cliquez pour choisir) :',
         noSlotsLeftMsg:'❌ Aucun créneau libre ce jour selon les horaires. Choisissez une autre date.',
         lblNote:'Motif de visite / Service (optionnel)', confirmBook:'✅ Confirmer la demande de RDV',
-        myApptsTitle:'📋 Mes RDV et mon rang d’attente', myPhoneLbl:'Votre numéro de téléphone utilisé pour la réservation',
-        lookupBtn:'Voir', enterPhoneHint:'Entrez votre numéro pour voir vos RDV et votre rang.', noApptsFound:'Aucun RDV trouvé avec ce numéro.',
+        myApptsTitle:'📋 Mes RDV et mon rang d’attente', myPhoneLbl:'Connectez-vous à « Mon compte » ou entrez votre numéro',
+        lookupBtn:'Voir', enterPhoneHint:'Connectez-vous à « Mon compte » ou entrez votre téléphone pour voir vos RDV.', noApptsFound:'Aucun RDV trouvé avec ce numéro.',
         rankLabel:'Rang', confirmedBadge:'✅ Approuvé • Sur la liste', rejectedBadge:'❌ Non confirmé', pendingBadge:'⏳ En attente de confirmation',
         arrivalTimeMsg:'⏰ Heure fixée pour votre venue : {time} (pour éviter l’attente en salle)',
         waitDoctorTimeMsg:'⏰ Le médecin ou la clinique précisera votre heure de passage lors de la confirmation.',
@@ -1304,20 +1369,26 @@
         pendingBoxHtml:'<b>🎉 Félicitations ! Votre dossier professionnel a été reçu.</b><br>Pour apparaître devant des milliers de patients dans votre wilaya :<ul><li>✅ Réception des RDV selon l’ordre d’arrivée.</li><li>✅ Priorité dans la recherche avec carte.</li><li>✅ Badge officiel de confiance.</li></ul><b>Contactez-nous maintenant pour activer votre abonnement :</b><button onclick="closeModal(\'proModal\'); openSupportModal();" class="btn-primary" style="margin-top:8px;">🚀 Activer mon compte (Appel / WhatsApp)</button>',
         noProAppts:'Aucun rendez-vous enregistré pour le moment.',
         timeInputPlaceholder:'Heure de venue (ex: 09:00)', confirmTimeBtn:'✅ Valider & fixer l’heure',
-        toastFillReq:'Veuillez remplir nom, téléphone, date et heure exacte',
+        toastFillReq:'Veuillez remplir correctement les champs requis',
+        toastPassShort:'Le mot de passe doit contenir au moins 6 caractères',
         toastBooked:'✅ RDV enregistré le {date} à {time} ! Votre rang est #{rank}',
         toastTimeSaved:'✅ RDV confirmé et heure fixée pour le patient !',
         toastEnterTime:'Veuillez saisir l’heure de venue du patient',
         toastProfileSaved:'✅ Informations et position mises à jour !',
         toastLoggedOut:'Déconnexion effectuée',
         defaultAdText:'Multipliez vos patients ! Affichez votre cabinet, pharmacie ou laboratoire sur l’accueil de SEHATI.',
-        uModalTitle:'👤 Mon compte utilisateur', uTabLogin:'Connexion', uTabRegister:'Nouveau compte',
-        uLblLoginContact:'Téléphone ou adresse e-mail', uBtnLogin:'Connexion',
+        uModalTitle:'👤 Compte utilisateur sécurisé', uTabLogin:'Connexion', uTabRegister:'Nouveau compte',
+        uLblLoginContact:'Téléphone ou adresse e-mail *', uLblLoginPass:'Mot de passe *', uBtnLogin:'🔐 Connexion sécurisée',
         uLblRegName:'Nom et prénom *',
-        uLblRegContact:'Téléphone ou adresse e-mail *', uBtnVerifyReg:'Créer le compte',
-        uLoginWrong:'Identifiants incorrects', uAccExists:'Ce compte existe déjà',
+        uLblRegContact:'Téléphone ou adresse e-mail *', uLblRegPass:'Définir un mot de passe (6 car. min) *',
+        uLblOtp:'Code de vérification (OTP) *', uBtnSendOtp:'🔐 Envoyer le code OTP', uBtnVerifyReg:'✅ Valider et créer le compte',
+        uOtpSentMsg:'🔐 Code de vérification pour ({target}) : <b>{otp}</b>',
+        uOtpWrong:'❌ Code de vérification invalide', uLoginWrong:'❌ Identifiants ou mot de passe incorrects',
+        uAccountLocked:'⏳ Connexion temporairement bloquée. Réessayez dans {sec}s.',
+        uAccExists:'Ce compte existe déjà',
         uTabEditTxt:'Modifier compte', uTabApptsTxt:'Archive RDV', uTabMedsTxt:'Archive Médocs',
         uLblEditFullName:'Nom et prénom', uLblEditPhone:'Téléphone', uLblEditEmail:'Adresse e-mail',
+        uLblEditPass:'Nouveau mot de passe (optionnel)',
         uBtnSaveEdit:'💾 Enregistrer', uBtnLogout:'🚪 Déconnexion', uSavedMsg:'✅ Profil mis à jour',
         uNoArchAppts:'Aucun RDV dans votre archive.', uNoArchMeds:'Aucune recherche de médicament dans votre archive.',
         medModalTitle:'💊 Mon Médoc — Recherche de médicament indisponible',
@@ -1334,6 +1405,7 @@
       en: {
         sub:'Your health directory & appointment booking in Algeria', proBtn:'🩺 Pro Portal', userAccBtn:'My Account', myAppts:'📋 My Appts',
         medFab:'My Meds', privacyTop:'Privacy',
+        adPlaceholderSub:'Advertising space for clinics, hospitals, and pharmacies',
         privacyTitle:'🛡️ Privacy Policy & Data Protection (Law 18-07)',
         privacyHtml:`
           <h4>1. Legal Framework (Algerian Law 18-07 & Google Play)</h4>
@@ -1375,8 +1447,8 @@
         availableSlotsTitle:'✅ Available slots on {date} (tap to select):',
         noSlotsLeftMsg:'❌ No open slots left on this date within working hours. Choose another date.',
         lblNote:'Visit Reason / Service (Optional)', confirmBook:'✅ Confirm Appointment Request',
-        myApptsTitle:'📋 My Appointments & Queue Position', myPhoneLbl:'Enter the phone number used when booking',
-        lookupBtn:'Show', enterPhoneHint:'Enter your phone number to view your appointments and queue position.', noApptsFound:'No appointments found for this phone number.',
+        myApptsTitle:'📋 My Appointments & Queue Position', myPhoneLbl:'Sign in to My Account or enter your phone number',
+        lookupBtn:'Show', enterPhoneHint:'Sign in to My Account or enter your phone number to view appointments.', noApptsFound:'No appointments found for this phone number.',
         rankLabel:'Rank', confirmedBadge:'✅ Approved • On List', rejectedBadge:'❌ Not Confirmed', pendingBadge:'⏳ Pending Doctor Approval',
         arrivalTimeMsg:'⏰ Scheduled arrival time: {time} (to avoid waiting in the lobby)',
         waitDoctorTimeMsg:'⏰ The doctor or clinic will set your arrival time upon confirming.',
@@ -1404,20 +1476,26 @@
         pendingBoxHtml:'<b>🎉 Congratulations! Your professional profile has been received.</b><br>To appear before thousands of patients in your wilaya:<ul><li>✅ Receive appointments in first-come order.</li><li>✅ Priority search placement with map location.</li><li>✅ Official verified badge.</li></ul><b>Contact us now to activate your subscription:</b><button onclick="closeModal(\'proModal\'); openSupportModal();" class="btn-primary" style="margin-top:8px;">🚀 Activate Account (Call / WhatsApp)</button>',
         noProAppts:'No appointments booked yet.',
         timeInputPlaceholder:'Arrival time (e.g. 09:00)', confirmTimeBtn:'✅ Confirm & Set Time',
-        toastFillReq:'Please fill in name, phone, date, and exact time',
+        toastFillReq:'Please fill in required fields properly',
+        toastPassShort:'Password must be at least 6 characters',
         toastBooked:'✅ Appointment booked on {date} at {time}! Your rank is #{rank}',
         toastTimeSaved:'✅ Appointment confirmed and arrival time set!',
         toastEnterTime:'Please enter the patient arrival time first',
         toastProfileSaved:'✅ Profile and location updated!',
         toastLoggedOut:'Signed out',
         defaultAdText:'Grow your patient reach! Feature your clinic, pharmacy, or lab on the main screen of SEHATI.',
-        uModalTitle:'👤 User Account', uTabLogin:'Sign In', uTabRegister:'New Account',
-        uLblLoginContact:'Phone Number or Email', uBtnLogin:'Sign In',
+        uModalTitle:'👤 Protected User Account', uTabLogin:'Sign In', uTabRegister:'New Account',
+        uLblLoginContact:'Phone Number or Email *', uLblLoginPass:'Password *', uBtnLogin:'🔐 Secure Sign In',
         uLblRegName:'Full Name *',
-        uLblRegContact:'Phone Number or Email *', uBtnVerifyReg:'Create Account',
-        uLoginWrong:'Invalid login credentials', uAccExists:'Account already registered',
+        uLblRegContact:'Phone Number or Email *', uLblRegPass:'Set Password (min 6 chars) *',
+        uLblOtp:'Verification Code (OTP) *', uBtnSendOtp:'🔐 Send Verification Code', uBtnVerifyReg:'✅ Verify & Create Account',
+        uOtpSentMsg:'🔐 Verification code for ({target}): <b>{otp}</b>',
+        uOtpWrong:'❌ Invalid verification code', uLoginWrong:'❌ Invalid phone/email or password',
+        uAccountLocked:'⏳ Login temporarily locked due to failed attempts. Retry in {sec}s.',
+        uAccExists:'Account already registered',
         uTabEditTxt:'Edit Account', uTabApptsTxt:'Appts Archive', uTabMedsTxt:'My Med Archive',
         uLblEditFullName:'Full Name', uLblEditPhone:'Phone Number', uLblEditEmail:'Email Address',
+        uLblEditPass:'New Password (optional)',
         uBtnSaveEdit:'💾 Save Changes', uBtnLogout:'🚪 Sign Out', uSavedMsg:'✅ Account details updated',
         uNoArchAppts:'No appointments in your archive yet.', uNoArchMeds:'No medicine requests in your archive yet.',
         medModalTitle:'💊 My Meds — Search Unavailable Medicine',
@@ -1442,11 +1520,9 @@
 
     function deleteUserSessionAndData() {
       currentUserSession = null;
-      lastPatientPhone = '';
+      sessionLookupPhone = '';
       localStorage.removeItem('sehati_current_user');
       localStorage.removeItem('sehati_last_patient_phone');
-      localStorage.removeItem('sehati_appointments');
-      localAppointments = [];
       document.getElementById('myPhoneLookup').value = '';
       document.getElementById('myApptsList').innerHTML = '';
       updateMyApptsBadge();
@@ -1508,6 +1584,8 @@
         if (isAdminUnlocked) {
           document.getElementById('secretPinBox').style.display = 'none';
           document.getElementById('adminDashboardView').style.display = 'block';
+          renderAdminAccounts();
+          renderAdminMedicineRequests();
         } else {
           document.getElementById('secretPinBox').style.display = 'block';
           document.getElementById('adminDashboardView').style.display = 'none';
@@ -1597,6 +1675,9 @@
         if (document.getElementById('userAccountModal').classList.contains('open') && currentUserSession) {
           renderUserArchiveMeds();
         }
+        if (isAdminUnlocked) {
+          renderAdminMedicineRequests();
+        }
       } catch (e) {}
     };
 
@@ -1652,6 +1733,7 @@
 
       document.getElementById('tagSub').textContent = tr('sub');
       document.getElementById('privacyTopTxt').textContent = tr('privacyTop');
+      document.getElementById('adPlaceholderSub').textContent = tr('adPlaceholderSub');
       document.getElementById('proPortalTxt').textContent = tr('proBtn');
       document.getElementById('userAccLabel').textContent = tr('userAccBtn');
       document.getElementById('myApptsLabel').textContent = tr('myAppts');
@@ -1686,9 +1768,13 @@
       document.getElementById('uTabLogin').textContent = tr('uTabLogin');
       document.getElementById('uTabRegister').textContent = tr('uTabRegister');
       document.getElementById('uLblLoginContact').textContent = tr('uLblLoginContact');
+      document.getElementById('uLblLoginPass').textContent = tr('uLblLoginPass');
       document.getElementById('uBtnLogin').textContent = tr('uBtnLogin');
       document.getElementById('uLblRegName').textContent = tr('uLblRegName');
       document.getElementById('uLblRegContact').textContent = tr('uLblRegContact');
+      document.getElementById('uLblRegPass').textContent = tr('uLblRegPass');
+      document.getElementById('uLblOtp').textContent = tr('uLblOtp');
+      document.getElementById('uBtnSendOtp').textContent = tr('uBtnSendOtp');
       document.getElementById('uBtnVerifyReg').textContent = tr('uBtnVerifyReg');
 
       document.getElementById('uTabEditTxt').textContent = tr('uTabEditTxt');
@@ -1697,6 +1783,7 @@
       document.getElementById('uLblEditFullName').textContent = tr('uLblEditFullName');
       document.getElementById('uLblEditPhone').textContent = tr('uLblEditPhone');
       document.getElementById('uLblEditEmail').textContent = tr('uLblEditEmail');
+      document.getElementById('uLblEditPass').textContent = tr('uLblEditPass');
       document.getElementById('uBtnSaveEdit').textContent = tr('uBtnSaveEdit');
       document.getElementById('uBtnLogout').textContent = tr('uBtnLogout');
 
@@ -2025,8 +2112,8 @@
       if (!r) return false;
       const uPhone = (currentUserSession && currentUserSession.phone || '').trim();
       const uId = (currentUserSession && currentUserSession.id || '').trim();
-      const savedPhone = (lastPatientPhone || '').trim();
-      return Boolean((uId && r.userId === uId) || (uPhone && r.phone === uPhone) || (savedPhone && r.phone === savedPhone));
+      const activePhone = getActiveSessionUserPhone();
+      return Boolean((uId && r.userId === uId) || (uPhone && r.phone === uPhone) || (activePhone && r.phone === activePhone));
     }
 
     function canDeleteMedicineRequest(r) {
@@ -2083,6 +2170,7 @@
         document.getElementById('uEditFullName').value = currentUserSession.fullName || '';
         document.getElementById('uEditPhone').value = currentUserSession.phone || '';
         document.getElementById('uEditEmail').value = currentUserSession.email || '';
+        document.getElementById('uEditPass').value = '';
         renderUserArchiveAppts();
         renderUserArchiveMeds();
       } else {
@@ -2091,24 +2179,52 @@
         document.getElementById('uArchiveApptsList').innerHTML = '';
         document.getElementById('uArchiveMedsList').innerHTML = '';
       }
+      updateMyApptsBadge();
       window.updateHeaderAlertBadges();
       window.updateHeaderProBadge();
     }
 
-    function completeUserRegistration() {
+    async function sendUserOtp() {
       const fullName = document.getElementById('uRegFullName').value.trim();
       const contact = document.getElementById('uRegContact').value.trim();
-      if (!fullName || !contact) { showToast(tr('toastFillReq')); return; }
+      const pass = document.getElementById('uRegPass').value;
+
+      if (!fullName || !contact || !pass) { showToast(tr('toastFillReq')); return; }
+      if (pass.length < 6) { showToast(tr('toastPassShort')); return; }
 
       const exists = usersList.some(u => (u.phone && u.phone === contact) || (u.email && u.email.toLowerCase() === contact.toLowerCase()));
       if (exists) { showToast(tr('uAccExists')); return; }
 
-      const isEmail = contact.includes('@');
+      const otpCode = String(Math.floor(100000 + Math.random() * 900000));
+      const passwordHash = await sha256Hex(pass);
+      pendingUserOtp = { fullName, contact, passwordHash, otpCode, expiresAt: Date.now() + 5 * 60 * 1000 };
+
+      const otpBox = document.getElementById('uOtpDisplay');
+      otpBox.style.display = 'block';
+      otpBox.innerHTML = tr('uOtpSentMsg', { target: contact, otp: otpCode });
+      document.getElementById('uOtpInputGroup').style.display = 'block';
+      document.getElementById('uBtnVerifyReg').style.display = 'block';
+    }
+
+    async function completeUserRegistration() {
+      if (!pendingUserOtp || Date.now() > pendingUserOtp.expiresAt) {
+        pendingUserOtp = null;
+        showToast(tr('uOtpWrong'));
+        return;
+      }
+      const enteredOtp = document.getElementById('uOtpCode').value.trim();
+      if (enteredOtp !== pendingUserOtp.otpCode) {
+        showToast(tr('uOtpWrong'));
+        return;
+      }
+
+      const isEmail = pendingUserOtp.contact.includes('@');
       const newUser = {
         id: 'usr_' + Date.now(),
-        fullName,
-        phone: isEmail ? '' : contact,
-        email: isEmail ? contact : ''
+        fullName: pendingUserOtp.fullName,
+        phone: isEmail ? '' : pendingUserOtp.contact,
+        email: isEmail ? pendingUserOtp.contact : '',
+        passwordHash: pendingUserOtp.passwordHash
       };
 
       usersList.push(newUser);
@@ -2116,56 +2232,85 @@
       currentUserSession = newUser;
       localStorage.setItem('sehati_current_user', JSON.stringify(newUser));
       if (newUser.phone) {
-        lastPatientPhone = newUser.phone;
-        localStorage.setItem('sehati_last_patient_phone', newUser.phone);
-        updateMyApptsBadge();
+        sessionLookupPhone = newUser.phone;
       }
 
+      pendingUserOtp = null;
       document.getElementById('uRegFullName').value = '';
       document.getElementById('uRegContact').value = '';
+      document.getElementById('uRegPass').value = '';
+      document.getElementById('uOtpCode').value = '';
+      document.getElementById('uOtpDisplay').style.display = 'none';
+      document.getElementById('uOtpInputGroup').style.display = 'none';
+      document.getElementById('uBtnVerifyReg').style.display = 'none';
+
+      updateMyApptsBadge();
       applyTranslationsToStaticUI();
       renderUserAccountModal();
       switchUserDashTab('edit');
       showToast('✅');
     }
 
-    function userLogin() {
-      const contact = document.getElementById('uLoginContact').value.trim();
-      if (!contact) { showToast(tr('toastFillReq')); return; }
+    async function userLogin() {
+      const now = Date.now();
+      if (userLoginAttempts.lockUntil && now < userLoginAttempts.lockUntil) {
+        const sec = Math.ceil((userLoginAttempts.lockUntil - now) / 1000);
+        showToast(tr('uAccountLocked', { sec }));
+        return;
+      }
 
+      const contact = document.getElementById('uLoginContact').value.trim();
+      const pass = document.getElementById('uLoginPass').value;
+      if (!contact || !pass) { showToast(tr('toastFillReq')); return; }
+
+      const inputHash = await sha256Hex(pass);
       const found = usersList.find(u =>
-        (u.phone && u.phone === contact) || (u.email && u.email.toLowerCase() === contact.toLowerCase())
+        ((u.phone && u.phone === contact) || (u.email && u.email.toLowerCase() === contact.toLowerCase())) &&
+        u.passwordHash === inputHash
       );
+
       if (!found) {
+        const nextCount = (userLoginAttempts.count || 0) + 1;
+        userLoginAttempts = nextCount >= 5
+          ? { count: 0, lockUntil: Date.now() + 60 * 1000 }
+          : { count: nextCount, lockUntil: 0 };
+        localStorage.setItem('sehati_user_lock', JSON.stringify(userLoginAttempts));
         showToast(tr('uLoginWrong'));
         return;
       }
 
+      userLoginAttempts = { count: 0, lockUntil: 0 };
+      localStorage.setItem('sehati_user_lock', JSON.stringify(userLoginAttempts));
+
       currentUserSession = found;
       localStorage.setItem('sehati_current_user', JSON.stringify(found));
       if (found.phone) {
-        lastPatientPhone = found.phone;
-        localStorage.setItem('sehati_last_patient_phone', found.phone);
-        updateMyApptsBadge();
+        sessionLookupPhone = found.phone;
       }
+      document.getElementById('uLoginPass').value = '';
+      updateMyApptsBadge();
       applyTranslationsToStaticUI();
       renderUserAccountModal();
       showToast('✅');
     }
 
-    function saveUserProfileChanges() {
+    async function saveUserProfileChanges() {
       if (!currentUserSession) return;
       const fullName = document.getElementById('uEditFullName').value.trim();
       const phone = document.getElementById('uEditPhone').value.trim();
       const email = document.getElementById('uEditEmail').value.trim();
+      const newPass = document.getElementById('uEditPass').value;
 
       if (!phone && !email) { showToast(tr('toastFillReq')); return; }
+      if (newPass && newPass.length < 6) { showToast(tr('toastPassShort')); return; }
 
+      const passwordHash = newPass ? await sha256Hex(newPass) : currentUserSession.passwordHash;
       const updated = {
         ...currentUserSession,
         fullName: fullName || currentUserSession.fullName,
         phone,
-        email
+        email,
+        passwordHash
       };
 
       usersList = usersList.map(u => u.id === updated.id ? updated : u);
@@ -2173,10 +2318,9 @@
       currentUserSession = updated;
       localStorage.setItem('sehati_current_user', JSON.stringify(updated));
       if (phone) {
-        lastPatientPhone = phone;
-        localStorage.setItem('sehati_last_patient_phone', phone);
-        updateMyApptsBadge();
+        sessionLookupPhone = phone;
       }
+      updateMyApptsBadge();
       applyTranslationsToStaticUI();
       renderUserAccountModal();
       showToast(tr('uSavedMsg'));
@@ -2184,7 +2328,7 @@
 
     function userLogout() {
       currentUserSession = null;
-      lastPatientPhone = '';
+      sessionLookupPhone = '';
       localStorage.removeItem('sehati_current_user');
       localStorage.removeItem('sehati_last_patient_phone');
       document.getElementById('myPhoneLookup').value = '';
@@ -2271,11 +2415,6 @@
         return;
       }
 
-      if (phone) {
-        lastPatientPhone = phone;
-        localStorage.setItem('sehati_last_patient_phone', phone);
-      }
-
       if (editingMedId && existingItem) {
         const updatedReq = {
           ...existingItem,
@@ -2293,6 +2432,7 @@
         closeMedFormDrawer();
         renderMedicineRequests();
         renderUserArchiveMeds();
+        if (isAdminUnlocked) renderAdminMedicineRequests();
         showToast(tr('medUpdatedMsg'));
         return;
       }
@@ -2319,6 +2459,7 @@
       closeMedFormDrawer();
       renderMedicineRequests();
       renderUserArchiveMeds();
+      if (isAdminUnlocked) renderAdminMedicineRequests();
       showToast(tr('medPostedMsg'));
     }
 
@@ -2340,6 +2481,7 @@
 
       renderMedicineRequests();
       renderUserArchiveMeds();
+      if (isAdminUnlocked) renderAdminMedicineRequests();
       showToast(tr('medDeletedMsg'));
     }
 
@@ -2352,6 +2494,28 @@
       }
 
       listEl.innerHTML = medicineRequests.map(r => renderMedRequestCardHtml(r)).join('');
+    }
+
+    function renderAdminMedicineRequests() {
+      const badge = document.getElementById('admMedsBadge');
+      if (badge) badge.textContent = medicineRequests.length;
+      const box = document.getElementById('adminMedsList');
+      if (!box) return;
+      if (!medicineRequests.length) {
+        box.innerHTML = `<p style="text-align:center;color:var(--muted);padding:18px;">${tr('medNoReqs')}</p>`;
+        return;
+      }
+      box.innerHTML = medicineRequests.map(r => `
+        <div class="appt-item">
+          <header>
+            <span>💊 ${r.medName || '-'}</span>
+            <button type="button" class="btn-del-med" onclick="deleteMedicineRequest('${r.id}')">🗑️ ${tr('medDelBtnTxt')}</button>
+          </header>
+          <div>📞 <a href="tel:${r.phone}">${r.phone || '-'}</a></div>
+          ${r.note ? `<div style="margin-top:4px;">📝 ${r.note}</div>` : ''}
+          ${r.imgData ? `<img src="${r.imgData}" alt="" class="med-req-img" />` : ''}
+        </div>
+      `).join('');
     }
 
     function getApptSortTimestamp(a) {
@@ -2530,14 +2694,14 @@
     function updateMyApptsBadge() {
       const badge = document.getElementById('myApptsBadge');
       if (!badge) return;
-      const activePhone = (currentUserSession && currentUserSession.phone) ? currentUserSession.phone : lastPatientPhone;
+      const activePhone = getActiveSessionUserPhone();
       const mine = activePhone ? localAppointments.filter(a => a.patientPhone === activePhone) : [];
       badge.textContent = mine.length;
     }
 
     function openMyAppointments() {
       markUserApprovedBookingsAsChecked();
-      const activePhone = (currentUserSession && currentUserSession.phone) ? currentUserSession.phone : lastPatientPhone;
+      const activePhone = getActiveSessionUserPhone();
       document.getElementById('myPhoneLookup').value = activePhone || '';
       document.getElementById('myApptsModal').classList.add('open');
       lookupMyAppointments();
@@ -2547,14 +2711,12 @@
       const phone = document.getElementById('myPhoneLookup').value.trim();
       const listEl = document.getElementById('myApptsList');
       if (!phone) {
-        lastPatientPhone = '';
-        localStorage.removeItem('sehati_last_patient_phone');
+        sessionLookupPhone = '';
         updateMyApptsBadge();
         listEl.innerHTML = `<p style="text-align:center;color:var(--muted);padding:16px;">${tr('enterPhoneHint')}</p>`;
         return;
       }
-      lastPatientPhone = phone;
-      localStorage.setItem('sehati_last_patient_phone', phone);
+      sessionLookupPhone = phone;
       updateMyApptsBadge();
       markUserApprovedBookingsAsChecked();
 
@@ -2607,8 +2769,9 @@
       if (currentUserSession && currentUserSession.fullName && !document.getElementById('bFullName').value) {
         document.getElementById('bFullName').value = currentUserSession.fullName;
       }
-      if ((lastPatientPhone || (currentUserSession && currentUserSession.phone)) && !document.getElementById('bPhone').value) {
-        document.getElementById('bPhone').value = lastPatientPhone || currentUserSession.phone;
+      const activePhone = getActiveSessionUserPhone();
+      if (activePhone && !document.getElementById('bPhone').value) {
+        document.getElementById('bPhone').value = activePhone;
       }
       const dateInp = document.getElementById('bDate');
       if (!dateInp.value) dateInp.valueAsDate = new Date();
@@ -2642,8 +2805,7 @@
         return;
       }
 
-      lastPatientPhone = phone;
-      localStorage.setItem('sehati_last_patient_phone', phone);
+      sessionLookupPhone = phone;
 
       const appt = {
         id: 'appt_' + Date.now() + '_' + Math.floor(Math.random() * 10000),
@@ -3178,6 +3340,7 @@
         syncEcgSoundLoop();
         await window.refreshCloudData();
         renderAdminAccounts();
+        renderAdminMedicineRequests();
         renderMedicineRequests();
       } catch (err) {
         showToast('❌ ' + (err.message || tr('adminLoginFailed')));
@@ -3186,11 +3349,14 @@
 
     function switchAdminTab(tab) {
       document.getElementById('admTabAccounts').classList.toggle('active', tab === 'accounts');
+      document.getElementById('admTabMeds').classList.toggle('active', tab === 'meds');
       document.getElementById('admTabImport').classList.toggle('active', tab === 'import');
       document.getElementById('admTabSettings').classList.toggle('active', tab === 'settings');
       document.getElementById('admAccountsPanel').style.display = tab === 'accounts' ? 'block' : 'none';
+      document.getElementById('admMedsPanel').style.display = tab === 'meds' ? 'block' : 'none';
       document.getElementById('admImportPanel').style.display = tab === 'import' ? 'block' : 'none';
       document.getElementById('admSettingsPanel').style.display = tab === 'settings' ? 'block' : 'none';
+      if (tab === 'meds') renderAdminMedicineRequests();
     }
 
     async function saveAdminSettings() {
@@ -3414,9 +3580,10 @@
       }).join('');
     };
 
-    /* نظام الإعلانات الآمن عبر Firebase Storage و Firestore (بدون GitHub Token) */
+    /* نظام الإعلانات الآمن عبر Firebase Storage و Firestore */
     (function() {
       const adBox = document.getElementById("mainAdBox");
+      const emptyPlaceholder = document.getElementById("adEmptyPlaceholder");
       const modal = document.getElementById("sehatiQuickModal");
       const closeB = document.getElementById("sehatiQuickClose");
       const addB = document.getElementById("sehatiQuickAdd");
@@ -3448,8 +3615,8 @@
           clearTimeout(timer);
           timer = null;
         }
-        if (adBox) adBox.classList.remove("has-active-ad");
         if (overlayEl) overlayEl.style.display = "none";
+        if (emptyPlaceholder) emptyPlaceholder.style.display = "flex";
 
         imgEl.onload = null;
         imgEl.onerror = null;
@@ -3476,7 +3643,7 @@
         if (cancelEditB) cancelEditB.style.display = "none";
       }
 
-      function openM() {
+      window.openSehatiAdsManager = function() {
         if (!isAdminUnlocked) {
           document.getElementById('secretPinBox').style.display = 'block';
           document.getElementById('adminDashboardView').style.display = 'none';
@@ -3489,7 +3656,7 @@
         resetAdForm();
         drawList();
         modal.style.display = "block";
-      }
+      };
 
       closeB.onclick = () => {
         resetAdForm();
@@ -3508,7 +3675,7 @@
           clearTimeout(adTapTimer);
           if (adTapCount >= 7) {
             adTapCount = 0;
-            openM();
+            window.openSehatiAdsManager();
           } else {
             adTapTimer = setTimeout(() => { adTapCount = 0; }, 2200);
           }
@@ -3586,27 +3753,27 @@
         const hasText = Boolean((a.title || "").trim() || (a.description || "").trim());
 
         if (mediaSrc && isVideoFile(mediaSrc, a.mediaType)) {
-          if (adBox) adBox.classList.add("has-active-ad");
+          if (emptyPlaceholder) emptyPlaceholder.style.display = "none";
           vidEl.src = mediaSrc;
           vidEl.style.display = "block";
           vidEl.play().catch(() => {});
         } else if (mediaSrc) {
           imgEl.onload = () => {
             if (validAds.length && (validAds[idx]?.url || validAds[idx]?.media || validAds[idx]?.image) === mediaSrc) {
-              if (adBox) adBox.classList.add("has-active-ad");
+              if (emptyPlaceholder) emptyPlaceholder.style.display = "none";
               imgEl.style.display = "block";
             }
           };
           imgEl.onerror = () => {
             imgEl.style.display = "none";
             imgEl.removeAttribute("src");
-            if (!hasText && adBox) adBox.classList.remove("has-active-ad");
+            if (!hasText && emptyPlaceholder) emptyPlaceholder.style.display = "flex";
           };
           imgEl.src = mediaSrc;
         }
 
         if (hasText) {
-          if (adBox) adBox.classList.add("has-active-ad");
+          if (emptyPlaceholder) emptyPlaceholder.style.display = "none";
           if (overlayEl) overlayEl.style.display = "flex";
           titleEl.textContent = (a.title || "").trim();
           descEl.textContent = (a.description || "").trim();
