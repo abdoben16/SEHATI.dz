@@ -186,7 +186,6 @@
     .emerg-card.gendarme{background:linear-gradient(145deg,#14532d,#15803d)}
     .emerg-card.ambulance{background:linear-gradient(145deg,#ffffff,#f8fafc);color:#0f172a;border-color:#cbd5e1}
 
-    /* مساحة الإعلان الرئيسية ظاهرة دائماً مع خلفية أنيقة عند الفراغ وبدون صورة سوداء عالقة */
     .ads-showcase{display:block;position:relative;margin:8px auto 6px;border-radius:14px;overflow:hidden;border:1.5px solid #facc15;box-shadow:0 6px 18px rgba(202,138,4,.18);background:linear-gradient(135deg,#0f766e 0%,#0d9488 55%,#0284c7 100%);width:calc(100% - 28px);max-width:336px;aspect-ratio:16 / 9;cursor:pointer;user-select:none}
     .ads-empty-placeholder{position:absolute;inset:0;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12px;text-align:center;color:#ffffff;pointer-events:none}
     .ads-empty-placeholder b{font-size:1.05rem;font-weight:900;letter-spacing:.3px}
@@ -237,8 +236,6 @@
 
     .fb-verify-badge{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;transform:translateY(-2.5px);flex-shrink:0;vertical-align:middle}
     .fb-verify-badge svg{width:100%;height:100%;display:block}
-    .verified-pill-pro{display:inline-flex;align-items:center;gap:6px;background:rgba(24,119,242,.12);color:#1877f2;border:1px solid rgba(24,119,242,.35);padding:3px 10px;border-radius:999px;font-size:.78rem;font-weight:800}
-    body.dark .verified-pill-pro{color:#60a5fa}
 
     .item-sub{font-size:.88rem;font-weight:700;color:var(--primary);margin-bottom:6px}
     .item-services{font-size:.85rem;background:rgba(255,255,255,.76);padding:7px 11px;border-radius:9px;margin-bottom:8px;color:var(--text)}
@@ -356,7 +353,7 @@
     .sub-alert-week{background:rgba(234,179,8,.16);border:1.5px solid #ca8a04;color:var(--text);border-radius:12px;padding:10px 12px;margin-bottom:12px;font-size:.85rem;font-weight:700}
     .vip-pitch-box{background:rgba(15,118,110,.09);border:1.5px solid var(--primary);padding:14px;border-radius:14px;font-size:.9rem;margin-bottom:12px;line-height:1.65}
     .vip-pitch-box ul{margin:8px 18px}
-    .otp-code-box{background:rgba(2,132,199,.12);border:1px dashed var(--blue);border-radius:10px;padding:8px 10px;font-size:.84rem;font-weight:800;color:var(--blue);margin-bottom:10px;text-align:center}
+    .email-verify-notice{background:rgba(2,132,199,.12);border:1.5px solid var(--blue);border-radius:12px;padding:10px 12px;font-size:.84rem;font-weight:700;color:var(--text);margin-bottom:11px;line-height:1.55}
     .privacy-body-box{background:rgba(255,255,255,.75);border:1px solid var(--border);border-radius:14px;padding:13px;font-size:.86rem;line-height:1.65;max-height:58vh;overflow-y:auto}
     body.dark .privacy-body-box{background:rgba(15,118,110,.14)}
     .privacy-body-box h4{color:var(--primary);margin:10px 0 4px;font-size:.92rem}
@@ -542,7 +539,7 @@
     </div>
   </div>
 
-  <!-- نافذة حساب المستخدم المحمي بكلمة سر مشفرة SHA-256 + OTP + قفل المحاولات -->
+  <!-- نافذة حساب المستخدم عبر البريد الإلكتروني وكلمة المرور وتأكيد البريد -->
   <div class="modal" id="userAccountModal">
     <div class="modal-card">
       <div class="modal-header">
@@ -558,45 +555,42 @@
 
         <div id="uLoginPanel">
           <div class="form-group">
-            <label id="uLblLoginContact">رقم الهاتف أو البريد الإلكتروني *</label>
-            <input type="text" id="uLoginContact" placeholder="0550... / name@mail.com" />
+            <label id="uLblLoginEmail">البريد الإلكتروني *</label>
+            <input type="email" id="uLoginEmail" autocomplete="email" placeholder="name@mail.com" />
           </div>
           <div class="form-group">
-            <label id="uLblLoginPass">كلمة السر *</label>
-            <input type="password" id="uLoginPass" placeholder="••••••••" />
+            <label id="uLblLoginPass">كلمة المرور *</label>
+            <input type="password" id="uLoginPass" autocomplete="current-password" placeholder="••••••••" />
           </div>
-          <button class="btn-primary" id="uBtnLogin" onclick="userLogin()">دخول آمن</button>
+          <button class="btn-primary" id="uBtnLogin" onclick="userLogin()">دخول</button>
         </div>
 
         <div id="uRegisterPanel" style="display:none;">
           <div class="form-group">
             <label id="uLblRegName">الاسم واللقب *</label>
-            <input type="text" id="uRegFullName" placeholder="أحمد بن علي" />
+            <input type="text" id="uRegFullName" autocomplete="name" placeholder="أحمد بن علي" />
           </div>
           <div class="form-group">
-            <label id="uLblRegContact">رقم الهاتف أو البريد الإلكتروني *</label>
-            <input type="text" id="uRegContact" placeholder="0550... / name@mail.com" />
+            <label id="uLblRegEmail">البريد الإلكتروني *</label>
+            <input type="email" id="uRegEmail" autocomplete="email" placeholder="name@mail.com" />
           </div>
           <div class="form-group">
-            <label id="uLblRegPass">تعيين كلمة السر (6 أحرف على الأقل) *</label>
-            <input type="password" id="uRegPass" placeholder="••••••••" />
+            <label id="uLblRegPass">إنشاء كلمة مرور (6 أحرف على الأقل) *</label>
+            <input type="password" id="uRegPass" autocomplete="new-password" placeholder="••••••••" />
           </div>
-          <div id="uOtpDisplay" class="otp-code-box" style="display:none;"></div>
-          <div id="uOtpInputGroup" class="form-group" style="display:none;">
-            <label id="uLblOtp">رمز التحقق (OTP) *</label>
-            <input type="text" id="uOtpCode" placeholder="123456" maxlength="6" />
-          </div>
-          <button class="btn-primary" id="uBtnSendOtp" onclick="sendUserOtp()">🔐 إرسال رمز التحقق</button>
-          <button class="btn-primary" id="uBtnVerifyReg" style="display:none;background:#16a34a;" onclick="completeUserRegistration()">✅ تأكيد الرمز وإنشاء الحساب</button>
+          <div id="uEmailVerifyBox" class="email-verify-notice" style="display:none;"></div>
+          <button class="btn-primary" id="uBtnRegister" onclick="registerUserByEmail()">إنشاء الحساب وإرسال تأكيد البريد</button>
+          <button class="btn-secondary" id="uBtnCheckEmailVerified" style="display:none;" onclick="verifyEmailStatusNow()">✅ لقد أكدت بريدي الإلكتروني</button>
         </div>
       </div>
 
       <div id="userProfileBox" style="display:none;">
         <div class="sub-box" id="uActiveSummary"></div>
+        <div id="uPhoneRequiredBanner" class="email-verify-notice" style="display:none;"></div>
 
         <div class="tabs-bar">
           <button class="tab-btn active" id="uDashTabEdit" onclick="switchUserDashTab('edit')">⚙️ <span id="uTabEditTxt">تعديل الحساب</span></button>
-          <button class="tab-btn" id="uDashTabAppts" onclick="switchUserDashTab('appts')">📅 <span id="uTabApptsTxt">أرشيف المواعيد</span></button>
+          <button class="tab-btn" id="uDashTabAppts" onclick="switchUserDashTab('appts')">📅 <span id="uTabApptsTxt">مواعيدي</span></button>
           <button class="tab-btn" id="uDashTabMeds" onclick="switchUserDashTab('meds')">💊 <span id="uTabMedsTxt">أرشيف دوائي</span></button>
         </div>
 
@@ -606,16 +600,12 @@
             <input type="text" id="uEditFullName" />
           </div>
           <div class="form-group">
-            <label id="uLblEditPhone">رقم الهاتف</label>
-            <input type="tel" id="uEditPhone" placeholder="0550123456" />
-          </div>
-          <div class="form-group">
             <label id="uLblEditEmail">البريد الإلكتروني</label>
-            <input type="email" id="uEditEmail" placeholder="name@mail.com" />
+            <input type="email" id="uEditEmail" readonly />
           </div>
           <div class="form-group">
-            <label id="uLblEditPass">كلمة السر الجديدة (اتركها فارغة إن لم ترد تغييرها)</label>
-            <input type="password" id="uEditPass" placeholder="••••••••" />
+            <label id="uLblEditPhone">رقم الهاتف (إجباري لحجز المواعيد) *</label>
+            <input type="tel" id="uEditPhone" placeholder="0550123456" />
           </div>
           <button class="btn-primary" id="uBtnSaveEdit" onclick="saveUserProfileChanges()">💾 حفظ التعديلات</button>
         </div>
@@ -672,18 +662,16 @@
     </div>
   </div>
 
+  <!-- نافذة مواعيدي: تظهر حصراً للحساب النشط المسجل دخوله بالبريد وكلمة المرور -->
   <div class="modal" id="myApptsModal">
     <div class="modal-card">
       <div class="modal-header">
         <h3 id="myApptsModalTitle">📋 مواعيدي وترتيبي في الانتظار</h3>
         <button class="close-x" onclick="closeModal('myApptsModal')">✕</button>
       </div>
-      <div class="form-group">
-        <label id="myPhoneLookupLbl">رقم هاتفك الذي حجزت به (لعرض مواعيدك وتحديثاتها)</label>
-        <div style="display:flex;gap:6px;">
-          <input type="tel" id="myPhoneLookup" placeholder="0550123456" />
-          <button type="button" id="btnLookupAppts" onclick="lookupMyAppointments()" style="background:var(--primary);color:#fff;border:none;border-radius:10px;padding:0 14px;font-weight:800;cursor:pointer;">عرض</button>
-        </div>
+      <div id="myApptsAccountGate" style="display:none;">
+        <div class="email-verify-notice" id="myApptsLockedNotice"></div>
+        <button type="button" class="btn-primary" id="btnGoLoginForAppts" onclick="closeModal('myApptsModal'); openUserAccountModal();">تسجيل الدخول بالبريد الإلكتروني وكلمة المرور</button>
       </div>
       <div id="myApptsList"></div>
     </div>
@@ -740,7 +728,7 @@
       <div id="bookWorkingHoursInfo" style="font-size:.8rem;color:var(--muted);font-weight:700;margin-bottom:8px;"></div>
       <div id="bookQueuePreview" style="background:rgba(15,118,110,.1);border:1px solid var(--primary);border-radius:10px;padding:8px 10px;font-size:.82rem;font-weight:700;margin-bottom:10px;"></div>
       <div class="form-group"><label id="lblPatientName">الاسم واللقب *</label><input type="text" id="bFullName" placeholder="أحمد بن علي" /></div>
-      <div class="form-group"><label id="lblPatientPhone">رقم الهاتف للتأكيد ومتابعة الترتيب *</label><input type="tel" id="bPhone" onchange="updateBookQueuePreview()" placeholder="0550123456" /></div>
+      <div class="form-group"><label id="lblPatientPhone">رقم الهاتف للتأكيد ومتابعة الترتيب (إجباري) *</label><input type="tel" id="bPhone" required placeholder="0550123456" /></div>
       <div class="form-group"><label id="lblApptDate">التاريخ المفضل *</label><input type="date" id="bDate" onchange="onBookDateOrTimeChange()" /></div>
       <div class="form-group"><label id="lblApptExactTime">الساعة بالضبط *</label><input type="time" id="bTime" onchange="onBookDateOrTimeChange()" oninput="onBookDateOrTimeChange()" /></div>
       <div id="timeConflictBox" class="time-conflict-box"></div>
@@ -882,7 +870,7 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
     import { getFirestore, collection, getDocs, doc, getDoc, setDoc, updateDoc, deleteDoc, addDoc, query, where, writeBatch } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, getIdTokenResult } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, onAuthStateChanged, signOut, getIdTokenResult } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
     import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 
     const firebaseConfig = { apiKey: "AIzaSyAdWXDD0whg8vgdBuULaGR1IkrXDRvKQgA", authDomain: "sehati-7eaba.firebaseapp.com", projectId: "sehati-7eaba", storageBucket: "sehati-7eaba.firebasestorage.app", messagingSenderId: "688720404426", appId: "1:688720404426:web:b05c9e67a60cc8c2773933" };
@@ -915,7 +903,7 @@
           db, auth, storage,
           collection, getDocs, doc, getDoc, setDoc, updateDoc, deleteDoc, addDoc,
           query, where, writeBatch,
-          createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut,
+          createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, signOut,
           ref, uploadBytes, getDownloadURL, deleteObject,
           checkAdminRoleForUser
         };
@@ -930,9 +918,15 @@
             const isAdm = await checkAdminRoleForUser(db, user);
             window.setAdminAuthState(isAdm);
             await window.loadProDashboard(user.uid);
+            if (window.syncFirebaseUserSession) {
+              await window.syncFirebaseUserSession(user);
+            }
           } else {
             window.currentProUser = null;
             window.setAdminAuthState(false);
+            if (window.clearActiveUserSessionOnSignOut) {
+              window.clearActiveUserSessionOnSignOut();
+            }
           }
           window.updateHeaderAlertBadges();
           window.updateHeaderProBadge();
@@ -947,7 +941,6 @@
 
   <script>
     localStorage.removeItem('sehatiAdSys_gh_token');
-    /* عدم تعبئة رقم الهاتف تلقائياً قبل تسجيل الدخول في حساب المستخدم */
     localStorage.removeItem('sehati_last_patient_phone');
 
     let adminConfig = JSON.parse(localStorage.getItem('sehati_admin_cfg') || 'null') || {
@@ -965,25 +958,68 @@
         seenProApptIds = JSON.parse(localStorage.getItem('sehati_seen_pro_appts') || '[]'),
         seenUserApprovedIds = JSON.parse(localStorage.getItem('sehati_seen_user_approved') || '[]'),
         localProSession = JSON.parse(localStorage.getItem('sehati_pro_session') || 'null'),
-        sessionLookupPhone = '',
-        usersList = JSON.parse(localStorage.getItem('sehati_users_list') || '[]'),
+        userProfilesMap = JSON.parse(localStorage.getItem('sehati_user_profiles') || '{}'),
         currentUserSession = JSON.parse(localStorage.getItem('sehati_current_user') || 'null'),
         medicineRequests = JSON.parse(localStorage.getItem('sehati_med_requests') || '[]'),
-        editingMedId = null,
-        pendingUserOtp = null,
-        userLoginAttempts = JSON.parse(localStorage.getItem('sehati_user_lock') || '{"count":0,"lockUntil":0}');
+        editingMedId = null;
 
-    async function sha256Hex(plainText) {
-      const data = new TextEncoder().encode(String(plainText || ''));
-      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-      return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
+    function isUserAuthenticatedActive() {
+      return Boolean(currentUserSession && currentUserSession.id && currentUserSession.email && currentUserSession.emailVerified);
     }
 
-    function getActiveSessionUserPhone() {
-      if (currentUserSession && currentUserSession.phone) return String(currentUserSession.phone).trim();
-      if (sessionLookupPhone) return String(sessionLookupPhone).trim();
-      return '';
+    function getActiveUserPhone() {
+      if (!isUserAuthenticatedActive()) return '';
+      return String(currentUserSession.phone || '').trim();
     }
+
+    window.clearActiveUserSessionOnSignOut = function() {
+      currentUserSession = null;
+      localStorage.removeItem('sehati_current_user');
+      localStorage.removeItem('sehati_last_patient_phone');
+      const apptsList = document.getElementById('myApptsList');
+      if (apptsList) apptsList.innerHTML = '';
+      updateMyApptsBadge();
+      window.updateHeaderAlertBadges();
+      if (document.getElementById('userAccountModal').classList.contains('open')) {
+        renderUserAccountModal();
+      }
+      if (document.getElementById('myApptsModal').classList.contains('open')) {
+        renderMyAppointmentsModal();
+      }
+    };
+
+    window.syncFirebaseUserSession = async function(fbUser) {
+      if (!fbUser || !fbUser.email) return;
+      const isPro = Boolean(window.placesData.find(p => p.id === fbUser.uid || p.ownerUid === fbUser.uid));
+      if (isPro) return;
+
+      const existing = userProfilesMap[fbUser.uid] || {};
+      const syncedUser = {
+        id: fbUser.uid,
+        email: fbUser.email,
+        fullName: existing.fullName || fbUser.displayName || fbUser.email.split('@')[0],
+        phone: existing.phone || '',
+        emailVerified: Boolean(fbUser.emailVerified)
+      };
+      userProfilesMap[fbUser.uid] = syncedUser;
+      localStorage.setItem('sehati_user_profiles', JSON.stringify(userProfilesMap));
+
+      if (syncedUser.emailVerified) {
+        currentUserSession = syncedUser;
+        localStorage.setItem('sehati_current_user', JSON.stringify(syncedUser));
+      } else {
+        currentUserSession = null;
+        localStorage.removeItem('sehati_current_user');
+      }
+      updateMyApptsBadge();
+      window.updateHeaderAlertBadges();
+      if (document.getElementById('userAccountModal').classList.contains('open')) {
+        renderUserAccountModal();
+      }
+      if (document.getElementById('myApptsModal').classList.contains('open')) {
+        renderMyAppointmentsModal();
+      }
+    };
 
     window.setAdminAuthState = function(verifiedAdmin) {
       isAdminUnlocked = Boolean(verifiedAdmin);
@@ -1134,14 +1170,14 @@
     }
 
     function markUserApprovedBookingsAsChecked() {
-      const uPhone = getActiveSessionUserPhone();
-      const uId = (currentUserSession && currentUserSession.id || '').trim();
-      if (!uPhone && !uId) {
+      if (!isUserAuthenticatedActive()) {
         window.updateHeaderAlertBadges();
         return;
       }
+      const uPhone = getActiveUserPhone();
+      const uId = String(currentUserSession.id || '').trim();
       const approvedIds = localAppointments
-        .filter(a => a.status === 'confirmed' && ((uPhone && a.patientPhone === uPhone) || (uId && a.userId === uId)))
+        .filter(a => a.status === 'confirmed' && ((uId && a.userId === uId) || (uPhone && a.patientPhone === uPhone)))
         .map(a => a.id);
       seenUserApprovedIds = Array.from(new Set([...seenUserApprovedIds, ...approvedIds]));
       localStorage.setItem('sehati_seen_user_approved', JSON.stringify(seenUserApprovedIds));
@@ -1163,14 +1199,14 @@
         proBadge.style.display = unreadProCount > 0 ? 'inline-flex' : 'none';
       }
 
-      const uPhone = getActiveSessionUserPhone();
-      const uId = (currentUserSession && currentUserSession.id || '').trim();
       let unreadApprovedCount = 0;
-      if (uPhone || uId) {
+      if (isUserAuthenticatedActive()) {
+        const uPhone = getActiveUserPhone();
+        const uId = String(currentUserSession.id || '').trim();
         unreadApprovedCount = localAppointments.filter(a =>
           a.status === 'confirmed' &&
           !seenUserApprovedIds.includes(a.id) &&
-          ((uPhone && a.patientPhone === uPhone) || (uId && a.userId === uId))
+          ((uId && a.userId === uId) || (uPhone && a.patientPhone === uPhone))
         ).length;
       }
       if (userBadge) {
@@ -1183,8 +1219,8 @@
       const badge = document.getElementById('headerProBadge');
       if (!badge) return;
       const activePro = currentProProfile || localProSession;
-      const isSubscribedPro = Boolean(activePro && getSubscriptionInfo(activePro).isActive);
-      badge.classList.toggle('visible', isSubscribedPro);
+      const isActiveAdminPro = Boolean(activePro && activePro.approved === true && getSubscriptionInfo(activePro).isActive);
+      badge.classList.toggle('visible', isActiveAdminPro);
     };
 
     const T = {
@@ -1226,15 +1262,17 @@
         supTitle:'💬 الدعم الفني وطلبات الاشتراك والإعلان',
         supPitch:'مرحباً بك في <b>صحتي (SEHATI.dz)</b>:<br>• لتفعيل حسابك المهني (طبيب / صيدلية / عيادة) والاستفادة من نظام حجز المواعيد.<br>• لحجز مساحة إعلانية مميزة في واجهة التطبيق.<br>• لأي استفسار أو دعم تقني، تواصل مباشرة مع الإدارة:',
         supCall:'📞 اتصال مباشر بالإدارة', supWa:'💬 مراسلة فورية عبر واتساب',
-        bookTitle:'📅 حجز موعد طبي', lblName:'الاسم واللقب *', lblPhone:'رقم الهاتف للتأكيد ومتابعة الترتيب *',
+        bookTitle:'📅 حجز موعد طبي', lblName:'الاسم واللقب *', lblPhone:'رقم الهاتف للتأكيد ومتابعة الترتيب (إجباري) *',
         lblDate:'التاريخ المفضل *', lblExactTime:'الساعة بالضبط *',
         workingHoursLbl:'🕒 أوقات عمل المهني: {hours}',
         timeTakenMsg:'⚠️ هذا التوقيت (<b>{time}</b>) محجوز مسبقاً في يوم <b>{date}</b> وغير متوفر. اختر من الأوقات المتاحة أدناه:',
         availableSlotsTitle:'✅ الأوقات المتاحة للحجز في {date} (اضغط للاختيار):',
         noSlotsLeftMsg:'❌ لا توجد أوقات متاحة في هذا اليوم ضمن أوقات العمل. يرجى اختيار تاريخ آخر.',
         lblNote:'سبب الزيارة / الخدمة المطلوبة (اختياري)', confirmBook:'✅ تأكيد إرسال الموعد',
-        myApptsTitle:'📋 مواعيدي وترتيبي في الانتظار', myPhoneLbl:'سجّل دخولك في «حسابي» أو أدخل رقم هاتفك لعرض مواعيدك',
-        lookupBtn:'عرض', enterPhoneHint:'يرجى تسجيل الدخول في «حسابي» أو إدخال رقم هاتفك لعرض مواعيدك.', noApptsFound:'لا توجد مواعيد مسجلة بهذا الرقم.',
+        myApptsTitle:'📋 مواعيدي وترتيبي في الانتظار',
+        myApptsLockedNotice:'🔒 المواعيد تظهر فقط للحساب النشط المسجّل دخوله. سجّل دخولك بالبريد الإلكتروني وكلمة المرور للاطلاع على مواعيدك.',
+        goLoginBtn:'تسجيل الدخول بالبريد الإلكتروني وكلمة المرور',
+        noApptsFound:'لا توجد مواعيد مسجلة لحسابك حالياً.',
         rankLabel:'رقم الترتيب', confirmedBadge:'✅ تمت الموافقة • في القائمة', rejectedBadge:'❌ غير مؤكد', pendingBadge:'⏳ بانتظار تأكيد الطبيب',
         arrivalTimeMsg:'⏰ الوقت المحدد لحضورك: {time} (لتفادي الانتظار في القاعة)',
         waitDoctorTimeMsg:'⏰ سيحدد الطبيب أو العيادة الوقت المناسب لقدومك عند تأكيد الحجز.',
@@ -1263,25 +1301,25 @@
         noProAppts:'لا توجد مواعيد محجوزة حتى الآن.',
         timeInputPlaceholder:'وقت الحضور (مثال: 09:00)', confirmTimeBtn:'✅ تأكيد وتحديد الوقت',
         toastFillReq:'يرجى إدخال البيانات المطلوبة بشكل صحيح',
-        toastPassShort:'كلمة السر يجب أن تكون 6 أحرف على الأقل',
+        toastPhoneRequired:'يرجى إدخال رقم هاتف صحيح (إجباري لحجز المواعيد)',
+        toastLoginRequiredForBook:'يرجى تسجيل الدخول في حسابك أولاً وإضافة رقم الهاتف لحجز المواعيد',
+        toastPassShort:'كلمة المرور يجب أن تكون 6 أحرف على الأقل',
         toastBooked:'✅ تم تسجيل موعدك في {date} الساعة {time}! ترتيبك هو #{rank}',
         toastTimeSaved:'✅ تم تأكيد الموعد وتحديد الوقت للمريض!',
         toastEnterTime:'يرجى إدخال الوقت المناسب لقدوم المريض أولاً',
         toastProfileSaved:'✅ تم حفظ وتحديث معلوماتك وموقعك!',
         toastLoggedOut:'تم تسجيل الخروج',
         defaultAdText:'ضاعف عدد مرضاك وزبائنك! أعلن عن عيادتك، صيدليتك، أو مخبرك في الواجهة الرئيسية لتطبيق صحتي أمام آلاف الباحثين يومياً.',
-        uModalTitle:'👤 حساب المستخدم المحمي', uTabLogin:'تسجيل الدخول', uTabRegister:'حساب جديد',
-        uLblLoginContact:'رقم الهاتف أو البريد الإلكتروني *', uLblLoginPass:'كلمة السر *', uBtnLogin:'🔐 دخول آمن',
-        uLblRegName:'الاسم واللقب *',
-        uLblRegContact:'رقم الهاتف أو البريد الإلكتروني *', uLblRegPass:'تعيين كلمة السر (6 أحرف على الأقل) *',
-        uLblOtp:'رمز التحقق (OTP) *', uBtnSendOtp:'🔐 إرسال رمز التحقق', uBtnVerifyReg:'✅ تأكيد الرمز وإنشاء الحساب',
-        uOtpSentMsg:'🔐 رمز التحقق الخاص بتفعيل حسابك ({target}): <b>{otp}</b>',
-        uOtpWrong:'❌ رمز التحقق غير صحيح', uLoginWrong:'❌ رقم الهاتف/البريد أو كلمة السر غير صحيحة',
-        uAccountLocked:'⏳ تم قفل الدخول مؤقتاً بسبب تكرار المحاولات الخاطئة. حاول بعد {sec} ثانية.',
-        uAccExists:'هذا الحساب مسجل مسبقاً',
-        uTabEditTxt:'تعديل الحساب', uTabApptsTxt:'أرشيف المواعيد', uTabMedsTxt:'أرشيف دوائي',
-        uLblEditFullName:'الاسم واللقب', uLblEditPhone:'رقم الهاتف', uLblEditEmail:'البريد الإلكتروني',
-        uLblEditPass:'كلمة السر الجديدة (اتركها فارغة إن لم ترد تغييرها)',
+        uModalTitle:'👤 حساب المستخدم', uTabLogin:'دخول', uTabRegister:'حساب جديد',
+        uLblLoginEmail:'البريد الإلكتروني *', uLblLoginPass:'كلمة المرور *', uBtnLogin:'دخول',
+        uLblRegName:'الاسم واللقب *', uLblRegEmail:'البريد الإلكتروني *', uLblRegPass:'إنشاء كلمة مرور (6 أحرف على الأقل) *',
+        uBtnRegister:'إنشاء الحساب وإرسال تأكيد البريد',
+        uBtnCheckEmailVerified:'✅ لقد أكدت بريدي الإلكتروني',
+        uEmailSentNotice:'📩 تم إرسال رابط التحقق إلى بريدك الإلكتروني ({email}). افتح صندوق البريد واضغط رابط التأكيد ثم اضغط «لقد أكدت بريدي الإلكتروني» أو سجّل دخولك.',
+        uEmailNotVerifiedYet:'⚠️ لم يتم تأكيد البريد الإلكتروني بعد. يرجى فتح رسالة التحقق في بريدك الإلكتروني أولاً.',
+        uPhoneRequiredNotice:'📱 أضف رقم هاتفك الآن؛ رقم الهاتف إجباري لإتمام حجز المواعيد.',
+        uTabEditTxt:'تعديل الحساب', uTabApptsTxt:'مواعيدي', uTabMedsTxt:'أرشيف دوائي',
+        uLblEditFullName:'الاسم واللقب', uLblEditEmail:'البريد الإلكتروني', uLblEditPhone:'رقم الهاتف (إجباري لحجز المواعيد) *',
         uBtnSaveEdit:'💾 حفظ التعديلات', uBtnLogout:'🚪 تسجيل الخروج', uSavedMsg:'✅ تم تحديث بيانات حسابك',
         uNoArchAppts:'لا توجد مواعيد في أرشيفك حتى الآن.', uNoArchMeds:'لا توجد طلبات دوائي في أرشيفك حتى الآن.',
         medModalTitle:'💊 دوائي — بحث عن دواء غير متوفر',
@@ -1333,15 +1371,17 @@
         supTitle:'💬 Support & Demandes d’Abonnement / Pub',
         supPitch:'Bienvenue sur <b>SEHATI.dz</b> :<br>• Pour activer votre compte pro (médecin / pharmacie / clinique) et la prise de RDV.<br>• Pour réserver un espace publicitaire en page d’accueil.<br>• Pour toute assistance, contactez l’administration :',
         supCall:'📞 Appel direct administration', supWa:'💬 Message WhatsApp instantané',
-        bookTitle:'📅 Prendre un rendez-vous médical', lblName:'Nom et prénom *', lblPhone:'Téléphone de confirmation et suivi du rang *',
+        bookTitle:'📅 Prendre un rendez-vous médical', lblName:'Nom et prénom *', lblPhone:'Téléphone de confirmation (obligatoire) *',
         lblDate:'Date souhaitée *', lblExactTime:'Heure exacte *',
         workingHoursLbl:'🕒 Horaires du praticien : {hours}',
         timeTakenMsg:'⚠️ L’heure <b>{time}</b> est déjà réservée le <b>{date}</b>. Choisissez un créneau disponible :',
         availableSlotsTitle:'✅ Créneaux disponibles le {date} (cliquez pour choisir) :',
         noSlotsLeftMsg:'❌ Aucun créneau libre ce jour selon les horaires. Choisissez une autre date.',
         lblNote:'Motif de visite / Service (optionnel)', confirmBook:'✅ Confirmer la demande de RDV',
-        myApptsTitle:'📋 Mes RDV et mon rang d’attente', myPhoneLbl:'Connectez-vous à « Mon compte » ou entrez votre numéro',
-        lookupBtn:'Voir', enterPhoneHint:'Connectez-vous à « Mon compte » ou entrez votre téléphone pour voir vos RDV.', noApptsFound:'Aucun RDV trouvé avec ce numéro.',
+        myApptsTitle:'📋 Mes RDV et mon rang d’attente',
+        myApptsLockedNotice:'🔒 Les RDV sont visibles uniquement pour le compte actif connecté. Connectez-vous avec votre e-mail et mot de passe.',
+        goLoginBtn:'Connexion par e-mail et mot de passe',
+        noApptsFound:'Aucun RDV enregistré pour votre compte actuellement.',
         rankLabel:'Rang', confirmedBadge:'✅ Approuvé • Sur la liste', rejectedBadge:'❌ Non confirmé', pendingBadge:'⏳ En attente de confirmation',
         arrivalTimeMsg:'⏰ Heure fixée pour votre venue : {time} (pour éviter l’attente en salle)',
         waitDoctorTimeMsg:'⏰ Le médecin ou la clinique précisera votre heure de passage lors de la confirmation.',
@@ -1370,6 +1410,8 @@
         noProAppts:'Aucun rendez-vous enregistré pour le moment.',
         timeInputPlaceholder:'Heure de venue (ex: 09:00)', confirmTimeBtn:'✅ Valider & fixer l’heure',
         toastFillReq:'Veuillez remplir correctement les champs requis',
+        toastPhoneRequired:'Veuillez saisir un numéro de téléphone valide (obligatoire pour réserver)',
+        toastLoginRequiredForBook:'Veuillez vous connecter à votre compte et ajouter un numéro de téléphone pour réserver',
         toastPassShort:'Le mot de passe doit contenir au moins 6 caractères',
         toastBooked:'✅ RDV enregistré le {date} à {time} ! Votre rang est #{rank}',
         toastTimeSaved:'✅ RDV confirmé et heure fixée pour le patient !',
@@ -1377,18 +1419,16 @@
         toastProfileSaved:'✅ Informations et position mises à jour !',
         toastLoggedOut:'Déconnexion effectuée',
         defaultAdText:'Multipliez vos patients ! Affichez votre cabinet, pharmacie ou laboratoire sur l’accueil de SEHATI.',
-        uModalTitle:'👤 Compte utilisateur sécurisé', uTabLogin:'Connexion', uTabRegister:'Nouveau compte',
-        uLblLoginContact:'Téléphone ou adresse e-mail *', uLblLoginPass:'Mot de passe *', uBtnLogin:'🔐 Connexion sécurisée',
-        uLblRegName:'Nom et prénom *',
-        uLblRegContact:'Téléphone ou adresse e-mail *', uLblRegPass:'Définir un mot de passe (6 car. min) *',
-        uLblOtp:'Code de vérification (OTP) *', uBtnSendOtp:'🔐 Envoyer le code OTP', uBtnVerifyReg:'✅ Valider et créer le compte',
-        uOtpSentMsg:'🔐 Code de vérification pour ({target}) : <b>{otp}</b>',
-        uOtpWrong:'❌ Code de vérification invalide', uLoginWrong:'❌ Identifiants ou mot de passe incorrects',
-        uAccountLocked:'⏳ Connexion temporairement bloquée. Réessayez dans {sec}s.',
-        uAccExists:'Ce compte existe déjà',
-        uTabEditTxt:'Modifier compte', uTabApptsTxt:'Archive RDV', uTabMedsTxt:'Archive Médocs',
-        uLblEditFullName:'Nom et prénom', uLblEditPhone:'Téléphone', uLblEditEmail:'Adresse e-mail',
-        uLblEditPass:'Nouveau mot de passe (optionnel)',
+        uModalTitle:'👤 Compte utilisateur', uTabLogin:'Connexion', uTabRegister:'Nouveau compte',
+        uLblLoginEmail:'Adresse e-mail *', uLblLoginPass:'Mot de passe *', uBtnLogin:'Connexion',
+        uLblRegName:'Nom et prénom *', uLblRegEmail:'Adresse e-mail *', uLblRegPass:'Créer un mot de passe (6 car. min) *',
+        uBtnRegister:'Créer le compte et envoyer la vérification',
+        uBtnCheckEmailVerified:'✅ J’ai vérifié mon e-mail',
+        uEmailSentNotice:'📩 Un lien de vérification a été envoyé à ({email}). Validez-le dans votre boîte e-mail puis cliquez sur « J’ai vérifié mon e-mail » ou connectez-vous.',
+        uEmailNotVerifiedYet:'⚠️ Adresse e-mail non encore vérifiée. Ouvrez le lien reçu par e-mail d’abord.',
+        uPhoneRequiredNotice:'📱 Ajoutez votre numéro de téléphone ; il est obligatoire pour prendre un RDV.',
+        uTabEditTxt:'Modifier compte', uTabApptsTxt:'Mes RDV', uTabMedsTxt:'Archive Médocs',
+        uLblEditFullName:'Nom et prénom', uLblEditEmail:'Adresse e-mail', uLblEditPhone:'Téléphone (obligatoire pour RDV) *',
         uBtnSaveEdit:'💾 Enregistrer', uBtnLogout:'🚪 Déconnexion', uSavedMsg:'✅ Profil mis à jour',
         uNoArchAppts:'Aucun RDV dans votre archive.', uNoArchMeds:'Aucune recherche de médicament dans votre archive.',
         medModalTitle:'💊 Mon Médoc — Recherche de médicament indisponible',
@@ -1440,15 +1480,17 @@
         supTitle:'💬 Support, Subscriptions & Advertising',
         supPitch:'Welcome to <b>SEHATI.dz</b>:<br>• Activate your pro account (doctor / pharmacy / clinic) for appointment booking.<br>• Book a featured ad slot on the home screen.<br>• For support or inquiries, contact administration directly:',
         supCall:'📞 Direct Call to Admin', supWa:'💬 Instant WhatsApp Message',
-        bookTitle:'📅 Book a Medical Appointment', lblName:'Full Name *', lblPhone:'Phone Number for Confirmation & Queue *',
+        bookTitle:'📅 Book a Medical Appointment', lblName:'Full Name *', lblPhone:'Phone Number for Confirmation (Required) *',
         lblDate:'Preferred Date *', lblExactTime:'Exact Time *',
         workingHoursLbl:'🕒 Practitioner working hours: {hours}',
         timeTakenMsg:'⚠️ Time <b>{time}</b> is already booked on <b>{date}</b>. Pick an available slot below:',
         availableSlotsTitle:'✅ Available slots on {date} (tap to select):',
         noSlotsLeftMsg:'❌ No open slots left on this date within working hours. Choose another date.',
         lblNote:'Visit Reason / Service (Optional)', confirmBook:'✅ Confirm Appointment Request',
-        myApptsTitle:'📋 My Appointments & Queue Position', myPhoneLbl:'Sign in to My Account or enter your phone number',
-        lookupBtn:'Show', enterPhoneHint:'Sign in to My Account or enter your phone number to view appointments.', noApptsFound:'No appointments found for this phone number.',
+        myApptsTitle:'📋 My Appointments & Queue Position',
+        myApptsLockedNotice:'🔒 Appointments are visible only when signed in to an active account. Sign in with your email and password to view your appointments.',
+        goLoginBtn:'Sign In with Email & Password',
+        noApptsFound:'No appointments found for your account yet.',
         rankLabel:'Rank', confirmedBadge:'✅ Approved • On List', rejectedBadge:'❌ Not Confirmed', pendingBadge:'⏳ Pending Doctor Approval',
         arrivalTimeMsg:'⏰ Scheduled arrival time: {time} (to avoid waiting in the lobby)',
         waitDoctorTimeMsg:'⏰ The doctor or clinic will set your arrival time upon confirming.',
@@ -1477,6 +1519,8 @@
         noProAppts:'No appointments booked yet.',
         timeInputPlaceholder:'Arrival time (e.g. 09:00)', confirmTimeBtn:'✅ Confirm & Set Time',
         toastFillReq:'Please fill in required fields properly',
+        toastPhoneRequired:'Please enter a valid phone number (required for booking)',
+        toastLoginRequiredForBook:'Please sign in to your account and add your phone number to book an appointment',
         toastPassShort:'Password must be at least 6 characters',
         toastBooked:'✅ Appointment booked on {date} at {time}! Your rank is #{rank}',
         toastTimeSaved:'✅ Appointment confirmed and arrival time set!',
@@ -1484,18 +1528,16 @@
         toastProfileSaved:'✅ Profile and location updated!',
         toastLoggedOut:'Signed out',
         defaultAdText:'Grow your patient reach! Feature your clinic, pharmacy, or lab on the main screen of SEHATI.',
-        uModalTitle:'👤 Protected User Account', uTabLogin:'Sign In', uTabRegister:'New Account',
-        uLblLoginContact:'Phone Number or Email *', uLblLoginPass:'Password *', uBtnLogin:'🔐 Secure Sign In',
-        uLblRegName:'Full Name *',
-        uLblRegContact:'Phone Number or Email *', uLblRegPass:'Set Password (min 6 chars) *',
-        uLblOtp:'Verification Code (OTP) *', uBtnSendOtp:'🔐 Send Verification Code', uBtnVerifyReg:'✅ Verify & Create Account',
-        uOtpSentMsg:'🔐 Verification code for ({target}): <b>{otp}</b>',
-        uOtpWrong:'❌ Invalid verification code', uLoginWrong:'❌ Invalid phone/email or password',
-        uAccountLocked:'⏳ Login temporarily locked due to failed attempts. Retry in {sec}s.',
-        uAccExists:'Account already registered',
-        uTabEditTxt:'Edit Account', uTabApptsTxt:'Appts Archive', uTabMedsTxt:'My Med Archive',
-        uLblEditFullName:'Full Name', uLblEditPhone:'Phone Number', uLblEditEmail:'Email Address',
-        uLblEditPass:'New Password (optional)',
+        uModalTitle:'👤 User Account', uTabLogin:'Sign In', uTabRegister:'New Account',
+        uLblLoginEmail:'Email Address *', uLblLoginPass:'Password *', uBtnLogin:'Sign In',
+        uLblRegName:'Full Name *', uLblRegEmail:'Email Address *', uLblRegPass:'Create Password (min 6 chars) *',
+        uBtnRegister:'Create Account & Send Verification',
+        uBtnCheckEmailVerified:'✅ I Verified My Email',
+        uEmailSentNotice:'📩 A verification link was sent to ({email}). Open your inbox, verify your email, then tap « I Verified My Email » or sign in.',
+        uEmailNotVerifiedYet:'⚠️ Email address not verified yet. Please open the verification link in your email first.',
+        uPhoneRequiredNotice:'📱 Add your phone number; a phone number is required to book appointments.',
+        uTabEditTxt:'Edit Account', uTabApptsTxt:'My Appts', uTabMedsTxt:'My Med Archive',
+        uLblEditFullName:'Full Name', uLblEditEmail:'Email Address', uLblEditPhone:'Phone Number (Required for Booking) *',
         uBtnSaveEdit:'💾 Save Changes', uBtnLogout:'🚪 Sign Out', uSavedMsg:'✅ Account details updated',
         uNoArchAppts:'No appointments in your archive yet.', uNoArchMeds:'No medicine requests in your archive yet.',
         medModalTitle:'💊 My Meds — Search Unavailable Medicine',
@@ -1518,16 +1560,11 @@
       document.getElementById('privacyModal').classList.add('open');
     }
 
-    function deleteUserSessionAndData() {
-      currentUserSession = null;
-      sessionLookupPhone = '';
-      localStorage.removeItem('sehati_current_user');
-      localStorage.removeItem('sehati_last_patient_phone');
-      document.getElementById('myPhoneLookup').value = '';
-      document.getElementById('myApptsList').innerHTML = '';
-      updateMyApptsBadge();
-      window.updateHeaderAlertBadges();
-      renderUserAccountModal();
+    async function deleteUserSessionAndData() {
+      if (window.fbReady && window.fb.auth && window.fb.auth.currentUser) {
+        try { await window.fb.signOut(window.fb.auth); } catch (_) {}
+      }
+      window.clearActiveUserSessionOnSignOut();
       showToast(tr('localDataDeletedMsg'));
     }
 
@@ -1597,10 +1634,10 @@
     }
 
     window.defaultPlacesList = [
-      {id:'dz_1',tp:'h',approved:true,verified:true,nm_ar:'المستشفى الجامعي مصطفى باشا',nm_fr:'CHU Mustapha Pacha',nm_en:'Mustapha Pacha University Hospital',sp_ar:'مستشفى جامعي - جميع التخصصات والاستعجالات',sp_fr:'CHU - Toutes spécialités & Urgences',sp_en:'University Hospital - All Specialties & ER',srv_ar:'استعجالات 24/24، جراحة، طب القلب، طب الأطفال، تحاليل وأشعة',srv_fr:'Urgences 24/24, Chirurgie, Cardiologie, Pédiatrie, Labo & Imagerie',srv_en:'24/7 ER, Surgery, Cardiology, Pediatrics, Lab & Imaging',ad_ar:'ساحة أول ماي، الجزائر الوسطى، الجزائر',ad_fr:'Place du 1er Mai, Alger-Centre, Alger',ad_en:'1er Mai Square, Algiers Center, Algeria',hr_ar:'مفتوح 24 ساعة / 7 أيام',hr_fr:'Ouvert 24h/24 - 7j/7',hr_en:'Open 24/7',ph:'021235555',lat:36.7628,lng:3.0536,feat:true,canBook:false},
-      {id:'dz_2',tp:'h',approved:true,verified:true,nm_ar:'المستشفى الجامعي فرانس فانون - البليدة',nm_fr:'CHU Frantz Fanon - Blida',nm_en:'Frantz Fanon University Hospital - Blida',sp_ar:'مستشفى جامعي - مركز مكافحة السرطان والاستعجالات',sp_fr:'CHU - Centre Anti-Cancer & Urgences',sp_en:'University Hospital - Cancer Center & ER',srv_ar:'استعجالات، طب الأورام، جراحة الأعصاب، أمراض القلب، مخبر مركزي',srv_fr:'Urgences, Oncologie, Neurochirurgie, Cardiologie, Laboratoire central',srv_en:'ER, Oncology, Neurosurgery, Cardiology, Central Lab',ad_ar:'طريق زعبانة، البليدة',ad_fr:'Route de Zabana, Blida',ad_en:'Zabana Road, Blida',hr_ar:'مفتوح 24 ساعة / 7 أيام',hr_fr:'Ouvert 24h/24 - 7j/7',hr_en:'Open 24/7',ph:'025418888',lat:36.4795,lng:2.8124,feat:true,canBook:false},
-      {id:'dz_3',tp:'h',approved:true,verified:false,nm_ar:'المؤسسة العمومية الاستشفائية - مفتاح',nm_fr:'EPH Meftah - Hôpital',nm_en:'Meftah Public Hospital',sp_ar:'مستشفى عمومي - استعجالات طبية وجراحية',sp_fr:'Hôpital Public - Urgences',sp_en:'Public Hospital - Medical & Surgical ER',srv_ar:'استعجالات 24/24، طب عام، أمومة وطفولة، أشعة وتحاليل',srv_fr:'Urgences 24/24, Médecine générale, Maternité, Radiologie',srv_en:'24/7 ER, General Medicine, Maternity, Radiology & Lab',ad_ar:'مفتاح، ولاية البليدة',ad_fr:'Meftah, Wilaya de Blida',ad_en:'Meftah, Blida Province',hr_ar:'مفتوح 24 ساعة / 7 أيام',hr_fr:'Ouvert 24h/24 - 7j/7',hr_en:'Open 24/7',ph:'025331212',lat:36.6203,lng:3.2225,feat:false,canBook:false},
-      {id:'dz_4',tp:'c',approved:true,verified:true,nm_ar:'عيادة الأزهر الطبية الجراحية - الجزائر',nm_fr:'Clinique El Azhar - Alger',nm_en:'El Azhar Medical & Surgical Clinic - Algiers',sp_ar:'عيادة خاصة متعددة التخصصات',sp_fr:'Clinique Médico-Chirurgicale',sp_en:'Multi-Specialty Private Clinic',srv_ar:'جراحة القلب، القسطرة، سكانير وإيريم (IRM)، استعجالات 24/24',srv_fr:'Chirurgie cardiaque, Cathétérisme, Scanner & IRM, Urgences 24/24',srv_en:'Cardiac Surgery, Catheterization, CT & MRI, 24/7 ER',ad_ar:'دالي إبراهيم، الجزائر العاصمة',ad_fr:'Dely Ibrahim, Alger',ad_en:'Dely Ibrahim, Algiers',hr_ar:'مفتوح 24 ساعة / 7 أيام',hr_fr:'Ouvert 24h/24',hr_en:'Open 24/7',ph:'023304040',lat:36.7575,lng:2.9814,feat:true,canBook:true}
+      {id:'dz_1',tp:'h',approved:false,verified:false,nm_ar:'المستشفى الجامعي مصطفى باشا',nm_fr:'CHU Mustapha Pacha',nm_en:'Mustapha Pacha University Hospital',sp_ar:'مستشفى جامعي - جميع التخصصات والاستعجالات',sp_fr:'CHU - Toutes spécialités & Urgences',sp_en:'University Hospital - All Specialties & ER',srv_ar:'استعجالات 24/24، جراحة، طب القلب، طب الأطفال، تحاليل وأشعة',srv_fr:'Urgences 24/24, Chirurgie, Cardiologie, Pédiatrie, Labo & Imagerie',srv_en:'24/7 ER, Surgery, Cardiology, Pediatrics, Lab & Imaging',ad_ar:'ساحة أول ماي، الجزائر الوسطى، الجزائر',ad_fr:'Place du 1er Mai, Alger-Centre, Alger',ad_en:'1er Mai Square, Algiers Center, Algeria',hr_ar:'مفتوح 24 ساعة / 7 أيام',hr_fr:'Ouvert 24h/24 - 7j/7',hr_en:'Open 24/7',ph:'021235555',lat:36.7628,lng:3.0536,feat:false,canBook:false},
+      {id:'dz_2',tp:'h',approved:false,verified:false,nm_ar:'المستشفى الجامعي فرانس فانون - البليدة',nm_fr:'CHU Frantz Fanon - Blida',nm_en:'Frantz Fanon University Hospital - Blida',sp_ar:'مستشفى جامعي - مركز مكافحة السرطان والاستعجالات',sp_fr:'CHU - Centre Anti-Cancer & Urgences',sp_en:'University Hospital - Cancer Center & ER',srv_ar:'استعجالات، طب الأورام، جراحة الأعصاب، أمراض القلب، مخبر مركزي',srv_fr:'Urgences, Oncologie, Neurochirurgie, Cardiologie, Laboratoire central',srv_en:'ER, Oncology, Neurosurgery, Cardiology, Central Lab',ad_ar:'طريق زعبانة، البليدة',ad_fr:'Route de Zabana, Blida',ad_en:'Zabana Road, Blida',hr_ar:'مفتوح 24 ساعة / 7 أيام',hr_fr:'Ouvert 24h/24 - 7j/7',hr_en:'Open 24/7',ph:'025418888',lat:36.4795,lng:2.8124,feat:false,canBook:false},
+      {id:'dz_3',tp:'h',approved:false,verified:false,nm_ar:'المؤسسة العمومية الاستشفائية - مفتاح',nm_fr:'EPH Meftah - Hôpital',nm_en:'Meftah Public Hospital',sp_ar:'مستشفى عمومي - استعجالات طبية وجراحية',sp_fr:'Hôpital Public - Urgences',sp_en:'Public Hospital - Medical & Surgical ER',srv_ar:'استعجالات 24/24، طب عام، أمومة وطفولة، أشعة وتحاليل',srv_fr:'Urgences 24/24, Médecine générale, Maternité, Radiologie',srv_en:'24/7 ER, General Medicine, Maternity, Radiology & Lab',ad_ar:'مفتاح، ولاية البليدة',ad_fr:'Meftah, Wilaya de Blida',ad_en:'Meftah, Blida Province',hr_ar:'مفتوح 24 ساعة / 7 أيام',hr_fr:'Ouvert 24h/24 - 7j/7',hr_en:'Open 24/7',ph:'025331212',lat:36.6203,lng:3.2225,feat:false,canBook:false},
+      {id:'dz_4',tp:'c',approved:false,verified:false,nm_ar:'عيادة الأزهر الطبية الجراحية - الجزائر',nm_fr:'Clinique El Azhar - Alger',nm_en:'El Azhar Medical & Surgical Clinic - Algiers',sp_ar:'عيادة خاصة متعددة التخصصات',sp_fr:'Clinique Médico-Chirurgicale',sp_en:'Multi-Specialty Private Clinic',srv_ar:'جراحة القلب، القسطرة، سكانير وإيريم (IRM)، استعجالات 24/24',srv_fr:'Chirurgie cardiaque, Cathétérisme, Scanner & IRM, Urgences 24/24',srv_en:'Cardiac Surgery, Catheterization, CT & MRI, 24/7 ER',ad_ar:'دالي إبراهيم، الجزائر العاصمة',ad_fr:'Dely Ibrahim, Alger',ad_en:'Dely Ibrahim, Algiers',hr_ar:'مفتوح 24 ساعة / 7 أيام',hr_fr:'Ouvert 24h/24',hr_en:'Open 24/7',ph:'023304040',lat:36.7575,lng:2.9814,feat:false,canBook:true}
     ];
 
     function getLocalizedField(item, prefix) {
@@ -1609,10 +1646,18 @@
       return item[`${prefix}_ar`] || item[`${prefix}_fr`] || item[`${prefix}_en`] || '';
     }
 
+    function isAdminActivatedPro(item) {
+      if (!item || item.approved !== true) return false;
+      const isDefaultOrImported = String(item.id || '').startsWith('dz_') || String(item.id || '').startsWith('imp_');
+      if (isDefaultOrImported) return false;
+      if (!item.subscriptionExpiresAt) return false;
+      return Number(item.subscriptionExpiresAt) > Date.now();
+    }
+
     function getSubscriptionInfo(item) {
       const isDefaultOrImported = !item || String(item.id || '').startsWith('dz_') || String(item.id || '').startsWith('imp_');
       if (isDefaultOrImported) {
-        return { isPro: false, isActive: item?.approved !== false, label: '', remainingDays: null, remainingText: '', expiresAt: null, isLastWeek: false };
+        return { isPro: false, isActive: true, label: '', remainingDays: null, remainingText: '', expiresAt: null, isLastWeek: false };
       }
       const now = Date.now();
       const expiresAt = item.subscriptionExpiresAt ? Number(item.subscriptionExpiresAt) : null;
@@ -1649,7 +1694,9 @@
     }
 
     function isItemPubliclyVisible(item) {
-      if (item.approved === false) return false;
+      const isDefaultOrImported = !item || String(item.id || '').startsWith('dz_') || String(item.id || '').startsWith('imp_');
+      if (isDefaultOrImported) return item.approved !== false;
+      if (item.approved !== true) return false;
       const sub = getSubscriptionInfo(item);
       if (sub.isPro && !sub.isActive) return false;
       return true;
@@ -1672,7 +1719,7 @@
         if (document.getElementById('medicineModal').classList.contains('open')) {
           renderMedicineRequests();
         }
-        if (document.getElementById('userAccountModal').classList.contains('open') && currentUserSession) {
+        if (document.getElementById('userAccountModal').classList.contains('open') && isUserAuthenticatedActive()) {
           renderUserArchiveMeds();
         }
         if (isAdminUnlocked) {
@@ -1761,29 +1808,27 @@
       document.getElementById('btnConfirmBook').textContent = tr('confirmBook');
 
       document.getElementById('myApptsModalTitle').textContent = tr('myApptsTitle');
-      document.getElementById('myPhoneLookupLbl').textContent = tr('myPhoneLbl');
-      document.getElementById('btnLookupAppts').textContent = tr('lookupBtn');
+      document.getElementById('myApptsLockedNotice').textContent = tr('myApptsLockedNotice');
+      document.getElementById('btnGoLoginForAppts').textContent = tr('goLoginBtn');
 
       document.getElementById('userAccModalTitle').textContent = tr('uModalTitle');
       document.getElementById('uTabLogin').textContent = tr('uTabLogin');
       document.getElementById('uTabRegister').textContent = tr('uTabRegister');
-      document.getElementById('uLblLoginContact').textContent = tr('uLblLoginContact');
+      document.getElementById('uLblLoginEmail').textContent = tr('uLblLoginEmail');
       document.getElementById('uLblLoginPass').textContent = tr('uLblLoginPass');
       document.getElementById('uBtnLogin').textContent = tr('uBtnLogin');
       document.getElementById('uLblRegName').textContent = tr('uLblRegName');
-      document.getElementById('uLblRegContact').textContent = tr('uLblRegContact');
+      document.getElementById('uLblRegEmail').textContent = tr('uLblRegEmail');
       document.getElementById('uLblRegPass').textContent = tr('uLblRegPass');
-      document.getElementById('uLblOtp').textContent = tr('uLblOtp');
-      document.getElementById('uBtnSendOtp').textContent = tr('uBtnSendOtp');
-      document.getElementById('uBtnVerifyReg').textContent = tr('uBtnVerifyReg');
+      document.getElementById('uBtnRegister').textContent = tr('uBtnRegister');
+      document.getElementById('uBtnCheckEmailVerified').textContent = tr('uBtnCheckEmailVerified');
 
       document.getElementById('uTabEditTxt').textContent = tr('uTabEditTxt');
       document.getElementById('uTabApptsTxt').textContent = tr('uTabApptsTxt');
       document.getElementById('uTabMedsTxt').textContent = tr('uTabMedsTxt');
       document.getElementById('uLblEditFullName').textContent = tr('uLblEditFullName');
-      document.getElementById('uLblEditPhone').textContent = tr('uLblEditPhone');
       document.getElementById('uLblEditEmail').textContent = tr('uLblEditEmail');
-      document.getElementById('uLblEditPass').textContent = tr('uLblEditPass');
+      document.getElementById('uLblEditPhone').textContent = tr('uLblEditPhone');
       document.getElementById('uBtnSaveEdit').textContent = tr('uBtnSaveEdit');
       document.getElementById('uBtnLogout').textContent = tr('uBtnLogout');
 
@@ -1852,7 +1897,7 @@
         refreshBookingHoursAndAvailability();
         updateBookQueuePreview();
       }
-      if (document.getElementById('myApptsModal').classList.contains('open')) lookupMyAppointments();
+      if (document.getElementById('myApptsModal').classList.contains('open')) renderMyAppointmentsModal();
       if (document.getElementById('proDashboardView').style.display === 'block') showProDashboard();
       if (document.getElementById('userAccountModal').classList.contains('open')) renderUserAccountModal();
       if (document.getElementById('medicineModal').classList.contains('open')) renderMedicineRequests();
@@ -2063,23 +2108,19 @@
       if (tab === 'meds') renderUserArchiveMeds();
     }
 
-    function renderUserArchiveAppts() {
-      const box = document.getElementById('uArchiveApptsList');
-      if (!box || !currentUserSession) {
-        if (box) box.innerHTML = '';
-        return;
-      }
-      const phone = (currentUserSession.phone || '').trim();
+    function buildUserAppointmentsHtml() {
+      if (!isUserAuthenticatedActive()) return '';
+      const phone = getActiveUserPhone();
+      const uId = String(currentUserSession.id || '').trim();
       const mine = localAppointments
-        .filter(a => (phone && a.patientPhone === phone) || (a.userId && a.userId === currentUserSession.id))
+        .filter(a => (uId && a.userId === uId) || (phone && a.patientPhone === phone))
         .sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
 
       if (!mine.length) {
-        box.innerHTML = `<p style="text-align:center;color:var(--muted);padding:16px;">${tr('uNoArchAppts')}</p>`;
-        return;
+        return `<p style="text-align:center;color:var(--muted);padding:16px;">${tr('noApptsFound')}</p>`;
       }
 
-      box.innerHTML = mine.map(a => {
+      return mine.map(a => {
         const rank = getAppointmentQueueNumber(a);
         const isConfirmed = a.status === 'confirmed';
         const isRejected = a.status === 'rejected';
@@ -2090,6 +2131,9 @@
             : `<span class="status-badge status-pending">${tr('pendingBadge')}</span>`;
 
         const timeLabel = a.assignedTime || a.exactTime || a.period || '';
+        const arrivalTimeHtml = a.assignedTime
+          ? `<div style="margin-top:6px;background:rgba(15,118,110,.12);border-inline-start:3px solid var(--primary);padding:6px 10px;border-radius:8px;font-weight:800;color:var(--primary);">${tr('arrivalTimeMsg', { time: a.assignedTime })}</div>`
+          : `<div style="margin-top:6px;color:var(--muted);font-size:.8rem;">${tr('waitDoctorTimeMsg')}</div>`;
 
         return `
           <div class="appt-item">
@@ -2101,19 +2145,28 @@
               <span>📅 ${a.date} ${timeLabel ? `• 🕒 ${timeLabel}` : ''}</span>
               ${statusHtml}
             </div>
-            ${a.assignedTime ? `<div style="margin-top:6px;color:var(--primary);font-weight:800;">${tr('arrivalTimeMsg', { time: a.assignedTime })}</div>` : ''}
+            ${arrivalTimeHtml}
             ${isConfirmed ? `<button type="button" onclick="downloadAppointmentReceipt('${a.id}')" class="btn-receipt">${tr('downloadReceiptBtn')}</button>` : ''}
           </div>
         `;
       }).join('');
     }
 
+    function renderUserArchiveAppts() {
+      const box = document.getElementById('uArchiveApptsList');
+      if (!box) return;
+      if (!isUserAuthenticatedActive()) {
+        box.innerHTML = '';
+        return;
+      }
+      box.innerHTML = buildUserAppointmentsHtml();
+    }
+
     function canEditMedicineRequest(r) {
-      if (!r) return false;
-      const uPhone = (currentUserSession && currentUserSession.phone || '').trim();
-      const uId = (currentUserSession && currentUserSession.id || '').trim();
-      const activePhone = getActiveSessionUserPhone();
-      return Boolean((uId && r.userId === uId) || (uPhone && r.phone === uPhone) || (activePhone && r.phone === activePhone));
+      if (!r || !isUserAuthenticatedActive()) return false;
+      const uPhone = getActiveUserPhone();
+      const uId = String(currentUserSession.id || '').trim();
+      return Boolean((uId && r.userId === uId) || (uPhone && r.phone === uPhone));
     }
 
     function canDeleteMedicineRequest(r) {
@@ -2145,13 +2198,15 @@
 
     function renderUserArchiveMeds() {
       const box = document.getElementById('uArchiveMedsList');
-      if (!box || !currentUserSession) {
-        if (box) box.innerHTML = '';
+      if (!box) return;
+      if (!isUserAuthenticatedActive()) {
+        box.innerHTML = '';
         return;
       }
-      const phone = (currentUserSession.phone || '').trim();
+      const phone = getActiveUserPhone();
+      const uId = String(currentUserSession.id || '').trim();
       const mine = medicineRequests.filter(r =>
-        (r.userId && r.userId === currentUserSession.id) || (phone && r.phone === phone)
+        (uId && r.userId === uId) || (phone && r.phone === phone)
       );
 
       if (!mine.length) {
@@ -2163,14 +2218,23 @@
     }
 
     function renderUserAccountModal() {
-      if (currentUserSession) {
+      if (isUserAuthenticatedActive()) {
         document.getElementById('userAuthBox').style.display = 'none';
         document.getElementById('userProfileBox').style.display = 'block';
-        document.getElementById('uActiveSummary').innerHTML = `👤 <b>${currentUserSession.fullName || ''}</b> (${currentUserSession.phone || currentUserSession.email || ''})`;
+        document.getElementById('uActiveSummary').innerHTML = `👤 <b>${currentUserSession.fullName || ''}</b> • 📧 ${currentUserSession.email || ''}${currentUserSession.phone ? ` • 📞 ${currentUserSession.phone}` : ''}`;
         document.getElementById('uEditFullName').value = currentUserSession.fullName || '';
-        document.getElementById('uEditPhone').value = currentUserSession.phone || '';
         document.getElementById('uEditEmail').value = currentUserSession.email || '';
-        document.getElementById('uEditPass').value = '';
+        document.getElementById('uEditPhone').value = currentUserSession.phone || '';
+
+        const phoneBanner = document.getElementById('uPhoneRequiredBanner');
+        if (!currentUserSession.phone || !String(currentUserSession.phone).trim()) {
+          phoneBanner.style.display = 'block';
+          phoneBanner.textContent = tr('uPhoneRequiredNotice');
+        } else {
+          phoneBanner.style.display = 'none';
+          phoneBanner.textContent = '';
+        }
+
         renderUserArchiveAppts();
         renderUserArchiveMeds();
       } else {
@@ -2184,158 +2248,127 @@
       window.updateHeaderProBadge();
     }
 
-    async function sendUserOtp() {
+    async function registerUserByEmail() {
       const fullName = document.getElementById('uRegFullName').value.trim();
-      const contact = document.getElementById('uRegContact').value.trim();
+      const email = document.getElementById('uRegEmail').value.trim();
       const pass = document.getElementById('uRegPass').value;
 
-      if (!fullName || !contact || !pass) { showToast(tr('toastFillReq')); return; }
+      if (!fullName || !email || !pass) { showToast(tr('toastFillReq')); return; }
       if (pass.length < 6) { showToast(tr('toastPassShort')); return; }
+      if (!window.fbReady || !window.fb.auth) { showToast(tr('adminAuthRequired')); return; }
 
-      const exists = usersList.some(u => (u.phone && u.phone === contact) || (u.email && u.email.toLowerCase() === contact.toLowerCase()));
-      if (exists) { showToast(tr('uAccExists')); return; }
+      try {
+        const cred = await window.fb.createUserWithEmailAndPassword(window.fb.auth, email, pass);
+        const fbUser = cred.user;
+        await window.fb.sendEmailVerification(fbUser);
 
-      const otpCode = String(Math.floor(100000 + Math.random() * 900000));
-      const passwordHash = await sha256Hex(pass);
-      pendingUserOtp = { fullName, contact, passwordHash, otpCode, expiresAt: Date.now() + 5 * 60 * 1000 };
+        userProfilesMap[fbUser.uid] = {
+          id: fbUser.uid,
+          email: fbUser.email,
+          fullName,
+          phone: '',
+          emailVerified: false
+        };
+        localStorage.setItem('sehati_user_profiles', JSON.stringify(userProfilesMap));
 
-      const otpBox = document.getElementById('uOtpDisplay');
-      otpBox.style.display = 'block';
-      otpBox.innerHTML = tr('uOtpSentMsg', { target: contact, otp: otpCode });
-      document.getElementById('uOtpInputGroup').style.display = 'block';
-      document.getElementById('uBtnVerifyReg').style.display = 'block';
+        const box = document.getElementById('uEmailVerifyBox');
+        box.style.display = 'block';
+        box.textContent = tr('uEmailSentNotice', { email: fbUser.email });
+        document.getElementById('uBtnCheckEmailVerified').style.display = 'block';
+        showToast(tr('uEmailSentNotice', { email: fbUser.email }));
+      } catch (err) {
+        showToast('❌ ' + (err.message || tr('toastFillReq')));
+      }
     }
 
-    async function completeUserRegistration() {
-      if (!pendingUserOtp || Date.now() > pendingUserOtp.expiresAt) {
-        pendingUserOtp = null;
-        showToast(tr('uOtpWrong'));
+    async function verifyEmailStatusNow() {
+      if (!window.fbReady || !window.fb.auth || !window.fb.auth.currentUser) {
+        showToast(tr('uEmailNotVerifiedYet'));
         return;
       }
-      const enteredOtp = document.getElementById('uOtpCode').value.trim();
-      if (enteredOtp !== pendingUserOtp.otpCode) {
-        showToast(tr('uOtpWrong'));
-        return;
+      try {
+        await window.fb.auth.currentUser.reload();
+        const fbUser = window.fb.auth.currentUser;
+        if (!fbUser.emailVerified) {
+          showToast(tr('uEmailNotVerifiedYet'));
+          return;
+        }
+        await window.syncFirebaseUserSession(fbUser);
+        document.getElementById('uEmailVerifyBox').style.display = 'none';
+        document.getElementById('uBtnCheckEmailVerified').style.display = 'none';
+        switchUserDashTab('edit');
+        renderUserAccountModal();
+        showToast('✅');
+      } catch (_) {
+        showToast(tr('uEmailNotVerifiedYet'));
       }
-
-      const isEmail = pendingUserOtp.contact.includes('@');
-      const newUser = {
-        id: 'usr_' + Date.now(),
-        fullName: pendingUserOtp.fullName,
-        phone: isEmail ? '' : pendingUserOtp.contact,
-        email: isEmail ? pendingUserOtp.contact : '',
-        passwordHash: pendingUserOtp.passwordHash
-      };
-
-      usersList.push(newUser);
-      localStorage.setItem('sehati_users_list', JSON.stringify(usersList));
-      currentUserSession = newUser;
-      localStorage.setItem('sehati_current_user', JSON.stringify(newUser));
-      if (newUser.phone) {
-        sessionLookupPhone = newUser.phone;
-      }
-
-      pendingUserOtp = null;
-      document.getElementById('uRegFullName').value = '';
-      document.getElementById('uRegContact').value = '';
-      document.getElementById('uRegPass').value = '';
-      document.getElementById('uOtpCode').value = '';
-      document.getElementById('uOtpDisplay').style.display = 'none';
-      document.getElementById('uOtpInputGroup').style.display = 'none';
-      document.getElementById('uBtnVerifyReg').style.display = 'none';
-
-      updateMyApptsBadge();
-      applyTranslationsToStaticUI();
-      renderUserAccountModal();
-      switchUserDashTab('edit');
-      showToast('✅');
     }
 
     async function userLogin() {
-      const now = Date.now();
-      if (userLoginAttempts.lockUntil && now < userLoginAttempts.lockUntil) {
-        const sec = Math.ceil((userLoginAttempts.lockUntil - now) / 1000);
-        showToast(tr('uAccountLocked', { sec }));
-        return;
-      }
-
-      const contact = document.getElementById('uLoginContact').value.trim();
+      const email = document.getElementById('uLoginEmail').value.trim();
       const pass = document.getElementById('uLoginPass').value;
-      if (!contact || !pass) { showToast(tr('toastFillReq')); return; }
+      if (!email || !pass) { showToast(tr('toastFillReq')); return; }
+      if (!window.fbReady || !window.fb.auth) { showToast(tr('adminAuthRequired')); return; }
 
-      const inputHash = await sha256Hex(pass);
-      const found = usersList.find(u =>
-        ((u.phone && u.phone === contact) || (u.email && u.email.toLowerCase() === contact.toLowerCase())) &&
-        u.passwordHash === inputHash
-      );
+      try {
+        const cred = await window.fb.signInWithEmailAndPassword(window.fb.auth, email, pass);
+        await cred.user.reload();
+        const fbUser = window.fb.auth.currentUser || cred.user;
+        if (!fbUser.emailVerified) {
+          await window.fb.sendEmailVerification(fbUser).catch(() => {});
+          const box = document.getElementById('uEmailVerifyBox');
+          box.style.display = 'block';
+          box.textContent = tr('uEmailSentNotice', { email: fbUser.email });
+          document.getElementById('uBtnCheckEmailVerified').style.display = 'block';
+          showToast(tr('uEmailNotVerifiedYet'));
+          return;
+        }
 
-      if (!found) {
-        const nextCount = (userLoginAttempts.count || 0) + 1;
-        userLoginAttempts = nextCount >= 5
-          ? { count: 0, lockUntil: Date.now() + 60 * 1000 }
-          : { count: nextCount, lockUntil: 0 };
-        localStorage.setItem('sehati_user_lock', JSON.stringify(userLoginAttempts));
-        showToast(tr('uLoginWrong'));
-        return;
+        await window.syncFirebaseUserSession(fbUser);
+        document.getElementById('uLoginPass').value = '';
+        renderUserAccountModal();
+        if (!getActiveUserPhone()) {
+          switchUserDashTab('edit');
+        }
+        showToast('✅');
+      } catch (err) {
+        showToast('❌ ' + (err.message || tr('toastFillReq')));
       }
-
-      userLoginAttempts = { count: 0, lockUntil: 0 };
-      localStorage.setItem('sehati_user_lock', JSON.stringify(userLoginAttempts));
-
-      currentUserSession = found;
-      localStorage.setItem('sehati_current_user', JSON.stringify(found));
-      if (found.phone) {
-        sessionLookupPhone = found.phone;
-      }
-      document.getElementById('uLoginPass').value = '';
-      updateMyApptsBadge();
-      applyTranslationsToStaticUI();
-      renderUserAccountModal();
-      showToast('✅');
     }
 
-    async function saveUserProfileChanges() {
-      if (!currentUserSession) return;
+    function saveUserProfileChanges() {
+      if (!isUserAuthenticatedActive()) return;
       const fullName = document.getElementById('uEditFullName').value.trim();
       const phone = document.getElementById('uEditPhone').value.trim();
-      const email = document.getElementById('uEditEmail').value.trim();
-      const newPass = document.getElementById('uEditPass').value;
+      if (!phone || phone.length < 6) {
+        showToast(tr('toastPhoneRequired'));
+        return;
+      }
 
-      if (!phone && !email) { showToast(tr('toastFillReq')); return; }
-      if (newPass && newPass.length < 6) { showToast(tr('toastPassShort')); return; }
-
-      const passwordHash = newPass ? await sha256Hex(newPass) : currentUserSession.passwordHash;
       const updated = {
         ...currentUserSession,
         fullName: fullName || currentUserSession.fullName,
         phone,
-        email,
-        passwordHash
+        emailVerified: true
       };
 
-      usersList = usersList.map(u => u.id === updated.id ? updated : u);
-      localStorage.setItem('sehati_users_list', JSON.stringify(usersList));
+      userProfilesMap[updated.id] = updated;
+      localStorage.setItem('sehati_user_profiles', JSON.stringify(userProfilesMap));
       currentUserSession = updated;
       localStorage.setItem('sehati_current_user', JSON.stringify(updated));
-      if (phone) {
-        sessionLookupPhone = phone;
-      }
+
       updateMyApptsBadge();
       applyTranslationsToStaticUI();
       renderUserAccountModal();
       showToast(tr('uSavedMsg'));
     }
 
-    function userLogout() {
-      currentUserSession = null;
-      sessionLookupPhone = '';
-      localStorage.removeItem('sehati_current_user');
-      localStorage.removeItem('sehati_last_patient_phone');
-      document.getElementById('myPhoneLookup').value = '';
-      document.getElementById('myApptsList').innerHTML = '';
-      updateMyApptsBadge();
+    async function userLogout() {
+      if (window.fbReady && window.fb.auth) {
+        try { await window.fb.signOut(window.fb.auth); } catch (_) {}
+      }
+      window.clearActiveUserSessionOnSignOut();
       applyTranslationsToStaticUI();
-      renderUserAccountModal();
       showToast(tr('toastLoggedOut'));
     }
 
@@ -2345,8 +2378,9 @@
       if (drawer.classList.contains('open')) {
         closeMedFormDrawer();
       } else {
-        if (currentUserSession && currentUserSession.phone && !document.getElementById('medPhoneInput').value) {
-          document.getElementById('medPhoneInput').value = currentUserSession.phone;
+        const activePhone = getActiveUserPhone();
+        if (activePhone && !document.getElementById('medPhoneInput').value) {
+          document.getElementById('medPhoneInput').value = activePhone;
         }
         drawer.classList.add('open');
       }
@@ -2439,7 +2473,7 @@
 
       const reqObj = {
         id: 'med_' + Date.now() + '_' + Math.floor(Math.random() * 1000),
-        userId: currentUserSession ? currentUserSession.id : '',
+        userId: isUserAuthenticatedActive() ? currentUserSession.id : '',
         medName,
         imgData: finalImg,
         phone,
@@ -2694,85 +2728,58 @@
     function updateMyApptsBadge() {
       const badge = document.getElementById('myApptsBadge');
       if (!badge) return;
-      const activePhone = getActiveSessionUserPhone();
-      const mine = activePhone ? localAppointments.filter(a => a.patientPhone === activePhone) : [];
+      if (!isUserAuthenticatedActive()) {
+        badge.textContent = '0';
+        return;
+      }
+      const phone = getActiveUserPhone();
+      const uId = String(currentUserSession.id || '').trim();
+      const mine = localAppointments.filter(a => (uId && a.userId === uId) || (phone && a.patientPhone === phone));
       badge.textContent = mine.length;
     }
 
-    function openMyAppointments() {
+    function renderMyAppointmentsModal() {
+      const gateEl = document.getElementById('myApptsAccountGate');
+      const listEl = document.getElementById('myApptsList');
+      if (!isUserAuthenticatedActive()) {
+        gateEl.style.display = 'block';
+        listEl.innerHTML = '';
+        updateMyApptsBadge();
+        window.updateHeaderAlertBadges();
+        return;
+      }
+
+      gateEl.style.display = 'none';
       markUserApprovedBookingsAsChecked();
-      const activePhone = getActiveSessionUserPhone();
-      document.getElementById('myPhoneLookup').value = activePhone || '';
-      document.getElementById('myApptsModal').classList.add('open');
-      lookupMyAppointments();
+      updateMyApptsBadge();
+      listEl.innerHTML = buildUserAppointmentsHtml();
     }
 
-    function lookupMyAppointments() {
-      const phone = document.getElementById('myPhoneLookup').value.trim();
-      const listEl = document.getElementById('myApptsList');
-      if (!phone) {
-        sessionLookupPhone = '';
-        updateMyApptsBadge();
-        listEl.innerHTML = `<p style="text-align:center;color:var(--muted);padding:16px;">${tr('enterPhoneHint')}</p>`;
-        return;
-      }
-      sessionLookupPhone = phone;
-      updateMyApptsBadge();
-      markUserApprovedBookingsAsChecked();
-
-      const mine = localAppointments
-        .filter(a => a.patientPhone === phone)
-        .sort((a, b) => getApptSortTimestamp(b) - getApptSortTimestamp(a));
-
-      if (!mine.length) {
-        listEl.innerHTML = `<p style="text-align:center;color:var(--muted);padding:16px;">${tr('noApptsFound')}</p>`;
-        return;
-      }
-
-      listEl.innerHTML = mine.map(a => {
-        const rank = getAppointmentQueueNumber(a);
-        const isConfirmed = a.status === 'confirmed';
-        const isRejected = a.status === 'rejected';
-        const statusHtml = isConfirmed
-          ? `<span class="status-badge status-active">${tr('confirmedBadge')}</span>`
-          : isRejected
-            ? `<span class="status-badge status-rejected">${tr('rejectedBadge')}</span>`
-            : `<span class="status-badge status-pending">${tr('pendingBadge')}</span>`;
-
-        const timeLabel = a.assignedTime || a.exactTime || a.period || '';
-        const arrivalTimeHtml = a.assignedTime
-          ? `<div style="margin-top:6px;background:rgba(15,118,110,.12);border-inline-start:3px solid var(--primary);padding:6px 10px;border-radius:8px;font-weight:800;color:var(--primary);">${tr('arrivalTimeMsg', { time: a.assignedTime })}</div>`
-          : `<div style="margin-top:6px;color:var(--muted);font-size:.8rem;">${tr('waitDoctorTimeMsg')}</div>`;
-
-        return `
-          <div class="appt-item">
-            <header>
-              <span>🏥 ${a.placeName}</span>
-              <span class="queue-badge-lg">${tr('rankLabel')}: #${rank}</span>
-            </header>
-            <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap;margin-top:6px;">
-              <span>📅 ${a.date} ${timeLabel ? `• 🕒 ${timeLabel}` : ''}</span>
-              ${statusHtml}
-            </div>
-            ${arrivalTimeHtml}
-            ${isConfirmed ? `<button type="button" onclick="downloadAppointmentReceipt('${a.id}')" class="btn-receipt">${tr('downloadReceiptBtn')}</button>` : ''}
-          </div>
-        `;
-      }).join('');
+    function openMyAppointments() {
+      renderMyAppointmentsModal();
+      document.getElementById('myApptsModal').classList.add('open');
     }
 
     function openBooking(placeId) {
+      if (!isUserAuthenticatedActive()) {
+        showToast(tr('toastLoginRequiredForBook'));
+        openUserAccountModal();
+        return;
+      }
+      const activePhone = getActiveUserPhone();
+      if (!activePhone) {
+        showToast(tr('toastPhoneRequired'));
+        openUserAccountModal();
+        switchUserDashTab('edit');
+        return;
+      }
+
       const place = window.placesData.find(p => p.id === placeId);
       if (!place) return;
       selectedPlaceForBooking = place;
       document.getElementById('bookTargetName').textContent = '📍 ' + getLocalizedField(place, 'nm');
-      if (currentUserSession && currentUserSession.fullName && !document.getElementById('bFullName').value) {
-        document.getElementById('bFullName').value = currentUserSession.fullName;
-      }
-      const activePhone = getActiveSessionUserPhone();
-      if (activePhone && !document.getElementById('bPhone').value) {
-        document.getElementById('bPhone').value = activePhone;
-      }
+      document.getElementById('bFullName').value = currentUserSession.fullName || '';
+      document.getElementById('bPhone').value = activePhone;
       const dateInp = document.getElementById('bDate');
       if (!dateInp.value) dateInp.valueAsDate = new Date();
       const timeInp = document.getElementById('bTime');
@@ -2786,6 +2793,13 @@
     }
 
     async function submitAppointment() {
+      if (!isUserAuthenticatedActive()) {
+        showToast(tr('toastLoginRequiredForBook'));
+        closeModal('bookModal');
+        openUserAccountModal();
+        return;
+      }
+
       const fullName = document.getElementById('bFullName').value.trim(),
             phone = document.getElementById('bPhone').value.trim(),
             date = document.getElementById('bDate').value,
@@ -2793,7 +2807,11 @@
             exactTime = normalizeTimeToHHMM(rawTime) || rawTime,
             note = document.getElementById('bNote').value.trim();
 
-      if (!fullName || !phone || !date || !exactTime) {
+      if (!phone || phone.length < 6) {
+        showToast(tr('toastPhoneRequired'));
+        return;
+      }
+      if (!fullName || !date || !exactTime) {
         showToast(tr('toastFillReq'));
         return;
       }
@@ -2805,11 +2823,17 @@
         return;
       }
 
-      sessionLookupPhone = phone;
+      if (currentUserSession.phone !== phone) {
+        currentUserSession = { ...currentUserSession, phone };
+        userProfilesMap[currentUserSession.id] = currentUserSession;
+        localStorage.setItem('sehati_user_profiles', JSON.stringify(userProfilesMap));
+        localStorage.setItem('sehati_current_user', JSON.stringify(currentUserSession));
+      }
 
       const appt = {
         id: 'appt_' + Date.now() + '_' + Math.floor(Math.random() * 10000),
-        userId: currentUserSession ? currentUserSession.id : '',
+        userId: currentUserSession.id,
+        userEmail: currentUserSession.email,
         placeId: selectedPlaceForBooking.id,
         placeName: getLocalizedField(selectedPlaceForBooking, 'nm'),
         patientName: fullName,
@@ -2840,7 +2864,6 @@
         `pro-appt-${appt.id}`
       );
 
-      document.getElementById('bFullName').value = '';
       document.getElementById('bNote').value = '';
       document.getElementById('timeConflictBox').style.display = 'none';
       closeModal('bookModal');
@@ -3117,8 +3140,9 @@
       const sub = getSubscriptionInfo(prof);
       const typeIcons = { d:'👨‍⚕️', p:'💊', c:'🏥', l:'🔬', g:'🦷', r:'🩻', h:'🏨' };
       const proIcon = typeIcons[prof.tp] || '🩺';
-      const verBadge = prof.verified === true ? renderVerifiedBadgeHtml(tr('verifiedLbl')) : '';
-      const proTagHtml = sub.isActive ? `<span class="pro-gold-badge card-inline">Pro</span>` : '';
+      const showVerBadge = prof.verified === true && isAdminActivatedPro(prof);
+      const verBadge = showVerBadge ? renderVerifiedBadgeHtml(tr('verifiedLbl')) : '';
+      const proTagHtml = isAdminActivatedPro(prof) ? `<span class="pro-gold-badge card-inline">Pro</span>` : '';
       const hasCoords = typeof prof.lat === 'number' && typeof prof.lng === 'number';
       const locText = hasCoords ? `${prof.lat}, ${prof.lng}` : tr('locNotSet');
 
@@ -3371,19 +3395,20 @@
 
     function renderAdminAccounts() {
       const registeredAccounts = window.placesData.filter(p => !p.id.startsWith('dz_') && !p.id.startsWith('imp_'));
-      document.getElementById('pendingCountBadge').textContent = registeredAccounts.filter(p => !getSubscriptionInfo(p).isActive).length;
+      document.getElementById('pendingCountBadge').textContent = registeredAccounts.filter(p => !isAdminActivatedPro(p)).length;
       const listEl = document.getElementById('adminAccountsList');
       if (registeredAccounts.length === 0) { listEl.innerHTML = '<p style="text-align:center;color:var(--muted);padding:20px;">-</p>'; return; }
 
       listEl.innerHTML = registeredAccounts.map(acc => {
         const sub = getSubscriptionInfo(acc);
+        const activatedPro = isAdminActivatedPro(acc);
         const defaultMonths = Number(acc.subscriptionMonths || 1);
-        const isVer = acc.verified === true;
+        const isVer = acc.verified === true && activatedPro;
         return `
           <div class="appt-item">
             <header>
-              <span>${acc.nm_ar} ${isVer ? renderVerifiedBadgeHtml(tr('verifiedLbl')) : ''} ${sub.isActive ? `<span class="pro-gold-badge card-inline">Pro</span>` : ''}</span>
-              <span class="status-badge ${sub.isActive ? 'status-active' : 'status-pending'}">${sub.isActive ? '✅' : '⏳'}</span>
+              <span>${acc.nm_ar} ${isVer ? renderVerifiedBadgeHtml(tr('verifiedLbl')) : ''} ${activatedPro ? `<span class="pro-gold-badge card-inline">Pro</span>` : ''}</span>
+              <span class="status-badge ${activatedPro ? 'status-active' : 'status-pending'}">${activatedPro ? '✅' : '⏳'}</span>
             </header>
             <div>🩺 ${acc.sp_ar} | 📍 ${acc.ad_ar}</div>
             <div>📞 <a href="tel:${acc.ph}">${acc.ph}</a> | 📧 ${acc.email || ''}</div>
@@ -3401,7 +3426,7 @@
               <button onclick="adminToggleApprove('${acc.id}', false)" style="padding:6px 8px;border:none;border-radius:8px;background:#ef4444;color:#fff;font-weight:700;cursor:pointer;font-size:.8rem;">⛔</button>
             </div>
             <div style="display:flex;gap:6px;margin-top:6px;">
-              <button onclick="adminToggleVerified('${acc.id}', ${!isVer})" style="flex:1;padding:6px;border:none;border-radius:8px;background:${isVer ? '#334155' : '#1877f2'};color:#fff;font-weight:700;cursor:pointer;font-size:.8rem;">${isVer ? tr('unverifyAction') : tr('verifyAction')}</button>
+              <button onclick="adminToggleVerified('${acc.id}', ${!(acc.verified === true)})" style="flex:1;padding:6px;border:none;border-radius:8px;background:${acc.verified === true ? '#334155' : '#1877f2'};color:#fff;font-weight:700;cursor:pointer;font-size:.8rem;">${acc.verified === true ? tr('unverifyAction') : tr('verifyAction')}</button>
               <button onclick="adminToggleFeatured('${acc.id}', ${!acc.feat})" style="padding:6px 10px;border:none;border-radius:8px;background:#eab308;color:#1a1400;font-weight:800;cursor:pointer;font-size:.8rem;">${acc.feat ? '★' : '☆'}</button>
             </div>
           </div>
@@ -3543,7 +3568,7 @@
       const box = document.getElementById('listContainer'),
             q = document.getElementById('searchInput').value.toLowerCase().trim(),
             publicPlaces = window.placesData.filter(item => isItemPubliclyVisible(item)),
-            sorted = [...publicPlaces].sort((a, b) => (b.feat === true) - (a.feat === true)),
+            sorted = [...publicPlaces].sort((a, b) => (isAdminActivatedPro(b) && b.feat === true) - (isAdminActivatedPro(a) && a.feat === true)),
             filtered = sorted.filter(item => {
               if (currentCat === 'fav' && !favs.includes(item.id)) return false;
               if (currentCat !== 'all' && currentCat !== 'fav' && item.tp !== currentCat) return false;
@@ -3566,10 +3591,10 @@
               hours = getLocalizedField(item, 'hr'),
               doctorName = item.doctorName || (item.tp === 'd' ? name : ''),
               isFav = favs.includes(item.id),
-              isVer = item.verified === true,
-              isProSub = getSubscriptionInfo(item).isActive,
+              activatedPro = isAdminActivatedPro(item),
+              isVer = item.verified === true && activatedPro,
               verBadge = isVer ? renderVerifiedBadgeHtml(tr('verifiedLbl')) : '',
-              proCardBadge = isProSub ? `<span class="pro-gold-badge card-inline">Pro</span>` : '',
+              proCardBadge = activatedPro ? `<span class="pro-gold-badge card-inline">Pro</span>` : '',
               cardClasses = ['item-card'].filter(Boolean).join(' '),
               allowBook = item.canBook !== false && item.tp !== 'p' && item.tp !== 'h',
               hasPhone = item.ph && item.ph.trim().length > 3,
