@@ -69,7 +69,6 @@
     .brand-info small{display:block;opacity:.92;font-size:.78rem;margin-top:3px}
     .brand-controls-under{display:flex;align-items:center;gap:6px;margin-top:7px;flex-wrap:wrap}
 
-    /* تكبير مربع ECG قليلاً وسحبه للداخل مع تنحيف خط النبض */
     .logo{
       width:74px;
       height:74px;
@@ -101,14 +100,12 @@
     .seg button.on{background:#fff;color:#0f766e}
     .tool-btn{border:0;background:rgba(255,255,255,.22);color:#fff;padding:6px 10px;border-radius:10px;font-weight:700;font-size:.78rem;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;gap:4px}
 
-    /* أزرار المهنيين ومواعيدي وحسابي بدون إطار ومنزلة فوق شريط البحث */
     .quick-nav-bar{display:grid;grid-template-columns:1.25fr 1fr .9fr;gap:7px;width:100%;padding:0;margin-top:6px;background:transparent;border:none}
     .quick-nav-bar .bar-item{position:relative;border:0;border-radius:11px;padding:8px 6px;font-size:.8rem;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:4px;white-space:nowrap;overflow:visible;box-shadow:0 3px 9px rgba(0,0,0,.12)}
     .portal-btn{background:#fff;color:#0f766e}
     .my-appts-btn{background:rgba(255,255,255,.22);color:#fff;backdrop-filter:blur(4px)}
     .user-acc-btn{background:rgba(255,255,255,.22);color:#fff;backdrop-filter:blur(4px)}
 
-    /* شارة إشعارات الأرقام الحمراء */
     .red-count-badge{
       display:inline-flex;
       align-items:center;
@@ -124,6 +121,22 @@
       line-height:1;
       box-shadow:0 2px 6px rgba(220,38,38,.45);
       border:1.5px solid #ffffff;
+    }
+
+    /* إبراز رقم ترتيب الحجز بشكل أكبر في الحساب والوصل */
+    .queue-badge-lg{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      background:linear-gradient(135deg,#0f766e,#0284c7);
+      color:#ffffff;
+      border:2px solid #fef08a;
+      padding:4px 12px;
+      border-radius:11px;
+      font-size:.98rem;
+      font-weight:900;
+      letter-spacing:.3px;
+      box-shadow:0 3px 10px rgba(15,118,110,.25);
     }
 
     .search-wrap input{width:100%;padding:10px 13px;border-radius:13px;border:none;outline:none;font-size:.94rem;background:#fff;color:#0f172a;box-shadow:0 3px 10px rgba(0,0,0,.08)}
@@ -266,7 +279,6 @@
     .appt-item{background:rgba(255,255,255,.78);border:1px solid var(--border);border-radius:12px;padding:11px;margin-bottom:8px;font-size:.88rem}
     body.dark .appt-item{background:rgba(15,118,110,.12)}
     .appt-item header{display:flex;justify-content:space-between;align-items:center;gap:6px;font-weight:800;margin-bottom:4px}
-    .queue-badge{background:rgba(15,118,110,.14);color:var(--primary);border:1px solid var(--primary);padding:2px 8px;border-radius:8px;font-size:.76rem;font-weight:800}
     .status-badge{padding:2px 8px;border-radius:6px;font-size:.76rem;font-weight:800}
     .status-pending{background:#fef3c7;color:#b45309}
     .status-active{background:#dcfce7;color:#15803d}
@@ -751,7 +763,7 @@
         </div>
         <div id="admSettingsPanel" style="display:none;">
           <div class="form-group">
-            <label>صوت نبض القلب الحقيقي (ECG داخل التطبيق فقط)</label>
+            <label>صوت آلة ECG المستمر لحالة مستقرة (داخل التطبيق فقط)</label>
             <button type="button" id="adminEcgToggleBtn" onclick="toggleAdminEcgSound()" style="width:100%;padding:10px;border-radius:10px;border:1px solid var(--border);background:#0f766e;color:#fff;font-weight:800;cursor:pointer;">💓 تشغيل صوت النبض الحقيقي</button>
           </div>
           <div class="form-group"><label>رمز الدخول السري الجديد للإدارة</label><input type="text" id="newAdminPass" placeholder="مثال: abdo2026" /></div>
@@ -803,6 +815,8 @@
     let favs = JSON.parse(localStorage.getItem('sehati_favs') || '[]'),
         localPlaces = JSON.parse(localStorage.getItem('sehati_pro_places') || '[]'),
         localAppointments = JSON.parse(localStorage.getItem('sehati_appointments') || '[]'),
+        seenProApptIds = JSON.parse(localStorage.getItem('sehati_seen_pro_appts') || '[]'),
+        seenUserApprovedIds = JSON.parse(localStorage.getItem('sehati_seen_user_approved') || '[]'),
         localProSession = JSON.parse(localStorage.getItem('sehati_pro_session') || 'null'),
         lastPatientPhone = localStorage.getItem('sehati_last_patient_phone') || '',
         usersList = JSON.parse(localStorage.getItem('sehati_users_list') || '[]'),
@@ -811,10 +825,10 @@
         editingMedId = null,
         pendingOtpData = null;
 
-    /* صوت نبض القلب الحقيقي داخل التطبيق فقط */
+    /* صوت آلة ECG مستمر وحقيقي لحالة مستقرة داخل التطبيق فقط */
     let ecgAudioCtx = null, ecgSoundInterval = null;
 
-    function playRealHeartbeatLubDub() {
+    function playStableEcgMonitorPulse() {
       if (document.hidden || !adminConfig.ecgSoundEnabled) return;
       try {
         const AudioCtx = window.AudioContext || window.webkitAudioContext;
@@ -824,32 +838,44 @@
 
         const now = ecgAudioCtx.currentTime;
 
-        const createPulse = (startOffset, startFreq, endFreq, peakGain, durationSec) => {
+        const playThump = (offset, fStart, fEnd, vol, dur) => {
           const osc = ecgAudioCtx.createOscillator();
           const filter = ecgAudioCtx.createBiquadFilter();
           const gain = ecgAudioCtx.createGain();
 
-          osc.type = 'triangle';
-          osc.frequency.setValueAtTime(startFreq, now + startOffset);
-          osc.frequency.exponentialRampToValueAtTime(endFreq, now + startOffset + durationSec);
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(fStart, now + offset);
+          osc.frequency.exponentialRampToValueAtTime(fEnd, now + offset + dur);
 
           filter.type = 'lowpass';
-          filter.frequency.setValueAtTime(165, now + startOffset);
+          filter.frequency.setValueAtTime(140, now + offset);
 
-          gain.gain.setValueAtTime(0.0001, now + startOffset);
-          gain.gain.linearRampToValueAtTime(peakGain, now + startOffset + 0.025);
-          gain.gain.exponentialRampToValueAtTime(0.0001, now + startOffset + durationSec);
+          gain.gain.setValueAtTime(0.0001, now + offset);
+          gain.gain.linearRampToValueAtTime(vol, now + offset + 0.02);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + offset + dur);
 
           osc.connect(filter);
           filter.connect(gain);
           gain.connect(ecgAudioCtx.destination);
 
-          osc.start(now + startOffset);
-          osc.stop(now + startOffset + durationSec + 0.02);
+          osc.start(now + offset);
+          osc.stop(now + offset + dur + 0.02);
         };
 
-        createPulse(0, 74, 34, 0.42, 0.16);
-        createPulse(0.21, 62, 29, 0.28, 0.14);
+        playThump(0, 68, 32, 0.36, 0.14);
+        playThump(0.19, 58, 28, 0.24, 0.12);
+
+        const monitorTone = ecgAudioCtx.createOscillator();
+        const toneGain = ecgAudioCtx.createGain();
+        monitorTone.type = 'sine';
+        monitorTone.frequency.setValueAtTime(920, now + 0.03);
+        toneGain.gain.setValueAtTime(0.0001, now + 0.03);
+        toneGain.gain.linearRampToValueAtTime(0.035, now + 0.045);
+        toneGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.14);
+        monitorTone.connect(toneGain);
+        toneGain.connect(ecgAudioCtx.destination);
+        monitorTone.start(now + 0.03);
+        monitorTone.stop(now + 0.15);
       } catch (_) {}
     }
 
@@ -862,15 +888,15 @@
       const admBtn = document.getElementById('adminEcgToggleBtn');
 
       if (adminConfig.ecgSoundEnabled && !document.hidden) {
-        playRealHeartbeatLubDub();
-        ecgSoundInterval = setInterval(playRealHeartbeatLubDub, 920);
+        playStableEcgMonitorPulse();
+        ecgSoundInterval = setInterval(playStableEcgMonitorPulse, 850);
         if (logo) logo.classList.add('ecg-sounding');
       } else {
         if (logo) logo.classList.remove('ecg-sounding');
       }
 
       if (admBtn) {
-        admBtn.textContent = adminConfig.ecgSoundEnabled ? '🔇 كتم صوت النبض الحقيقي' : '💓 تشغيل صوت النبض الحقيقي';
+        admBtn.textContent = adminConfig.ecgSoundEnabled ? '🔇 كتم صوت آلة ECG' : '💓 تشغيل صوت آلة ECG المستمر';
         admBtn.style.background = adminConfig.ecgSoundEnabled ? '#dc2626' : '#0f766e';
       }
     }
@@ -901,33 +927,81 @@
       }
     });
 
+    /* إشعارات بار الهاتف */
+    async function triggerPhoneSystemNotification(title, body, tag = 'sehati-alert') {
+      try {
+        if (!('Notification' in window)) return;
+        if (Notification.permission === 'default') {
+          await Notification.requestPermission().catch(() => {});
+        }
+        if (Notification.permission === 'granted') {
+          if ('serviceWorker' in navigator) {
+            const reg = await navigator.serviceWorker.ready.catch(() => null);
+            if (reg && reg.showNotification) {
+              await reg.showNotification(title, {
+                body,
+                icon: './icon-192.png',
+                badge: './icon-192.png',
+                tag,
+                renotify: true
+              });
+              return;
+            }
+          }
+          new Notification(title, { body, icon: './icon-192.png', tag });
+        }
+      } catch (_) {}
+    }
+
+    function markProBookingsAsChecked() {
+      const activePro = currentProProfile || localProSession;
+      const relevantIds = activePro && activePro.id
+        ? localAppointments.filter(a => a.placeId === activePro.id && a.status !== 'rejected').map(a => a.id)
+        : localAppointments.map(a => a.id);
+      seenProApptIds = Array.from(new Set([...seenProApptIds, ...relevantIds]));
+      localStorage.setItem('sehati_seen_pro_appts', JSON.stringify(seenProApptIds));
+      window.updateHeaderAlertBadges();
+    }
+
+    function markUserApprovedBookingsAsChecked() {
+      const uPhone = (currentUserSession && currentUserSession.phone || lastPatientPhone || '').trim();
+      const uId = (currentUserSession && currentUserSession.id || '').trim();
+      const approvedIds = localAppointments
+        .filter(a => a.status === 'confirmed' && ((uPhone && a.patientPhone === uPhone) || (uId && a.userId === uId)))
+        .map(a => a.id);
+      seenUserApprovedIds = Array.from(new Set([...seenUserApprovedIds, ...approvedIds]));
+      localStorage.setItem('sehati_seen_user_approved', JSON.stringify(seenUserApprovedIds));
+      window.updateHeaderAlertBadges();
+    }
+
     window.updateHeaderAlertBadges = function() {
       const proBadge = document.getElementById('proBookingsBadge');
       const userBadge = document.getElementById('userApprovedBadge');
 
       const activePro = currentProProfile || localProSession;
-      let proCount = 0;
-      if (activePro && activePro.id) {
-        proCount = localAppointments.filter(a => a.placeId === activePro.id && a.status !== 'rejected').length;
-      } else {
-        proCount = localAppointments.filter(a => a.status === 'pending').length;
-      }
+      const proAppts = activePro && activePro.id
+        ? localAppointments.filter(a => a.placeId === activePro.id && a.status !== 'rejected')
+        : localAppointments.filter(a => a.status === 'pending');
+
+      const unreadProCount = proAppts.filter(a => !seenProApptIds.includes(a.id)).length;
       if (proBadge) {
-        proBadge.textContent = proCount;
-        proBadge.style.display = proCount > 0 ? 'inline-flex' : 'none';
+        proBadge.textContent = unreadProCount;
+        proBadge.style.display = unreadProCount > 0 ? 'inline-flex' : 'none';
       }
 
       const uPhone = (currentUserSession && currentUserSession.phone || lastPatientPhone || '').trim();
       const uId = (currentUserSession && currentUserSession.id || '').trim();
-      let approvedCount = 0;
+      let unreadApprovedCount = 0;
       if (uPhone || uId) {
-        approvedCount = localAppointments.filter(a =>
-          a.status === 'confirmed' && ((uPhone && a.patientPhone === uPhone) || (uId && a.userId === uId))
+        unreadApprovedCount = localAppointments.filter(a =>
+          a.status === 'confirmed' &&
+          !seenUserApprovedIds.includes(a.id) &&
+          ((uPhone && a.patientPhone === uPhone) || (uId && a.userId === uId))
         ).length;
       }
       if (userBadge) {
-        userBadge.textContent = approvedCount;
-        userBadge.style.display = approvedCount > 0 ? 'inline-flex' : 'none';
+        userBadge.textContent = unreadApprovedCount;
+        userBadge.style.display = unreadApprovedCount > 0 ? 'inline-flex' : 'none';
       }
     };
 
@@ -935,8 +1009,12 @@
       ar: {
         sub:'دليلك الصحي وحجز المواعيد في الجزائر', proBtn:'🩺 بوابة المهنيين', userAccBtn:'حسابي', myAppts:'📋 مواعيدي',
         medFab:'دوائي',
-        ecgSoundOn:'💓 تم تشغيل صوت النبض الحقيقي داخل التطبيق',
-        ecgSoundOff:'🔇 تم كتم صوت النبض الحقيقي',
+        ecgSoundOn:'💓 تم تشغيل صوت آلة ECG المستمر للحالة المستقرة',
+        ecgSoundOff:'🔇 تم كتم صوت آلة ECG',
+        phoneNotifNewApptTitle:'حجز جديد في صحتي',
+        phoneNotifNewApptBody:'تم تسجيل حجز جديد باسم {patient} بتاريخ {date}.',
+        phoneNotifApprovedTitle:'تمت الموافقة على حجزك',
+        phoneNotifApprovedBody:'وافق الطبيب على حجزك لدى {place} • ترتيبك #{rank} • الوقت: {time}.',
         search:'ابحث عن طبيب، صيدلية، عيادة، خدمة، أو ولاية...', emerg:'🚨 أرقام الطوارئ (اتصال مباشر)',
         e1:'الحماية المدنية', e2:'الشرطة', e3:'الدرك الوطني', e4:'الإسعاف',
         all:'الكل', fav:'المفضلة', d:'أطباء', c:'عيادات', p:'صيدليات', h:'مستشفيات', l:'مخابر', g:'أطباء أسنان', r:'أشعة',
@@ -951,7 +1029,7 @@
         lblNote:'سبب الزيارة / الخدمة المطلوبة (اختياري)', confirmBook:'✅ تأكيد إرسال الموعد',
         myApptsTitle:'📋 مواعيدي وترتيبي في الانتظار', myPhoneLbl:'رقم هاتفك الذي حجزت به (لعرض مواعيدك وتحديثاتها)',
         lookupBtn:'عرض', enterPhoneHint:'أدخل رقم هاتفك لعرض مواعيدك وترتيبك في القائمة.', noApptsFound:'لا توجد مواعيد مسجلة بهذا الرقم.',
-        rankLabel:'ترتيبك', confirmedBadge:'✅ تمت الموافقة • في القائمة', rejectedBadge:'❌ غير مؤكد', pendingBadge:'⏳ بانتظار تأكيد الطبيب',
+        rankLabel:'رقم الترتيب', confirmedBadge:'✅ تمت الموافقة • في القائمة', rejectedBadge:'❌ غير مؤكد', pendingBadge:'⏳ بانتظار تأكيد الطبيب',
         arrivalTimeMsg:'⏰ الوقت المحدد لحضورك: {time} (لتفادي الانتظار في القاعة)',
         waitDoctorTimeMsg:'⏰ سيحدد الطبيب أو العيادة الوقت المناسب لقدومك عند تأكيد الحجز.',
         downloadReceiptBtn:'📥 تحميل وصل الموعد الرسمي',
@@ -1010,8 +1088,12 @@
       fr: {
         sub:'Votre guide santé et prise de RDV en Algérie', proBtn:'🩺 Espace Pro', userAccBtn:'Mon compte', myAppts:'📋 Mes RDV',
         medFab:'Mon Médoc',
-        ecgSoundOn:'💓 Son cardiaque réel activé dans l’application',
-        ecgSoundOff:'🔇 Son cardiaque réel coupé',
+        ecgSoundOn:'💓 Son continu ECG stable activé dans l’application',
+        ecgSoundOff:'🔇 Son ECG coupé',
+        phoneNotifNewApptTitle:'Nouvelle réservation SEHATI',
+        phoneNotifNewApptBody:'Nouvelle demande de {patient} pour le {date}.',
+        phoneNotifApprovedTitle:'Réservation approuvée',
+        phoneNotifApprovedBody:'Votre RDV chez {place} est confirmé • Rang #{rank} • Heure : {time}.',
         search:'Rechercher un médecin, pharmacie, clinique, service ou wilaya...', emerg:"🚨 Numéros d'urgence (Appel direct)",
         e1:'Protection Civile', e2:'Police', e3:'Gendarmerie', e4:'SAMU',
         all:'Tout', fav:'Favoris', d:'Médecins', c:'Cliniques', p:'Pharmacies', h:'Hôpitaux', l:'Labos', g:'Dentistes', r:'Imagerie',
@@ -1026,7 +1108,7 @@
         lblNote:'Motif de visite / Service (optionnel)', confirmBook:'✅ Confirmer la demande de RDV',
         myApptsTitle:'📋 Mes RDV et mon rang d’attente', myPhoneLbl:'Votre numéro de téléphone utilisé pour la réservation',
         lookupBtn:'Voir', enterPhoneHint:'Entrez votre numéro pour voir vos RDV et votre rang.', noApptsFound:'Aucun RDV trouvé avec ce numéro.',
-        rankLabel:'Votre rang', confirmedBadge:'✅ Approuvé • Sur la liste', rejectedBadge:'❌ Non confirmé', pendingBadge:'⏳ En attente de confirmation',
+        rankLabel:'Rang', confirmedBadge:'✅ Approuvé • Sur la liste', rejectedBadge:'❌ Non confirmé', pendingBadge:'⏳ En attente de confirmation',
         arrivalTimeMsg:'⏰ Heure fixée pour votre venue : {time} (pour éviter l’attente en salle)',
         waitDoctorTimeMsg:'⏰ Le médecin ou la clinique précisera votre heure de passage lors de la confirmation.',
         downloadReceiptBtn:'📥 Télécharger le reçu officiel',
@@ -1085,8 +1167,12 @@
       en: {
         sub:'Your health directory & appointment booking in Algeria', proBtn:'🩺 Pro Portal', userAccBtn:'My Account', myAppts:'📋 My Appts',
         medFab:'My Meds',
-        ecgSoundOn:'💓 Real heartbeat sound enabled inside the app',
-        ecgSoundOff:'🔇 Real heartbeat sound muted',
+        ecgSoundOn:'💓 Continuous stable ECG monitor sound enabled in app',
+        ecgSoundOff:'🔇 ECG sound muted',
+        phoneNotifNewApptTitle:'New Booking on SEHATI',
+        phoneNotifNewApptBody:'New booking from {patient} on {date}.',
+        phoneNotifApprovedTitle:'Booking Approved',
+        phoneNotifApprovedBody:'Your booking at {place} is confirmed • Rank #{rank} • Time: {time}.',
         search:'Search doctor, pharmacy, clinic, service, or wilaya...', emerg:'🚨 Emergency Numbers (Direct Call)',
         e1:'Civil Protection', e2:'Police', e3:'Gendarmerie', e4:'Ambulance',
         all:'All', fav:'Favorites', d:'Doctors', c:'Clinics', p:'Pharmacies', h:'Hospitals', l:'Labs', g:'Dentists', r:'Radiology',
@@ -1101,7 +1187,7 @@
         lblNote:'Visit Reason / Service (Optional)', confirmBook:'✅ Confirm Appointment Request',
         myApptsTitle:'📋 My Appointments & Queue Position', myPhoneLbl:'Enter the phone number used when booking',
         lookupBtn:'Show', enterPhoneHint:'Enter your phone number to view your appointments and queue position.', noApptsFound:'No appointments found for this phone number.',
-        rankLabel:'Your Rank', confirmedBadge:'✅ Approved • On List', rejectedBadge:'❌ Not Confirmed', pendingBadge:'⏳ Pending Doctor Approval',
+        rankLabel:'Rank', confirmedBadge:'✅ Approved • On List', rejectedBadge:'❌ Not Confirmed', pendingBadge:'⏳ Pending Doctor Approval',
         arrivalTimeMsg:'⏰ Scheduled arrival time: {time} (to avoid waiting in the lobby)',
         waitDoctorTimeMsg:'⏰ The doctor or clinic will set your arrival time upon confirming.',
         downloadReceiptBtn:'📥 Download Official Receipt',
@@ -1535,12 +1621,12 @@
       ctx.save();
       ctx.globalAlpha = 0.08;
       const positions = [
-        { x: 145, y: 430, s: 1.05, a: -0.22 },
-        { x: 380, y: 455, s: 1.15, a: 0.16 },
-        { x: 615, y: 430, s: 1.05, a: -0.18 },
-        { x: 155, y: 650, s: 1.1, a: 0.2 },
-        { x: 380, y: 675, s: 1.2, a: -0.14 },
-        { x: 605, y: 650, s: 1.1, a: 0.22 }
+        { x: 145, y: 450, s: 1.05, a: -0.22 },
+        { x: 380, y: 475, s: 1.15, a: 0.16 },
+        { x: 615, y: 450, s: 1.05, a: -0.18 },
+        { x: 155, y: 675, s: 1.1, a: 0.2 },
+        { x: 380, y: 700, s: 1.2, a: -0.14 },
+        { x: 605, y: 675, s: 1.1, a: 0.22 }
       ];
       positions.forEach(p => drawStethoscopeMotif(ctx, p.x, p.y, p.s, p.a));
       ctx.restore();
@@ -1561,7 +1647,7 @@
 
       const canvas = document.createElement('canvas');
       canvas.width = 760;
-      canvas.height = 940;
+      canvas.height = 960;
       const ctx = canvas.getContext('2d');
 
       ctx.fillStyle = '#ffffff';
@@ -1584,18 +1670,25 @@
 
       ctx.strokeStyle = '#0f766e';
       ctx.lineWidth = 3;
-      ctx.strokeRect(32, 180, canvas.width - 64, 720);
+      ctx.strokeRect(32, 180, canvas.width - 64, 740);
 
-      ctx.fillStyle = 'rgba(240, 253, 249, 0.86)';
-      ctx.fillRect(52, 200, canvas.width - 104, 118);
+      ctx.fillStyle = 'rgba(240, 253, 249, 0.9)';
+      ctx.fillRect(52, 200, canvas.width - 104, 134);
+      ctx.strokeStyle = '#0f766e';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(52, 200, canvas.width - 104, 134);
+
+      /* رقم ترتيب الحجز كبير وواضح في الوصل */
       ctx.fillStyle = '#0f766e';
-      ctx.font = 'bold 26px Tajawal, sans-serif';
-      ctx.fillText(`رقم الترتيب في القائمة: #${rank}`, canvas.width / 2, 246);
+      ctx.font = '900 38px Tajawal, sans-serif';
+      ctx.fillText(`رقم الترتيب: #${rank}`, canvas.width / 2, 256);
+
       ctx.fillStyle = '#0284c7';
       ctx.font = 'bold 22px Tajawal, sans-serif';
-      ctx.fillText(`تفاصيل الوقت المحدد: ${timeDetails}`, canvas.width / 2, 294);
+      ctx.fillText(`تفاصيل الوقت المحدد: ${timeDetails}`, canvas.width / 2, 308);
 
       const rows = [
+        { label: 'رقم الترتيب:', val: `#${rank}` },
         { label: 'الاسم واللقب:', val: appt.patientName || '-' },
         { label: 'رقم هاتف المريض:', val: appt.patientPhone || '-' },
         { label: 'التاريخ والوقت:', val: `${appt.date || '-'} • ${timeDetails}` },
@@ -1605,14 +1698,14 @@
         { label: 'هاتف المرفق:', val: proPhone }
       ];
 
-      let y = 370;
+      let y = 382;
       rows.forEach((r, idx) => {
         if (idx > 0) {
           ctx.strokeStyle = '#e2e8f0';
           ctx.lineWidth = 1.5;
           ctx.beginPath();
-          ctx.moveTo(56, y - 36);
-          ctx.lineTo(canvas.width - 56, y - 36);
+          ctx.moveTo(56, y - 34);
+          ctx.lineTo(canvas.width - 56, y - 34);
           ctx.stroke();
         }
         ctx.textAlign = 'right';
@@ -1621,17 +1714,17 @@
         ctx.fillText(r.label, canvas.width - 64, y);
 
         ctx.textAlign = 'left';
-        ctx.fillStyle = '#0f172a';
-        ctx.font = 'bold 20px Tajawal, sans-serif';
+        ctx.fillStyle = idx === 0 ? '#0f766e' : '#0f172a';
+        ctx.font = idx === 0 ? '900 28px Tajawal, sans-serif' : 'bold 20px Tajawal, sans-serif';
         const valText = String(r.val).length > 38 ? String(r.val).slice(0, 38) + '...' : String(r.val);
         ctx.fillText(valText, 64, y);
-        y += 68;
+        y += 64;
       });
 
       ctx.textAlign = 'center';
       ctx.fillStyle = '#64748b';
       ctx.font = '17px Tajawal, sans-serif';
-      ctx.fillText('يرجى الحضور في الوقت المحدد أعلاه لتفادي الانتظار في القاعة.', canvas.width / 2, 875);
+      ctx.fillText('يرجى الحضور في الوقت المحدد أعلاه لتفادي الانتظار في القاعة.', canvas.width / 2, 896);
 
       const link = document.createElement('a');
       link.download = `SEHATI-RDV-${rank}-${appt.date || 'receipt'}.png`;
@@ -1643,6 +1736,7 @@
     }
 
     function openUserAccountModal() {
+      markUserApprovedBookingsAsChecked();
       renderUserAccountModal();
       document.getElementById('userAccountModal').classList.add('open');
       if (window.refreshMedicineRequestsCloud) window.refreshMedicineRequestsCloud();
@@ -1662,7 +1756,10 @@
       document.getElementById('uDashEditPanel').style.display = tab === 'edit' ? 'block' : 'none';
       document.getElementById('uDashApptsPanel').style.display = tab === 'appts' ? 'block' : 'none';
       document.getElementById('uDashMedsPanel').style.display = tab === 'meds' ? 'block' : 'none';
-      if (tab === 'appts') renderUserArchiveAppts();
+      if (tab === 'appts') {
+        markUserApprovedBookingsAsChecked();
+        renderUserArchiveAppts();
+      }
       if (tab === 'meds') renderUserArchiveMeds();
     }
 
@@ -1693,9 +1790,9 @@
           <div class="appt-item">
             <header>
               <span>🏥 ${a.placeName}</span>
-              <span class="queue-badge">${tr('rankLabel')}: #${rank}</span>
+              <span class="queue-badge-lg">${tr('rankLabel')}: #${rank}</span>
             </header>
-            <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap;margin-top:4px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap;margin-top:6px;">
               <span>📅 ${a.date}</span>
               ${statusHtml}
             </div>
@@ -2090,6 +2187,7 @@
     }
 
     function openMyAppointments() {
+      markUserApprovedBookingsAsChecked();
       document.getElementById('myPhoneLookup').value = lastPatientPhone || (currentUserSession && currentUserSession.phone) || '';
       document.getElementById('myApptsModal').classList.add('open');
       lookupMyAppointments();
@@ -2105,7 +2203,7 @@
       lastPatientPhone = phone;
       localStorage.setItem('sehati_last_patient_phone', phone);
       updateMyApptsBadge();
-      window.updateHeaderAlertBadges();
+      markUserApprovedBookingsAsChecked();
 
       const mine = localAppointments
         .filter(a => a.patientPhone === phone)
@@ -2135,9 +2233,9 @@
           <div class="appt-item">
             <header>
               <span>🏥 ${a.placeName}</span>
-              <span class="queue-badge">${tr('rankLabel')}: #${rank}</span>
+              <span class="queue-badge-lg">${tr('rankLabel')}: #${rank}</span>
             </header>
-            <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap;margin-top:4px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap;margin-top:6px;">
               <span>📅 ${a.date} • ${periodText}</span>
               ${statusHtml}
             </div>
@@ -2203,6 +2301,12 @@
       if (window.fbReady) {
         try { await window.fb.setDoc(window.fb.doc(window.fb.db, "appointments", appt.id), appt); } catch (e) {}
       }
+
+      triggerPhoneSystemNotification(
+        tr('phoneNotifNewApptTitle'),
+        tr('phoneNotifNewApptBody', { patient: fullName, date }),
+        `pro-appt-${appt.id}`
+      );
 
       document.getElementById('bFullName').value = '';
       document.getElementById('bNote').value = '';
@@ -2314,6 +2418,7 @@
     }
 
     function openProPortal() {
+      markProBookingsAsChecked();
       document.getElementById('proModal').classList.add('open');
       if (window.currentProUser || localProSession) showProDashboard();
       else {
@@ -2334,6 +2439,7 @@
       document.getElementById('dashTabEdit').classList.toggle('active', tab === 'edit');
       document.getElementById('dashApptsPanel').style.display = tab === 'appts' ? 'block' : 'none';
       document.getElementById('dashEditPanel').style.display = tab === 'edit' ? 'block' : 'none';
+      if (tab === 'appts') markProBookingsAsChecked();
     }
 
     async function proRegister() {
@@ -2370,7 +2476,7 @@
       regTempCoords = { lat: null, lng: null };
       if (window.fbReady) await window.fb.setDoc(window.fb.doc(window.fb.db, "health_places", uid), profileData);
       render();
-      window.updateHeaderAlertBadges();
+      markProBookingsAsChecked();
       showProDashboard();
     }
 
@@ -2382,7 +2488,7 @@
           const cred = await window.fb.signInWithEmailAndPassword(window.fb.auth, email, pass);
           await window.refreshCloudData();
           await window.loadProDashboard(cred.user.uid);
-          window.updateHeaderAlertBadges();
+          markProBookingsAsChecked();
           showProDashboard();
           return;
         } catch (err) { showToast(err.message); return; }
@@ -2392,7 +2498,7 @@
         localProSession = found;
         localStorage.setItem('sehati_pro_session', JSON.stringify(found));
         currentProProfile = found;
-        window.updateHeaderAlertBadges();
+        markProBookingsAsChecked();
         showProDashboard();
       }
     }
@@ -2411,6 +2517,9 @@
         return;
       }
 
+      const targetAppt = localAppointments.find(a => a.id === apptId);
+      const rank = targetAppt ? getAppointmentQueueNumber(targetAppt) : 1;
+
       localAppointments = localAppointments.map(a =>
         a.id === apptId ? { ...a, status: 'confirmed', assignedTime, confirmedAt: new Date().toISOString() } : a
       );
@@ -2426,6 +2535,18 @@
             confirmedAt: new Date().toISOString()
           });
         } catch (e) {}
+      }
+
+      if (targetAppt) {
+        triggerPhoneSystemNotification(
+          tr('phoneNotifApprovedTitle'),
+          tr('phoneNotifApprovedBody', {
+            place: targetAppt.placeName || '',
+            rank,
+            time: assignedTime
+          }),
+          `user-approved-${apptId}`
+        );
       }
 
       showToast(tr('toastTimeSaved'));
@@ -2545,7 +2666,7 @@
       `;
 
       document.getElementById('apptCount').textContent = myAppts.length;
-      window.updateHeaderAlertBadges();
+      markProBookingsAsChecked();
       const listEl = document.getElementById('apptsList');
 
       listEl.innerHTML = myAppts.length === 0
@@ -2564,7 +2685,7 @@
             return `
               <div class="appt-item">
                 <header>
-                  <span><span class="queue-badge">#${rank}</span> 👤 ${a.patientName}</span>
+                  <span><span class="queue-badge-lg">#${rank}</span> 👤 ${a.patientName}</span>
                   ${badge}
                 </header>
                 <div>📅 <b>${a.date}</b> | 🕒 ${periodText} | 📝 ${a.note}</div>
@@ -2870,7 +2991,6 @@
       }).join('');
     };
 
-    /* نظام الإعلانات المطور: تعديل + حذف بكلمة + تنظيف كامل للخلفية بدون بقايا عالقة */
     (function() {
       const OWNER = "abdoben16", REPO = "SEHATI.dz", BRANCH = "main", PATH = "ad.json", TKEY = "sehatiAdSys_gh_token";
       const adBox = document.getElementById("mainAdBox");
