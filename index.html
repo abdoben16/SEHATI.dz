@@ -175,8 +175,8 @@
     .btn-receipt{width:100%;padding:8px 10px;border-radius:9px;border:none;background:linear-gradient(135deg,#0f766e,#0284c7);color:#fff;font-weight:800;font-size:.8rem;cursor:pointer;margin-top:7px;display:flex;align-items:center;justify-content:center;gap:5px}
     .btn-danger{width:100%;padding:10px;border-radius:11px;border:none;background:var(--danger);color:#fff;font-weight:700;font-size:.88rem;cursor:pointer;margin-top:8px}
     .btn-secondary{width:100%;padding:10px;border-radius:11px;border:1px solid var(--border);background:transparent;color:var(--text);font-weight:700;font-size:.9rem;cursor:pointer;margin-top:8px}
-    .btn-edit-med{background:#0284c7;color:#fff;border:none;border-radius:7px;padding:2px 8px;font-size:.84rem;font-weight:800;cursor:pointer;line-height:1.2}
-    .btn-del-med{background:#dc2626;color:#fff;border:none;border-radius:7px;padding:2px 8px;font-size:.84rem;font-weight:800;cursor:pointer;line-height:1.2}
+    .btn-edit-med{background:#0284c7;color:#fff;border:none;border-radius:7px;padding:2px 8px;font-size:.78rem;font-weight:800;cursor:pointer;line-height:1.2}
+    .btn-del-med{background:#dc2626;color:#fff;border:none;border-radius:7px;padding:2px 8px;font-size:.78rem;font-weight:800;cursor:pointer;line-height:1.2}
     .tabs-bar{display:flex;gap:4px;margin-bottom:14px;background:rgba(15,118,110,.08);padding:4px;border-radius:12px}
     .tab-btn{flex:1;padding:8px 4px;border:none;border-radius:9px;background:transparent;color:var(--text);font-weight:700;font-size:.78rem;cursor:pointer}
     .tab-btn.active{background:var(--primary);color:#fff}
@@ -291,13 +291,13 @@
     <span class="cat-indicator-bar" id="catIndicatorBar"></span>
 
     <button class="cat-pill active" onclick="setCat('all', this)">
-      <svg class="cat-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+      <svg class="cat-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="2 12 6 12 9 3 13 21 16 12 22 12"/></svg>
       <span data-k="all">الكل</span>
       <svg class="cat-motif" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="2 12 6 12 9 3 13 21 16 12 22 12"/></svg>
     </button>
 
     <button class="cat-pill" onclick="setCat('fav', this)">
-      <svg class="cat-ico" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+      <svg class="cat-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="2 12 6 12 9 3 13 21 16 12 22 12"/></svg>
       <span data-k="fav">المفضلة</span>
       <svg class="cat-motif" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="2 12 6 12 9 3 13 21 16 12 22 12"/></svg>
     </button>
@@ -732,7 +732,7 @@
         renewContactBtn:'📞 تواصل مع الإدارة لتجديد الاشتراك',
         pendingBoxHtml:'<b>🎉 تهانينا! تم استلام ملفك المهني بنجاح.</b><br>لظهور عيادتك أو صيدليتك أمام آلاف المرضى في ولايتك والاستفادة من المزايا الحصرية:<ul><li>✅ استقبال حجوزات المواعيد مباشرة على هاتفك مع ترتيب الأسبقية.</li><li>✅ ظهور أولوية في نتائج البحث مع موقعك على الخريطة.</li><li>✅ شارة التوثيق الرسمية وزيادة ثقة المرضى.</li></ul><b>تواصل معنا الآن لتفعيل اشتراكك فوراً:</b><button onclick="closeModal(\'proModal\'); openSupportModal();" class="btn-primary" style="margin-top:8px;">🚀 تفعيل حسابي الآن (اتصال / واتساب)</button>',
         noProAppts:'لا توجد مواعيد محجوزة حتى الآن.',
-        timeInputPlaceholder:'وقت الحضور (مثال: 10:00 صباحاً)', confirmTimeBtn:'✅ تأكيد وتحديد الوقت',
+        timeInputPlaceholder:'وقت الحضور (مثال: 09:00 صباحاً)', confirmTimeBtn:'✅ تأكيد وتحديد الوقت',
         toastFillReq:'يرجى إدخال البيانات المطلوبة',
         toastBooked:'✅ تم تسجيل موعدك! ترتيبك في يوم {date} هو #{rank}',
         toastTimeSaved:'✅ تم تأكيد الموعد وتحديد الوقت للمريض!',
@@ -797,7 +797,7 @@
         renewContactBtn:'📞 Contacter l’administration pour renouveler',
         pendingBoxHtml:'<b>🎉 Félicitations ! Votre dossier professionnel a été reçu.</b><br>Pour apparaître devant des milliers de patients dans votre wilaya :<ul><li>✅ Réception des RDV selon l’ordre d’arrivée.</li><li>✅ Priorité dans la recherche avec carte.</li><li>✅ Badge officiel de confiance.</li></ul><b>Contactez-nous maintenant pour activer votre abonnement :</b><button onclick="closeModal(\'proModal\'); openSupportModal();" class="btn-primary" style="margin-top:8px;">🚀 Activer mon compte (Appel / WhatsApp)</button>',
         noProAppts:'Aucun rendez-vous enregistré pour le moment.',
-        timeInputPlaceholder:'Heure de venue (ex: 10:00)', confirmTimeBtn:'✅ Valider & fixer l’heure',
+        timeInputPlaceholder:'Heure de venue (ex: 09:00)', confirmTimeBtn:'✅ Valider & fixer l’heure',
         toastFillReq:'Veuillez remplir les champs requis',
         toastBooked:'✅ RDV enregistré ! Votre rang le {date} est #{rank}',
         toastTimeSaved:'✅ RDV confirmé et heure fixée pour le patient !',
@@ -862,7 +862,7 @@
         renewContactBtn:'📞 Contact Admin to Renew Subscription',
         pendingBoxHtml:'<b>🎉 Congratulations! Your professional profile has been received.</b><br>To appear before thousands of patients in your wilaya:<ul><li>✅ Receive appointments in first-come order.</li><li>✅ Priority search placement with map location.</li><li>✅ Official verified badge.</li></ul><b>Contact us now to activate your subscription:</b><button onclick="closeModal(\'proModal\'); openSupportModal();" class="btn-primary" style="margin-top:8px;">🚀 Activate Account (Call / WhatsApp)</button>',
         noProAppts:'No appointments booked yet.',
-        timeInputPlaceholder:'Arrival time (e.g. 10:00 AM)', confirmTimeBtn:'✅ Confirm & Set Time',
+        timeInputPlaceholder:'Arrival time (e.g. 09:00 AM)', confirmTimeBtn:'✅ Confirm & Set Time',
         toastFillReq:'Please fill in required fields',
         toastBooked:'✅ Appointment booked! Your rank on {date} is #{rank}',
         toastTimeSaved:'✅ Appointment confirmed and arrival time set!',
@@ -1218,15 +1218,16 @@
     function closeModal(id) { document.getElementById(id).classList.remove('open'); }
     function openSupportModal() { document.getElementById('supportModal').classList.add('open'); }
 
+    /* رسم شعار الصحة (نبض ECG + صليب طبي) في خلفية الوصل */
     function drawHealthWatermarkOnReceipt(ctx, width, height) {
       ctx.save();
-      ctx.globalAlpha = 0.075;
+      ctx.globalAlpha = 0.085;
       ctx.strokeStyle = '#0f766e';
       ctx.fillStyle = '#0f766e';
 
       const cx = width / 2;
-      const cy = 535;
-      const r = 155;
+      const cy = 540;
+      const r = 165;
 
       ctx.lineWidth = 7;
       ctx.beginPath();
@@ -1237,21 +1238,25 @@
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
       ctx.beginPath();
-      ctx.moveTo(cx - 115, cy);
-      ctx.lineTo(cx - 58, cy);
-      ctx.lineTo(cx - 32, cy - 66);
-      ctx.lineTo(cx, cy + 74);
-      ctx.lineTo(cx + 34, cy - 48);
-      ctx.lineTo(cx + 60, cy);
-      ctx.lineTo(cx + 115, cy);
+      ctx.moveTo(cx - 135, cy);
+      ctx.lineTo(cx - 72, cy);
+      ctx.lineTo(cx - 42, cy - 76);
+      ctx.lineTo(cx, cy + 84);
+      ctx.lineTo(cx + 42, cy - 58);
+      ctx.lineTo(cx + 72, cy);
+      ctx.lineTo(cx + 135, cy);
       ctx.stroke();
 
       ctx.beginPath();
-      ctx.roundRect(cx - 20, cy - 112, 40, 28, 7);
+      ctx.roundRect(cx - 22, cy - 122, 44, 28, 7);
       ctx.fill();
       ctx.beginPath();
-      ctx.roundRect(cx - 20, cy + 84, 40, 28, 7);
+      ctx.roundRect(cx - 22, cy + 94, 44, 28, 7);
       ctx.fill();
+
+      ctx.font = 'bold 26px Tajawal, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('ECG • SEHATI', cx, cy + r + 36);
 
       ctx.restore();
     }
@@ -1266,10 +1271,12 @@
       const proSpec = getLocalizedField(place, 'sp') || '-';
       const proAddr = getLocalizedField(place, 'ad') || '-';
       const proPhone = place.ph || '-';
+      const periodText = appt.period === 'evening' ? tr('evening') : (appt.period === 'morning' ? tr('morning') : (appt.period || '-'));
+      const timeDetails = appt.assignedTime ? `${appt.assignedTime} (${periodText})` : periodText;
 
       const canvas = document.createElement('canvas');
       canvas.width = 760;
-      canvas.height = 920;
+      canvas.height = 940;
       const ctx = canvas.getContext('2d');
 
       ctx.fillStyle = '#ffffff';
@@ -1292,28 +1299,28 @@
 
       ctx.strokeStyle = '#0f766e';
       ctx.lineWidth = 3;
-      ctx.strokeRect(32, 180, canvas.width - 64, 700);
+      ctx.strokeRect(32, 180, canvas.width - 64, 720);
 
-      ctx.fillStyle = 'rgba(240, 253, 249, 0.85)';
-      ctx.fillRect(52, 200, canvas.width - 104, 110);
+      ctx.fillStyle = 'rgba(240, 253, 249, 0.86)';
+      ctx.fillRect(52, 200, canvas.width - 104, 118);
       ctx.fillStyle = '#0f766e';
       ctx.font = 'bold 26px Tajawal, sans-serif';
       ctx.fillText(`رقم الترتيب في القائمة: #${rank}`, canvas.width / 2, 246);
       ctx.fillStyle = '#0284c7';
-      ctx.font = 'bold 23px Tajawal, sans-serif';
-      ctx.fillText(`الوقت المحدد للحضور: ${appt.assignedTime || '-'}`, canvas.width / 2, 290);
+      ctx.font = 'bold 22px Tajawal, sans-serif';
+      ctx.fillText(`تفاصيل الوقت المحدد: ${timeDetails}`, canvas.width / 2, 294);
 
       const rows = [
         { label: 'الاسم واللقب:', val: appt.patientName || '-' },
         { label: 'رقم هاتف المريض:', val: appt.patientPhone || '-' },
-        { label: 'تاريخ الموعد:', val: `${appt.date || '-'}` },
+        { label: 'التاريخ والوقت:', val: `${appt.date || '-'} • ${timeDetails}` },
         { label: 'المرفق / الطبيب:', val: proName },
         { label: 'التخصص:', val: proSpec },
         { label: 'العنوان:', val: proAddr },
         { label: 'هاتف المرفق:', val: proPhone }
       ];
 
-      let y = 365;
+      let y = 370;
       rows.forEach((r, idx) => {
         if (idx > 0) {
           ctx.strokeStyle = '#e2e8f0';
@@ -1331,7 +1338,7 @@
         ctx.textAlign = 'left';
         ctx.fillStyle = '#0f172a';
         ctx.font = 'bold 20px Tajawal, sans-serif';
-        const valText = String(r.val).length > 36 ? String(r.val).slice(0, 36) + '...' : String(r.val);
+        const valText = String(r.val).length > 38 ? String(r.val).slice(0, 38) + '...' : String(r.val);
         ctx.fillText(valText, 64, y);
         y += 68;
       });
@@ -1339,7 +1346,7 @@
       ctx.textAlign = 'center';
       ctx.fillStyle = '#64748b';
       ctx.font = '17px Tajawal, sans-serif';
-      ctx.fillText('يرجى الحضور في الوقت المحدد أعلاه لتفادي الانتظار في القاعة.', canvas.width / 2, 855);
+      ctx.fillText('يرجى الحضور في الوقت المحدد أعلاه لتفادي الانتظار في القاعة.', canvas.width / 2, 875);
 
       const link = document.createElement('a');
       link.download = `SEHATI-RDV-${rank}-${appt.date || 'receipt'}.png`;
@@ -1433,8 +1440,8 @@
             <span>💊 ${r.medName || '-'}</span>
             <div style="display:flex;align-items:center;gap:5px;">
               <span>📞 ${r.phone}</span>
-              <button type="button" class="btn-edit-med" onclick="editMedicineRequest('${r.id}')" title="تعديل">✎</button>
-              <button type="button" class="btn-del-med" onclick="deleteMedicineRequest('${r.id}')" title="حذف">×</button>
+              <button type="button" class="btn-edit-med" onclick="editMedicineRequest('${r.id}')" title="تعديل">✏️</button>
+              <button type="button" class="btn-del-med" onclick="deleteMedicineRequest('${r.id}')" title="حذف">🗑️</button>
             </div>
           </header>
           ${r.note ? `<div style="margin-top:4px;">📝 ${r.note}</div>` : ''}
@@ -1725,8 +1732,8 @@
             <span>💊 ${r.medName || ''}</span>
             <div style="display:flex;align-items:center;gap:5px;">
               <a href="tel:${r.phone}" style="background:var(--primary);color:#fff;padding:2px 8px;border-radius:7px;text-decoration:none;font-size:.76rem;">📞 ${r.phone}</a>
-              <button type="button" class="btn-edit-med" onclick="editMedicineRequest('${r.id}')" title="تعديل">✎</button>
-              <button type="button" class="btn-del-med" onclick="deleteMedicineRequest('${r.id}')" title="حذف">×</button>
+              <button type="button" class="btn-edit-med" onclick="editMedicineRequest('${r.id}')" title="تعديل">✏️</button>
+              <button type="button" class="btn-del-med" onclick="deleteMedicineRequest('${r.id}')" title="حذف">🗑️</button>
             </div>
           </header>
           ${r.note ? `<div style="margin-top:4px;">📝 ${r.note}</div>` : ''}
