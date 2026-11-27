@@ -186,9 +186,11 @@
     .emerg-card.gendarme{background:linear-gradient(145deg,#14532d,#15803d)}
     .emerg-card.ambulance{background:linear-gradient(145deg,#ffffff,#f8fafc);color:#0f172a;border-color:#cbd5e1}
 
-    .ads-showcase{position:relative;margin:8px auto 6px;border-radius:14px;overflow:hidden;border:1.5px solid #facc15;box-shadow:0 6px 18px rgba(202,138,4,.18);background:#071916;width:calc(100% - 28px);max-width:336px;aspect-ratio:16 / 9;cursor:pointer;user-select:none}
+    /* صندوق الإعلان: مخفي تلقائياً عندما لا يوجد إعلان نشط حتى لا تظهر صورة سوداء عالقة */
+    .ads-showcase{display:none;position:relative;margin:8px auto 6px;border-radius:14px;overflow:hidden;border:1.5px solid #facc15;box-shadow:0 6px 18px rgba(202,138,4,.18);background:var(--card);width:calc(100% - 28px);max-width:336px;aspect-ratio:16 / 9;cursor:pointer;user-select:none}
+    .ads-showcase.has-active-ad{display:block}
     .ads-full-media{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:1;filter:none;z-index:1;display:none}
-    .ads-overlay-grad{position:relative;z-index:2;width:100%;height:100%;padding:8px 11px;display:flex;flex-direction:column;justify-content:flex-end;background:linear-gradient(to top,rgba(4,12,11,.72) 0%,rgba(4,12,11,.22) 34%,transparent 65%);pointer-events:none}
+    .ads-overlay-grad{position:relative;z-index:2;width:100%;height:100%;padding:8px 11px;display:none;flex-direction:column;justify-content:flex-end;background:linear-gradient(to top,rgba(4,12,11,.72) 0%,rgba(4,12,11,.22) 34%,transparent 65%);pointer-events:none}
     .ads-title{font-size:.92rem;font-weight:800;color:#fff;margin-bottom:2px;line-height:1.25;text-shadow:0 1px 4px rgba(0,0,0,.95)}
     .ads-body{font-size:.8rem;font-weight:600;color:#f8fafc;line-height:1.3;text-shadow:0 1px 4px rgba(0,0,0,.95)}
 
@@ -436,7 +438,7 @@
   <section class="ads-showcase" id="mainAdBox">
     <img class="ads-full-media" id="adImgEl" src="" alt="" />
     <video class="ads-full-media" id="adVideoEl" autoplay muted loop playsinline></video>
-    <div class="ads-overlay-grad">
+    <div class="ads-overlay-grad" id="adOverlayBox">
       <div class="ads-title" id="adTitle"></div>
       <div class="ads-body" id="adDesc"></div>
     </div>
@@ -1355,9 +1357,6 @@
       document.getElementById('supWaLink').href = `https://wa.me/${adminConfig.wa}`;
       updateGoldTickerState();
       syncEcgSoundLoop();
-      if (!window.sehatiAdsList || !window.sehatiAdsList.length) {
-        document.getElementById('adDesc').textContent = getTickerBannerMessage();
-      }
     }
 
     window.loadCloudAdminSettings = async function() {
@@ -1846,7 +1845,10 @@
 
     function renderUserArchiveAppts() {
       const box = document.getElementById('uArchiveApptsList');
-      if (!box || !currentUserSession) return;
+      if (!box || !currentUserSession) {
+        if (box) box.innerHTML = '';
+        return;
+      }
       const phone = (currentUserSession.phone || '').trim();
       const mine = localAppointments
         .filter(a => (phone && a.patientPhone === phone) || (a.userId && a.userId === currentUserSession.id))
@@ -1923,7 +1925,10 @@
 
     function renderUserArchiveMeds() {
       const box = document.getElementById('uArchiveMedsList');
-      if (!box || !currentUserSession) return;
+      if (!box || !currentUserSession) {
+        if (box) box.innerHTML = '';
+        return;
+      }
       const phone = (currentUserSession.phone || '').trim();
       const mine = medicineRequests.filter(r =>
         (r.userId && r.userId === currentUserSession.id) || (phone && r.phone === phone)
@@ -1951,6 +1956,8 @@
       } else {
         document.getElementById('userAuthBox').style.display = 'block';
         document.getElementById('userProfileBox').style.display = 'none';
+        document.getElementById('uArchiveApptsList').innerHTML = '';
+        document.getElementById('uArchiveMedsList').innerHTML = '';
       }
       window.updateHeaderAlertBadges();
       window.updateHeaderProBadge();
@@ -2076,7 +2083,12 @@
 
     function userLogout() {
       currentUserSession = null;
+      lastPatientPhone = '';
       localStorage.removeItem('sehati_current_user');
+      localStorage.removeItem('sehati_last_patient_phone');
+      document.getElementById('myPhoneLookup').value = '';
+      document.getElementById('myApptsList').innerHTML = '';
+      updateMyApptsBadge();
       applyTranslationsToStaticUI();
       renderUserAccountModal();
       showToast(tr('toastLoggedOut'));
@@ -2417,13 +2429,15 @@
     function updateMyApptsBadge() {
       const badge = document.getElementById('myApptsBadge');
       if (!badge) return;
-      const mine = lastPatientPhone ? localAppointments.filter(a => a.patientPhone === lastPatientPhone) : [];
+      const activePhone = (currentUserSession && currentUserSession.phone) ? currentUserSession.phone : lastPatientPhone;
+      const mine = activePhone ? localAppointments.filter(a => a.patientPhone === activePhone) : [];
       badge.textContent = mine.length;
     }
 
     function openMyAppointments() {
       markUserApprovedBookingsAsChecked();
-      document.getElementById('myPhoneLookup').value = lastPatientPhone || (currentUserSession && currentUserSession.phone) || '';
+      const activePhone = (currentUserSession && currentUserSession.phone) ? currentUserSession.phone : lastPatientPhone;
+      document.getElementById('myPhoneLookup').value = activePhone || '';
       document.getElementById('myApptsModal').classList.add('open');
       lookupMyAppointments();
     }
@@ -2432,6 +2446,9 @@
       const phone = document.getElementById('myPhoneLookup').value.trim();
       const listEl = document.getElementById('myApptsList');
       if (!phone) {
+        lastPatientPhone = '';
+        localStorage.removeItem('sehati_last_patient_phone');
+        updateMyApptsBadge();
         listEl.innerHTML = `<p style="text-align:center;color:var(--muted);padding:16px;">${tr('enterPhoneHint')}</p>`;
         return;
       }
@@ -3283,7 +3300,7 @@
       }).join('');
     };
 
-    /* نظام الإعلانات المطور: تعديل + حذف بكلمة + تنظيف كامل للخلفية بدون بقايا عالقة */
+    /* نظام الإعلانات المطور: بدون صورة سوداء عالقة + ساعة رملية وتأكيد للرفع والحذف */
     (function() {
       const OWNER = "abdoben16", REPO = "SEHATI.dz", BRANCH = "main", PATH = "ad.json", TKEY = "sehatiAdSys_gh_token";
       const adBox = document.getElementById("mainAdBox");
@@ -3301,6 +3318,7 @@
 
       const imgEl = document.getElementById("adImgEl");
       const vidEl = document.getElementById("adVideoEl");
+      const overlayEl = document.getElementById("adOverlayBox");
       const titleEl = document.getElementById("adTitle");
       const descEl = document.getElementById("adDesc");
 
@@ -3318,15 +3336,23 @@
           clearTimeout(timer);
           timer = null;
         }
+        if (adBox) adBox.classList.remove("has-active-ad");
+        if (overlayEl) overlayEl.style.display = "none";
+
         imgEl.onload = null;
         imgEl.onerror = null;
         imgEl.style.display = "none";
         imgEl.removeAttribute("src");
+        imgEl.src = "";
 
         vidEl.pause();
         vidEl.style.display = "none";
         vidEl.removeAttribute("src");
+        vidEl.src = "";
         try { vidEl.load(); } catch (_) {}
+
+        titleEl.textContent = "";
+        descEl.textContent = "";
       }
 
       function resetAdForm() {
@@ -3440,7 +3466,6 @@
         const safeDur = Math.max(1, Number(nextDur) || 6);
         const payload = { active: nextAds.length > 0, defaultDurationSec: safeDur, ads: nextAds };
 
-        clearAdStageClean();
         ads = nextAds;
         window.sehatiAdsList = ads;
         dur = safeDur;
@@ -3458,34 +3483,47 @@
         updateGoldTickerState();
         clearAdStageClean();
 
-        if (!ads.length) {
-          titleEl.textContent = "";
-          descEl.textContent = getTickerBannerMessage();
+        const validAds = (ads || []).filter(a => {
+          const m = a && (a.media || a.video || a.image || "");
+          const t = a && (a.title || "");
+          const d = a && (a.description || "");
+          return Boolean(m || t || d);
+        });
+
+        if (!validAds.length) {
           return;
         }
-        if (idx >= ads.length) idx = 0;
-        const a = ads[idx];
-        const mediaSrc = a.media || a.video || a.image || "";
+        if (idx >= validAds.length) idx = 0;
+        const a = validAds[idx];
+        const mediaSrc = (a.media || a.video || a.image || "").trim();
+        const hasText = Boolean((a.title || "").trim() || (a.description || "").trim());
 
         if (mediaSrc && isVideoFile(mediaSrc, a.mediaType)) {
+          if (adBox) adBox.classList.add("has-active-ad");
           vidEl.src = `${mediaSrc}?v=${Date.now()}`;
           vidEl.style.display = "block";
           vidEl.play().catch(() => {});
         } else if (mediaSrc) {
           imgEl.onload = () => {
-            if (ads.length && (ads[idx]?.media || ads[idx]?.image) === mediaSrc) {
+            if (validAds.length && (validAds[idx]?.media || validAds[idx]?.image) === mediaSrc) {
+              if (adBox) adBox.classList.add("has-active-ad");
               imgEl.style.display = "block";
             }
           };
           imgEl.onerror = () => {
             imgEl.style.display = "none";
             imgEl.removeAttribute("src");
+            if (!hasText && adBox) adBox.classList.remove("has-active-ad");
           };
           imgEl.src = `${mediaSrc}?v=${Date.now()}`;
         }
 
-        titleEl.textContent = a.title || "";
-        descEl.textContent = a.description || "";
+        if (hasText) {
+          if (adBox) adBox.classList.add("has-active-ad");
+          if (overlayEl) overlayEl.style.display = "flex";
+          titleEl.textContent = (a.title || "").trim();
+          descEl.textContent = (a.description || "").trim();
+        }
       }
 
       function loopAds() {
@@ -3550,12 +3588,12 @@
             const filteredAds = ads.filter((_, x) => x !== i);
             if (editAdIdx === i) resetAdForm();
             try {
-              stE.textContent = "...";
+              stE.textContent = "⏳ جاري الحذف...";
               await saveAll(filteredAds, secI.value || dur, tok);
               await deleteMediaFileIfUnused(removedMedia, filteredAds, tok);
-              stE.textContent = "✅ تم حذف الإعلان وتنظيف الخلفية";
+              stE.textContent = "✅ تم تأكيد الحذف بنجاح";
             } catch (e) {
-              stE.textContent = e.message;
+              stE.textContent = "❌ " + e.message;
             } finally {
               isBusy = false;
               lstE.querySelectorAll("button[data-del], button[data-edit]").forEach(btn => { btn.disabled = false; });
@@ -3572,7 +3610,7 @@
         isBusy = true;
         addB.disabled = true;
         try {
-          stE.textContent = "...";
+          stE.textContent = "⏳ جاري الرفع...";
           const isEditing = editAdIdx >= 0 && editAdIdx < ads.length;
           const prevAd = isEditing ? ads[editAdIdx] : null;
           let mediaPath = prevAd ? (prevAd.media || prevAd.video || prevAd.image || "") : "";
@@ -3608,9 +3646,9 @@
             await deleteMediaFileIfUnused(oldMediaToClean, next, tok);
           }
           resetAdForm();
-          stE.textContent = "✅";
+          stE.textContent = "✅ تم تأكيد الرفع بنجاح";
         } catch (e) {
-          stE.textContent = e.message;
+          stE.textContent = "❌ " + e.message;
         } finally {
           isBusy = false;
           addB.disabled = false;
@@ -3622,10 +3660,10 @@
           const r = await fetchWithTimeout(`${PATH}?t=${Date.now()}`, { cache: "no-store" }, 6000);
           if (r.ok) {
             const d = await r.json();
-            if (d) {
+            if (d && d.active !== false) {
               dur = Math.max(1, Number(d.defaultDurationSec) || 6);
               if (Array.isArray(d.ads)) ads = d.ads;
-              else if (d.active !== false && (d.title || d.description || d.image || d.video)) {
+              else if (d.title || d.description || d.image || d.video) {
                 ads = [{ title: d.title || "", description: d.description || "", image: d.image || "", video: d.video || "", durationSec: dur }];
               }
             }
