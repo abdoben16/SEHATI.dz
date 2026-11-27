@@ -45,7 +45,7 @@
       --shadow:0 6px 18px rgba(0,0,0,.38)
     }
     *{box-sizing:border-box;margin:0;padding:0;font-family:'Tajawal',system-ui,-apple-system,sans-serif;-webkit-tap-highlight-color:transparent}
-    body{background:var(--bg);color:var(--text);line-height:1.55;padding-bottom:124px;transition:background .3s,color .3s}
+    body{background:var(--bg);color:var(--text);font-size:15px;line-height:1.58;padding-bottom:124px;transition:background .3s,color .3s}
 
     .hero{position:relative;overflow:hidden;background:linear-gradient(135deg,#0f766e 0%,#0d9488 55%,#0284c7 100%);color:#fff;padding:13px 14px 24px;border-radius:0 0 24px 24px;box-shadow:var(--shadow)}
     .hero::before{content:"";position:absolute;inset:0;opacity:.08;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='2 12 6 12 9 3 13 21 16 12 22 12'/%3E%3C/svg%3E");background-size:85px 85px;transform:rotate(-12deg)}
@@ -74,10 +74,10 @@
     .portal-btn{background:#fff;color:#0f766e;font-weight:800;font-size:.82rem;padding:6px 12px;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.14)}
     .user-acc-btn{background:rgba(255,255,255,.22);color:#fff;border:1px solid rgba(255,255,255,.35);font-weight:800}
     .my-appts-btn{background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.35);font-weight:800}
-    .search-wrap input{width:100%;padding:10px 13px;border-radius:13px;border:none;outline:none;font-size:.92rem;background:#fff;color:#0f172a}
+    .search-wrap input{width:100%;padding:10px 13px;border-radius:13px;border:none;outline:none;font-size:.94rem;background:#fff;color:#0f172a}
 
     .emergency-sec{padding:8px 14px 4px}
-    .sec-head{font-size:.85rem;font-weight:700;color:var(--muted);margin-bottom:6px;display:flex;justify-content:space-between}
+    .sec-head{font-size:.88rem;font-weight:700;color:var(--muted);margin-bottom:6px;display:flex;justify-content:space-between}
     .emerg-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
     .emerg-card{min-height:54px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;text-decoration:none;padding:7px 4px;border-radius:10px;text-align:center;font-size:.7rem;font-weight:700;box-shadow:0 2px 5px rgba(0,0,0,.12);border:1px solid rgba(255,255,255,.22)}
     .emerg-card b{display:block;font-size:.94rem;margin-top:2px;line-height:1.1}
@@ -89,11 +89,11 @@
     .ads-showcase{position:relative;margin:8px auto 6px;border-radius:14px;overflow:hidden;border:1.5px solid #facc15;box-shadow:0 6px 18px rgba(202,138,4,.18);background:#071916;width:calc(100% - 28px);max-width:336px;aspect-ratio:16 / 9;cursor:pointer;user-select:none}
     .ads-full-media{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:1;filter:none;z-index:1;display:none}
     .ads-overlay-grad{position:relative;z-index:2;width:100%;height:100%;padding:8px 11px;display:flex;flex-direction:column;justify-content:flex-end;background:linear-gradient(to top,rgba(4,12,11,.72) 0%,rgba(4,12,11,.22) 34%,transparent 65%);pointer-events:none}
-    .ads-title{font-size:.9rem;font-weight:800;color:#fff;margin-bottom:2px;line-height:1.25;text-shadow:0 1px 4px rgba(0,0,0,.95)}
-    .ads-body{font-size:.78rem;font-weight:600;color:#f8fafc;line-height:1.3;text-shadow:0 1px 4px rgba(0,0,0,.95)}
+    .ads-title{font-size:.92rem;font-weight:800;color:#fff;margin-bottom:2px;line-height:1.25;text-shadow:0 1px 4px rgba(0,0,0,.95)}
+    .ads-body{font-size:.8rem;font-weight:600;color:#f8fafc;line-height:1.3;text-shadow:0 1px 4px rgba(0,0,0,.95)}
 
     .gold-ticker-bar{display:block;width:100%;margin:4px 0 10px;background:linear-gradient(90deg,#ca8a04 0%,#facc15 25%,#fef9c3 50%,#facc15 75%,#ca8a04 100%);color:#1a1400;border-top:1.5px solid #fef9c3;border-bottom:1.5px solid #eab308;overflow:hidden;white-space:nowrap;padding:6px 0;box-shadow:0 3px 12px rgba(234,179,8,.28)}
-    .gold-ticker-track{display:inline-block;font-size:.82rem;font-weight:800;padding-inline:16px;will-change:transform}
+    .gold-ticker-track{display:inline-block;font-size:.84rem;font-weight:800;padding-inline:16px;will-change:transform}
     html[dir="rtl"] .gold-ticker-track{animation:tickerLtr 13s linear infinite}
     html[dir="ltr"] .gold-ticker-track{animation:tickerRtl 13s linear infinite}
     @keyframes tickerLtr{
@@ -124,28 +124,28 @@
     .cat-pill.active .cat-ico{color:#0f766e}
     .cat-pill.active .cat-motif{opacity:.18;transform:scale(1.1)}
 
-    .list{padding:0 16px;display:flex;flex-direction:column;gap:12px}
-    .item-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px;box-shadow:var(--shadow);position:relative}
+    .list{padding:0 15px;display:flex;flex-direction:column;gap:12px}
+    .item-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:15px;box-shadow:var(--shadow);position:relative}
     .item-card.featured{border:2px solid #eab308;box-shadow:0 6px 18px rgba(234,179,8,.18)}
 
     .badge-feat{position:absolute;top:6px;left:6px;background:linear-gradient(135deg,#fef9c3 0%,#fde047 38%,#facc15 68%,#fef08a 100%);color:#1a1400;font-size:.72rem;font-weight:800;padding:3px 10px;border-radius:0;border:1px solid #eab308;box-shadow:0 2px 8px rgba(250,204,21,.55);z-index:3}
     html[dir="ltr"] .badge-feat{left:auto;right:6px}
 
-    .item-title{font-size:1.08rem;font-weight:800;margin-bottom:2px;display:inline-flex;align-items:center;gap:5px;flex-wrap:wrap}
+    .item-title{font-size:1.1rem;font-weight:800;margin-bottom:2px;display:inline-flex;align-items:center;gap:5px;flex-wrap:wrap}
 
     .fb-verify-badge{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;transform:translateY(-2.5px);flex-shrink:0;vertical-align:middle}
     .fb-verify-badge svg{width:100%;height:100%;display:block}
     .verified-pill-pro{display:inline-flex;align-items:center;gap:6px;background:rgba(24,119,242,.12);color:#1877f2;border:1px solid rgba(24,119,242,.35);padding:3px 10px;border-radius:999px;font-size:.78rem;font-weight:800}
     body.dark .verified-pill-pro{color:#60a5fa}
 
-    .item-sub{font-size:.86rem;font-weight:700;color:var(--primary);margin-bottom:6px}
-    .item-services{font-size:.82rem;background:rgba(255,255,255,.72);padding:6px 10px;border-radius:8px;margin-bottom:8px;color:var(--text)}
-    body.dark .item-services{background:rgba(15,118,110,.14)}
-    .item-meta{font-size:.85rem;color:var(--muted);margin-bottom:10px;display:flex;flex-direction:column;gap:4px}
-    .item-doctor-footer{font-size:.82rem;font-weight:800;color:var(--primary);margin-bottom:10px;padding-top:6px;border-top:1px dashed var(--border)}
+    .item-sub{font-size:.88rem;font-weight:700;color:var(--primary);margin-bottom:6px}
+    .item-services{font-size:.85rem;background:rgba(255,255,255,.76);padding:7px 11px;border-radius:9px;margin-bottom:8px;color:var(--text)}
+    body.dark .item-services{background:rgba(15,118,110,.16)}
+    .item-meta{font-size:.86rem;color:var(--muted);margin-bottom:10px;display:flex;flex-direction:column;gap:4px}
+    .item-doctor-footer{font-size:.85rem;font-weight:800;color:var(--primary);margin-bottom:10px;padding-top:6px;border-top:1px dashed var(--border)}
     .dot-open{display:inline-block;width:8px;height:8px;border-radius:50%;background:#22c55e;margin-inline-end:6px}
     .actions{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:6px}
-    .act-btn{text-decoration:none;border:none;border-radius:10px;padding:8px 6px;font-size:.82rem;font-weight:700;display:flex;align-items:center;justify-content:center;gap:4px;cursor:pointer}
+    .act-btn{text-decoration:none;border:none;border-radius:10px;padding:8px 6px;font-size:.84rem;font-weight:700;display:flex;align-items:center;justify-content:center;gap:4px;cursor:pointer}
     .act-book{background:var(--blue);color:#fff}
     .act-call{background:var(--primary);color:#fff}
     .act-map{background:transparent;color:var(--primary);border:1px solid var(--primary)}
@@ -153,8 +153,8 @@
     body.dark .act-fav{background:#163832}
     .act-fav.saved{color:#ef4444;border-color:#ef4444}
 
-    .support-fab{position:fixed;bottom:68px;left:16px;background:linear-gradient(135deg,#0f766e,#0284c7);color:#fff;border:none;border-radius:50px;padding:10px 15px;font-size:.85rem;font-weight:800;display:flex;align-items:center;gap:6px;box-shadow:0 6px 20px rgba(15,118,110,.45);cursor:pointer;z-index:150}
-    .med-fab{position:fixed;bottom:68px;right:16px;background:linear-gradient(135deg,#0f766e,#0284c7);color:#fff;border:none;border-radius:50px;padding:10px 15px;font-size:.85rem;font-weight:800;display:flex;align-items:center;gap:6px;box-shadow:0 6px 20px rgba(15,118,110,.45);cursor:pointer;z-index:150;animation:medMatchPulse 1.8s ease-in-out infinite}
+    .support-fab{position:fixed;bottom:68px;left:16px;background:linear-gradient(135deg,#0f766e,#0284c7);color:#fff;border:none;border-radius:50px;padding:10px 15px;font-size:.86rem;font-weight:800;display:flex;align-items:center;gap:6px;box-shadow:0 6px 20px rgba(15,118,110,.45);cursor:pointer;z-index:150}
+    .med-fab{position:fixed;bottom:68px;right:16px;background:linear-gradient(135deg,#0f766e,#0284c7);color:#fff;border:none;border-radius:50px;padding:10px 15px;font-size:.86rem;font-weight:800;display:flex;align-items:center;gap:6px;box-shadow:0 6px 20px rgba(15,118,110,.45);cursor:pointer;z-index:150;animation:medMatchPulse 1.8s ease-in-out infinite}
     html[dir="ltr"] .support-fab{left:auto;right:16px}
     html[dir="ltr"] .med-fab{right:auto;left:16px}
     @keyframes medMatchPulse{
@@ -164,37 +164,47 @@
 
     .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:200;align-items:center;justify-content:center;padding:16px;overflow-y:auto}
     .modal.open{display:flex}
-    .modal-card{background:var(--card);color:var(--text);width:100%;max-width:460px;border-radius:20px;padding:18px;box-shadow:var(--shadow);max-height:90vh;overflow-y:auto}
-    .modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;border-bottom:1px solid var(--border);padding-bottom:8px}
+    .modal-card{background:var(--card);color:var(--text);width:100%;max-width:480px;border-radius:20px;padding:20px;box-shadow:var(--shadow);max-height:90vh;overflow-y:auto}
+    .modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:13px;border-bottom:1px solid var(--border);padding-bottom:9px}
+    .modal-header h3{font-size:1.05rem;font-weight:800}
     .close-x{background:none;border:none;font-size:1.3rem;color:var(--muted);cursor:pointer}
-    .form-group{margin-bottom:10px}
-    .form-group label{display:block;font-size:.82rem;font-weight:700;margin-bottom:3px;color:var(--muted)}
-    .form-group input,.form-group select,.form-group textarea{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--border);background:#ffffff;color:var(--text);font-size:.92rem}
+    .form-group{margin-bottom:11px}
+    .form-group label{display:block;font-size:.85rem;font-weight:700;margin-bottom:4px;color:var(--muted)}
+    .form-group input,.form-group select,.form-group textarea{width:100%;padding:10px 12px;border-radius:11px;border:1px solid var(--border);background:#ffffff;color:var(--text);font-size:.94rem}
     body.dark .form-group input,body.dark .form-group select,body.dark .form-group textarea{background:#0b221e}
-    .btn-primary{width:100%;padding:11px;border-radius:11px;border:none;background:var(--primary);color:#fff;font-weight:800;font-size:.95rem;cursor:pointer;margin-top:6px}
-    .btn-receipt{width:100%;padding:8px 10px;border-radius:9px;border:none;background:linear-gradient(135deg,#0f766e,#0284c7);color:#fff;font-weight:800;font-size:.8rem;cursor:pointer;margin-top:7px;display:flex;align-items:center;justify-content:center;gap:5px}
-    .btn-danger{width:100%;padding:10px;border-radius:11px;border:none;background:var(--danger);color:#fff;font-weight:700;font-size:.88rem;cursor:pointer;margin-top:8px}
-    .btn-secondary{width:100%;padding:10px;border-radius:11px;border:1px solid var(--border);background:transparent;color:var(--text);font-weight:700;font-size:.9rem;cursor:pointer;margin-top:8px}
-    .btn-edit-med{background:#0284c7;color:#fff;border:none;border-radius:7px;padding:2px 9px;font-size:.74rem;font-weight:800;cursor:pointer;line-height:1.3}
-    .btn-del-med{background:#dc2626;color:#fff;border:none;border-radius:7px;padding:2px 9px;font-size:.74rem;font-weight:800;cursor:pointer;line-height:1.3}
+    .btn-primary{width:100%;padding:11px;border-radius:11px;border:none;background:var(--primary);color:#fff;font-weight:800;font-size:.96rem;cursor:pointer;margin-top:6px}
+    .btn-receipt{width:100%;padding:9px 11px;border-radius:9px;border:none;background:linear-gradient(135deg,#0f766e,#0284c7);color:#fff;font-weight:800;font-size:.84rem;cursor:pointer;margin-top:7px;display:flex;align-items:center;justify-content:center;gap:5px}
+    .btn-danger{width:100%;padding:10px;border-radius:11px;border:none;background:var(--danger);color:#fff;font-weight:700;font-size:.9rem;cursor:pointer;margin-top:8px}
+    .btn-secondary{width:100%;padding:10px;border-radius:11px;border:1px solid var(--border);background:transparent;color:var(--text);font-weight:700;font-size:.92rem;cursor:pointer;margin-top:8px}
+
+    .med-card-item{background:rgba(255,255,255,.84);border:1px solid var(--border);border-radius:13px;padding:12px;margin-bottom:10px;font-size:.9rem}
+    body.dark .med-card-item{background:rgba(15,118,110,.15)}
+    .med-card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:6px}
+    .med-card-title{font-size:.98rem;font-weight:800;color:var(--text);line-height:1.35}
+    .med-owner-actions{display:flex;align-items:center;gap:6px;flex-shrink:0}
+    .btn-edit-med{background:#0284c7;color:#fff;border:none;border-radius:8px;padding:4px 10px;font-size:.78rem;font-weight:800;cursor:pointer;line-height:1.25}
+    .btn-del-med{background:#dc2626;color:#fff;border:none;border-radius:8px;padding:4px 10px;font-size:.78rem;font-weight:800;cursor:pointer;line-height:1.25}
+    .med-owner-phone-row{margin-top:6px;padding-top:6px;border-top:1px dashed var(--border);font-size:.86rem;font-weight:800;color:var(--primary)}
+    .med-owner-phone-row a{color:var(--primary);text-decoration:none}
+
     .tabs-bar{display:flex;gap:4px;margin-bottom:14px;background:rgba(15,118,110,.08);padding:4px;border-radius:12px}
-    .tab-btn{flex:1;padding:8px 4px;border:none;border-radius:9px;background:transparent;color:var(--text);font-weight:700;font-size:.78rem;cursor:pointer}
+    .tab-btn{flex:1;padding:8px 4px;border:none;border-radius:9px;background:transparent;color:var(--text);font-weight:700;font-size:.8rem;cursor:pointer}
     .tab-btn.active{background:var(--primary);color:#fff}
-    .appt-item{background:rgba(255,255,255,.78);border:1px solid var(--border);border-radius:12px;padding:10px;margin-bottom:8px;font-size:.85rem}
+    .appt-item{background:rgba(255,255,255,.78);border:1px solid var(--border);border-radius:12px;padding:11px;margin-bottom:8px;font-size:.88rem}
     body.dark .appt-item{background:rgba(15,118,110,.12)}
     .appt-item header{display:flex;justify-content:space-between;align-items:center;gap:6px;font-weight:800;margin-bottom:4px}
     .queue-badge{background:rgba(15,118,110,.14);color:var(--primary);border:1px solid var(--primary);padding:2px 8px;border-radius:8px;font-size:.76rem;font-weight:800}
-    .status-badge{padding:2px 8px;border-radius:6px;font-size:.74rem;font-weight:800}
+    .status-badge{padding:2px 8px;border-radius:6px;font-size:.76rem;font-weight:800}
     .status-pending{background:#fef3c7;color:#b45309}
     .status-active{background:#dcfce7;color:#15803d}
     .status-rejected{background:#fee2e2;color:#b91c1c}
-    .sub-box{background:rgba(15,118,110,.1);border:1px solid var(--primary);border-radius:12px;padding:10px 12px;margin-bottom:12px;font-size:.83rem}
-    .sub-alert-week{background:rgba(234,179,8,.16);border:1.5px solid #ca8a04;color:var(--text);border-radius:12px;padding:10px 12px;margin-bottom:12px;font-size:.83rem;font-weight:700}
-    .vip-pitch-box{background:rgba(15,118,110,.09);border:1.5px solid var(--primary);padding:14px;border-radius:14px;font-size:.88rem;margin-bottom:12px;line-height:1.65}
+    .sub-box{background:rgba(15,118,110,.1);border:1px solid var(--primary);border-radius:12px;padding:10px 12px;margin-bottom:12px;font-size:.85rem}
+    .sub-alert-week{background:rgba(234,179,8,.16);border:1.5px solid #ca8a04;color:var(--text);border-radius:12px;padding:10px 12px;margin-bottom:12px;font-size:.85rem;font-weight:700}
+    .vip-pitch-box{background:rgba(15,118,110,.09);border:1.5px solid var(--primary);padding:14px;border-radius:14px;font-size:.9rem;margin-bottom:12px;line-height:1.65}
     .vip-pitch-box ul{margin:8px 18px}
-    .otp-code-box{background:rgba(2,132,199,.12);border:1px dashed var(--blue);border-radius:10px;padding:8px 10px;font-size:.83rem;font-weight:800;color:var(--blue);margin-bottom:10px;text-align:center}
-    .med-req-img{width:100%;max-height:160px;object-fit:cover;border-radius:10px;margin-top:6px;border:1px solid var(--border)}
-    .toast{position:fixed;bottom:122px;left:50%;transform:translateX(-50%);background:#0f172a;color:#fff;padding:10px 20px;border-radius:30px;font-size:.88rem;font-weight:700;z-index:300;display:none;box-shadow:0 4px 14px rgba(0,0,0,.3);text-align:center;max-width:90%}
+    .otp-code-box{background:rgba(2,132,199,.12);border:1px dashed var(--blue);border-radius:10px;padding:8px 10px;font-size:.84rem;font-weight:800;color:var(--blue);margin-bottom:10px;text-align:center}
+    .med-req-img{width:100%;max-height:175px;object-fit:cover;border-radius:10px;margin-top:7px;border:1px solid var(--border)}
+    .toast{position:fixed;bottom:122px;left:50%;transform:translateX(-50%);background:#0f172a;color:#fff;padding:10px 20px;border-radius:30px;font-size:.9rem;font-weight:700;z-index:300;display:none;box-shadow:0 4px 14px rgba(0,0,0,.3);text-align:center;max-width:90%}
   </style>
 </head>
 <body>
@@ -680,7 +690,7 @@
       adText: "ضاعف عدد مرضاك وزبائنك! أعلن عن عيادتك، صيدليتك، أو مخبرك في الواجهة الرئيسية لتطبيق صحتي أمام آلاف الباحثين يومياً."
     };
 
-    let lang = 'ar', currentCat = 'all', selectedPlaceForBooking = null, currentProProfile = null;
+    let lang = 'ar', currentCat = 'all', selectedPlaceForBooking = null, currentProProfile = null, isAdminUnlocked = false;
     let favs = JSON.parse(localStorage.getItem('sehati_favs') || '[]'),
         localPlaces = JSON.parse(localStorage.getItem('sehati_pro_places') || '[]'),
         localAppointments = JSON.parse(localStorage.getItem('sehati_appointments') || '[]'),
@@ -1218,7 +1228,6 @@
     function closeModal(id) { document.getElementById(id).classList.remove('open'); }
     function openSupportModal() { document.getElementById('supportModal').classList.add('open'); }
 
-    /* رسم نقوش سماعات طبيب في خلفية وصل الحجز */
     function drawStethoscopeMotif(ctx, x, y, scale = 1, angle = 0) {
       ctx.save();
       ctx.translate(x, y);
@@ -1431,6 +1440,41 @@
       }).join('');
     }
 
+    function canEditMedicineRequest(r) {
+      if (!r) return false;
+      const uPhone = (currentUserSession && currentUserSession.phone || '').trim();
+      const uId = (currentUserSession && currentUserSession.id || '').trim();
+      const savedPhone = (lastPatientPhone || '').trim();
+      return Boolean((uId && r.userId === uId) || (uPhone && r.phone === uPhone) || (savedPhone && r.phone === savedPhone));
+    }
+
+    function canDeleteMedicineRequest(r) {
+      return Boolean(isAdminUnlocked || canEditMedicineRequest(r));
+    }
+
+    function renderMedRequestCardHtml(r) {
+      const allowEdit = canEditMedicineRequest(r);
+      const allowDelete = canDeleteMedicineRequest(r);
+      const actionBtnsHtml = (allowEdit || allowDelete)
+        ? `<div class="med-owner-actions">
+            ${allowEdit ? `<button type="button" class="btn-edit-med" onclick="editMedicineRequest('${r.id}')">تعديل</button>` : ''}
+            ${allowDelete ? `<button type="button" class="btn-del-med" onclick="deleteMedicineRequest('${r.id}')">حذف</button>` : ''}
+          </div>`
+        : '';
+
+      return `
+        <div class="med-card-item">
+          <div class="med-card-top">
+            <span class="med-card-title">💊 ${r.medName || '-'}</span>
+            ${actionBtnsHtml}
+          </div>
+          ${r.note ? `<div style="margin-top:4px;">📝 ${r.note}</div>` : ''}
+          ${r.imgData ? `<img src="${r.imgData}" alt="" class="med-req-img" />` : ''}
+          ${r.phone ? `<div class="med-owner-phone-row">📞 <a href="tel:${r.phone}">${r.phone}</a></div>` : ''}
+        </div>
+      `;
+    }
+
     function renderUserArchiveMeds() {
       const box = document.getElementById('uArchiveMedsList');
       if (!box || !currentUserSession) return;
@@ -1444,20 +1488,7 @@
         return;
       }
 
-      box.innerHTML = mine.map(r => `
-        <div class="appt-item">
-          <header>
-            <span>💊 ${r.medName || '-'}</span>
-            <div style="display:flex;align-items:center;gap:5px;">
-              <span>📞 ${r.phone}</span>
-              <button type="button" class="btn-edit-med" onclick="editMedicineRequest('${r.id}')">تعديل</button>
-              <button type="button" class="btn-del-med" onclick="deleteMedicineRequest('${r.id}')">حذف</button>
-            </div>
-          </header>
-          ${r.note ? `<div style="margin-top:4px;">📝 ${r.note}</div>` : ''}
-          ${r.imgData ? `<img src="${r.imgData}" alt="" class="med-req-img" />` : ''}
-        </div>
-      `).join('');
+      box.innerHTML = mine.map(r => renderMedRequestCardHtml(r)).join('');
     }
 
     function renderUserAccountModal() {
@@ -1623,7 +1654,7 @@
 
     function editMedicineRequest(reqId) {
       const target = medicineRequests.find(r => r.id === reqId);
-      if (!target) return;
+      if (!target || !canEditMedicineRequest(target)) return;
       editingMedId = reqId;
       document.getElementById('medNameInput').value = target.medName || '';
       document.getElementById('medPhoneInput').value = target.phone || '';
@@ -1655,6 +1686,11 @@
       if (!phone) {
         showToast(tr('toastFillReq'));
         return;
+      }
+
+      if (phone) {
+        lastPatientPhone = phone;
+        localStorage.setItem('sehati_last_patient_phone', phone);
       }
 
       if (editingMedId && existingItem) {
@@ -1710,6 +1746,9 @@
     }
 
     async function deleteMedicineRequest(reqId) {
+      const target = medicineRequests.find(r => r.id === reqId);
+      if (!target || !canDeleteMedicineRequest(target)) return;
+
       if (editingMedId === reqId) {
         editingMedId = null;
         document.getElementById('medSubmitBtn').textContent = tr('medSubmitBtn');
@@ -1736,20 +1775,7 @@
         return;
       }
 
-      listEl.innerHTML = medicineRequests.map(r => `
-        <div class="appt-item">
-          <header>
-            <span>💊 ${r.medName || ''}</span>
-            <div style="display:flex;align-items:center;gap:5px;">
-              <a href="tel:${r.phone}" style="background:var(--primary);color:#fff;padding:2px 8px;border-radius:7px;text-decoration:none;font-size:.76rem;">📞 ${r.phone}</a>
-              <button type="button" class="btn-edit-med" onclick="editMedicineRequest('${r.id}')">تعديل</button>
-              <button type="button" class="btn-del-med" onclick="deleteMedicineRequest('${r.id}')">حذف</button>
-            </div>
-          </header>
-          ${r.note ? `<div style="margin-top:4px;">📝 ${r.note}</div>` : ''}
-          ${r.imgData ? `<img src="${r.imgData}" alt="" class="med-req-img" />` : ''}
-        </div>
-      `).join('');
+      listEl.innerHTML = medicineRequests.map(r => renderMedRequestCardHtml(r)).join('');
     }
 
     function getSortedDayAppointments(placeId, dateStr) {
@@ -2150,6 +2176,7 @@
 
     async function unlockAdminPanel() {
       if (document.getElementById('adminPinInput').value.trim() !== adminConfig.pass) { showToast('❌'); return; }
+      isAdminUnlocked = true;
       document.getElementById('adminPinInput').value = '';
       document.getElementById('secretPinBox').style.display = 'none';
       document.getElementById('adminDashboardView').style.display = 'block';
@@ -2159,6 +2186,7 @@
       document.getElementById('newAdText').value = adminConfig.adText;
       await window.refreshCloudData();
       renderAdminAccounts();
+      renderMedicineRequests();
     }
 
     function switchAdminTab(tab) {
