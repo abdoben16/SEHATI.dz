@@ -45,19 +45,32 @@
       --shadow:0 6px 18px rgba(0,0,0,.38)
     }
     *{box-sizing:border-box;margin:0;padding:0;font-family:'Tajawal',system-ui,-apple-system,sans-serif;-webkit-tap-highlight-color:transparent}
-    body{background:var(--bg);color:var(--text);font-size:15px;line-height:1.58;padding-bottom:124px;transition:background .3s,color .3s}
+    body{
+      background-color:var(--bg);
+      color:var(--text);
+      font-size:15px;
+      line-height:1.58;
+      padding-bottom:124px;
+      transition:background .3s,color .3s;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 64 64' fill='none' stroke='%230f766e' stroke-opacity='0.065' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cg transform='rotate(-18 32 32)'%3E%3Cpath d='M18 12v10a10 10 0 0 0 20 0V12'/%3E%3Ccircle cx='18' cy='11' r='2' fill='%230f766e' fill-opacity='0.065'/%3E%3Ccircle cx='38' cy='11' r='2' fill='%230f766e' fill-opacity='0.065'/%3E%3Cpath d='M28 32v8a9 9 0 0 0 18 0v-6'/%3E%3Ccircle cx='46' cy='31' r='4'/%3E%3C/g%3E%3C/svg%3E");
+      background-size:115px 115px;
+      background-attachment:fixed;
+    }
+    body.dark{
+      background-image:none;
+    }
 
     .hero{position:relative;overflow:hidden;background:linear-gradient(135deg,#0f766e 0%,#0d9488 55%,#0284c7 100%);color:#fff;padding:14px 14px 25px;border-radius:0 0 24px 24px;box-shadow:var(--shadow)}
     .hero::before{content:"";position:absolute;inset:0;opacity:.08;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='2 12 6 12 9 3 13 21 16 12 22 12'/%3E%3C/svg%3E");background-size:85px 85px;transform:rotate(-12deg)}
-    .top{position:relative;z-index:2;display:flex;flex-direction:column;gap:10px;margin-bottom:10px}
+    .top{position:relative;z-index:2;display:flex;flex-direction:column;gap:14px;margin-bottom:8px}
     .brand{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%}
     .brand-info{display:flex;flex-direction:column;align-items:flex-start;cursor:pointer;user-select:none}
-    .brand-info b{font-size:1.55rem;font-weight:900;display:block;line-height:1.12;letter-spacing:.2px}
+    .brand-info b{font-size:1.58rem;font-weight:900;display:block;line-height:1.12;letter-spacing:.2px}
     .brand-info small{display:block;opacity:.92;font-size:.78rem;margin-top:3px}
-    .brand-controls-under{display:flex;align-items:center;gap:6px;margin-top:7px}
+    .brand-controls-under{display:flex;align-items:center;gap:6px;margin-top:7px;flex-wrap:wrap}
 
-    /* تكبير لوغو ECG المتحرك */
-    .logo{width:68px;height:68px;border-radius:18px;background:rgba(255,255,255,.18);display:grid;place-items:center;backdrop-filter:blur(6px);box-shadow:0 5px 15px rgba(0,0,0,.15);flex-shrink:0;cursor:pointer;border:1px solid rgba(255,255,255,.28)}
+    .logo{width:68px;height:68px;border-radius:18px;background:rgba(255,255,255,.18);display:grid;place-items:center;backdrop-filter:blur(6px);box-shadow:0 5px 15px rgba(0,0,0,.15);flex-shrink:0;cursor:pointer;border:1px solid rgba(255,255,255,.28);position:relative;transition:transform .2s,box-shadow .2s}
+    .logo.ecg-sounding{box-shadow:0 0 0 3px rgba(250,204,21,.65),0 6px 18px rgba(0,0,0,.22)}
     .logo svg{width:48px;height:48px;stroke:#fff;fill:none;stroke-width:2.8;stroke-linecap:round;stroke-linejoin:round}
     .ecg{stroke-dasharray:120;stroke-dashoffset:240;animation:draw 2.4s linear infinite}
     @keyframes draw{to{stroke-dashoffset:0}}
@@ -71,15 +84,16 @@
     .seg button{border:0;background:transparent;color:#fff;font-weight:700;font-size:.74rem;padding:4px 8px;border-radius:8px;cursor:pointer}
     .seg button.on{background:#fff;color:#0f766e}
     .tool-btn{border:0;background:rgba(255,255,255,.22);color:#fff;padding:6px 10px;border-radius:10px;font-weight:700;font-size:.78rem;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;gap:4px}
+    .ecg-sound-btn.active{background:#facc15;color:#1a1400;font-weight:800}
 
-    /* شريط بوابة المهنيين ومواعيدي وحسابي فوق البحث */
-    .quick-nav-bar{display:grid;grid-template-columns:1.25fr 1fr .9fr;gap:6px;width:100%;background:rgba(255,255,255,.14);padding:5px;border-radius:13px;border:1px solid rgba(255,255,255,.25)}
-    .quick-nav-bar .bar-item{border:0;border-radius:9px;padding:7px 6px;font-size:.78rem;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .portal-btn{background:#fff;color:#0f766e;box-shadow:0 2px 7px rgba(0,0,0,.14)}
-    .my-appts-btn{background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.28)}
-    .user-acc-btn{background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.28)}
+    /* أزرار المهنيين ومواعيدي وحسابي بدون إطار ومنزلة فوق شريط البحث */
+    .quick-nav-bar{display:grid;grid-template-columns:1.25fr 1fr .9fr;gap:7px;width:100%;padding:0;margin-top:6px;background:transparent;border:none}
+    .quick-nav-bar .bar-item{border:0;border-radius:11px;padding:8px 6px;font-size:.8rem;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;box-shadow:0 3px 9px rgba(0,0,0,.12)}
+    .portal-btn{background:#fff;color:#0f766e}
+    .my-appts-btn{background:rgba(255,255,255,.22);color:#fff;backdrop-filter:blur(4px)}
+    .user-acc-btn{background:rgba(255,255,255,.22);color:#fff;backdrop-filter:blur(4px)}
 
-    .search-wrap input{width:100%;padding:10px 13px;border-radius:13px;border:none;outline:none;font-size:.94rem;background:#fff;color:#0f172a}
+    .search-wrap input{width:100%;padding:10px 13px;border-radius:13px;border:none;outline:none;font-size:.94rem;background:#fff;color:#0f172a;box-shadow:0 3px 10px rgba(0,0,0,.08)}
 
     .emergency-sec{padding:8px 14px 4px}
     .sec-head{font-size:.88rem;font-weight:700;color:var(--muted);margin-bottom:6px;display:flex;justify-content:space-between;align-items:center}
@@ -169,7 +183,7 @@
 
     .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:200;align-items:center;justify-content:center;padding:16px;overflow-y:auto}
     .modal.open{display:flex}
-    .modal-card{background:var(--card);color:var(--text);width:100%;max-width:480px;border-radius:20px;padding:20px;box-shadow:var(--shadow);max-height:90vh;overflow-y:auto}
+    .modal-card{background:var(--card);color:var(--text);width:100%;max-width:490px;border-radius:20px;padding:20px;box-shadow:var(--shadow);max-height:90vh;overflow-y:auto}
     .modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:13px;border-bottom:1px solid var(--border);padding-bottom:9px}
     .modal-header h3{font-size:1.05rem;font-weight:800}
     .close-x{background:none;border:none;font-size:1.3rem;color:var(--muted);cursor:pointer}
@@ -181,6 +195,23 @@
     .btn-receipt{width:100%;padding:9px 11px;border-radius:9px;border:none;background:linear-gradient(135deg,#0f766e,#0284c7);color:#fff;font-weight:800;font-size:.84rem;cursor:pointer;margin-top:7px;display:flex;align-items:center;justify-content:center;gap:5px}
     .btn-danger{width:100%;padding:10px;border-radius:11px;border:none;background:var(--danger);color:#fff;font-weight:700;font-size:.9rem;cursor:pointer;margin-top:8px}
     .btn-secondary{width:100%;padding:10px;border-radius:11px;border:1px solid var(--border);background:transparent;color:var(--text);font-weight:700;font-size:.92rem;cursor:pointer;margin-top:8px}
+
+    /* لوحة المهنيين الاحترافية */
+    .pro-hero-banner{background:linear-gradient(135deg,#0f766e 0%,#0d9488 58%,#0284c7 100%);color:#fff;border-radius:16px;padding:15px;margin-bottom:12px;box-shadow:0 6px 16px rgba(15,118,110,.22);position:relative;overflow:hidden}
+    .pro-hero-top{display:flex;align-items:center;gap:12px}
+    .pro-avatar-circle{width:50px;height:50px;border-radius:14px;background:rgba(255,255,255,.2);display:grid;place-items:center;font-size:1.5rem;flex-shrink:0;border:1px solid rgba(255,255,255,.35)}
+    .pro-hero-meta{flex:1;min-width:0}
+    .pro-hero-name{font-size:1.05rem;font-weight:900;display:flex;align-items:center;gap:6px;flex-wrap:wrap;line-height:1.25}
+    .pro-hero-spec{font-size:.82rem;opacity:.92;margin-top:2px}
+    .pro-hero-loc{font-size:.76rem;opacity:.88;margin-top:3px;display:flex;align-items:center;gap:4px}
+    .pro-kpi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+    .pro-kpi-card{background:rgba(255,255,255,.85);border:1px solid var(--border);border-radius:12px;padding:9px 6px;text-align:center}
+    body.dark .pro-kpi-card{background:rgba(15,118,110,.18)}
+    .pro-kpi-card b{display:block;font-size:1.18rem;font-weight:900;color:var(--primary);line-height:1.2}
+    .pro-kpi-card span{font-size:.74rem;font-weight:700;color:var(--muted)}
+    .loc-share-box{background:rgba(2,132,199,.08);border:1.5px dashed var(--blue);border-radius:12px;padding:11px;margin-bottom:11px}
+    .btn-loc-share{width:100%;padding:10px 12px;border-radius:10px;border:none;background:linear-gradient(135deg,#0284c7,#0f766e);color:#fff;font-weight:800;font-size:.88rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
+    .loc-coords-badge{margin-top:7px;font-size:.8rem;font-weight:700;color:var(--primary);display:flex;align-items:center;justify-content:space-between;gap:6px;flex-wrap:wrap}
 
     .med-create-toggle-btn{width:100%;padding:11px 14px;border-radius:12px;border:1.5px dashed var(--primary);background:rgba(15,118,110,.1);color:var(--primary);font-weight:800;font-size:.94rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:12px}
     .med-form-drawer{display:none;background:rgba(255,255,255,.72);border:1px solid var(--border);border-radius:14px;padding:12px;margin-bottom:14px}
@@ -233,9 +264,10 @@
               <button id="btnEn" onclick="setLang('en')">EN</button>
             </div>
             <button class="tool-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
+            <button class="tool-btn ecg-sound-btn" onclick="toggleEcgSound()" id="ecgSoundBtn" title="صوت نبض ECG">🔇</button>
           </div>
         </div>
-        <div class="logo" onclick="handleSecretLogoTap()">
+        <div class="logo" id="heroEcgLogo" onclick="toggleEcgSound()">
           <svg viewBox="0 0 24 24"><polyline class="ecg" points="2 12 6 12 9 3 13 21 16 12 22 12"></polyline></svg>
         </div>
       </div>
@@ -605,6 +637,11 @@
           <div class="form-group"><label id="lblRegSpec">التخصص الدقيق *</label><input type="text" id="regSpec" /></div>
           <div class="form-group"><label id="lblRegServices">الخدمات المقدمة *</label><textarea id="regServices" rows="2"></textarea></div>
           <div class="form-group"><label id="lblRegAddr">العنوان والولاية *</label><input type="text" id="regAddr" /></div>
+          <div class="loc-share-box">
+            <button type="button" class="btn-loc-share" onclick="shareProLocation('reg')">📍 <span id="btnShareLocRegTxt">مشاركة موقعي على الخرائط</span></button>
+            <input type="text" id="regMapInput" oninput="parseProMapInput('reg')" placeholder="أو الصق رابط خرائط جوجل / الإحداثيات (36.75, 3.05)" style="width:100%;margin-top:7px;padding:8px 10px;border-radius:9px;border:1px solid var(--border);background:#fff;color:var(--text);font-size:.84rem;" />
+            <div class="loc-coords-badge" id="regLocStatus"></div>
+          </div>
           <div class="form-group"><label id="lblRegHours">أوقات العمل *</label><input type="text" id="regHours" /></div>
           <div class="form-group"><label id="lblRegPhone">رقم الهاتف المهني *</label><input type="tel" id="regPhone" /></div>
           <div class="form-group"><label id="lblRegEmail">البريد الإلكتروني للحساب *</label><input type="email" id="regEmail" /></div>
@@ -614,13 +651,14 @@
       </div>
 
       <div id="proDashboardView" style="display:none;">
-        <div id="proVerifiedBanner" style="display:none;margin-bottom:10px;"></div>
+        <div class="pro-hero-banner" id="proHeroBanner"></div>
+        <div class="pro-kpi-grid" id="proKpiGrid"></div>
         <div id="proSubStatusBox" class="sub-box"></div>
         <div id="proLastWeekAlert" class="sub-alert-week" style="display:none;"></div>
         <div id="pendingWarningBox" class="vip-pitch-box" style="display:none;"></div>
         <div class="tabs-bar">
           <button class="tab-btn active" id="dashTabAppts" onclick="switchDashTab('appts')">📅 <span id="txtDashAppts">المواعيد</span> (<span id="apptCount">0</span>)</button>
-          <button class="tab-btn" id="dashTabEdit" onclick="switchDashTab('edit')">✏️ <span id="txtDashEdit">تعديل ملفي</span></button>
+          <button class="tab-btn" id="dashTabEdit" onclick="switchDashTab('edit')">⚙️ <span id="txtDashEdit">تعديل ملفي والموقع</span></button>
         </div>
         <div id="dashApptsPanel"><div id="apptsList"></div></div>
         <div id="dashEditPanel" style="display:none;">
@@ -628,6 +666,11 @@
           <div class="form-group"><label id="lblEditSpec">التخصص</label><input type="text" id="editSpec" /></div>
           <div class="form-group"><label id="lblEditServices">الخدمات المقدمة</label><textarea id="editServices" rows="3"></textarea></div>
           <div class="form-group"><label id="lblEditAddr">العنوان</label><input type="text" id="editAddr" /></div>
+          <div class="loc-share-box">
+            <button type="button" class="btn-loc-share" onclick="shareProLocation('edit')">📍 <span id="btnShareLocEditTxt">تحديث ومشاركة موقعي على الخرائط تلقائياً</span></button>
+            <input type="text" id="editMapInput" onchange="parseProMapInput('edit', true)" placeholder="أو الصق رابط خرائط جوجل / الإحداثيات للتحديث التلقائي" style="width:100%;margin-top:7px;padding:8px 10px;border-radius:9px;border:1px solid var(--border);background:#fff;color:var(--text);font-size:.84rem;" />
+            <div class="loc-coords-badge" id="editLocStatus"></div>
+          </div>
           <div class="form-group"><label id="lblEditHours">أوقات العمل وحالة المناوبة</label><input type="text" id="editHours" /></div>
           <div class="form-group"><label id="lblEditPhone">رقم الهاتف</label><input type="tel" id="editPhone" /></div>
           <button class="btn-primary" id="btnSaveProfile" onclick="saveProProfile()">💾 حفظ التعديلات</button>
@@ -707,6 +750,7 @@
     };
 
     let lang = 'ar', currentCat = 'all', selectedPlaceForBooking = null, currentProProfile = null, isAdminUnlocked = false;
+    let regTempCoords = { lat: null, lng: null };
     let favs = JSON.parse(localStorage.getItem('sehati_favs') || '[]'),
         localPlaces = JSON.parse(localStorage.getItem('sehati_pro_places') || '[]'),
         localAppointments = JSON.parse(localStorage.getItem('sehati_appointments') || '[]'),
@@ -718,10 +762,90 @@
         editingMedId = null,
         pendingOtpData = null;
 
+    /* نظام صوت نبض القلب ECG المدمج */
+    let ecgAudioCtx = null, ecgSoundInterval = null, isEcgSoundOn = false;
+
+    function playSingleEcgHeartbeat() {
+      try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) return;
+        if (!ecgAudioCtx) ecgAudioCtx = new AudioCtx();
+        if (ecgAudioCtx.state === 'suspended') ecgAudioCtx.resume();
+
+        const now = ecgAudioCtx.currentTime;
+
+        const osc1 = ecgAudioCtx.createOscillator();
+        const gain1 = ecgAudioCtx.createGain();
+        osc1.type = 'sine';
+        osc1.frequency.setValueAtTime(115, now);
+        osc1.frequency.exponentialRampToValueAtTime(48, now + 0.09);
+        gain1.gain.setValueAtTime(0.001, now);
+        gain1.gain.exponentialRampToValueAtTime(0.18, now + 0.015);
+        gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.11);
+        osc1.connect(gain1);
+        gain1.connect(ecgAudioCtx.destination);
+        osc1.start(now);
+        osc1.stop(now + 0.12);
+
+        const osc2 = ecgAudioCtx.createOscillator();
+        const gain2 = ecgAudioCtx.createGain();
+        osc2.type = 'sine';
+        osc2.frequency.setValueAtTime(88, now + 0.17);
+        osc2.frequency.exponentialRampToValueAtTime(40, now + 0.26);
+        gain2.gain.setValueAtTime(0.001, now + 0.17);
+        gain2.gain.exponentialRampToValueAtTime(0.12, now + 0.185);
+        gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
+        osc2.connect(gain2);
+        gain2.connect(ecgAudioCtx.destination);
+        osc2.start(now + 0.17);
+        osc2.stop(now + 0.29);
+
+        const beepOsc = ecgAudioCtx.createOscillator();
+        const beepGain = ecgAudioCtx.createGain();
+        beepOsc.type = 'sine';
+        beepOsc.frequency.setValueAtTime(880, now + 0.02);
+        beepGain.gain.setValueAtTime(0.001, now + 0.02);
+        beepGain.gain.exponentialRampToValueAtTime(0.045, now + 0.03);
+        beepGain.gain.exponentialRampToValueAtTime(0.001, now + 0.095);
+        beepOsc.connect(beepGain);
+        beepGain.connect(ecgAudioCtx.destination);
+        beepOsc.start(now + 0.02);
+        beepOsc.stop(now + 0.1);
+      } catch (_) {}
+    }
+
+    function toggleEcgSound() {
+      const btn = document.getElementById('ecgSoundBtn');
+      const logo = document.getElementById('heroEcgLogo');
+      if (isEcgSoundOn) {
+        isEcgSoundOn = false;
+        if (ecgSoundInterval) {
+          clearInterval(ecgSoundInterval);
+          ecgSoundInterval = null;
+        }
+        if (btn) {
+          btn.textContent = '🔇';
+          btn.classList.remove('active');
+        }
+        if (logo) logo.classList.remove('ecg-sounding');
+      } else {
+        isEcgSoundOn = true;
+        playSingleEcgHeartbeat();
+        ecgSoundInterval = setInterval(playSingleEcgHeartbeat, 950);
+        if (btn) {
+          btn.textContent = '🔊';
+          btn.classList.add('active');
+        }
+        if (logo) logo.classList.add('ecg-sounding');
+        showToast(tr('ecgSoundStarted'));
+      }
+    }
+
     const T = {
       ar: {
         sub:'دليلك الصحي وحجز المواعيد في الجزائر', proBtn:'🩺 بوابة المهنيين', userAccBtn:'حسابي', myAppts:'📋 مواعيدي',
         medFab:'دوائي',
+        ecgSoundStarted:'💓 تم تشغيل صوت نبض ECG',
         search:'ابحث عن طبيب، صيدلية، عيادة، خدمة، أو ولاية...', emerg:'🚨 أرقام الطوارئ (اتصال مباشر)',
         e1:'الحماية المدنية', e2:'الشرطة', e3:'الدرك الوطني', e4:'الإسعاف',
         all:'الكل', fav:'المفضلة', d:'أطباء', c:'عيادات', p:'صيدليات', h:'مستشفيات', l:'مخابر', g:'أطباء أسنان', r:'أشعة',
@@ -749,7 +873,11 @@
         regName:'اسم الطبيب أو الصيدلية أو العيادة *', regSpec:'التخصص الدقيق *', regServices:'الخدمات المقدمة *',
         regAddr:'العنوان والولاية *', regHours:'أوقات العمل *', regPhone:'رقم الهاتف المهني *',
         regEmail:'البريد الإلكتروني للحساب *', regPass:'كلمة المرور (6 أحرف على الأقل) *', regBtn:'إرسال طلب الانضمام',
-        dashAppts:'المواعيد', dashEdit:'تعديل ملفي', saveProfileBtn:'💾 حفظ التعديلات', logoutBtn:'🚪 تسجيل الخروج',
+        dashAppts:'المواعيد', dashEdit:'تعديل ملفي والموقع', saveProfileBtn:'💾 حفظ التعديلات', logoutBtn:'🚪 تسجيل الخروج',
+        btnShareLocReg:'مشاركة موقعي على الخرائط', btnShareLocEdit:'تحديث ومشاركة موقعي على الخرائط تلقائياً',
+        locFetching:'⏳ جاري تحديد موقعك الجغرافي...', locUpdatedAuto:'✅ تم تحديد موقعك وتحديثه تلقائياً في حسابك!',
+        locCaptured:'✅ تم التقاط الإحداثيات بنجاح', locNotSet:'لم يتم تحديد إحداثيات الخريطة بعد', locUnsupported:'تحديد الموقع غير مدعوم أو مرفوض',
+        kpiTotal:'إجمالي المواعيد', kpiConfirmed:'مواعيد مؤكدة', kpiPending:'قيد الانتظار',
         subDurationLbl:'مدة الاشتراك', subCountdownLbl:'العداد العكسي للمدة المتبقية', subExpiresLbl:'تاريخ الانتهاء',
         subStatusLbl:'حالة الاشتراك', subInactive:'غير مفعّل بعد', subExpired:'منتهي الصلاحية',
         plan1m:'شهر واحد (30 يوم)', plan3m:'3 أشهر (90 يوم)', plan6m:'6 أشهر (180 يوم)', plan12m:'سنة كاملة (365 يوم)',
@@ -763,7 +891,7 @@
         toastBooked:'✅ تم تسجيل موعدك! ترتيبك في يوم {date} هو #{rank}',
         toastTimeSaved:'✅ تم تأكيد الموعد وتحديد الوقت للمريض!',
         toastEnterTime:'يرجى إدخال الوقت المناسب لقدوم المريض أولاً',
-        toastProfileSaved:'✅ تم حفظ وتحديث معلوماتك وخدماتك!',
+        toastProfileSaved:'✅ تم حفظ وتحديث معلوماتك وموقعك!',
         toastLoggedOut:'تم تسجيل الخروج',
         defaultAdText:'ضاعف عدد مرضاك وزبائنك! أعلن عن عيادتك، صيدليتك، أو مخبرك في الواجهة الرئيسية لتطبيق صحتي أمام آلاف الباحثين يومياً.',
         uModalTitle:'👤 حساب المستخدم', uTabLogin:'تسجيل الدخول', uTabRegister:'حساب جديد',
@@ -791,6 +919,7 @@
       fr: {
         sub:'Votre guide santé et prise de RDV en Algérie', proBtn:'🩺 Espace Pro', userAccBtn:'Mon compte', myAppts:'📋 Mes RDV',
         medFab:'Mon Médoc',
+        ecgSoundStarted:'💓 Son cardiaque ECG activé',
         search:'Rechercher un médecin, pharmacie, clinique, service ou wilaya...', emerg:"🚨 Numéros d'urgence (Appel direct)",
         e1:'Protection Civile', e2:'Police', e3:'Gendarmerie', e4:'SAMU',
         all:'Tout', fav:'Favoris', d:'Médecins', c:'Cliniques', p:'Pharmacies', h:'Hôpitaux', l:'Labos', g:'Dentistes', r:'Imagerie',
@@ -818,7 +947,11 @@
         regName:'Nom du médecin, pharmacie ou clinique *', regSpec:'Spécialité *', regServices:'Services proposés *',
         regAddr:'Adresse et Wilaya *', regHours:'Horaires d’ouverture *', regPhone:'Téléphone professionnel *',
         regEmail:'E-mail du compte *', regPass:'Mot de passe (6 caractères min.) *', regBtn:'Envoyer la demande',
-        dashAppts:'Rendez-vous', dashEdit:'Modifier profil', saveProfileBtn:'💾 Enregistrer les modifications', logoutBtn:'🚪 Déconnexion',
+        dashAppts:'Rendez-vous', dashEdit:'Profil & Carte', saveProfileBtn:'💾 Enregistrer les modifications', logoutBtn:'🚪 Déconnexion',
+        btnShareLocReg:'Partager ma position sur la carte', btnShareLocEdit:'Mettre à jour ma position GPS automatiquement',
+        locFetching:'⏳ Localisation GPS en cours...', locUpdatedAuto:'✅ Position mise à jour automatiquement dans votre compte !',
+        locCaptured:'✅ Coordonnées enregistrées', locNotSet:'Position carte non définie', locUnsupported:'Géolocalisation indisponible',
+        kpiTotal:'Total RDV', kpiConfirmed:'Confirmés', kpiPending:'En attente',
         subDurationLbl:'Durée de l’abonnement', subCountdownLbl:'Compte à rebours restant', subExpiresLbl:'Date d’expiration',
         subStatusLbl:'Statut de l’abonnement', subInactive:'Non activé', subExpired:'Expiré',
         plan1m:'1 mois (30 jours)', plan3m:'3 mois (90 jours)', plan6m:'6 mois (180 jours)', plan12m:'1 an (365 jours)',
@@ -832,7 +965,7 @@
         toastBooked:'✅ RDV enregistré ! Votre rang le {date} est #{rank}',
         toastTimeSaved:'✅ RDV confirmé et heure fixée pour le patient !',
         toastEnterTime:'Veuillez saisir l’heure de venue du patient',
-        toastProfileSaved:'✅ Informations et services mis à jour !',
+        toastProfileSaved:'✅ Informations et position mises à jour !',
         toastLoggedOut:'Déconnexion effectuée',
         defaultAdText:'Multipliez vos patients ! Affichez votre cabinet, pharmacie ou laboratoire sur l’accueil de SEHATI.',
         uModalTitle:'👤 Mon compte utilisateur', uTabLogin:'Connexion', uTabRegister:'Nouveau compte',
@@ -860,6 +993,7 @@
       en: {
         sub:'Your health directory & appointment booking in Algeria', proBtn:'🩺 Pro Portal', userAccBtn:'My Account', myAppts:'📋 My Appts',
         medFab:'My Meds',
+        ecgSoundStarted:'💓 ECG heartbeat sound enabled',
         search:'Search doctor, pharmacy, clinic, service, or wilaya...', emerg:'🚨 Emergency Numbers (Direct Call)',
         e1:'Civil Protection', e2:'Police', e3:'Gendarmerie', e4:'Ambulance',
         all:'All', fav:'Favorites', d:'Doctors', c:'Clinics', p:'Pharmacies', h:'Hospitals', l:'Labs', g:'Dentists', r:'Radiology',
@@ -887,7 +1021,11 @@
         regName:'Doctor, Pharmacy, or Clinic Name *', regSpec:'Specialty *', regServices:'Services Offered *',
         regAddr:'Address & Wilaya *', regHours:'Working Hours *', regPhone:'Professional Phone *',
         regEmail:'Account Email *', regPass:'Password (min. 6 chars) *', regBtn:'Submit Request',
-        dashAppts:'Appointments', dashEdit:'Edit Profile', saveProfileBtn:'💾 Save Changes', logoutBtn:'🚪 Sign Out',
+        dashAppts:'Appointments', dashEdit:'Profile & Map', saveProfileBtn:'💾 Save Changes', logoutBtn:'🚪 Sign Out',
+        btnShareLocReg:'Share My Location on Maps', btnShareLocEdit:'Auto-Update & Share My Map Location',
+        locFetching:'⏳ Detecting GPS location...', locUpdatedAuto:'✅ Location updated automatically in your profile!',
+        locCaptured:'✅ Coordinates captured', locNotSet:'Map location not set yet', locUnsupported:'Geolocation unavailable or denied',
+        kpiTotal:'Total Appts', kpiConfirmed:'Confirmed', kpiPending:'Pending',
         subDurationLbl:'Subscription Duration', subCountdownLbl:'Remaining Countdown', subExpiresLbl:'Expires On',
         subStatusLbl:'Subscription Status', subInactive:'Not Activated', subExpired:'Expired',
         plan1m:'1 Month (30 days)', plan3m:'3 Months (90 days)', plan6m:'6 Months (180 days)', plan12m:'1 Year (365 days)',
@@ -901,7 +1039,7 @@
         toastBooked:'✅ Appointment booked! Your rank on {date} is #{rank}',
         toastTimeSaved:'✅ Appointment confirmed and arrival time set!',
         toastEnterTime:'Please enter the patient arrival time first',
-        toastProfileSaved:'✅ Profile and services updated!',
+        toastProfileSaved:'✅ Profile and location updated!',
         toastLoggedOut:'Signed out',
         defaultAdText:'Grow your patient reach! Feature your clinic, pharmacy, or lab on the main screen of SEHATI.',
         uModalTitle:'👤 User Account', uTabLogin:'Sign In', uTabRegister:'New Account',
@@ -1203,6 +1341,8 @@
       document.getElementById('lblRegSpec').textContent = tr('regSpec');
       document.getElementById('lblRegServices').textContent = tr('regServices');
       document.getElementById('lblRegAddr').textContent = tr('regAddr');
+      document.getElementById('btnShareLocRegTxt').textContent = tr('btnShareLocReg');
+      document.getElementById('btnShareLocEditTxt').textContent = tr('btnShareLocEdit');
       document.getElementById('lblRegHours').textContent = tr('regHours');
       document.getElementById('lblRegPhone').textContent = tr('regPhone');
       document.getElementById('lblRegEmail').textContent = tr('regEmail');
@@ -1971,6 +2111,110 @@
       showToast(tr('toastBooked', { date, rank }));
     }
 
+    /* مشاركة وتحديث موقع المهني تلقائياً */
+    function extractLatLngFromText(raw) {
+      const str = String(raw || '').trim();
+      if (!str) return null;
+      const mAt = str.match(/@(-?\d+\.\d+),\s*(-?\d+\.\d+)/);
+      if (mAt) return { lat: parseFloat(mAt[1]), lng: parseFloat(mAt[2]) };
+      const mQ = str.match(/[?&](?:q|query|ll)=(-?\d+\.\d+),\s*(-?\d+\.\d+)/);
+      if (mQ) return { lat: parseFloat(mQ[1]), lng: parseFloat(mQ[2]) };
+      const mPair = str.match(/(-?\d+\.\d+)\s*,\s*(-?\d+\.\d+)/);
+      if (mPair) return { lat: parseFloat(mPair[1]), lng: parseFloat(mPair[2]) };
+      return null;
+    }
+
+    async function applyUpdatedCoordsToPro(lat, lng, autoSaveCloud = true) {
+      const cleanLat = Number(Number(lat).toFixed(6));
+      const cleanLng = Number(Number(lng).toFixed(6));
+      const mapUrl = `https://maps.google.com/?q=${cleanLat},${cleanLng}`;
+
+      const editStatusEl = document.getElementById('editLocStatus');
+      if (editStatusEl) {
+        editStatusEl.innerHTML = `<span>${tr('locCaptured')}: <b>${cleanLat}, ${cleanLng}</b></span> <a href="${mapUrl}" target="_blank" style="color:var(--blue);text-decoration:none;">🗺️</a>`;
+      }
+
+      const prof = currentProProfile || localProSession;
+      if (!prof) return;
+
+      prof.lat = cleanLat;
+      prof.lng = cleanLng;
+      prof.mapUrl = mapUrl;
+
+      localPlaces = localPlaces.map(p => p.id === prof.id ? { ...p, lat: cleanLat, lng: cleanLng, mapUrl } : p);
+      localStorage.setItem('sehati_pro_places', JSON.stringify(localPlaces));
+      localStorage.setItem('sehati_pro_session', JSON.stringify(prof));
+      window.placesData = window.placesData.map(p => p.id === prof.id ? { ...p, lat: cleanLat, lng: cleanLng, mapUrl } : p);
+      currentProProfile = prof;
+      localProSession = prof;
+
+      if (autoSaveCloud && window.fbReady) {
+        try {
+          await window.fb.updateDoc(window.fb.doc(window.fb.db, "health_places", prof.id), {
+            lat: cleanLat,
+            lng: cleanLng,
+            mapUrl
+          });
+        } catch (e) {}
+      }
+
+      render();
+      showToast(tr('locUpdatedAuto'));
+    }
+
+    function parseProMapInput(mode, autoSave = false) {
+      const inputEl = document.getElementById(mode === 'reg' ? 'regMapInput' : 'editMapInput');
+      if (!inputEl) return;
+      const coords = extractLatLngFromText(inputEl.value);
+      if (!coords) return;
+
+      if (mode === 'reg') {
+        regTempCoords = coords;
+        const st = document.getElementById('regLocStatus');
+        if (st) {
+          st.innerHTML = `<span>${tr('locCaptured')}: <b>${coords.lat.toFixed(6)}, ${coords.lng.toFixed(6)}</b></span> <a href="https://maps.google.com/?q=${coords.lat},${coords.lng}" target="_blank" style="color:var(--blue);text-decoration:none;">🗺️</a>`;
+        }
+      } else {
+        applyUpdatedCoordsToPro(coords.lat, coords.lng, autoSave);
+      }
+    }
+
+    function shareProLocation(mode) {
+      const statusEl = document.getElementById(mode === 'reg' ? 'regLocStatus' : 'editLocStatus');
+      if (!navigator.geolocation) {
+        showToast(tr('locUnsupported'));
+        return;
+      }
+      if (statusEl) statusEl.textContent = tr('locFetching');
+
+      navigator.geolocation.getCurrentPosition(
+        async (pos) => {
+          const lat = Number(pos.coords.latitude.toFixed(6));
+          const lng = Number(pos.coords.longitude.toFixed(6));
+          const mapUrl = `https://maps.google.com/?q=${lat},${lng}`;
+
+          if (mode === 'reg') {
+            regTempCoords = { lat, lng };
+            const inp = document.getElementById('regMapInput');
+            if (inp) inp.value = `${lat}, ${lng}`;
+            if (statusEl) {
+              statusEl.innerHTML = `<span>${tr('locCaptured')}: <b>${lat}, ${lng}</b></span> <a href="${mapUrl}" target="_blank" style="color:var(--blue);text-decoration:none;">🗺️</a>`;
+            }
+            showToast(tr('locCaptured'));
+          } else {
+            const inp = document.getElementById('editMapInput');
+            if (inp) inp.value = `${lat}, ${lng}`;
+            await applyUpdatedCoordsToPro(lat, lng, true);
+          }
+        },
+        () => {
+          if (statusEl) statusEl.textContent = tr('locUnsupported');
+          showToast(tr('locUnsupported'));
+        },
+        { enableHighAccuracy: true, timeout: 10000 }
+      );
+    }
+
     function openProPortal() {
       document.getElementById('proModal').classList.add('open');
       if (window.currentProUser || localProSession) showProDashboard();
@@ -1997,18 +2241,35 @@
     async function proRegister() {
       const tp = document.getElementById('regType').value, nm = document.getElementById('regName').value.trim(), sp = document.getElementById('regSpec').value.trim(), srv = document.getElementById('regServices').value.trim(), ad = document.getElementById('regAddr').value.trim(), hr = document.getElementById('regHours').value.trim(), ph = document.getElementById('regPhone').value.trim(), email = document.getElementById('regEmail').value.trim(), pass = document.getElementById('regPass').value.trim();
       if (!nm || !sp || !ph || !email || pass.length < 6) { showToast(tr('toastFillReq')); return; }
+
+      const parsedManual = extractLatLngFromText(document.getElementById('regMapInput').value);
+      const finalLat = regTempCoords.lat !== null ? regTempCoords.lat : (parsedManual ? parsedManual.lat : null);
+      const finalLng = regTempCoords.lng !== null ? regTempCoords.lng : (parsedManual ? parsedManual.lng : null);
+
       let uid = 'pro_' + Date.now();
       if (window.fbReady) {
         try { const cred = await window.fb.createUserWithEmailAndPassword(window.fb.auth, email, pass); uid = cred.user.uid; }
         catch (err) { showToast(err.message); return; }
       }
-      const profileData = { id: uid, ownerUid: uid, email, tp, approved: false, verified: false, subscriptionMonths: 0, subscriptionLabel: '', subscriptionExpiresAt: null, nm_ar: nm, nm_fr: nm, nm_en: nm, sp_ar: sp, sp_fr: sp, sp_en: sp, srv_ar: srv || '-', srv_fr: srv || '-', srv_en: srv || '-', ad_ar: ad || '-', ad_fr: ad || '-', ad_en: ad || '-', hr_ar: hr || '08:30 - 17:00', hr_fr: hr || '08h30 - 17h00', hr_en: hr || '08:30 - 17:00', ph, feat: false, canBook: tp !== 'p' && tp !== 'h', createdAt: new Date().toISOString() };
+      const profileData = {
+        id: uid, ownerUid: uid, email, tp, approved: false, verified: false,
+        subscriptionMonths: 0, subscriptionLabel: '', subscriptionExpiresAt: null,
+        nm_ar: nm, nm_fr: nm, nm_en: nm,
+        sp_ar: sp, sp_fr: sp, sp_en: sp,
+        srv_ar: srv || '-', srv_fr: srv || '-', srv_en: srv || '-',
+        ad_ar: ad || '-', ad_fr: ad || '-', ad_en: ad || '-',
+        hr_ar: hr || '08:30 - 17:00', hr_fr: hr || '08h30 - 17h00', hr_en: hr || '08:30 - 17:00',
+        ph, lat: finalLat, lng: finalLng,
+        mapUrl: (finalLat !== null && finalLng !== null) ? `https://maps.google.com/?q=${finalLat},${finalLng}` : '',
+        feat: false, canBook: tp !== 'p' && tp !== 'h', createdAt: new Date().toISOString()
+      };
       localPlaces.push(profileData);
       localStorage.setItem('sehati_pro_places', JSON.stringify(localPlaces));
       window.placesData.push(profileData);
       localProSession = profileData;
       localStorage.setItem('sehati_pro_session', JSON.stringify(profileData));
       currentProProfile = profileData;
+      regTempCoords = { lat: null, lng: null };
       if (window.fbReady) await window.fb.setDoc(window.fb.doc(window.fb.db, "health_places", uid), profileData);
       render();
       showProDashboard();
@@ -2085,13 +2346,22 @@
       const prof = currentProProfile || localProSession;
       if (!prof) return;
 
-      const verBanner = document.getElementById('proVerifiedBanner');
-      if (prof.verified === true) {
-        verBanner.style.display = 'block';
-        verBanner.innerHTML = `<span class="verified-pill-pro">${renderVerifiedBadgeHtml(tr('verifiedLbl'))} <span>${tr('verifiedLbl')}</span></span>`;
-      } else {
-        verBanner.style.display = 'none';
-      }
+      const typeIcons = { d:'👨‍⚕️', p:'💊', c:'🏥', l:'🔬', g:'🦷', r:'🩻', h:'🏨' };
+      const proIcon = typeIcons[prof.tp] || '🩺';
+      const verBadge = prof.verified === true ? renderVerifiedBadgeHtml(tr('verifiedLbl')) : '';
+      const hasCoords = typeof prof.lat === 'number' && typeof prof.lng === 'number';
+      const locText = hasCoords ? `${prof.lat}, ${prof.lng}` : tr('locNotSet');
+
+      document.getElementById('proHeroBanner').innerHTML = `
+        <div class="pro-hero-top">
+          <div class="pro-avatar-circle">${proIcon}</div>
+          <div class="pro-hero-meta">
+            <div class="pro-hero-name"><span>${getLocalizedField(prof, 'nm')}</span> ${verBadge}</div>
+            <div class="pro-hero-spec">${getLocalizedField(prof, 'sp')}</div>
+            <div class="pro-hero-loc">📍 ${getLocalizedField(prof, 'ad')} • ${locText}</div>
+          </div>
+        </div>
+      `;
 
       const sub = getSubscriptionInfo(prof);
       const subBox = document.getElementById('proSubStatusBox');
@@ -2129,6 +2399,18 @@
       document.getElementById('editHours').value = getLocalizedField(prof, 'hr');
       document.getElementById('editPhone').value = prof.ph || '';
 
+      const editMapInput = document.getElementById('editMapInput');
+      const editLocStatus = document.getElementById('editLocStatus');
+      if (hasCoords) {
+        if (editMapInput) editMapInput.value = `${prof.lat}, ${prof.lng}`;
+        if (editLocStatus) {
+          editLocStatus.innerHTML = `<span>${tr('locCaptured')}: <b>${prof.lat}, ${prof.lng}</b></span> <a href="https://maps.google.com/?q=${prof.lat},${prof.lng}" target="_blank" style="color:var(--blue);text-decoration:none;">🗺️</a>`;
+        }
+      } else {
+        if (editMapInput) editMapInput.value = '';
+        if (editLocStatus) editLocStatus.textContent = tr('locNotSet');
+      }
+
       let myAppts = localAppointments.filter(a => a.placeId === prof.id);
       if (window.fbReady) {
         try {
@@ -2143,6 +2425,15 @@
         if (a.date !== b.date) return String(a.date || '').localeCompare(String(b.date || ''));
         return new Date(a.createdAt || 0) - new Date(b.createdAt || 0);
       });
+
+      const confirmedCount = myAppts.filter(a => a.status === 'confirmed').length;
+      const pendingCount = myAppts.filter(a => a.status !== 'confirmed' && a.status !== 'rejected').length;
+
+      document.getElementById('proKpiGrid').innerHTML = `
+        <div class="pro-kpi-card"><b>${myAppts.length}</b><span>${tr('kpiTotal')}</span></div>
+        <div class="pro-kpi-card"><b style="color:#16a34a;">${confirmedCount}</b><span>${tr('kpiConfirmed')}</span></div>
+        <div class="pro-kpi-card"><b style="color:#d97706;">${pendingCount}</b><span>${tr('kpiPending')}</span></div>
+      `;
 
       document.getElementById('apptCount').textContent = myAppts.length;
       const listEl = document.getElementById('apptsList');
@@ -2192,6 +2483,13 @@
             hr = document.getElementById('editHours').value.trim(),
             ph = document.getElementById('editPhone').value.trim();
 
+      const manualCoords = extractLatLngFromText(document.getElementById('editMapInput').value);
+      if (manualCoords) {
+        prof.lat = manualCoords.lat;
+        prof.lng = manualCoords.lng;
+        prof.mapUrl = `https://maps.google.com/?q=${manualCoords.lat},${manualCoords.lng}`;
+      }
+
       prof.nm_ar = prof.nm_fr = prof.nm_en = nm;
       prof.sp_ar = prof.sp_fr = prof.sp_en = sp;
       prof.srv_ar = prof.srv_fr = prof.srv_en = srv;
@@ -2204,9 +2502,22 @@
       localStorage.setItem('sehati_pro_session', JSON.stringify(prof));
       window.placesData = window.placesData.map(p => p.id === prof.id ? prof : p);
       if (window.fbReady) {
-        try { await window.fb.updateDoc(window.fb.doc(window.fb.db, "health_places", prof.id), { nm_ar: nm, nm_fr: nm, nm_en: nm, sp_ar: sp, sp_fr: sp, sp_en: sp, srv_ar: srv, srv_fr: srv, srv_en: srv, ad_ar: ad, ad_fr: ad, ad_en: ad, hr_ar: hr, hr_fr: hr, hr_en: hr, ph }); } catch (e) {}
+        try {
+          await window.fb.updateDoc(window.fb.doc(window.fb.db, "health_places", prof.id), {
+            nm_ar: nm, nm_fr: nm, nm_en: nm,
+            sp_ar: sp, sp_fr: sp, sp_en: sp,
+            srv_ar: srv, srv_fr: srv, srv_en: srv,
+            ad_ar: ad, ad_fr: ad, ad_en: ad,
+            hr_ar: hr, hr_fr: hr, hr_en: hr,
+            ph,
+            lat: prof.lat ?? null,
+            lng: prof.lng ?? null,
+            mapUrl: prof.mapUrl || ''
+          });
+        } catch (e) {}
       }
       render();
+      showProDashboard();
       showToast(tr('toastProfileSaved'));
     }
 
@@ -2443,7 +2754,7 @@
               mapLink = (typeof item.lat === 'number' && typeof item.lng === 'number') ? `https://maps.google.com/?q=${item.lat},${item.lng}` : `https://maps.google.com/?q=${encodeURIComponent(name + ' ' + addr + ' Algerie')}`,
               cols = [allowBook, hasPhone, true].filter(Boolean).length,
               gridCols = cols === 3 ? '1fr 1fr 1fr auto' : (cols === 2 ? '1fr 1fr auto' : '1fr auto');
-        return `<div class="${cardClasses}">${isFeat ? `<span class="badge-feat">${tr('feat')}</span>` : ''}<div class="item-title"><span>${name}</span>${verBadge}</div><div class="item-sub">${spec}</div>${srv ? `<div class="item-services">🩺 ${srv}</div>` : ''}<div class="item-meta"><span>📍 ${addr}</span><span><i class="dot-open"></i>🕒 ${hours}</span></div>${doctorName ? `<div class="item-doctor-footer">${doctorName}</div>` : ''}<div class="actions" style="grid-template-columns:${gridCols};">${allowBook ? `<button onclick="openBooking('${item.id}')" class="act-btn act-book">${tr('book')}</button>` : ''}${hasPhone ? `<a href="tel:${item.ph}" class="act-btn act-call">${tr('call')}</a>` : ''}<a href="${mapLink}" class="act-btn act-map">${tr('map')}</a><button onclick="toggleFav('${item.id}')" class="act-btn act-fav ${isFav ? 'saved' : ''}">${isFav ? '❤️' : '🤍'}</button></div></div>`;
+        return `<div class="${cardClasses}">${isFeat ? `<span class="badge-feat">${tr('feat')}</span>` : ''}<div class="item-title"><span>${name}</span>${verBadge}</div><div class="item-sub">${spec}</div>${srv ? `<div class="item-services">🩺 ${srv}</div>` : ''}<div class="item-meta"><span>📍 ${addr}</span><span><i class="dot-open"></i>🕒 ${hours}</span></div>${doctorName ? `<div class="item-doctor-footer">${doctorName}</div>` : ''}<div class="actions" style="grid-template-columns:${gridCols};">${allowBook ? `<button onclick="openBooking('${item.id}')" class="act-btn act-book">${tr('book')}</button>` : ''}${hasPhone ? `<a href="tel:${item.ph}" class="act-btn act-call">${tr('call')}</a>` : ''}<a href="${mapLink}" target="_blank" class="act-btn act-map">${tr('map')}</a><button onclick="toggleFav('${item.id}')" class="act-btn act-fav ${isFav ? 'saved' : ''}">${isFav ? '❤️' : '🤍'}</button></div></div>`;
       }).join('');
     };
 
