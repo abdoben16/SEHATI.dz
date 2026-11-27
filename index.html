@@ -10,7 +10,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root{
       --bg:#ffffff;
@@ -47,37 +47,42 @@
     *{box-sizing:border-box;margin:0;padding:0;font-family:'Tajawal',system-ui,-apple-system,sans-serif;-webkit-tap-highlight-color:transparent}
     body{background:var(--bg);color:var(--text);font-size:15px;line-height:1.58;padding-bottom:124px;transition:background .3s,color .3s}
 
-    .hero{position:relative;overflow:hidden;background:linear-gradient(135deg,#0f766e 0%,#0d9488 55%,#0284c7 100%);color:#fff;padding:13px 14px 24px;border-radius:0 0 24px 24px;box-shadow:var(--shadow)}
+    .hero{position:relative;overflow:hidden;background:linear-gradient(135deg,#0f766e 0%,#0d9488 55%,#0284c7 100%);color:#fff;padding:14px 14px 25px;border-radius:0 0 24px 24px;box-shadow:var(--shadow)}
     .hero::before{content:"";position:absolute;inset:0;opacity:.08;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='2 12 6 12 9 3 13 21 16 12 22 12'/%3E%3C/svg%3E");background-size:85px 85px;transform:rotate(-12deg)}
-    .top{position:relative;z-index:2;display:flex;flex-direction:column;gap:8px;margin-bottom:10px}
-    .brand{display:flex;align-items:center;justify-content:space-between;width:100%;cursor:pointer;user-select:none}
-    .logo{width:48px;height:48px;border-radius:14px;background:rgba(255,255,255,.18);display:grid;place-items:center;backdrop-filter:blur(6px);box-shadow:0 4px 12px rgba(0,0,0,.12);flex-shrink:0}
-    .logo svg{width:34px;height:34px;stroke:#fff;fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+    .top{position:relative;z-index:2;display:flex;flex-direction:column;gap:10px;margin-bottom:10px}
+    .brand{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%}
+    .brand-info{display:flex;flex-direction:column;align-items:flex-start;cursor:pointer;user-select:none}
+    .brand-info b{font-size:1.55rem;font-weight:900;display:block;line-height:1.12;letter-spacing:.2px}
+    .brand-info small{display:block;opacity:.92;font-size:.78rem;margin-top:3px}
+    .brand-controls-under{display:flex;align-items:center;gap:6px;margin-top:7px}
+
+    /* تكبير لوغو ECG المتحرك */
+    .logo{width:68px;height:68px;border-radius:18px;background:rgba(255,255,255,.18);display:grid;place-items:center;backdrop-filter:blur(6px);box-shadow:0 5px 15px rgba(0,0,0,.15);flex-shrink:0;cursor:pointer;border:1px solid rgba(255,255,255,.28)}
+    .logo svg{width:48px;height:48px;stroke:#fff;fill:none;stroke-width:2.8;stroke-linecap:round;stroke-linejoin:round}
     .ecg{stroke-dasharray:120;stroke-dashoffset:240;animation:draw 2.4s linear infinite}
     @keyframes draw{to{stroke-dashoffset:0}}
+
     .bottom-ecg-wave{position:absolute;bottom:2px;left:0;width:100%;height:18px;pointer-events:none;z-index:1;opacity:.65}
     .bottom-ecg-wave svg{width:100%;height:100%;fill:none;stroke:#ffffff;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
     .ecg-bottom-line{stroke-dasharray:600;stroke-dashoffset:1200;animation:drawBottom 4.5s linear infinite}
     @keyframes drawBottom{to{stroke-dashoffset:0}}
-    .brand b{font-size:1.25rem;font-weight:800;display:block;line-height:1.1}
-    .brand small{display:block;opacity:.9;font-size:.76rem;margin-top:2px}
-
-    .header-matrix{display:flex;flex-direction:column;gap:6px;width:100%}
-    .header-row-top{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%}
-    .header-row-bottom{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%}
-    .lang-theme-group{display:flex;align-items:center;gap:6px}
 
     .seg{display:flex;background:rgba(255,255,255,.18);border-radius:10px;padding:2px}
-    .seg button{border:0;background:transparent;color:#fff;font-weight:700;font-size:.72rem;padding:4px 7px;border-radius:8px;cursor:pointer}
+    .seg button{border:0;background:transparent;color:#fff;font-weight:700;font-size:.74rem;padding:4px 8px;border-radius:8px;cursor:pointer}
     .seg button.on{background:#fff;color:#0f766e}
     .tool-btn{border:0;background:rgba(255,255,255,.22);color:#fff;padding:6px 10px;border-radius:10px;font-weight:700;font-size:.78rem;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;gap:4px}
-    .portal-btn{background:#fff;color:#0f766e;font-weight:800;font-size:.82rem;padding:6px 12px;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.14)}
-    .user-acc-btn{background:rgba(255,255,255,.22);color:#fff;border:1px solid rgba(255,255,255,.35);font-weight:800}
-    .my-appts-btn{background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.35);font-weight:800}
+
+    /* شريط بوابة المهنيين ومواعيدي وحسابي فوق البحث */
+    .quick-nav-bar{display:grid;grid-template-columns:1.25fr 1fr .9fr;gap:6px;width:100%;background:rgba(255,255,255,.14);padding:5px;border-radius:13px;border:1px solid rgba(255,255,255,.25)}
+    .quick-nav-bar .bar-item{border:0;border-radius:9px;padding:7px 6px;font-size:.78rem;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .portal-btn{background:#fff;color:#0f766e;box-shadow:0 2px 7px rgba(0,0,0,.14)}
+    .my-appts-btn{background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.28)}
+    .user-acc-btn{background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.28)}
+
     .search-wrap input{width:100%;padding:10px 13px;border-radius:13px;border:none;outline:none;font-size:.94rem;background:#fff;color:#0f172a}
 
     .emergency-sec{padding:8px 14px 4px}
-    .sec-head{font-size:.88rem;font-weight:700;color:var(--muted);margin-bottom:6px;display:flex;justify-content:space-between}
+    .sec-head{font-size:.88rem;font-weight:700;color:var(--muted);margin-bottom:6px;display:flex;justify-content:space-between;align-items:center}
     .emerg-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
     .emerg-card{min-height:54px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;text-decoration:none;padding:7px 4px;border-radius:10px;text-align:center;font-size:.7rem;font-weight:700;box-shadow:0 2px 5px rgba(0,0,0,.12);border:1px solid rgba(255,255,255,.22)}
     .emerg-card b{display:block;font-size:.94rem;margin-top:2px;line-height:1.1}
@@ -177,6 +182,11 @@
     .btn-danger{width:100%;padding:10px;border-radius:11px;border:none;background:var(--danger);color:#fff;font-weight:700;font-size:.9rem;cursor:pointer;margin-top:8px}
     .btn-secondary{width:100%;padding:10px;border-radius:11px;border:1px solid var(--border);background:transparent;color:var(--text);font-weight:700;font-size:.92rem;cursor:pointer;margin-top:8px}
 
+    .med-create-toggle-btn{width:100%;padding:11px 14px;border-radius:12px;border:1.5px dashed var(--primary);background:rgba(15,118,110,.1);color:var(--primary);font-weight:800;font-size:.94rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:12px}
+    .med-form-drawer{display:none;background:rgba(255,255,255,.72);border:1px solid var(--border);border-radius:14px;padding:12px;margin-bottom:14px}
+    body.dark .med-form-drawer{background:rgba(15,118,110,.14)}
+    .med-form-drawer.open{display:block}
+
     .med-card-item{background:rgba(255,255,255,.84);border:1px solid var(--border);border-radius:13px;padding:12px;margin-bottom:10px;font-size:.9rem}
     body.dark .med-card-item{background:rgba(15,118,110,.15)}
     .med-card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:6px}
@@ -184,8 +194,8 @@
     .med-owner-actions{display:flex;align-items:center;gap:6px;flex-shrink:0}
     .btn-edit-med{background:#0284c7;color:#fff;border:none;border-radius:8px;padding:4px 10px;font-size:.78rem;font-weight:800;cursor:pointer;line-height:1.25}
     .btn-del-med{background:#dc2626;color:#fff;border:none;border-radius:8px;padding:4px 10px;font-size:.78rem;font-weight:800;cursor:pointer;line-height:1.25}
-    .med-owner-phone-row{margin-top:6px;padding-top:6px;border-top:1px dashed var(--border);font-size:.86rem;font-weight:800;color:var(--primary)}
-    .med-owner-phone-row a{color:var(--primary);text-decoration:none}
+    .med-owner-phone-row{margin-top:6px;padding-top:6px;border-top:1px dashed var(--border);font-size:.88rem;font-weight:800;color:#dc2626}
+    .med-owner-phone-row a{color:#dc2626;text-decoration:none;display:inline-flex;align-items:center;gap:5px}
 
     .tabs-bar{display:flex;gap:4px;margin-bottom:14px;background:rgba(15,118,110,.08);padding:4px;border-radius:12px}
     .tab-btn{flex:1;padding:8px 4px;border:none;border-radius:9px;background:transparent;color:var(--text);font-weight:700;font-size:.8rem;cursor:pointer}
@@ -210,23 +220,13 @@
 <body>
   <header class="hero">
     <div class="top">
-      <div class="brand" onclick="handleSecretLogoTap()">
-        <div>
-          <b>صحتي | SEHATI</b>
-          <small id="tagSub">دليلك الصحي وحجز المواعيد في الجزائر</small>
-        </div>
-        <div class="logo">
-          <svg viewBox="0 0 24 24"><polyline class="ecg" points="2 12 6 12 9 3 13 21 16 12 22 12"></polyline></svg>
-        </div>
-      </div>
-
-      <div class="header-matrix">
-        <div class="header-row-top">
-          <button class="tool-btn portal-btn" onclick="openProPortal()" id="proPortalBtn">🩺 بوابة المهنيين</button>
-          <button class="tool-btn my-appts-btn" onclick="openMyAppointments()" id="myApptsBtn"><span id="myApptsLabel">📋 مواعيدي</span> (<span id="myApptsBadge">0</span>)</button>
-        </div>
-        <div class="header-row-bottom">
-          <div class="lang-theme-group">
+      <div class="brand">
+        <div class="brand-info">
+          <div onclick="handleSecretLogoTap()">
+            <b>صحتي | SEHATI</b>
+            <small id="tagSub">دليلك الصحي وحجز المواعيد في الجزائر</small>
+          </div>
+          <div class="brand-controls-under">
             <div class="seg">
               <button id="btnAr" class="on" onclick="setLang('ar')">عربي</button>
               <button id="btnFr" onclick="setLang('fr')">FR</button>
@@ -234,8 +234,16 @@
             </div>
             <button class="tool-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
           </div>
-          <button class="tool-btn user-acc-btn" onclick="openUserAccountModal()" id="userAccBtn">👤 <span id="userAccLabel">حسابي</span></button>
         </div>
+        <div class="logo" onclick="handleSecretLogoTap()">
+          <svg viewBox="0 0 24 24"><polyline class="ecg" points="2 12 6 12 9 3 13 21 16 12 22 12"></polyline></svg>
+        </div>
+      </div>
+
+      <div class="quick-nav-bar">
+        <button class="bar-item portal-btn" onclick="openProPortal()" id="proPortalBtn">🩺 بوابة المهنيين</button>
+        <button class="bar-item my-appts-btn" onclick="openMyAppointments()" id="myApptsBtn"><span id="myApptsLabel">📋 مواعيدي</span> (<span id="myApptsBadge">0</span>)</button>
+        <button class="bar-item user-acc-btn" onclick="openUserAccountModal()" id="userAccBtn">👤 <span id="userAccLabel">حسابي</span></button>
       </div>
     </div>
 
@@ -452,25 +460,32 @@
         <button class="close-x" onclick="closeModal('medicineModal')">✕</button>
       </div>
 
-      <div class="form-group">
-        <label id="medLblName">اسم الدواء (اختياري إذا أرفقت صورة)</label>
-        <input type="text" id="medNameInput" placeholder="مثال: دوليبران / ليفوثيروكس..." />
-      </div>
-      <div class="form-group">
-        <label id="medLblImg">صورة الدواء (اختياري إذا كتبت الاسم)</label>
-        <input type="file" id="medImgInput" accept="image/*" />
-      </div>
-      <div class="form-group">
-        <label id="medLblPhone">رقم الهاتف للتواصل *</label>
-        <input type="tel" id="medPhoneInput" placeholder="0550123456" />
-      </div>
-      <div class="form-group">
-        <label id="medLblNote">ملاحظة (الولاية، الجرعة، أو أي تفاصيل)</label>
-        <textarea id="medNoteInput" rows="2" placeholder="ملاحظات إضافية..."></textarea>
-      </div>
-      <button class="btn-primary" id="medSubmitBtn" onclick="submitMedicineRequest()">📢 نشر طلب بحث عن دواء غير متوفر</button>
+      <button type="button" class="med-create-toggle-btn" id="medCreateToggleBtn" onclick="toggleMedFormDrawer()">
+        ➕ <span id="medCreateToggleTxt">إنشاء طلب بحث عن دواء</span>
+      </button>
 
-      <div style="margin-top:14px;">
+      <div class="med-form-drawer" id="medFormDrawer">
+        <div class="form-group">
+          <label id="medLblName">اسم الدواء (اختياري إذا أرفقت صورة)</label>
+          <input type="text" id="medNameInput" placeholder="مثال: دوليبران / ليفوثيروكس..." />
+        </div>
+        <div class="form-group">
+          <label id="medLblImg">صورة الدواء (اختياري إذا كتبت الاسم)</label>
+          <input type="file" id="medImgInput" accept="image/*" />
+        </div>
+        <div class="form-group">
+          <label id="medLblPhone">رقم الهاتف للتواصل *</label>
+          <input type="tel" id="medPhoneInput" placeholder="0550123456" />
+        </div>
+        <div class="form-group">
+          <label id="medLblNote">ملاحظة (الولاية، الجرعة، أو أي تفاصيل)</label>
+          <textarea id="medNoteInput" rows="2" placeholder="ملاحظات إضافية..."></textarea>
+        </div>
+        <button class="btn-primary" id="medSubmitBtn" onclick="submitMedicineRequest()">📢 نشر طلب بحث عن دواء غير متوفر</button>
+        <button type="button" class="btn-secondary" id="medCancelFormBtn" onclick="closeMedFormDrawer()">✕ إلغاء</button>
+      </div>
+
+      <div>
         <div class="sec-head"><span id="medListTitle">📋 طلبات بحث عن دواء غير متوفر</span></div>
         <div id="medRequestsList"></div>
       </div>
@@ -516,6 +531,7 @@
         <input id="sehatiQuickDesc" type="text" style="width:100%;margin-top:4px;padding:7px;border-radius:7px;border:1px solid #37474f;background:#091614;color:#fff;box-sizing:border-box;">
       </label>
       <button id="sehatiQuickAdd" type="button" style="width:100%;background:#00bfa5;color:#051613;font-weight:bold;border:none;border-radius:9px;padding:9px;cursor:pointer;">إضافة ونشر الإعلان</button>
+      <button id="sehatiQuickCancelEdit" type="button" style="display:none;width:100%;margin-top:6px;background:#37474f;color:#fff;font-weight:bold;border:none;border-radius:9px;padding:8px;cursor:pointer;">إلغاء التعديل</button>
       <div id="sehatiQuickStatus" style="margin-top:8px;color:#fef08a;font-size:12px;"></div>
       <div id="sehatiQuickList" style="margin-top:10px;display:flex;flex-direction:column;gap:6px;"></div>
     </div>
@@ -761,20 +777,24 @@
         uLblEditFullName:'الاسم واللقب', uLblEditPhone:'رقم الهاتف', uLblEditEmail:'البريد الإلكتروني', uLblEditPass:'كلمة السر الجديدة (اختياري)',
         uBtnSaveEdit:'💾 حفظ التعديلات', uBtnLogout:'🚪 تسجيل الخروج', uSavedMsg:'✅ تم تحديث بيانات حسابك',
         uNoArchAppts:'لا توجد مواعيد في أرشيفك حتى الآن.', uNoArchMeds:'لا توجد طلبات دوائي في أرشيفك حتى الآن.',
-        medModalTitle:'💊 دوائي — بحث عن دواء غير متوفر', medLblName:'اسم الدواء (اختياري إذا أرفقت صورة)',
+        medModalTitle:'💊 دوائي — بحث عن دواء غير متوفر',
+        medCreateToggleTxt:'إنشاء طلب بحث عن دواء',
+        medCancelFormBtn:'✕ إلغاء',
+        medLblName:'اسم الدواء (اختياري إذا أرفقت صورة)',
         medLblImg:'صورة الدواء (اختياري إذا كتبت الاسم)', medLblPhone:'رقم الهاتف للتواصل *',
         medLblNote:'ملاحظة (الولاية، الجرعة، أو أي تفاصيل)', medSubmitBtn:'📢 نشر طلب بحث عن دواء غير متوفر',
         medUpdateBtn:'💾 حفظ تعديل الطلب',
+        medEditBtnTxt:'تعديل', medDelBtnTxt:'حذف',
         medListTitle:'📋 طلبات بحث عن دواء غير متوفر', medNeedNameOrImg:'يرجى كتابة اسم الدواء أو إرفاق صورة له',
         medPostedMsg:'✅ تم نشر طلب بحث عن دواء غير متوفر لجميع المستخدمين', medUpdatedMsg:'✅ تم تعديل طلب البحث عن الدواء', medDeletedMsg:'🗑️ تم حذف طلب البحث عن الدواء', medNoReqs:'لا توجد طلبات أدوية حتى الآن.'
       },
       fr: {
-        sub:'Votre guide santé et prise de RDV en Algérie', proBtn:'🩺 Espace Pro', userAccBtn:'حسابي', myAppts:'📋 مواعيدي',
-        medFab:'دوائي',
+        sub:'Votre guide santé et prise de RDV en Algérie', proBtn:'🩺 Espace Pro', userAccBtn:'Mon compte', myAppts:'📋 Mes RDV',
+        medFab:'Mon Médoc',
         search:'Rechercher un médecin, pharmacie, clinique, service ou wilaya...', emerg:"🚨 Numéros d'urgence (Appel direct)",
         e1:'Protection Civile', e2:'Police', e3:'Gendarmerie', e4:'SAMU',
         all:'Tout', fav:'Favoris', d:'Médecins', c:'Cliniques', p:'Pharmacies', h:'Hôpitaux', l:'Labos', g:'Dentistes', r:'Imagerie',
-        book:'📅 RDV', call:'📞 Appeler', map:'📍 Carte', feat:'En vedette', supFab:'الدعم والإعلان',
+        book:'📅 RDV', call:'📞 Appeler', map:'📍 Carte', feat:'En vedette', supFab:'Support & Pub',
         empty:'Aucun résultat trouvé.',
         verifiedLbl:'Compte vérifié', verifyAction:'✓ Certifier', unverifyAction:'Retirer badge',
         supTitle:'💬 Support & Demandes d’Abonnement / Pub',
@@ -826,20 +846,24 @@
         uLblEditFullName:'Nom et prénom', uLblEditPhone:'Téléphone', uLblEditEmail:'Adresse e-mail', uLblEditPass:'Nouveau mot de passe (optionnel)',
         uBtnSaveEdit:'💾 Enregistrer', uBtnLogout:'🚪 Déconnexion', uSavedMsg:'✅ Profil mis à jour',
         uNoArchAppts:'Aucun RDV dans votre archive.', uNoArchMeds:'Aucune recherche de médicament dans votre archive.',
-        medModalTitle:'💊 دوائي — بحث عن دواء غير متوفر', medLblName:'Nom du médicament (optionnel si photo)',
+        medModalTitle:'💊 Mon Médoc — Recherche de médicament indisponible',
+        medCreateToggleTxt:'Créer une recherche de médicament',
+        medCancelFormBtn:'✕ Annuler',
+        medLblName:'Nom du médicament (optionnel si photo)',
         medLblImg:'Photo du médicament (optionnel si nom)', medLblPhone:'Téléphone de contact *',
-        medLblNote:'Remarque (Wilaya, dosage ou détails)', medSubmitBtn:'📢 Publier بحث عن دواء غير متوفر',
+        medLblNote:'Remarque (Wilaya, dosage ou détails)', medSubmitBtn:'📢 Publier la recherche de médicament',
         medUpdateBtn:'💾 Enregistrer la modification',
-        medListTitle:'📋 Demandes بحث عن دواء غير متوفر', medNeedNameOrImg:'Indiquez le nom ou la photo du médicament',
-        medPostedMsg:'✅ Demande publiée pour tous les utilisateurs', medUpdatedMsg:'✅ Demande modifiée', medDeletedMsg:'🗑️ Demande supprimée', medNoReqs:'Aucune demande pour le moment.'
+        medEditBtnTxt:'Modifier', medDelBtnTxt:'Supprimer',
+        medListTitle:'📋 Recherches de médicaments indisponibles', medNeedNameOrImg:'Indiquez le nom ou la photo du médicament',
+        medPostedMsg:'✅ Recherche publiée pour tous les utilisateurs', medUpdatedMsg:'✅ Recherche modifiée', medDeletedMsg:'🗑️ Recherche supprimée', medNoReqs:'Aucune demande pour le moment.'
       },
       en: {
-        sub:'Your health directory & appointment booking in Algeria', proBtn:'🩺 Espace Pro', userAccBtn:'حسابي', myAppts:'📋 مواعيدي',
-        medFab:'دوائي',
+        sub:'Your health directory & appointment booking in Algeria', proBtn:'🩺 Pro Portal', userAccBtn:'My Account', myAppts:'📋 My Appts',
+        medFab:'My Meds',
         search:'Search doctor, pharmacy, clinic, service, or wilaya...', emerg:'🚨 Emergency Numbers (Direct Call)',
         e1:'Civil Protection', e2:'Police', e3:'Gendarmerie', e4:'Ambulance',
         all:'All', fav:'Favorites', d:'Doctors', c:'Clinics', p:'Pharmacies', h:'Hospitals', l:'Labs', g:'Dentists', r:'Radiology',
-        book:'📅 Book', call:'📞 Call', map:'📍 Map', feat:'Featured', supFab:'الدعم والإعلان',
+        book:'📅 Book', call:'📞 Call', map:'📍 Map', feat:'Featured', supFab:'Support & Ads',
         empty:'No matching results found.',
         verifiedLbl:'Verified Account', verifyAction:'✓ Verify Account', unverifyAction:'Unverify',
         supTitle:'💬 Support, Subscriptions & Advertising',
@@ -891,11 +915,15 @@
         uLblEditFullName:'Full Name', uLblEditPhone:'Phone Number', uLblEditEmail:'Email Address', uLblEditPass:'New Password (optional)',
         uBtnSaveEdit:'💾 Save Changes', uBtnLogout:'🚪 Sign Out', uSavedMsg:'✅ Account details updated',
         uNoArchAppts:'No appointments in your archive yet.', uNoArchMeds:'No medicine requests in your archive yet.',
-        medModalTitle:'💊 دوائي — بحث عن دواء غير متوفر', medLblName:'Medicine Name (optional if photo attached)',
+        medModalTitle:'💊 My Meds — Search Unavailable Medicine',
+        medCreateToggleTxt:'Create Medicine Search Request',
+        medCancelFormBtn:'✕ Cancel',
+        medLblName:'Medicine Name (optional if photo attached)',
         medLblImg:'Medicine Photo (optional if name provided)', medLblPhone:'Contact Phone Number *',
-        medLblNote:'Note (Wilaya, dosage, or details)', medSubmitBtn:'📢 Post بحث عن دواء غير متوفر',
+        medLblNote:'Note (Wilaya, dosage, or details)', medSubmitBtn:'📢 Post Medicine Search Request',
         medUpdateBtn:'💾 Save Edited Request',
-        medListTitle:'📋 بحث عن دواء غير متوفر Requests', medNeedNameOrImg:'Please enter medicine name or upload a photo',
+        medEditBtnTxt:'Edit', medDelBtnTxt:'Delete',
+        medListTitle:'📋 Unavailable Medicine Requests', medNeedNameOrImg:'Please enter medicine name or upload a photo',
         medPostedMsg:'✅ Request posted for all users', medUpdatedMsg:'✅ Request updated', medDeletedMsg:'🗑️ Request deleted', medNoReqs:'No medicine requests yet.'
       }
     };
@@ -1147,6 +1175,8 @@
       document.getElementById('uBtnLogout').textContent = tr('uBtnLogout');
 
       document.getElementById('medModalTitle').textContent = tr('medModalTitle');
+      document.getElementById('medCreateToggleTxt').textContent = tr('medCreateToggleTxt');
+      document.getElementById('medCancelFormBtn').textContent = tr('medCancelFormBtn');
       document.getElementById('medLblName').textContent = tr('medLblName');
       document.getElementById('medLblImg').textContent = tr('medLblImg');
       document.getElementById('medLblPhone').textContent = tr('medLblPhone');
@@ -1457,8 +1487,8 @@
       const allowDelete = canDeleteMedicineRequest(r);
       const actionBtnsHtml = (allowEdit || allowDelete)
         ? `<div class="med-owner-actions">
-            ${allowEdit ? `<button type="button" class="btn-edit-med" onclick="editMedicineRequest('${r.id}')">تعديل</button>` : ''}
-            ${allowDelete ? `<button type="button" class="btn-del-med" onclick="deleteMedicineRequest('${r.id}')">حذف</button>` : ''}
+            ${allowEdit ? `<button type="button" class="btn-edit-med" onclick="editMedicineRequest('${r.id}')">${tr('medEditBtnTxt')}</button>` : ''}
+            ${allowDelete ? `<button type="button" class="btn-del-med" onclick="deleteMedicineRequest('${r.id}')">${tr('medDelBtnTxt')}</button>` : ''}
           </div>`
         : '';
 
@@ -1470,7 +1500,7 @@
           </div>
           ${r.note ? `<div style="margin-top:4px;">📝 ${r.note}</div>` : ''}
           ${r.imgData ? `<img src="${r.imgData}" alt="" class="med-req-img" />` : ''}
-          ${r.phone ? `<div class="med-owner-phone-row">📞 <a href="tel:${r.phone}">${r.phone}</a></div>` : ''}
+          ${r.phone ? `<div class="med-owner-phone-row"><a href="tel:${r.phone}"><span>☎️</span> <span>${r.phone}</span></a></div>` : ''}
         </div>
       `;
     }
@@ -1634,10 +1664,31 @@
       showToast(tr('toastLoggedOut'));
     }
 
-    async function openMedicineModal() {
-      if (currentUserSession && currentUserSession.phone && !document.getElementById('medPhoneInput').value) {
-        document.getElementById('medPhoneInput').value = currentUserSession.phone;
+    function toggleMedFormDrawer() {
+      const drawer = document.getElementById('medFormDrawer');
+      if (!drawer) return;
+      if (drawer.classList.contains('open')) {
+        closeMedFormDrawer();
+      } else {
+        if (currentUserSession && currentUserSession.phone && !document.getElementById('medPhoneInput').value) {
+          document.getElementById('medPhoneInput').value = currentUserSession.phone;
+        }
+        drawer.classList.add('open');
       }
+    }
+
+    function closeMedFormDrawer() {
+      const drawer = document.getElementById('medFormDrawer');
+      if (drawer) drawer.classList.remove('open');
+      editingMedId = null;
+      document.getElementById('medSubmitBtn').textContent = tr('medSubmitBtn');
+      document.getElementById('medNameInput').value = '';
+      document.getElementById('medImgInput').value = '';
+      document.getElementById('medNoteInput').value = '';
+    }
+
+    async function openMedicineModal() {
+      closeMedFormDrawer();
       renderMedicineRequests();
       document.getElementById('medicineModal').classList.add('open');
       if (window.refreshMedicineRequestsCloud) {
@@ -1663,6 +1714,7 @@
       document.getElementById('medSubmitBtn').textContent = tr('medUpdateBtn');
       closeModal('userAccountModal');
       document.getElementById('medicineModal').classList.add('open');
+      document.getElementById('medFormDrawer').classList.add('open');
     }
 
     async function submitMedicineRequest() {
@@ -1707,11 +1759,7 @@
         if (window.fbReady) {
           try { await window.fb.setDoc(window.fb.doc(window.fb.db, "medicine_requests", updatedReq.id), updatedReq); } catch (e) {}
         }
-        editingMedId = null;
-        document.getElementById('medSubmitBtn').textContent = tr('medSubmitBtn');
-        document.getElementById('medNameInput').value = '';
-        document.getElementById('medImgInput').value = '';
-        document.getElementById('medNoteInput').value = '';
+        closeMedFormDrawer();
         renderMedicineRequests();
         renderUserArchiveMeds();
         showToast(tr('medUpdatedMsg'));
@@ -1737,9 +1785,7 @@
         } catch (e) {}
       }
 
-      document.getElementById('medNameInput').value = '';
-      document.getElementById('medImgInput').value = '';
-      document.getElementById('medNoteInput').value = '';
+      closeMedFormDrawer();
       renderMedicineRequests();
       renderUserArchiveMeds();
       showToast(tr('medPostedMsg'));
@@ -1750,8 +1796,7 @@
       if (!target || !canDeleteMedicineRequest(target)) return;
 
       if (editingMedId === reqId) {
-        editingMedId = null;
-        document.getElementById('medSubmitBtn').textContent = tr('medSubmitBtn');
+        closeMedFormDrawer();
       }
       medicineRequests = medicineRequests.filter(r => r.id !== reqId);
       localStorage.setItem('sehati_med_requests', JSON.stringify(medicineRequests));
@@ -2402,12 +2447,14 @@
       }).join('');
     };
 
+    /* نظام الإعلانات المطور: تعديل + حذف بكلمة + تنظيف كامل للخلفية بدون بقايا عالقة */
     (function() {
       const OWNER = "abdoben16", REPO = "SEHATI.dz", BRANCH = "main", PATH = "ad.json", TKEY = "sehatiAdSys_gh_token";
       const adBox = document.getElementById("mainAdBox");
       const modal = document.getElementById("sehatiQuickModal");
       const closeB = document.getElementById("sehatiQuickClose");
       const addB = document.getElementById("sehatiQuickAdd");
+      const cancelEditB = document.getElementById("sehatiQuickCancelEdit");
       const tokI = document.getElementById("sehatiQuickToken");
       const secI = document.getElementById("sehatiQuickSec");
       const filI = document.getElementById("sehatiQuickFile");
@@ -2421,7 +2468,7 @@
       const titleEl = document.getElementById("adTitle");
       const descEl = document.getElementById("adDesc");
 
-      let ads = [], dur = 6, idx = 0, timer = null, isBusy = false;
+      let ads = [], dur = 6, idx = 0, timer = null, isBusy = false, editAdIdx = -1;
       let adTapCount = 0, adTapTimer = null;
       window.sehatiAdsList = ads;
 
@@ -2430,14 +2477,49 @@
         return /\.(mp4|webm|ogg|mov|m4v)(\?|$)/i.test(String(path || ""));
       }
 
+      function clearAdStageClean() {
+        if (timer) {
+          clearTimeout(timer);
+          timer = null;
+        }
+        imgEl.onload = null;
+        imgEl.onerror = null;
+        imgEl.style.display = "none";
+        imgEl.removeAttribute("src");
+
+        vidEl.pause();
+        vidEl.style.display = "none";
+        vidEl.removeAttribute("src");
+        try { vidEl.load(); } catch (_) {}
+      }
+
+      function resetAdForm() {
+        editAdIdx = -1;
+        titI.value = "";
+        desI.value = "";
+        filI.value = "";
+        addB.textContent = "إضافة ونشر الإعلان";
+        if (cancelEditB) cancelEditB.style.display = "none";
+      }
+
       function openM() {
         tokI.value = localStorage.getItem(TKEY) || "";
         secI.value = dur;
         stE.textContent = "";
+        resetAdForm();
         drawList();
         modal.style.display = "block";
       }
-      closeB.onclick = () => { modal.style.display = "none"; };
+      closeB.onclick = () => {
+        resetAdForm();
+        modal.style.display = "none";
+      };
+      if (cancelEditB) {
+        cancelEditB.onclick = () => {
+          resetAdForm();
+          stE.textContent = "";
+        };
+      }
 
       if (adBox) {
         adBox.addEventListener("click", () => {
@@ -2503,10 +2585,26 @@
         }
       }
 
+      async function deleteMediaFileIfUnused(mediaPath, remainingAds, tok) {
+        if (!tok || !mediaPath || /^https?:\/\//i.test(mediaPath)) return;
+        const stillUsed = remainingAds.some(item => (item.media || item.video || item.image) === mediaPath);
+        if (stillUsed) return;
+        try {
+          const sha = await getSha(mediaPath, tok);
+          if (!sha) return;
+          await fetchWithTimeout(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${mediaPath}`, {
+            method: "DELETE",
+            headers: { Authorization: `Bearer ${tok}`, "Content-Type": "application/json" },
+            body: JSON.stringify({ message: `Delete ${mediaPath}`, sha, branch: BRANCH })
+          }, 10000);
+        } catch (_) {}
+      }
+
       async function saveAll(nextAds, nextDur, tok) {
         const safeDur = Math.max(1, Number(nextDur) || 6);
         const payload = { active: nextAds.length > 0, defaultDurationSec: safeDur, ads: nextAds };
 
+        clearAdStageClean();
         ads = nextAds;
         window.sehatiAdsList = ads;
         dur = safeDur;
@@ -2522,12 +2620,9 @@
 
       function drawAd() {
         updateGoldTickerState();
+        clearAdStageClean();
+
         if (!ads.length) {
-          imgEl.style.display = "none";
-          imgEl.src = "";
-          vidEl.pause();
-          vidEl.style.display = "none";
-          vidEl.removeAttribute("src");
           titleEl.textContent = "";
           descEl.textContent = getTickerBannerMessage();
           return;
@@ -2537,23 +2632,20 @@
         const mediaSrc = a.media || a.video || a.image || "";
 
         if (mediaSrc && isVideoFile(mediaSrc, a.mediaType)) {
-          imgEl.style.display = "none";
-          imgEl.src = "";
           vidEl.src = `${mediaSrc}?v=${Date.now()}`;
           vidEl.style.display = "block";
           vidEl.play().catch(() => {});
         } else if (mediaSrc) {
-          vidEl.pause();
-          vidEl.style.display = "none";
-          vidEl.removeAttribute("src");
+          imgEl.onload = () => {
+            if (ads.length && (ads[idx]?.media || ads[idx]?.image) === mediaSrc) {
+              imgEl.style.display = "block";
+            }
+          };
+          imgEl.onerror = () => {
+            imgEl.style.display = "none";
+            imgEl.removeAttribute("src");
+          };
           imgEl.src = `${mediaSrc}?v=${Date.now()}`;
-          imgEl.style.display = "block";
-        } else {
-          imgEl.style.display = "none";
-          imgEl.src = "";
-          vidEl.pause();
-          vidEl.style.display = "none";
-          vidEl.removeAttribute("src");
         }
 
         titleEl.textContent = a.title || "";
@@ -2561,7 +2653,10 @@
       }
 
       function loopAds() {
-        if (timer) clearTimeout(timer);
+        if (timer) {
+          clearTimeout(timer);
+          timer = null;
+        }
         if (!ads.length) return;
         const s = Math.max(1, Number(ads[idx]?.durationSec || dur) || 6);
         timer = setTimeout(() => {
@@ -2580,30 +2675,54 @@
           const mediaSrc = a.media || a.video || a.image || "";
           const kind = isVideoFile(mediaSrc, a.mediaType) ? "🎬" : "🖼️";
           return `
-            <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;background:#091815;border:1px solid #1f453e;border-radius:8px;padding:6px 8px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;background:#091815;border:1px solid #1f453e;border-radius:8px;padding:7px 9px;">
               <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">#${i + 1} ${kind} ${a.title || a.description || ""}</span>
-              <button data-del="${i}" type="button" style="background:#c62828;color:#fff;border:none;border-radius:6px;padding:3px 8px;cursor:pointer;">✕</button>
+              <div style="display:flex;align-items:center;gap:5px;flex-shrink:0;">
+                <button data-edit="${i}" type="button" style="background:#0284c7;color:#fff;border:none;border-radius:6px;padding:4px 9px;font-weight:bold;cursor:pointer;">تعديل</button>
+                <button data-del="${i}" type="button" style="background:#c62828;color:#fff;border:none;border-radius:6px;padding:4px 9px;font-weight:bold;cursor:pointer;">حذف</button>
+              </div>
             </div>
           `;
         }).join("");
+
+        lstE.querySelectorAll("button[data-edit]").forEach(b => {
+          b.onclick = () => {
+            if (isBusy) return;
+            const i = Number(b.getAttribute("data-edit"));
+            const target = ads[i];
+            if (!target) return;
+            editAdIdx = i;
+            titI.value = target.title || "";
+            desI.value = target.description || "";
+            secI.value = Math.max(1, Number(target.durationSec || dur) || 6);
+            filI.value = "";
+            addB.textContent = "حفظ تعديل الإعلان";
+            if (cancelEditB) cancelEditB.style.display = "block";
+            stE.textContent = `جاري تعديل الإعلان #${i + 1}`;
+          };
+        });
 
         lstE.querySelectorAll("button[data-del]").forEach(b => {
           b.onclick = async () => {
             if (isBusy) return;
             isBusy = true;
-            lstE.querySelectorAll("button[data-del]").forEach(btn => { btn.disabled = true; });
+            lstE.querySelectorAll("button[data-del], button[data-edit]").forEach(btn => { btn.disabled = true; });
             const tok = (tokI.value || localStorage.getItem(TKEY) || "").trim();
             const i = Number(b.getAttribute("data-del"));
+            const removedAd = ads[i];
+            const removedMedia = removedAd ? (removedAd.media || removedAd.video || removedAd.image || "") : "";
             const filteredAds = ads.filter((_, x) => x !== i);
+            if (editAdIdx === i) resetAdForm();
             try {
               stE.textContent = "...";
               await saveAll(filteredAds, secI.value || dur, tok);
-              stE.textContent = "✅";
+              await deleteMediaFileIfUnused(removedMedia, filteredAds, tok);
+              stE.textContent = "✅ تم حذف الإعلان وتنظيف الخلفية";
             } catch (e) {
               stE.textContent = e.message;
             } finally {
               isBusy = false;
-              lstE.querySelectorAll("button[data-del]").forEach(btn => { btn.disabled = false; });
+              lstE.querySelectorAll("button[data-del], button[data-edit]").forEach(btn => { btn.disabled = false; });
             }
           };
         });
@@ -2618,17 +2737,23 @@
         addB.disabled = true;
         try {
           stE.textContent = "...";
-          let mediaPath = "";
-          let mediaType = "image";
+          const isEditing = editAdIdx >= 0 && editAdIdx < ads.length;
+          const prevAd = isEditing ? ads[editAdIdx] : null;
+          let mediaPath = prevAd ? (prevAd.media || prevAd.video || prevAd.image || "") : "";
+          let mediaType = prevAd ? (prevAd.mediaType || (isVideoFile(mediaPath) ? "video" : "image")) : "image";
+          let oldMediaToClean = "";
+
           const f = filI.files && filI.files[0];
           if (f) {
+            oldMediaToClean = mediaPath;
             const isVid = (f.type || "").startsWith("video/") || isVideoFile(f.name);
             mediaType = isVid ? "video" : "image";
             const ext = (f.name.split(".").pop() || (isVid ? "mp4" : "jpg")).toLowerCase();
             mediaPath = `ad-${Date.now()}.${ext}`;
             await putF(mediaPath, await toB64(f), `Upload ${mediaPath}`, tok);
           }
-          const next = [...ads, {
+
+          const updatedObj = {
             title: titI.value.trim(),
             description: desI.value.trim(),
             image: mediaType === "image" ? mediaPath : "",
@@ -2636,11 +2761,17 @@
             media: mediaPath,
             mediaType,
             durationSec: Math.max(1, Number(secI.value) || dur)
-          }];
+          };
+
+          const next = isEditing
+            ? ads.map((item, x) => x === editAdIdx ? updatedObj : item)
+            : [...ads, updatedObj];
+
           await saveAll(next, secI.value || dur, tok);
-          titI.value = "";
-          desI.value = "";
-          filI.value = "";
+          if (oldMediaToClean) {
+            await deleteMediaFileIfUnused(oldMediaToClean, next, tok);
+          }
+          resetAdForm();
           stE.textContent = "✅";
         } catch (e) {
           stE.textContent = e.message;
