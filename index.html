@@ -69,14 +69,30 @@
     .brand-info small{display:block;opacity:.92;font-size:.78rem;margin-top:3px}
     .brand-controls-under{display:flex;align-items:center;gap:6px;margin-top:7px;flex-wrap:wrap}
 
-    .logo{width:68px;height:68px;border-radius:18px;background:rgba(255,255,255,.18);display:grid;place-items:center;backdrop-filter:blur(6px);box-shadow:0 5px 15px rgba(0,0,0,.15);flex-shrink:0;cursor:pointer;border:1px solid rgba(255,255,255,.28);position:relative;transition:transform .2s,box-shadow .2s}
+    /* تكبير مربع ECG قليلاً وسحبه للداخل مع تنحيف خط النبض */
+    .logo{
+      width:74px;
+      height:74px;
+      margin-inline-end:6px;
+      border-radius:19px;
+      background:rgba(255,255,255,.18);
+      display:grid;
+      place-items:center;
+      backdrop-filter:blur(6px);
+      box-shadow:0 5px 15px rgba(0,0,0,.15);
+      flex-shrink:0;
+      cursor:pointer;
+      border:1px solid rgba(255,255,255,.28);
+      position:relative;
+      transition:transform .2s,box-shadow .2s
+    }
     .logo.ecg-sounding{box-shadow:0 0 0 3px rgba(250,204,21,.65),0 6px 18px rgba(0,0,0,.22)}
-    .logo svg{width:48px;height:48px;stroke:#fff;fill:none;stroke-width:2.8;stroke-linecap:round;stroke-linejoin:round}
+    .logo svg{width:52px;height:52px;stroke:#fff;fill:none;stroke-width:1.65;stroke-linecap:round;stroke-linejoin:round}
     .ecg{stroke-dasharray:120;stroke-dashoffset:240;animation:draw 2.4s linear infinite}
     @keyframes draw{to{stroke-dashoffset:0}}
 
     .bottom-ecg-wave{position:absolute;bottom:2px;left:0;width:100%;height:18px;pointer-events:none;z-index:1;opacity:.65}
-    .bottom-ecg-wave svg{width:100%;height:100%;fill:none;stroke:#ffffff;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+    .bottom-ecg-wave svg{width:100%;height:100%;fill:none;stroke:#ffffff;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
     .ecg-bottom-line{stroke-dasharray:600;stroke-dashoffset:1200;animation:drawBottom 4.5s linear infinite}
     @keyframes drawBottom{to{stroke-dashoffset:0}}
 
@@ -84,14 +100,31 @@
     .seg button{border:0;background:transparent;color:#fff;font-weight:700;font-size:.74rem;padding:4px 8px;border-radius:8px;cursor:pointer}
     .seg button.on{background:#fff;color:#0f766e}
     .tool-btn{border:0;background:rgba(255,255,255,.22);color:#fff;padding:6px 10px;border-radius:10px;font-weight:700;font-size:.78rem;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;gap:4px}
-    .ecg-sound-btn.active{background:#facc15;color:#1a1400;font-weight:800}
 
     /* أزرار المهنيين ومواعيدي وحسابي بدون إطار ومنزلة فوق شريط البحث */
     .quick-nav-bar{display:grid;grid-template-columns:1.25fr 1fr .9fr;gap:7px;width:100%;padding:0;margin-top:6px;background:transparent;border:none}
-    .quick-nav-bar .bar-item{border:0;border-radius:11px;padding:8px 6px;font-size:.8rem;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;box-shadow:0 3px 9px rgba(0,0,0,.12)}
+    .quick-nav-bar .bar-item{position:relative;border:0;border-radius:11px;padding:8px 6px;font-size:.8rem;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:4px;white-space:nowrap;overflow:visible;box-shadow:0 3px 9px rgba(0,0,0,.12)}
     .portal-btn{background:#fff;color:#0f766e}
     .my-appts-btn{background:rgba(255,255,255,.22);color:#fff;backdrop-filter:blur(4px)}
     .user-acc-btn{background:rgba(255,255,255,.22);color:#fff;backdrop-filter:blur(4px)}
+
+    /* شارة إشعارات الأرقام الحمراء */
+    .red-count-badge{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-width:19px;
+      height:19px;
+      padding:0 5px;
+      border-radius:999px;
+      background:#dc2626;
+      color:#ffffff;
+      font-size:.72rem;
+      font-weight:900;
+      line-height:1;
+      box-shadow:0 2px 6px rgba(220,38,38,.45);
+      border:1.5px solid #ffffff;
+    }
 
     .search-wrap input{width:100%;padding:10px 13px;border-radius:13px;border:none;outline:none;font-size:.94rem;background:#fff;color:#0f172a;box-shadow:0 3px 10px rgba(0,0,0,.08)}
 
@@ -196,7 +229,6 @@
     .btn-danger{width:100%;padding:10px;border-radius:11px;border:none;background:var(--danger);color:#fff;font-weight:700;font-size:.9rem;cursor:pointer;margin-top:8px}
     .btn-secondary{width:100%;padding:10px;border-radius:11px;border:1px solid var(--border);background:transparent;color:var(--text);font-weight:700;font-size:.92rem;cursor:pointer;margin-top:8px}
 
-    /* لوحة المهنيين الاحترافية */
     .pro-hero-banner{background:linear-gradient(135deg,#0f766e 0%,#0d9488 58%,#0284c7 100%);color:#fff;border-radius:16px;padding:15px;margin-bottom:12px;box-shadow:0 6px 16px rgba(15,118,110,.22);position:relative;overflow:hidden}
     .pro-hero-top{display:flex;align-items:center;gap:12px}
     .pro-avatar-circle{width:50px;height:50px;border-radius:14px;background:rgba(255,255,255,.2);display:grid;place-items:center;font-size:1.5rem;flex-shrink:0;border:1px solid rgba(255,255,255,.35)}
@@ -264,18 +296,25 @@
               <button id="btnEn" onclick="setLang('en')">EN</button>
             </div>
             <button class="tool-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
-            <button class="tool-btn ecg-sound-btn" onclick="toggleEcgSound()" id="ecgSoundBtn" title="صوت نبض ECG">🔇</button>
           </div>
         </div>
-        <div class="logo" id="heroEcgLogo" onclick="toggleEcgSound()">
+        <div class="logo" id="heroEcgLogo" onclick="handleSecretLogoTap()">
           <svg viewBox="0 0 24 24"><polyline class="ecg" points="2 12 6 12 9 3 13 21 16 12 22 12"></polyline></svg>
         </div>
       </div>
 
       <div class="quick-nav-bar">
-        <button class="bar-item portal-btn" onclick="openProPortal()" id="proPortalBtn">🩺 بوابة المهنيين</button>
-        <button class="bar-item my-appts-btn" onclick="openMyAppointments()" id="myApptsBtn"><span id="myApptsLabel">📋 مواعيدي</span> (<span id="myApptsBadge">0</span>)</button>
-        <button class="bar-item user-acc-btn" onclick="openUserAccountModal()" id="userAccBtn">👤 <span id="userAccLabel">حسابي</span></button>
+        <button class="bar-item portal-btn" onclick="openProPortal()" id="proPortalBtn">
+          <span id="proPortalTxt">🩺 بوابة المهنيين</span>
+          <span class="red-count-badge" id="proBookingsBadge">0</span>
+        </button>
+        <button class="bar-item my-appts-btn" onclick="openMyAppointments()" id="myApptsBtn">
+          <span id="myApptsLabel">📋 مواعيدي</span> (<span id="myApptsBadge">0</span>)
+        </button>
+        <button class="bar-item user-acc-btn" onclick="openUserAccountModal()" id="userAccBtn">
+          <span>👤 <span id="userAccLabel">حسابي</span></span>
+          <span class="red-count-badge" id="userApprovedBadge">0</span>
+        </button>
       </div>
     </div>
 
@@ -711,6 +750,10 @@
           <p id="importStatus" style="font-size:.84rem;color:var(--primary);font-weight:700;margin-top:8px;"></p>
         </div>
         <div id="admSettingsPanel" style="display:none;">
+          <div class="form-group">
+            <label>صوت نبض القلب الحقيقي (ECG داخل التطبيق فقط)</label>
+            <button type="button" id="adminEcgToggleBtn" onclick="toggleAdminEcgSound()" style="width:100%;padding:10px;border-radius:10px;border:1px solid var(--border);background:#0f766e;color:#fff;font-weight:800;cursor:pointer;">💓 تشغيل صوت النبض الحقيقي</button>
+          </div>
           <div class="form-group"><label>رمز الدخول السري الجديد للإدارة</label><input type="text" id="newAdminPass" placeholder="مثال: abdo2026" /></div>
           <div class="form-group"><label>رقم هاتفك للاتصال المباشر</label><input type="tel" id="newAdminPhone" placeholder="مثال: 0550123456" /></div>
           <div class="form-group"><label>رقم واتساب الخاص بك (بصيغة 213 بدون صفر)</label><input type="tel" id="newAdminWa" placeholder="مثال: 213550123456" /></div>
@@ -734,8 +777,13 @@
         const app = initializeApp(firebaseConfig), db = getFirestore(app), auth = getAuth(app);
         window.fbReady = true; window.fb = { db, auth, collection, getDocs, doc, getDoc, setDoc, updateDoc, deleteDoc, addDoc, query, where, writeBatch, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut };
         await window.loadCloudAdminSettings(); await window.refreshCloudData();
-        onAuthStateChanged(auth, async (user) => { if (user) { window.currentProUser = user; await window.loadProDashboard(user.uid); } else { window.currentProUser = null; } });
+        onAuthStateChanged(auth, async (user) => {
+          if (user) { window.currentProUser = user; await window.loadProDashboard(user.uid); }
+          else { window.currentProUser = null; }
+          window.updateHeaderAlertBadges();
+        });
       } catch (err) {}
+      window.updateHeaderAlertBadges();
       window.render();
     }
     setupFirebase();
@@ -746,7 +794,8 @@
       pass: "admin2026",
       phone: "0550000000",
       wa: "213550000000",
-      adText: "ضاعف عدد مرضاك وزبائنك! أعلن عن عيادتك، صيدليتك، أو مخبرك في الواجهة الرئيسية لتطبيق صحتي أمام آلاف الباحثين يومياً."
+      adText: "ضاعف عدد مرضاك وزبائنك! أعلن عن عيادتك، صيدليتك، أو مخبرك في الواجهة الرئيسية لتطبيق صحتي أمام آلاف الباحثين يومياً.",
+      ecgSoundEnabled: false
     };
 
     let lang = 'ar', currentCat = 'all', selectedPlaceForBooking = null, currentProProfile = null, isAdminUnlocked = false;
@@ -762,10 +811,11 @@
         editingMedId = null,
         pendingOtpData = null;
 
-    /* نظام صوت نبض القلب ECG المدمج */
-    let ecgAudioCtx = null, ecgSoundInterval = null, isEcgSoundOn = false;
+    /* صوت نبض القلب الحقيقي داخل التطبيق فقط */
+    let ecgAudioCtx = null, ecgSoundInterval = null;
 
-    function playSingleEcgHeartbeat() {
+    function playRealHeartbeatLubDub() {
+      if (document.hidden || !adminConfig.ecgSoundEnabled) return;
       try {
         const AudioCtx = window.AudioContext || window.webkitAudioContext;
         if (!AudioCtx) return;
@@ -774,78 +824,119 @@
 
         const now = ecgAudioCtx.currentTime;
 
-        const osc1 = ecgAudioCtx.createOscillator();
-        const gain1 = ecgAudioCtx.createGain();
-        osc1.type = 'sine';
-        osc1.frequency.setValueAtTime(115, now);
-        osc1.frequency.exponentialRampToValueAtTime(48, now + 0.09);
-        gain1.gain.setValueAtTime(0.001, now);
-        gain1.gain.exponentialRampToValueAtTime(0.18, now + 0.015);
-        gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.11);
-        osc1.connect(gain1);
-        gain1.connect(ecgAudioCtx.destination);
-        osc1.start(now);
-        osc1.stop(now + 0.12);
+        const createPulse = (startOffset, startFreq, endFreq, peakGain, durationSec) => {
+          const osc = ecgAudioCtx.createOscillator();
+          const filter = ecgAudioCtx.createBiquadFilter();
+          const gain = ecgAudioCtx.createGain();
 
-        const osc2 = ecgAudioCtx.createOscillator();
-        const gain2 = ecgAudioCtx.createGain();
-        osc2.type = 'sine';
-        osc2.frequency.setValueAtTime(88, now + 0.17);
-        osc2.frequency.exponentialRampToValueAtTime(40, now + 0.26);
-        gain2.gain.setValueAtTime(0.001, now + 0.17);
-        gain2.gain.exponentialRampToValueAtTime(0.12, now + 0.185);
-        gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
-        osc2.connect(gain2);
-        gain2.connect(ecgAudioCtx.destination);
-        osc2.start(now + 0.17);
-        osc2.stop(now + 0.29);
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(startFreq, now + startOffset);
+          osc.frequency.exponentialRampToValueAtTime(endFreq, now + startOffset + durationSec);
 
-        const beepOsc = ecgAudioCtx.createOscillator();
-        const beepGain = ecgAudioCtx.createGain();
-        beepOsc.type = 'sine';
-        beepOsc.frequency.setValueAtTime(880, now + 0.02);
-        beepGain.gain.setValueAtTime(0.001, now + 0.02);
-        beepGain.gain.exponentialRampToValueAtTime(0.045, now + 0.03);
-        beepGain.gain.exponentialRampToValueAtTime(0.001, now + 0.095);
-        beepOsc.connect(beepGain);
-        beepGain.connect(ecgAudioCtx.destination);
-        beepOsc.start(now + 0.02);
-        beepOsc.stop(now + 0.1);
+          filter.type = 'lowpass';
+          filter.frequency.setValueAtTime(165, now + startOffset);
+
+          gain.gain.setValueAtTime(0.0001, now + startOffset);
+          gain.gain.linearRampToValueAtTime(peakGain, now + startOffset + 0.025);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + startOffset + durationSec);
+
+          osc.connect(filter);
+          filter.connect(gain);
+          gain.connect(ecgAudioCtx.destination);
+
+          osc.start(now + startOffset);
+          osc.stop(now + startOffset + durationSec + 0.02);
+        };
+
+        createPulse(0, 74, 34, 0.42, 0.16);
+        createPulse(0.21, 62, 29, 0.28, 0.14);
       } catch (_) {}
     }
 
-    function toggleEcgSound() {
-      const btn = document.getElementById('ecgSoundBtn');
+    function syncEcgSoundLoop() {
+      if (ecgSoundInterval) {
+        clearInterval(ecgSoundInterval);
+        ecgSoundInterval = null;
+      }
       const logo = document.getElementById('heroEcgLogo');
-      if (isEcgSoundOn) {
-        isEcgSoundOn = false;
-        if (ecgSoundInterval) {
-          clearInterval(ecgSoundInterval);
-          ecgSoundInterval = null;
-        }
-        if (btn) {
-          btn.textContent = '🔇';
-          btn.classList.remove('active');
-        }
-        if (logo) logo.classList.remove('ecg-sounding');
-      } else {
-        isEcgSoundOn = true;
-        playSingleEcgHeartbeat();
-        ecgSoundInterval = setInterval(playSingleEcgHeartbeat, 950);
-        if (btn) {
-          btn.textContent = '🔊';
-          btn.classList.add('active');
-        }
+      const admBtn = document.getElementById('adminEcgToggleBtn');
+
+      if (adminConfig.ecgSoundEnabled && !document.hidden) {
+        playRealHeartbeatLubDub();
+        ecgSoundInterval = setInterval(playRealHeartbeatLubDub, 920);
         if (logo) logo.classList.add('ecg-sounding');
-        showToast(tr('ecgSoundStarted'));
+      } else {
+        if (logo) logo.classList.remove('ecg-sounding');
+      }
+
+      if (admBtn) {
+        admBtn.textContent = adminConfig.ecgSoundEnabled ? '🔇 كتم صوت النبض الحقيقي' : '💓 تشغيل صوت النبض الحقيقي';
+        admBtn.style.background = adminConfig.ecgSoundEnabled ? '#dc2626' : '#0f766e';
       }
     }
+
+    async function toggleAdminEcgSound() {
+      adminConfig.ecgSoundEnabled = !adminConfig.ecgSoundEnabled;
+      localStorage.setItem('sehati_admin_cfg', JSON.stringify(adminConfig));
+      syncEcgSoundLoop();
+      if (window.fbReady) {
+        try { await window.fb.setDoc(window.fb.doc(window.fb.db, "app_config", "admin"), adminConfig); } catch (e) {}
+      }
+      showToast(adminConfig.ecgSoundEnabled ? tr('ecgSoundOn') : tr('ecgSoundOff'));
+    }
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden && ecgSoundInterval) {
+        clearInterval(ecgSoundInterval);
+        ecgSoundInterval = null;
+      } else if (!document.hidden && adminConfig.ecgSoundEnabled) {
+        syncEcgSoundLoop();
+      }
+    });
+
+    window.addEventListener('pagehide', () => {
+      if (ecgSoundInterval) {
+        clearInterval(ecgSoundInterval);
+        ecgSoundInterval = null;
+      }
+    });
+
+    window.updateHeaderAlertBadges = function() {
+      const proBadge = document.getElementById('proBookingsBadge');
+      const userBadge = document.getElementById('userApprovedBadge');
+
+      const activePro = currentProProfile || localProSession;
+      let proCount = 0;
+      if (activePro && activePro.id) {
+        proCount = localAppointments.filter(a => a.placeId === activePro.id && a.status !== 'rejected').length;
+      } else {
+        proCount = localAppointments.filter(a => a.status === 'pending').length;
+      }
+      if (proBadge) {
+        proBadge.textContent = proCount;
+        proBadge.style.display = proCount > 0 ? 'inline-flex' : 'none';
+      }
+
+      const uPhone = (currentUserSession && currentUserSession.phone || lastPatientPhone || '').trim();
+      const uId = (currentUserSession && currentUserSession.id || '').trim();
+      let approvedCount = 0;
+      if (uPhone || uId) {
+        approvedCount = localAppointments.filter(a =>
+          a.status === 'confirmed' && ((uPhone && a.patientPhone === uPhone) || (uId && a.userId === uId))
+        ).length;
+      }
+      if (userBadge) {
+        userBadge.textContent = approvedCount;
+        userBadge.style.display = approvedCount > 0 ? 'inline-flex' : 'none';
+      }
+    };
 
     const T = {
       ar: {
         sub:'دليلك الصحي وحجز المواعيد في الجزائر', proBtn:'🩺 بوابة المهنيين', userAccBtn:'حسابي', myAppts:'📋 مواعيدي',
         medFab:'دوائي',
-        ecgSoundStarted:'💓 تم تشغيل صوت نبض ECG',
+        ecgSoundOn:'💓 تم تشغيل صوت النبض الحقيقي داخل التطبيق',
+        ecgSoundOff:'🔇 تم كتم صوت النبض الحقيقي',
         search:'ابحث عن طبيب، صيدلية، عيادة، خدمة، أو ولاية...', emerg:'🚨 أرقام الطوارئ (اتصال مباشر)',
         e1:'الحماية المدنية', e2:'الشرطة', e3:'الدرك الوطني', e4:'الإسعاف',
         all:'الكل', fav:'المفضلة', d:'أطباء', c:'عيادات', p:'صيدليات', h:'مستشفيات', l:'مخابر', g:'أطباء أسنان', r:'أشعة',
@@ -919,7 +1010,8 @@
       fr: {
         sub:'Votre guide santé et prise de RDV en Algérie', proBtn:'🩺 Espace Pro', userAccBtn:'Mon compte', myAppts:'📋 Mes RDV',
         medFab:'Mon Médoc',
-        ecgSoundStarted:'💓 Son cardiaque ECG activé',
+        ecgSoundOn:'💓 Son cardiaque réel activé dans l’application',
+        ecgSoundOff:'🔇 Son cardiaque réel coupé',
         search:'Rechercher un médecin, pharmacie, clinique, service ou wilaya...', emerg:"🚨 Numéros d'urgence (Appel direct)",
         e1:'Protection Civile', e2:'Police', e3:'Gendarmerie', e4:'SAMU',
         all:'Tout', fav:'Favoris', d:'Médecins', c:'Cliniques', p:'Pharmacies', h:'Hôpitaux', l:'Labos', g:'Dentistes', r:'Imagerie',
@@ -993,7 +1085,8 @@
       en: {
         sub:'Your health directory & appointment booking in Algeria', proBtn:'🩺 Pro Portal', userAccBtn:'My Account', myAppts:'📋 My Appts',
         medFab:'My Meds',
-        ecgSoundStarted:'💓 ECG heartbeat sound enabled',
+        ecgSoundOn:'💓 Real heartbeat sound enabled inside the app',
+        ecgSoundOff:'🔇 Real heartbeat sound muted',
         search:'Search doctor, pharmacy, clinic, service, or wilaya...', emerg:'🚨 Emergency Numbers (Direct Call)',
         e1:'Civil Protection', e2:'Police', e3:'Gendarmerie', e4:'Ambulance',
         all:'All', fav:'Favorites', d:'Doctors', c:'Clinics', p:'Pharmacies', h:'Hospitals', l:'Labs', g:'Dentists', r:'Radiology',
@@ -1095,6 +1188,7 @@
       document.getElementById('supCallLink').href = `tel:${adminConfig.phone}`;
       document.getElementById('supWaLink').href = `https://wa.me/${adminConfig.wa}`;
       updateGoldTickerState();
+      syncEcgSoundLoop();
       if (!window.sehatiAdsList || !window.sehatiAdsList.length) {
         document.getElementById('adDesc').textContent = getTickerBannerMessage();
       }
@@ -1226,6 +1320,7 @@
 
         await window.refreshMedicineRequestsCloud();
         updateMyApptsBadge();
+        window.updateHeaderAlertBadges();
         window.render();
       } catch (e) {}
     };
@@ -1257,7 +1352,7 @@
       document.getElementById('btnEn').classList.toggle('on', lang === 'en');
 
       document.getElementById('tagSub').textContent = tr('sub');
-      document.getElementById('proPortalBtn').textContent = tr('proBtn');
+      document.getElementById('proPortalTxt').textContent = tr('proBtn');
       document.getElementById('userAccLabel').textContent = tr('userAccBtn');
       document.getElementById('myApptsLabel').textContent = tr('myAppts');
       document.getElementById('medFabText').textContent = tr('medFab');
@@ -1362,6 +1457,7 @@
       document.getElementById('pendingWarningBox').innerHTML = tr('pendingBoxHtml');
 
       applyAdminConfigToUI();
+      window.updateHeaderAlertBadges();
     }
 
     function setLang(l) {
@@ -1676,6 +1772,7 @@
         document.getElementById('userAuthBox').style.display = 'block';
         document.getElementById('userProfileBox').style.display = 'none';
       }
+      window.updateHeaderAlertBadges();
     }
 
     function sendUserOtp() {
@@ -2008,6 +2105,7 @@
       lastPatientPhone = phone;
       localStorage.setItem('sehati_last_patient_phone', phone);
       updateMyApptsBadge();
+      window.updateHeaderAlertBadges();
 
       const mine = localAppointments
         .filter(a => a.patientPhone === phone)
@@ -2098,6 +2196,7 @@
       localAppointments.push(appt);
       localStorage.setItem('sehati_appointments', JSON.stringify(localAppointments));
       updateMyApptsBadge();
+      window.updateHeaderAlertBadges();
 
       const rank = getAppointmentQueueNumber(appt);
 
@@ -2111,7 +2210,6 @@
       showToast(tr('toastBooked', { date, rank }));
     }
 
-    /* مشاركة وتحديث موقع المهني تلقائياً */
     function extractLatLngFromText(raw) {
       const str = String(raw || '').trim();
       if (!str) return null;
@@ -2272,6 +2370,7 @@
       regTempCoords = { lat: null, lng: null };
       if (window.fbReady) await window.fb.setDoc(window.fb.doc(window.fb.db, "health_places", uid), profileData);
       render();
+      window.updateHeaderAlertBadges();
       showProDashboard();
     }
 
@@ -2283,17 +2382,25 @@
           const cred = await window.fb.signInWithEmailAndPassword(window.fb.auth, email, pass);
           await window.refreshCloudData();
           await window.loadProDashboard(cred.user.uid);
+          window.updateHeaderAlertBadges();
           showProDashboard();
           return;
         } catch (err) { showToast(err.message); return; }
       }
       const found = localPlaces.find(p => p.email === email);
-      if (found) { localProSession = found; localStorage.setItem('sehati_pro_session', JSON.stringify(found)); currentProProfile = found; showProDashboard(); }
+      if (found) {
+        localProSession = found;
+        localStorage.setItem('sehati_pro_session', JSON.stringify(found));
+        currentProProfile = found;
+        window.updateHeaderAlertBadges();
+        showProDashboard();
+      }
     }
 
     window.loadProDashboard = async function(uid) {
       const found = window.placesData.find(p => p.id === uid || p.ownerUid === uid);
       if (found) { currentProProfile = found; localProSession = found; }
+      window.updateHeaderAlertBadges();
     };
 
     async function confirmAppointmentWithTime(apptId) {
@@ -2309,6 +2416,7 @@
       );
       localStorage.setItem('sehati_appointments', JSON.stringify(localAppointments));
       updateMyApptsBadge();
+      window.updateHeaderAlertBadges();
 
       if (window.fbReady) {
         try {
@@ -2330,6 +2438,7 @@
       );
       localStorage.setItem('sehati_appointments', JSON.stringify(localAppointments));
       updateMyApptsBadge();
+      window.updateHeaderAlertBadges();
 
       if (window.fbReady) {
         try {
@@ -2436,6 +2545,7 @@
       `;
 
       document.getElementById('apptCount').textContent = myAppts.length;
+      window.updateHeaderAlertBadges();
       const listEl = document.getElementById('apptsList');
 
       listEl.innerHTML = myAppts.length === 0
@@ -2526,6 +2636,7 @@
       localProSession = null;
       currentProProfile = null;
       localStorage.removeItem('sehati_pro_session');
+      window.updateHeaderAlertBadges();
       closeModal('proModal');
       showToast(tr('toastLoggedOut'));
     }
@@ -2540,6 +2651,7 @@
       document.getElementById('newAdminPhone').value = adminConfig.phone;
       document.getElementById('newAdminWa').value = adminConfig.wa;
       document.getElementById('newAdText').value = adminConfig.adText;
+      syncEcgSoundLoop();
       await window.refreshCloudData();
       renderAdminAccounts();
       renderMedicineRequests();
@@ -2557,7 +2669,7 @@
     async function saveAdminSettings() {
       const newPass = document.getElementById('newAdminPass').value.trim(), newPhone = document.getElementById('newAdminPhone').value.trim(), newWa = document.getElementById('newAdminWa').value.trim(), newAd = document.getElementById('newAdText').value.trim();
       if (!newPass || newPass.length < 4) { return; }
-      adminConfig = { pass: newPass, phone: newPhone || adminConfig.phone, wa: newWa || adminConfig.wa, adText: newAd || adminConfig.adText };
+      adminConfig = { ...adminConfig, pass: newPass, phone: newPhone || adminConfig.phone, wa: newWa || adminConfig.wa, adText: newAd || adminConfig.adText };
       localStorage.setItem('sehati_admin_cfg', JSON.stringify(adminConfig));
       applyAdminConfigToUI();
       if (window.fbReady) { try { await window.fb.setDoc(window.fb.doc(window.fb.db, "app_config", "admin"), adminConfig); } catch (e) {} }
@@ -3117,6 +3229,7 @@
     if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(() => {});
     applyTranslationsToStaticUI();
     updateMyApptsBadge();
+    window.updateHeaderAlertBadges();
     render();
     window.addEventListener('resize', () => updateCatIndicator(document.querySelector('.cat-pill.active')));
     setTimeout(() => updateCatIndicator(document.querySelector('.cat-pill.active')), 80);
