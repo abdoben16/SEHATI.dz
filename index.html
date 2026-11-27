@@ -186,7 +186,6 @@
     .emerg-card.gendarme{background:linear-gradient(145deg,#14532d,#15803d)}
     .emerg-card.ambulance{background:linear-gradient(145deg,#ffffff,#f8fafc);color:#0f172a;border-color:#cbd5e1}
 
-    /* صندوق الإعلان: مخفي تلقائياً عندما لا يوجد إعلان نشط حتى لا تظهر صورة سوداء عالقة */
     .ads-showcase{display:none;position:relative;margin:8px auto 6px;border-radius:14px;overflow:hidden;border:1.5px solid #facc15;box-shadow:0 6px 18px rgba(202,138,4,.18);background:var(--card);width:calc(100% - 28px);max-width:336px;aspect-ratio:16 / 9;cursor:pointer;user-select:none}
     .ads-showcase.has-active-ad{display:block}
     .ads-full-media{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:1;filter:none;z-index:1;display:none}
@@ -354,7 +353,11 @@
     .sub-alert-week{background:rgba(234,179,8,.16);border:1.5px solid #ca8a04;color:var(--text);border-radius:12px;padding:10px 12px;margin-bottom:12px;font-size:.85rem;font-weight:700}
     .vip-pitch-box{background:rgba(15,118,110,.09);border:1.5px solid var(--primary);padding:14px;border-radius:14px;font-size:.9rem;margin-bottom:12px;line-height:1.65}
     .vip-pitch-box ul{margin:8px 18px}
-    .otp-code-box{background:rgba(2,132,199,.12);border:1px dashed var(--blue);border-radius:10px;padding:8px 10px;font-size:.84rem;font-weight:800;color:var(--blue);margin-bottom:10px;text-align:center}
+    .privacy-body-box{background:rgba(255,255,255,.75);border:1px solid var(--border);border-radius:14px;padding:13px;font-size:.86rem;line-height:1.65;max-height:58vh;overflow-y:auto}
+    body.dark .privacy-body-box{background:rgba(15,118,110,.14)}
+    .privacy-body-box h4{color:var(--primary);margin:10px 0 4px;font-size:.92rem}
+    .privacy-body-box h4:first-child{margin-top:0}
+    .privacy-body-box ul{margin:4px 18px 8px}
     .med-req-img{width:100%;max-height:175px;object-fit:cover;border-radius:10px;margin-top:7px;border:1px solid var(--border)}
     .toast{position:fixed;bottom:122px;left:50%;transform:translateX(-50%);background:#0f172a;color:#fff;padding:10px 20px;border-radius:30px;font-size:.9rem;font-weight:700;z-index:300;display:none;box-shadow:0 4px 14px rgba(0,0,0,.3);text-align:center;max-width:90%}
   </style>
@@ -375,6 +378,7 @@
               <button id="btnEn" onclick="setLang('en')">EN</button>
             </div>
             <button class="tool-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
+            <button class="tool-btn" onclick="openPrivacyModal()" id="privacyTopBtn">🛡️ <span id="privacyTopTxt">الخصوصية</span></button>
           </div>
         </div>
         <div class="logo-slot">
@@ -516,6 +520,19 @@
     </button>
   </nav>
 
+  <!-- نافذة سياسة الخصوصية (قانون 18-07 الجزائري ومتطلبات Play Store) -->
+  <div class="modal" id="privacyModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="privacyModalTitle">🛡️ سياسة الخصوصية وحماية البيانات</h3>
+        <button class="close-x" onclick="closeModal('privacyModal')">✕</button>
+      </div>
+      <div class="privacy-body-box" id="privacyContentBox"></div>
+      <button type="button" class="btn-danger" id="btnDeleteLocalPrivacyData" onclick="deleteUserSessionAndData()">🗑️ مسح بيانات الجلسة وطلباتي المحلية</button>
+      <button type="button" class="btn-secondary" onclick="closeModal('privacyModal')">✕ إغلاق</button>
+    </div>
+  </div>
+
   <div class="modal" id="userAccountModal">
     <div class="modal-card">
       <div class="modal-header">
@@ -534,10 +551,6 @@
             <label id="uLblLoginContact">رقم الهاتف أو البريد الإلكتروني</label>
             <input type="text" id="uLoginContact" placeholder="0550... / name@mail.com" />
           </div>
-          <div class="form-group">
-            <label id="uLblLoginPass">كلمة السر</label>
-            <input type="password" id="uLoginPass" placeholder="••••••••" />
-          </div>
           <button class="btn-primary" id="uBtnLogin" onclick="userLogin()">دخول</button>
         </div>
 
@@ -550,17 +563,7 @@
             <label id="uLblRegContact">رقم الهاتف أو البريد الإلكتروني *</label>
             <input type="text" id="uRegContact" placeholder="0550... / name@mail.com" />
           </div>
-          <div id="uOtpDisplay" class="otp-code-box" style="display:none;"></div>
-          <div id="uOtpInputGroup" class="form-group" style="display:none;">
-            <label id="uLblOtp">رمز التحقق (OTP)</label>
-            <input type="text" id="uOtpCode" placeholder="1234" maxlength="6" />
-          </div>
-          <div class="form-group">
-            <label id="uLblRegPass">تعيين كلمة السر *</label>
-            <input type="password" id="uRegPass" placeholder="••••••••" />
-          </div>
-          <button class="btn-primary" id="uBtnSendOtp" onclick="sendUserOtp()">إرسال رمز التحقق</button>
-          <button class="btn-primary" id="uBtnVerifyReg" style="display:none;background:#16a34a;" onclick="completeUserRegistration()">تأكيد الرمز وإنشاء الحساب</button>
+          <button class="btn-primary" id="uBtnVerifyReg" style="background:#16a34a;" onclick="completeUserRegistration()">إنشاء الحساب</button>
         </div>
       </div>
 
@@ -585,10 +588,6 @@
           <div class="form-group">
             <label id="uLblEditEmail">البريد الإلكتروني</label>
             <input type="email" id="uEditEmail" placeholder="name@mail.com" />
-          </div>
-          <div class="form-group">
-            <label id="uLblEditPass">كلمة السر الجديدة (اتركها فارغة إن لم ترد تغييرها)</label>
-            <input type="password" id="uEditPass" placeholder="••••••••" />
           </div>
           <button class="btn-primary" id="uBtnSaveEdit" onclick="saveUserProfileChanges()">💾 حفظ التعديلات</button>
         </div>
@@ -662,15 +661,16 @@
     </div>
   </div>
 
+  <!-- نافذة إدارة الإعلانات عبر Firebase Storage و Firestore (بدون GitHub Token) -->
   <div id="sehatiQuickModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.82);z-index:999999;padding:14px;overflow-y:auto;">
     <div style="max-width:440px;margin:24px auto;background:#102521;color:#fff;border:1px solid #1de9b6;border-radius:14px;padding:14px;font-size:13px;">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
-        <strong style="color:#1de9b6;">إدارة إعلانات صحتي (صور وفيديو)</strong>
+        <strong style="color:#1de9b6;">إدارة إعلانات صحتي (Firebase Storage)</strong>
         <button id="sehatiQuickClose" type="button" style="background:#263238;color:#fff;border:none;border-radius:6px;padding:3px 9px;cursor:pointer;">✕</button>
       </div>
-      <label style="display:block;margin-bottom:8px;">GitHub Token:
-        <input id="sehatiQuickToken" type="password" style="width:100%;margin-top:4px;padding:7px;border-radius:7px;border:1px solid #37474f;background:#091614;color:#fff;box-sizing:border-box;">
-      </label>
+      <div style="background:rgba(20,184,166,.12);border:1px solid rgba(20,184,166,.35);border-radius:8px;padding:8px;margin-bottom:8px;font-size:11.5px;color:#ccfbf1;">
+        🔒 يتم الرفع مباشرة إلى Firebase Storage وفق قواعد الصلاحيات دون تخزين أي مفاتيح سرية في المتصفح.
+      </div>
       <label style="display:block;margin-bottom:8px;">مدة العرض (ثواني):
         <input id="sehatiQuickSec" type="number" min="1" max="120" value="6" style="width:100%;margin-top:4px;padding:7px;border-radius:7px;border:1px solid #37474f;background:#091614;color:#fff;box-sizing:border-box;">
       </label>
@@ -797,6 +797,7 @@
     </div>
   </div>
 
+  <!-- لوحة تحكم المدير عبر حساب Firebase Auth الموثق -->
   <div class="modal" id="secretAdminModal">
     <div class="modal-card">
       <div class="modal-header">
@@ -804,8 +805,9 @@
         <button class="close-x" onclick="closeModal('secretAdminModal')">✕</button>
       </div>
       <div id="secretPinBox">
-        <div class="form-group"><label>أدخل الرمز السري للمدير</label><input type="password" id="adminPinInput" placeholder="••••••••" /></div>
-        <button class="btn-primary" onclick="unlockAdminPanel()">🔓 دخول الإدارة</button>
+        <div class="form-group"><label>البريد الإلكتروني لحساب المدير</label><input type="email" id="adminEmailInput" placeholder="admin@sehati.dz" /></div>
+        <div class="form-group"><label>كلمة مرور حساب المدير</label><input type="password" id="adminPinInput" placeholder="••••••••" /></div>
+        <button class="btn-primary" onclick="unlockAdminPanel()">🔓 دخول الإدارة الآمن</button>
       </div>
       <div id="adminDashboardView" style="display:none;">
         <div class="tabs-bar">
@@ -832,11 +834,10 @@
             <label>صوت آلة ECG المستمر لحالة مستقرة (داخل التطبيق فقط)</label>
             <button type="button" id="adminEcgToggleBtn" onclick="toggleAdminEcgSound()" style="width:100%;padding:10px;border-radius:10px;border:1px solid var(--border);background:#0f766e;color:#fff;font-weight:800;cursor:pointer;">💓 تشغيل صوت النبض الحقيقي</button>
           </div>
-          <div class="form-group"><label>رمز الدخول السري الجديد للإدارة</label><input type="text" id="newAdminPass" placeholder="مثال: abdo2026" /></div>
           <div class="form-group"><label>رقم هاتفك للاتصال المباشر</label><input type="tel" id="newAdminPhone" placeholder="مثال: 0550123456" /></div>
           <div class="form-group"><label>رقم واتساب الخاص بك (بصيغة 213 بدون صفر)</label><input type="tel" id="newAdminWa" placeholder="مثال: 213550123456" /></div>
           <div class="form-group"><label>نص الإعلان / اللافتة الذهبية</label><textarea id="newAdText" rows="3"></textarea></div>
-          <button class="btn-primary" onclick="saveAdminSettings()">💾 حفظ الإعدادات وكلمة السر</button>
+          <button class="btn-primary" onclick="saveAdminSettings()">💾 حفظ الإعدادات</button>
         </div>
       </div>
     </div>
@@ -847,17 +848,58 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
     import { getFirestore, collection, getDocs, doc, getDoc, setDoc, updateDoc, deleteDoc, addDoc, query, where, writeBatch } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, getIdTokenResult } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
+
     const firebaseConfig = { apiKey: "AIzaSyAdWXDD0whg8vgdBuULaGR1IkrXDRvKQgA", authDomain: "sehati-7eaba.firebaseapp.com", projectId: "sehati-7eaba", storageBucket: "sehati-7eaba.firebasestorage.app", messagingSenderId: "688720404426", appId: "1:688720404426:web:b05c9e67a60cc8c2773933" };
-    window.fbReady = false; window.fb = {};
+
+    window.fbReady = false;
+    window.fb = {};
+
+    async function checkAdminRoleForUser(db, user) {
+      if (!user) return false;
+      try {
+        const tokenRes = await getIdTokenResult(user, true);
+        if (tokenRes && tokenRes.claims && tokenRes.claims.admin === true) return true;
+      } catch (_) {}
+      try {
+        const adminDoc = await getDoc(doc(db, "admins", user.uid));
+        if (adminDoc.exists() && adminDoc.data()?.active === true) return true;
+      } catch (_) {}
+      return false;
+    }
+
     async function setupFirebase() {
       try {
-        const app = initializeApp(firebaseConfig), db = getFirestore(app), auth = getAuth(app);
-        window.fbReady = true; window.fb = { db, auth, collection, getDocs, doc, getDoc, setDoc, updateDoc, deleteDoc, addDoc, query, where, writeBatch, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut };
-        await window.loadCloudAdminSettings(); await window.refreshCloudData();
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+        const storage = getStorage(app);
+
+        window.fbReady = true;
+        window.fb = {
+          db, auth, storage,
+          collection, getDocs, doc, getDoc, setDoc, updateDoc, deleteDoc, addDoc,
+          query, where, writeBatch,
+          createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut,
+          ref, uploadBytes, getDownloadURL, deleteObject,
+          checkAdminRoleForUser
+        };
+
+        await window.loadCloudAdminSettings();
+        await window.refreshCloudData();
+        if (window.initStorageAdsSystem) await window.initStorageAdsSystem();
+
         onAuthStateChanged(auth, async (user) => {
-          if (user) { window.currentProUser = user; await window.loadProDashboard(user.uid); }
-          else { window.currentProUser = null; }
+          if (user) {
+            window.currentProUser = user;
+            const isAdm = await checkAdminRoleForUser(db, user);
+            window.setAdminAuthState(isAdm);
+            await window.loadProDashboard(user.uid);
+          } else {
+            window.currentProUser = null;
+            window.setAdminAuthState(false);
+          }
           window.updateHeaderAlertBadges();
           window.updateHeaderProBadge();
         });
@@ -870,8 +912,9 @@
   </script>
 
   <script>
+    localStorage.removeItem('sehatiAdSys_gh_token');
+
     let adminConfig = JSON.parse(localStorage.getItem('sehati_admin_cfg') || 'null') || {
-      pass: "admin2026",
       phone: "0550000000",
       wa: "213550000000",
       adText: "ضاعف عدد مرضاك وزبائنك! أعلن عن عيادتك، صيدليتك، أو مخبرك في الواجهة الرئيسية لتطبيق صحتي أمام آلاف الباحثين يومياً.",
@@ -890,8 +933,21 @@
         usersList = JSON.parse(localStorage.getItem('sehati_users_list') || '[]'),
         currentUserSession = JSON.parse(localStorage.getItem('sehati_current_user') || 'null'),
         medicineRequests = JSON.parse(localStorage.getItem('sehati_med_requests') || '[]'),
-        editingMedId = null,
-        pendingOtpData = null;
+        editingMedId = null;
+
+    window.setAdminAuthState = function(verifiedAdmin) {
+      isAdminUnlocked = Boolean(verifiedAdmin);
+      if (isAdminUnlocked && document.getElementById('secretAdminModal').classList.contains('open')) {
+        document.getElementById('secretPinBox').style.display = 'none';
+        document.getElementById('adminDashboardView').style.display = 'block';
+        document.getElementById('newAdminPhone').value = adminConfig.phone;
+        document.getElementById('newAdminWa').value = adminConfig.wa;
+        document.getElementById('newAdText').value = adminConfig.adText;
+        syncEcgSoundLoop();
+        renderAdminAccounts();
+        renderMedicineRequests();
+      }
+    };
 
     let ecgAudioCtx = null, ecgSoundInterval = null;
 
@@ -965,12 +1021,11 @@
     }
 
     async function toggleAdminEcgSound() {
+      if (!isAdminUnlocked || !window.fbReady) { showToast(tr('adminAuthRequired')); return; }
       adminConfig.ecgSoundEnabled = !adminConfig.ecgSoundEnabled;
       localStorage.setItem('sehati_admin_cfg', JSON.stringify(adminConfig));
       syncEcgSoundLoop();
-      if (window.fbReady) {
-        try { await window.fb.setDoc(window.fb.doc(window.fb.db, "app_config", "admin"), adminConfig); } catch (e) {}
-      }
+      try { await window.fb.setDoc(window.fb.doc(window.fb.db, "app_config", "admin"), adminConfig, { merge: true }); } catch (e) {}
       showToast(adminConfig.ecgSoundEnabled ? tr('ecgSoundOn') : tr('ecgSoundOff'));
     }
 
@@ -1078,7 +1133,26 @@
     const T = {
       ar: {
         sub:'دليلك الصحي وحجز المواعيد في الجزائر', proBtn:'🩺 بوابة المهنيين', userAccBtn:'حسابي', myAppts:'📋 مواعيدي',
-        medFab:'دوائي',
+        medFab:'دوائي', privacyTop:'الخصوصية',
+        privacyTitle:'🛡️ سياسة الخصوصية وحماية البيانات (قانون 18-07)',
+        privacyHtml:`
+          <h4>1. الإطار القانوني (القانون الجزائري 18-07 و Google Play)</h4>
+          <p>يحترم تطبيق <b>صحتي (SEHATI.dz)</b> أحكام القانون رقم <b>18-07</b> المؤرخ في 10 جوان 2018 المتعلق بحماية الأشخاص الطبيعيين في مجال معالجة المعطيات ذات الطابع الشخصي في الجزائر ومتطلبات سلامة البيانات في Google Play.</p>
+          <h4>2. المعطيات التي نعالجها</h4>
+          <ul>
+            <li><b>بيانات الحجز والمريض:</b> الاسم واللقب، رقم الهاتف، التاريخ والساعة المطلوبة، وسبب الزيارة لتأكيد الموعد وتحديد الترتيب.</li>
+            <li><b>طلبات «دوائي»:</b> اسم أو صورة الدواء المطلوب، رقم الهاتف، وملاحظات البحث.</li>
+            <li><b>بيانات المهنيين الصحيين:</b> اسم المؤسسة، التخصص، العنوان، أوقات العمل، والإحداثيات الجغرافية لمشاركتها على الخرائط.</li>
+          </ul>
+          <h4>3. الغرض من المعالجة والأمان</h4>
+          <p>تُستخدم هذه المعطيات حصراً لتقديم خدمة الدليل الصحي، تنظيم المواعيد، وإرسال التنبيهات داخل التطبيق، وتُحمى عبر قواعد صلاحيات Firebase دون بيعها أو تأجيرها لأطراف تجارية.</p>
+          <h4>4. حقوقك وحذف بياناتك</h4>
+          <p>يحق لك الاطلاع على بياناتك وتصحيحها أو حذف بيانات جلستك وطلباتك المحلية فوراً من خلال الزر أدناه أو التواصل مع الإدارة.</p>
+        `,
+        deleteLocalDataBtn:'🗑️ مسح بيانات الجلسة وطلباتي المحلية',
+        localDataDeletedMsg:'✅ تم مسح بيانات الجلسة والمواعيد والطلبات المحلية',
+        adminAuthRequired:'⚠️ يتطلب تسجيل دخول حساب مدير موثّق في Firebase',
+        adminLoginFailed:'❌ تعذّر التحقق من صلاحيات المدير لهذا الحساب',
         ecgSoundOn:'💓 تم تشغيل صوت آلة ECG المستمر للحالة المستقرة',
         ecgSoundOff:'🔇 تم كتم صوت آلة ECG',
         phoneNotifNewApptTitle:'حجز جديد في صحتي',
@@ -1138,14 +1212,12 @@
         toastLoggedOut:'تم تسجيل الخروج',
         defaultAdText:'ضاعف عدد مرضاك وزبائنك! أعلن عن عيادتك، صيدليتك، أو مخبرك في الواجهة الرئيسية لتطبيق صحتي أمام آلاف الباحثين يومياً.',
         uModalTitle:'👤 حساب المستخدم', uTabLogin:'تسجيل الدخول', uTabRegister:'حساب جديد',
-        uLblLoginContact:'رقم الهاتف أو البريد الإلكتروني', uLblLoginPass:'كلمة السر', uBtnLogin:'دخول',
+        uLblLoginContact:'رقم الهاتف أو البريد الإلكتروني', uBtnLogin:'دخول',
         uLblRegName:'الاسم واللقب *',
-        uLblRegContact:'رقم الهاتف أو البريد الإلكتروني *', uLblOtp:'رمز التحقق (OTP)', uLblRegPass:'تعيين كلمة السر *',
-        uBtnSendOtp:'إرسال رمز التحقق', uBtnVerifyReg:'تأكيد الرمز وإنشاء الحساب',
-        uOtpSentMsg:'🔐 تم إرسال رمز التحقق إلى حسابك ({target}): <b>{otp}</b>',
-        uOtpWrong:'رمز التحقق غير صحيح', uLoginWrong:'بيانات الدخول غير صحيحة', uAccExists:'هذا الحساب مسجل مسبقاً',
+        uLblRegContact:'رقم الهاتف أو البريد الإلكتروني *', uBtnVerifyReg:'إنشاء الحساب',
+        uLoginWrong:'بيانات الدخول غير صحيحة', uAccExists:'هذا الحساب مسجل مسبقاً',
         uTabEditTxt:'تعديل الحساب', uTabApptsTxt:'أرشيف المواعيد', uTabMedsTxt:'أرشيف دوائي',
-        uLblEditFullName:'الاسم واللقب', uLblEditPhone:'رقم الهاتف', uLblEditEmail:'البريد الإلكتروني', uLblEditPass:'كلمة السر الجديدة (اختياري)',
+        uLblEditFullName:'الاسم واللقب', uLblEditPhone:'رقم الهاتف', uLblEditEmail:'البريد الإلكتروني',
         uBtnSaveEdit:'💾 حفظ التعديلات', uBtnLogout:'🚪 تسجيل الخروج', uSavedMsg:'✅ تم تحديث بيانات حسابك',
         uNoArchAppts:'لا توجد مواعيد في أرشيفك حتى الآن.', uNoArchMeds:'لا توجد طلبات دوائي في أرشيفك حتى الآن.',
         medModalTitle:'💊 دوائي — بحث عن دواء غير متوفر',
@@ -1161,7 +1233,26 @@
       },
       fr: {
         sub:'Votre guide santé et prise de RDV en Algérie', proBtn:'🩺 Espace Pro', userAccBtn:'Mon compte', myAppts:'📋 Mes RDV',
-        medFab:'Mon Médoc',
+        medFab:'Mon Médoc', privacyTop:'Confidentialité',
+        privacyTitle:'🛡️ Politique de confidentialité (Loi 18-07)',
+        privacyHtml:`
+          <h4>1. Cadre légal (Loi algérienne 18-07 & Google Play)</h4>
+          <p><b>SEHATI.dz</b> respecte la loi n° <b>18-07</b> relative à la protection des personnes physiques dans le traitement des données à caractère personnel en Algérie ainsi que les exigences Google Play Data Safety.</p>
+          <h4>2. Données traitées</h4>
+          <ul>
+            <li><b>RDV & Patient :</b> nom, prénom, téléphone, date, heure exacte et motif de visite.</li>
+            <li><b>Mon Médoc :</b> nom ou photo du médicament recherché, téléphone et remarques.</li>
+            <li><b>Professionnels de santé :</b> nom, spécialité, adresse, horaires et coordonnées GPS pour la carte.</li>
+          </ul>
+          <h4>3. Finalité & sécurité</h4>
+          <p>Les données servent uniquement à l’annuaire santé, la gestion des files d’attente et les notifications, protégées par des règles d’accès Firebase.</p>
+          <h4>4. Vos droits</h4>
+          <p>Vous pouvez effacer vos données locales et demandes enregistrées sur cet appareil via le bouton ci-dessous.</p>
+        `,
+        deleteLocalDataBtn:'🗑️ Effacer ma session et mes données locales',
+        localDataDeletedMsg:'✅ Données locales et session effacées',
+        adminAuthRequired:'⚠️ Connexion avec un compte administrateur Firebase requise',
+        adminLoginFailed:'❌ Droits administrateur refusés pour ce compte',
         ecgSoundOn:'💓 Son continu ECG stable activé dans l’application',
         ecgSoundOff:'🔇 Son ECG coupé',
         phoneNotifNewApptTitle:'Nouvelle réservation SEHATI',
@@ -1221,14 +1312,12 @@
         toastLoggedOut:'Déconnexion effectuée',
         defaultAdText:'Multipliez vos patients ! Affichez votre cabinet, pharmacie ou laboratoire sur l’accueil de SEHATI.',
         uModalTitle:'👤 Mon compte utilisateur', uTabLogin:'Connexion', uTabRegister:'Nouveau compte',
-        uLblLoginContact:'Téléphone ou adresse e-mail', uLblLoginPass:'Mot de passe', uBtnLogin:'Connexion',
+        uLblLoginContact:'Téléphone ou adresse e-mail', uBtnLogin:'Connexion',
         uLblRegName:'Nom et prénom *',
-        uLblRegContact:'Téléphone ou adresse e-mail *', uLblOtp:'Code de vérification (OTP)', uLblRegPass:'Définir un mot de passe *',
-        uBtnSendOtp:'Envoyer le code', uBtnVerifyReg:'Valider le code et créer',
-        uOtpSentMsg:'🔐 Code envoyé vers votre compte ({target}) : <b>{otp}</b>',
-        uOtpWrong:'Code de vérification invalide', uLoginWrong:'Identifiants incorrects', uAccExists:'Ce compte existe déjà',
+        uLblRegContact:'Téléphone ou adresse e-mail *', uBtnVerifyReg:'Créer le compte',
+        uLoginWrong:'Identifiants incorrects', uAccExists:'Ce compte existe déjà',
         uTabEditTxt:'Modifier compte', uTabApptsTxt:'Archive RDV', uTabMedsTxt:'Archive Médocs',
-        uLblEditFullName:'Nom et prénom', uLblEditPhone:'Téléphone', uLblEditEmail:'Adresse e-mail', uLblEditPass:'Nouveau mot de passe (optionnel)',
+        uLblEditFullName:'Nom et prénom', uLblEditPhone:'Téléphone', uLblEditEmail:'Adresse e-mail',
         uBtnSaveEdit:'💾 Enregistrer', uBtnLogout:'🚪 Déconnexion', uSavedMsg:'✅ Profil mis à jour',
         uNoArchAppts:'Aucun RDV dans votre archive.', uNoArchMeds:'Aucune recherche de médicament dans votre archive.',
         medModalTitle:'💊 Mon Médoc — Recherche de médicament indisponible',
@@ -1244,7 +1333,26 @@
       },
       en: {
         sub:'Your health directory & appointment booking in Algeria', proBtn:'🩺 Pro Portal', userAccBtn:'My Account', myAppts:'📋 My Appts',
-        medFab:'My Meds',
+        medFab:'My Meds', privacyTop:'Privacy',
+        privacyTitle:'🛡️ Privacy Policy & Data Protection (Law 18-07)',
+        privacyHtml:`
+          <h4>1. Legal Framework (Algerian Law 18-07 & Google Play)</h4>
+          <p><b>SEHATI.dz</b> follows Algerian Personal Data Protection Law <b>18-07</b> and Google Play Data Safety requirements.</p>
+          <h4>2. Data Processed</h4>
+          <ul>
+            <li><b>Appointments:</b> full name, phone number, preferred date, exact time, and visit reason.</li>
+            <li><b>My Meds:</b> medicine name or photo, contact phone, and search notes.</li>
+            <li><b>Health Professionals:</b> facility name, specialty, address, working hours, and map coordinates.</li>
+          </ul>
+          <h4>3. Purpose & Security</h4>
+          <p>Data is used solely to operate the directory, appointment queue, and alerts under Firebase access rules, without selling data to third parties.</p>
+          <h4>4. Data Deletion</h4>
+          <p>You can clear local session and request data on this device anytime using the button below.</p>
+        `,
+        deleteLocalDataBtn:'🗑️ Clear Session & Local Requests',
+        localDataDeletedMsg:'✅ Local session and request data cleared',
+        adminAuthRequired:'⚠️ Verified Firebase administrator account required',
+        adminLoginFailed:'❌ Administrator privileges denied for this account',
         ecgSoundOn:'💓 Continuous stable ECG monitor sound enabled in app',
         ecgSoundOff:'🔇 ECG sound muted',
         phoneNotifNewApptTitle:'New Booking on SEHATI',
@@ -1304,14 +1412,12 @@
         toastLoggedOut:'Signed out',
         defaultAdText:'Grow your patient reach! Feature your clinic, pharmacy, or lab on the main screen of SEHATI.',
         uModalTitle:'👤 User Account', uTabLogin:'Sign In', uTabRegister:'New Account',
-        uLblLoginContact:'Phone Number or Email', uLblLoginPass:'Password', uBtnLogin:'Sign In',
+        uLblLoginContact:'Phone Number or Email', uBtnLogin:'Sign In',
         uLblRegName:'Full Name *',
-        uLblRegContact:'Phone Number or Email *', uLblOtp:'Verification Code (OTP)', uLblRegPass:'Set Password *',
-        uBtnSendOtp:'Send Verification Code', uBtnVerifyReg:'Verify Code & Create Account',
-        uOtpSentMsg:'🔐 Verification code sent to your account ({target}): <b>{otp}</b>',
-        uOtpWrong:'Invalid verification code', uLoginWrong:'Invalid login credentials', uAccExists:'Account already registered',
+        uLblRegContact:'Phone Number or Email *', uBtnVerifyReg:'Create Account',
+        uLoginWrong:'Invalid login credentials', uAccExists:'Account already registered',
         uTabEditTxt:'Edit Account', uTabApptsTxt:'Appts Archive', uTabMedsTxt:'My Med Archive',
-        uLblEditFullName:'Full Name', uLblEditPhone:'Phone Number', uLblEditEmail:'Email Address', uLblEditPass:'New Password (optional)',
+        uLblEditFullName:'Full Name', uLblEditPhone:'Phone Number', uLblEditEmail:'Email Address',
         uBtnSaveEdit:'💾 Save Changes', uBtnLogout:'🚪 Sign Out', uSavedMsg:'✅ Account details updated',
         uNoArchAppts:'No appointments in your archive yet.', uNoArchMeds:'No medicine requests in your archive yet.',
         medModalTitle:'💊 My Meds — Search Unavailable Medicine',
@@ -1326,6 +1432,28 @@
         medPostedMsg:'✅ Request posted for all users', medUpdatedMsg:'✅ Request updated', medDeletedMsg:'🗑️ Request deleted', medNoReqs:'No medicine requests yet.'
       }
     };
+
+    function openPrivacyModal() {
+      document.getElementById('privacyModalTitle').textContent = tr('privacyTitle');
+      document.getElementById('privacyContentBox').innerHTML = tr('privacyHtml');
+      document.getElementById('btnDeleteLocalPrivacyData').textContent = tr('deleteLocalDataBtn');
+      document.getElementById('privacyModal').classList.add('open');
+    }
+
+    function deleteUserSessionAndData() {
+      currentUserSession = null;
+      lastPatientPhone = '';
+      localStorage.removeItem('sehati_current_user');
+      localStorage.removeItem('sehati_last_patient_phone');
+      localStorage.removeItem('sehati_appointments');
+      localAppointments = [];
+      document.getElementById('myPhoneLookup').value = '';
+      document.getElementById('myApptsList').innerHTML = '';
+      updateMyApptsBadge();
+      window.updateHeaderAlertBadges();
+      renderUserAccountModal();
+      showToast(tr('localDataDeletedMsg'));
+    }
 
     function renderVerifiedBadgeHtml(titleText = '') {
       return `<span class="fb-verify-badge" title="${titleText}"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#1877f2" d="M22.8 12l-2.1-2.5.4-3.2-3.2-.7-1.6-2.8L12 4.1 8.7 2.8 7.1 5.6 3.9 6.3l.4 3.2L2.2 12l2.1 2.5-.4 3.2 3.2.7 1.6 2.8L12 19.9l3.3 1.3 1.6-2.8 3.2-.7-.4-3.2L22.8 12z"/><path fill="#ffffff" d="M10.4 15.8l-3.1-3.1 1.4-1.4 1.7 1.7 4.8-4.8 1.4 1.4-6.2 6z"/></svg></span>`;
@@ -1377,8 +1505,13 @@
       clearTimeout(logoTapTimer);
       if (logoTapCount >= 5) {
         logoTapCount = 0;
-        document.getElementById('secretPinBox').style.display = 'block';
-        document.getElementById('adminDashboardView').style.display = 'none';
+        if (isAdminUnlocked) {
+          document.getElementById('secretPinBox').style.display = 'none';
+          document.getElementById('adminDashboardView').style.display = 'block';
+        } else {
+          document.getElementById('secretPinBox').style.display = 'block';
+          document.getElementById('adminDashboardView').style.display = 'none';
+        }
         document.getElementById('secretAdminModal').classList.add('open');
       } else {
         logoTapTimer = setTimeout(() => { logoTapCount = 0; }, 1800);
@@ -1518,6 +1651,7 @@
       document.getElementById('btnEn').classList.toggle('on', lang === 'en');
 
       document.getElementById('tagSub').textContent = tr('sub');
+      document.getElementById('privacyTopTxt').textContent = tr('privacyTop');
       document.getElementById('proPortalTxt').textContent = tr('proBtn');
       document.getElementById('userAccLabel').textContent = tr('userAccBtn');
       document.getElementById('myApptsLabel').textContent = tr('myAppts');
@@ -1552,13 +1686,9 @@
       document.getElementById('uTabLogin').textContent = tr('uTabLogin');
       document.getElementById('uTabRegister').textContent = tr('uTabRegister');
       document.getElementById('uLblLoginContact').textContent = tr('uLblLoginContact');
-      document.getElementById('uLblLoginPass').textContent = tr('uLblLoginPass');
       document.getElementById('uBtnLogin').textContent = tr('uBtnLogin');
       document.getElementById('uLblRegName').textContent = tr('uLblRegName');
       document.getElementById('uLblRegContact').textContent = tr('uLblRegContact');
-      document.getElementById('uLblOtp').textContent = tr('uLblOtp');
-      document.getElementById('uLblRegPass').textContent = tr('uLblRegPass');
-      document.getElementById('uBtnSendOtp').textContent = tr('uBtnSendOtp');
       document.getElementById('uBtnVerifyReg').textContent = tr('uBtnVerifyReg');
 
       document.getElementById('uTabEditTxt').textContent = tr('uTabEditTxt');
@@ -1567,7 +1697,6 @@
       document.getElementById('uLblEditFullName').textContent = tr('uLblEditFullName');
       document.getElementById('uLblEditPhone').textContent = tr('uLblEditPhone');
       document.getElementById('uLblEditEmail').textContent = tr('uLblEditEmail');
-      document.getElementById('uLblEditPass').textContent = tr('uLblEditPass');
       document.getElementById('uBtnSaveEdit').textContent = tr('uBtnSaveEdit');
       document.getElementById('uBtnLogout').textContent = tr('uBtnLogout');
 
@@ -1619,6 +1748,10 @@
       document.getElementById('btnSaveProfile').textContent = tr('saveProfileBtn');
       document.getElementById('btnProLogout').textContent = tr('logoutBtn');
       document.getElementById('pendingWarningBox').innerHTML = tr('pendingBoxHtml');
+
+      if (document.getElementById('privacyModal').classList.contains('open')) {
+        openPrivacyModal();
+      }
 
       applyAdminConfigToUI();
       window.updateHeaderAlertBadges();
@@ -1950,7 +2083,6 @@
         document.getElementById('uEditFullName').value = currentUserSession.fullName || '';
         document.getElementById('uEditPhone').value = currentUserSession.phone || '';
         document.getElementById('uEditEmail').value = currentUserSession.email || '';
-        document.getElementById('uEditPass').value = '';
         renderUserArchiveAppts();
         renderUserArchiveMeds();
       } else {
@@ -1963,41 +2095,20 @@
       window.updateHeaderProBadge();
     }
 
-    function sendUserOtp() {
+    function completeUserRegistration() {
       const fullName = document.getElementById('uRegFullName').value.trim();
       const contact = document.getElementById('uRegContact').value.trim();
-      const pass = document.getElementById('uRegPass').value.trim();
-      if (!fullName || !contact || !pass) { showToast(tr('toastFillReq')); return; }
+      if (!fullName || !contact) { showToast(tr('toastFillReq')); return; }
 
       const exists = usersList.some(u => (u.phone && u.phone === contact) || (u.email && u.email.toLowerCase() === contact.toLowerCase()));
       if (exists) { showToast(tr('uAccExists')); return; }
 
-      const code = String(Math.floor(1000 + Math.random() * 9000));
-      pendingOtpData = { fullName, contact, pass, code };
-
-      const otpBox = document.getElementById('uOtpDisplay');
-      otpBox.style.display = 'block';
-      otpBox.innerHTML = tr('uOtpSentMsg', { target: contact, otp: code });
-      document.getElementById('uOtpInputGroup').style.display = 'block';
-      document.getElementById('uBtnVerifyReg').style.display = 'block';
-      showToast(tr('uOtpSentMsg', { target: contact, otp: code }).replace(/<[^>]*>/g, ''));
-    }
-
-    function completeUserRegistration() {
-      if (!pendingOtpData) return;
-      const enteredOtp = document.getElementById('uOtpCode').value.trim();
-      if (enteredOtp !== pendingOtpData.code) {
-        showToast(tr('uOtpWrong'));
-        return;
-      }
-
-      const isEmail = pendingOtpData.contact.includes('@');
+      const isEmail = contact.includes('@');
       const newUser = {
         id: 'usr_' + Date.now(),
-        fullName: pendingOtpData.fullName,
-        phone: isEmail ? '' : pendingOtpData.contact,
-        email: isEmail ? pendingOtpData.contact : '',
-        password: pendingOtpData.pass
+        fullName,
+        phone: isEmail ? '' : contact,
+        email: isEmail ? contact : ''
       };
 
       usersList.push(newUser);
@@ -2010,14 +2121,8 @@
         updateMyApptsBadge();
       }
 
-      pendingOtpData = null;
       document.getElementById('uRegFullName').value = '';
       document.getElementById('uRegContact').value = '';
-      document.getElementById('uRegPass').value = '';
-      document.getElementById('uOtpCode').value = '';
-      document.getElementById('uOtpDisplay').style.display = 'none';
-      document.getElementById('uOtpInputGroup').style.display = 'none';
-      document.getElementById('uBtnVerifyReg').style.display = 'none';
       applyTranslationsToStaticUI();
       renderUserAccountModal();
       switchUserDashTab('edit');
@@ -2026,12 +2131,10 @@
 
     function userLogin() {
       const contact = document.getElementById('uLoginContact').value.trim();
-      const pass = document.getElementById('uLoginPass').value.trim();
-      if (!contact || !pass) { showToast(tr('toastFillReq')); return; }
+      if (!contact) { showToast(tr('toastFillReq')); return; }
 
       const found = usersList.find(u =>
-        ((u.phone && u.phone === contact) || (u.email && u.email.toLowerCase() === contact.toLowerCase())) &&
-        u.password === pass
+        (u.phone && u.phone === contact) || (u.email && u.email.toLowerCase() === contact.toLowerCase())
       );
       if (!found) {
         showToast(tr('uLoginWrong'));
@@ -2055,7 +2158,6 @@
       const fullName = document.getElementById('uEditFullName').value.trim();
       const phone = document.getElementById('uEditPhone').value.trim();
       const email = document.getElementById('uEditEmail').value.trim();
-      const newPass = document.getElementById('uEditPass').value.trim();
 
       if (!phone && !email) { showToast(tr('toastFillReq')); return; }
 
@@ -2063,8 +2165,7 @@
         ...currentUserSession,
         fullName: fullName || currentUserSession.fullName,
         phone,
-        email,
-        password: newPass ? newPass : currentUserSession.password
+        email
       };
 
       usersList = usersList.map(u => u.id === updated.id ? updated : u);
@@ -3055,19 +3156,32 @@
     }
 
     async function unlockAdminPanel() {
-      if (document.getElementById('adminPinInput').value.trim() !== adminConfig.pass) { showToast('❌'); return; }
-      isAdminUnlocked = true;
-      document.getElementById('adminPinInput').value = '';
-      document.getElementById('secretPinBox').style.display = 'none';
-      document.getElementById('adminDashboardView').style.display = 'block';
-      document.getElementById('newAdminPass').value = adminConfig.pass;
-      document.getElementById('newAdminPhone').value = adminConfig.phone;
-      document.getElementById('newAdminWa').value = adminConfig.wa;
-      document.getElementById('newAdText').value = adminConfig.adText;
-      syncEcgSoundLoop();
-      await window.refreshCloudData();
-      renderAdminAccounts();
-      renderMedicineRequests();
+      const email = document.getElementById('adminEmailInput').value.trim();
+      const pass = document.getElementById('adminPinInput').value.trim();
+      if (!email || !pass || !window.fbReady) { showToast(tr('adminAuthRequired')); return; }
+
+      try {
+        const cred = await window.fb.signInWithEmailAndPassword(window.fb.auth, email, pass);
+        const isAdm = await window.fb.checkAdminRoleForUser(window.fb.db, cred.user);
+        if (!isAdm) {
+          await window.fb.signOut(window.fb.auth);
+          showToast(tr('adminLoginFailed'));
+          return;
+        }
+        isAdminUnlocked = true;
+        document.getElementById('adminPinInput').value = '';
+        document.getElementById('secretPinBox').style.display = 'none';
+        document.getElementById('adminDashboardView').style.display = 'block';
+        document.getElementById('newAdminPhone').value = adminConfig.phone;
+        document.getElementById('newAdminWa').value = adminConfig.wa;
+        document.getElementById('newAdText').value = adminConfig.adText;
+        syncEcgSoundLoop();
+        await window.refreshCloudData();
+        renderAdminAccounts();
+        renderMedicineRequests();
+      } catch (err) {
+        showToast('❌ ' + (err.message || tr('adminLoginFailed')));
+      }
     }
 
     function switchAdminTab(tab) {
@@ -3080,12 +3194,12 @@
     }
 
     async function saveAdminSettings() {
-      const newPass = document.getElementById('newAdminPass').value.trim(), newPhone = document.getElementById('newAdminPhone').value.trim(), newWa = document.getElementById('newAdminWa').value.trim(), newAd = document.getElementById('newAdText').value.trim();
-      if (!newPass || newPass.length < 4) { return; }
-      adminConfig = { ...adminConfig, pass: newPass, phone: newPhone || adminConfig.phone, wa: newWa || adminConfig.wa, adText: newAd || adminConfig.adText };
+      if (!isAdminUnlocked || !window.fbReady) { showToast(tr('adminAuthRequired')); return; }
+      const newPhone = document.getElementById('newAdminPhone').value.trim(), newWa = document.getElementById('newAdminWa').value.trim(), newAd = document.getElementById('newAdText').value.trim();
+      adminConfig = { ...adminConfig, phone: newPhone || adminConfig.phone, wa: newWa || adminConfig.wa, adText: newAd || adminConfig.adText };
       localStorage.setItem('sehati_admin_cfg', JSON.stringify(adminConfig));
       applyAdminConfigToUI();
-      if (window.fbReady) { try { await window.fb.setDoc(window.fb.doc(window.fb.db, "app_config", "admin"), adminConfig); } catch (e) {} }
+      try { await window.fb.setDoc(window.fb.doc(window.fb.db, "app_config", "admin"), adminConfig, { merge: true }); } catch (e) {}
       showToast('✅');
     }
 
@@ -3300,15 +3414,13 @@
       }).join('');
     };
 
-    /* نظام الإعلانات المطور: بدون صورة سوداء عالقة + ساعة رملية وتأكيد للرفع والحذف */
+    /* نظام الإعلانات الآمن عبر Firebase Storage و Firestore (بدون GitHub Token) */
     (function() {
-      const OWNER = "abdoben16", REPO = "SEHATI.dz", BRANCH = "main", PATH = "ad.json", TKEY = "sehatiAdSys_gh_token";
       const adBox = document.getElementById("mainAdBox");
       const modal = document.getElementById("sehatiQuickModal");
       const closeB = document.getElementById("sehatiQuickClose");
       const addB = document.getElementById("sehatiQuickAdd");
       const cancelEditB = document.getElementById("sehatiQuickCancelEdit");
-      const tokI = document.getElementById("sehatiQuickToken");
       const secI = document.getElementById("sehatiQuickSec");
       const filI = document.getElementById("sehatiQuickFile");
       const titI = document.getElementById("sehatiQuickTitle");
@@ -3365,13 +3477,20 @@
       }
 
       function openM() {
-        tokI.value = localStorage.getItem(TKEY) || "";
+        if (!isAdminUnlocked) {
+          document.getElementById('secretPinBox').style.display = 'block';
+          document.getElementById('adminDashboardView').style.display = 'none';
+          document.getElementById('secretAdminModal').classList.add('open');
+          showToast(tr('adminAuthRequired'));
+          return;
+        }
         secI.value = dur;
         stE.textContent = "";
         resetAdForm();
         drawList();
         modal.style.display = "block";
       }
+
       closeB.onclick = () => {
         resetAdForm();
         modal.style.display = "none";
@@ -3396,76 +3515,47 @@
         });
       }
 
-      const toB64 = f => new Promise((res, rej) => {
-        const r = new FileReader();
-        r.onload = () => res(String(r.result || "").split(",")[1] || "");
-        r.onerror = rej;
-        r.readAsDataURL(f);
-      });
-      const utf8B64 = s => {
-        const b = new TextEncoder().encode(s);
-        let o = "";
-        b.forEach(x => o += String.fromCharCode(x));
-        return btoa(o);
-      };
-
-      async function fetchWithTimeout(url, options = {}, timeoutMs = 8000) {
-        const controller = new AbortController();
-        const id = setTimeout(() => controller.abort(), timeoutMs);
-        try {
-          return await fetch(url, { ...options, signal: controller.signal });
-        } finally {
-          clearTimeout(id);
+      async function uploadAdMediaToFirebaseStorage(file, adId) {
+        if (!window.fbReady || !window.fb.storage) {
+          throw new Error("Firebase Storage غير مفعّل");
         }
+        const isVid = (file.type || "").startsWith("video/") || isVideoFile(file.name);
+        const mediaType = isVid ? "video" : "image";
+        const ext = (file.name.split(".").pop() || (isVid ? "mp4" : "jpg")).toLowerCase().replace(/[^a-z0-9]/g, "") || (isVid ? "mp4" : "jpg");
+        const storagePath = `ads/${adId}/${Date.now()}.${ext}`;
+        const storageRef = window.fb.ref(window.fb.storage, storagePath);
+        await window.fb.uploadBytes(storageRef, file, { contentType: file.type || (isVid ? "video/mp4" : "image/jpeg") });
+        const downloadUrl = await window.fb.getDownloadURL(storageRef);
+        return { downloadUrl, storagePath, mediaType };
       }
 
-      async function getSha(p, tok) {
-        try {
-          const r = await fetchWithTimeout(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${p}?ref=${BRANCH}`, {
-            headers: { Authorization: `Bearer ${tok}` }
-          });
-          if (!r.ok) return null;
-          const j = await r.json();
-          return j.sha || null;
-        } catch (_) {
-          return null;
-        }
-      }
-
-      async function putF(p, b64, msg, tok) {
-        const body = { message: msg, content: b64, branch: BRANCH };
-        const sha = await getSha(p, tok);
-        if (sha) body.sha = sha;
-        const r = await fetchWithTimeout(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${p}`, {
-          method: "PUT",
-          headers: { Authorization: `Bearer ${tok}`, "Content-Type": "application/json" },
-          body: JSON.stringify(body)
-        }, 12000);
-        if (!r.ok) {
-          const e = await r.json().catch(() => ({}));
-          throw new Error(e.message || "Error");
-        }
-      }
-
-      async function deleteMediaFileIfUnused(mediaPath, remainingAds, tok) {
-        if (!tok || !mediaPath || /^https?:\/\//i.test(mediaPath)) return;
-        const stillUsed = remainingAds.some(item => (item.media || item.video || item.image) === mediaPath);
+      async function removeStorageFileIfUnused(storagePath, remainingAds) {
+        if (!window.fbReady || !window.fb.storage || !storagePath) return;
+        const stillUsed = remainingAds.some(item => item && item.storagePath === storagePath);
         if (stillUsed) return;
         try {
-          const sha = await getSha(mediaPath, tok);
-          if (!sha) return;
-          await fetchWithTimeout(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${mediaPath}`, {
-            method: "DELETE",
-            headers: { Authorization: `Bearer ${tok}`, "Content-Type": "application/json" },
-            body: JSON.stringify({ message: `Delete ${mediaPath}`, sha, branch: BRANCH })
-          }, 10000);
+          await window.fb.deleteObject(window.fb.ref(window.fb.storage, storagePath));
         } catch (_) {}
       }
 
-      async function saveAll(nextAds, nextDur, tok) {
-        const safeDur = Math.max(1, Number(nextDur) || 6);
-        const payload = { active: nextAds.length > 0, defaultDurationSec: safeDur, ads: nextAds };
+      async function syncAdsCollectionToCloud(nextAds, nextDur) {
+        if (!window.fbReady || !window.fb.db) return;
+        const snap = await window.fb.getDocs(window.fb.collection(window.fb.db, "ads"));
+        const batch = window.fb.writeBatch(window.fb.db);
+        snap.forEach(d => batch.delete(d.ref));
+        nextAds.forEach((item, orderIndex) => {
+          const docRef = window.fb.doc(window.fb.db, "ads", item.id);
+          batch.set(docRef, { ...item, orderIndex, defaultDurationSec: nextDur });
+        });
+        await batch.commit();
+      }
 
+      async function saveAll(nextAds, nextDur) {
+        if (!isAdminUnlocked) {
+          showToast(tr('adminAuthRequired'));
+          return;
+        }
+        const safeDur = Math.max(1, Number(nextDur) || 6);
         ads = nextAds;
         window.sehatiAdsList = ads;
         dur = safeDur;
@@ -3473,10 +3563,7 @@
         drawAd();
         loopAds();
         drawList();
-
-        if (tok) {
-          await putF(PATH, utf8B64(JSON.stringify(payload, null, 2)), "Update ads", tok);
-        }
+        await syncAdsCollectionToCloud(nextAds, safeDur);
       }
 
       function drawAd() {
@@ -3484,7 +3571,7 @@
         clearAdStageClean();
 
         const validAds = (ads || []).filter(a => {
-          const m = a && (a.media || a.video || a.image || "");
+          const m = a && (a.url || a.media || a.video || a.image || "");
           const t = a && (a.title || "");
           const d = a && (a.description || "");
           return Boolean(m || t || d);
@@ -3495,17 +3582,17 @@
         }
         if (idx >= validAds.length) idx = 0;
         const a = validAds[idx];
-        const mediaSrc = (a.media || a.video || a.image || "").trim();
+        const mediaSrc = (a.url || a.media || a.video || a.image || "").trim();
         const hasText = Boolean((a.title || "").trim() || (a.description || "").trim());
 
         if (mediaSrc && isVideoFile(mediaSrc, a.mediaType)) {
           if (adBox) adBox.classList.add("has-active-ad");
-          vidEl.src = `${mediaSrc}?v=${Date.now()}`;
+          vidEl.src = mediaSrc;
           vidEl.style.display = "block";
           vidEl.play().catch(() => {});
         } else if (mediaSrc) {
           imgEl.onload = () => {
-            if (validAds.length && (validAds[idx]?.media || validAds[idx]?.image) === mediaSrc) {
+            if (validAds.length && (validAds[idx]?.url || validAds[idx]?.media || validAds[idx]?.image) === mediaSrc) {
               if (adBox) adBox.classList.add("has-active-ad");
               imgEl.style.display = "block";
             }
@@ -3515,7 +3602,7 @@
             imgEl.removeAttribute("src");
             if (!hasText && adBox) adBox.classList.remove("has-active-ad");
           };
-          imgEl.src = `${mediaSrc}?v=${Date.now()}`;
+          imgEl.src = mediaSrc;
         }
 
         if (hasText) {
@@ -3546,7 +3633,7 @@
           return;
         }
         lstE.innerHTML = ads.map((a, i) => {
-          const mediaSrc = a.media || a.video || a.image || "";
+          const mediaSrc = a.url || a.media || a.video || a.image || "";
           const kind = isVideoFile(mediaSrc, a.mediaType) ? "🎬" : "🖼️";
           return `
             <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;background:#091815;border:1px solid #1f453e;border-radius:8px;padding:7px 9px;">
@@ -3579,18 +3666,18 @@
         lstE.querySelectorAll("button[data-del]").forEach(b => {
           b.onclick = async () => {
             if (isBusy) return;
+            if (!isAdminUnlocked) { showToast(tr('adminAuthRequired')); return; }
             isBusy = true;
             lstE.querySelectorAll("button[data-del], button[data-edit]").forEach(btn => { btn.disabled = true; });
-            const tok = (tokI.value || localStorage.getItem(TKEY) || "").trim();
             const i = Number(b.getAttribute("data-del"));
             const removedAd = ads[i];
-            const removedMedia = removedAd ? (removedAd.media || removedAd.video || removedAd.image || "") : "";
+            const removedStoragePath = removedAd ? (removedAd.storagePath || "") : "";
             const filteredAds = ads.filter((_, x) => x !== i);
             if (editAdIdx === i) resetAdForm();
             try {
               stE.textContent = "⏳ جاري الحذف...";
-              await saveAll(filteredAds, secI.value || dur, tok);
-              await deleteMediaFileIfUnused(removedMedia, filteredAds, tok);
+              await saveAll(filteredAds, secI.value || dur);
+              await removeStorageFileIfUnused(removedStoragePath, filteredAds);
               stE.textContent = "✅ تم تأكيد الحذف بنجاح";
             } catch (e) {
               stE.textContent = "❌ " + e.message;
@@ -3604,46 +3691,50 @@
 
       addB.onclick = async () => {
         if (isBusy) return;
-        const tok = tokI.value.trim();
-        if (!tok) return;
-        localStorage.setItem(TKEY, tok);
+        if (!isAdminUnlocked) { showToast(tr('adminAuthRequired')); return; }
         isBusy = true;
         addB.disabled = true;
         try {
           stE.textContent = "⏳ جاري الرفع...";
           const isEditing = editAdIdx >= 0 && editAdIdx < ads.length;
           const prevAd = isEditing ? ads[editAdIdx] : null;
-          let mediaPath = prevAd ? (prevAd.media || prevAd.video || prevAd.image || "") : "";
-          let mediaType = prevAd ? (prevAd.mediaType || (isVideoFile(mediaPath) ? "video" : "image")) : "image";
-          let oldMediaToClean = "";
+          const adId = prevAd?.id || ("ad_" + Date.now() + "_" + Math.floor(Math.random() * 1000));
+
+          let mediaUrl = prevAd ? (prevAd.url || prevAd.media || prevAd.video || prevAd.image || "") : "";
+          let storagePath = prevAd ? (prevAd.storagePath || "") : "";
+          let mediaType = prevAd ? (prevAd.mediaType || (isVideoFile(mediaUrl) ? "video" : "image")) : "image";
+          let oldStoragePathToClean = "";
 
           const f = filI.files && filI.files[0];
           if (f) {
-            oldMediaToClean = mediaPath;
-            const isVid = (f.type || "").startsWith("video/") || isVideoFile(f.name);
-            mediaType = isVid ? "video" : "image";
-            const ext = (f.name.split(".").pop() || (isVid ? "mp4" : "jpg")).toLowerCase();
-            mediaPath = `ad-${Date.now()}.${ext}`;
-            await putF(mediaPath, await toB64(f), `Upload ${mediaPath}`, tok);
+            oldStoragePathToClean = storagePath;
+            const uploaded = await uploadAdMediaToFirebaseStorage(f, adId);
+            mediaUrl = uploaded.downloadUrl;
+            storagePath = uploaded.storagePath;
+            mediaType = uploaded.mediaType;
           }
 
           const updatedObj = {
+            id: adId,
             title: titI.value.trim(),
             description: desI.value.trim(),
-            image: mediaType === "image" ? mediaPath : "",
-            video: mediaType === "video" ? mediaPath : "",
-            media: mediaPath,
+            url: mediaUrl,
+            storagePath,
+            image: mediaType === "image" ? mediaUrl : "",
+            video: mediaType === "video" ? mediaUrl : "",
+            media: mediaUrl,
             mediaType,
-            durationSec: Math.max(1, Number(secI.value) || dur)
+            durationSec: Math.max(1, Number(secI.value) || dur),
+            updatedAt: new Date().toISOString()
           };
 
           const next = isEditing
             ? ads.map((item, x) => x === editAdIdx ? updatedObj : item)
             : [...ads, updatedObj];
 
-          await saveAll(next, secI.value || dur, tok);
-          if (oldMediaToClean) {
-            await deleteMediaFileIfUnused(oldMediaToClean, next, tok);
+          await saveAll(next, secI.value || dur);
+          if (oldStoragePathToClean) {
+            await removeStorageFileIfUnused(oldStoragePathToClean, next);
           }
           resetAdForm();
           stE.textContent = "✅ تم تأكيد الرفع بنجاح";
@@ -3655,26 +3746,29 @@
         }
       };
 
-      async function initAds() {
+      window.initStorageAdsSystem = async function() {
+        if (!window.fbReady || !window.fb.db) {
+          drawAd();
+          return;
+        }
         try {
-          const r = await fetchWithTimeout(`${PATH}?t=${Date.now()}`, { cache: "no-store" }, 6000);
-          if (r.ok) {
-            const d = await r.json();
-            if (d && d.active !== false) {
-              dur = Math.max(1, Number(d.defaultDurationSec) || 6);
-              if (Array.isArray(d.ads)) ads = d.ads;
-              else if (d.title || d.description || d.image || d.video) {
-                ads = [{ title: d.title || "", description: d.description || "", image: d.image || "", video: d.video || "", durationSec: dur }];
-              }
-            }
+          const snap = await window.fb.getDocs(window.fb.collection(window.fb.db, "ads"));
+          const loaded = [];
+          snap.forEach(d => loaded.push({ id: d.id, ...d.data() }));
+          loaded.sort((a, b) => (Number(a.orderIndex ?? 999) - Number(b.orderIndex ?? 999)));
+          if (loaded.length && loaded[0].defaultDurationSec) {
+            dur = Math.max(1, Number(loaded[0].defaultDurationSec) || 6);
           }
-        } catch (_) {}
+          ads = loaded;
+        } catch (_) {
+          ads = [];
+        }
         window.sehatiAdsList = ads;
         drawAd();
         loopAds();
-      }
+      };
 
-      initAds();
+      drawAd();
     })();
 
     if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(() => {});
