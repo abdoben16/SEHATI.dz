@@ -69,6 +69,7 @@
     .brand-info small{display:block;opacity:.92;font-size:.78rem;margin-top:3px}
     .brand-controls-under{display:flex;align-items:center;gap:6px;margin-top:7px;flex-wrap:wrap}
 
+    .logo-slot{display:inline-flex;align-items:center;gap:7px;flex-shrink:0}
     .logo{
       width:74px;
       height:74px;
@@ -85,10 +86,35 @@
       position:relative;
       transition:transform .2s,box-shadow .2s
     }
-    .logo.ecg-sounding{box-shadow:0 0 0 3px rgba(250,204,21,.65),0 6px 18px rgba(0,0,0,.22)}
     .logo svg{width:52px;height:52px;stroke:#fff;fill:none;stroke-width:1.65;stroke-linecap:round;stroke-linejoin:round}
     .ecg{stroke-dasharray:120;stroke-dashoffset:240;animation:draw 2.4s linear infinite}
     @keyframes draw{to{stroke-dashoffset:0}}
+
+    /* شارة Pro الذهبية اللامعة للمهني المشترك فقط */
+    .pro-gold-badge{
+      display:none;
+      align-items:center;
+      justify-content:center;
+      background:linear-gradient(125deg,#fef08a 0%,#facc15 28%,#ffffff 50%,#eab308 74%,#fef9c3 100%);
+      background-size:220% 220%;
+      animation:goldShineMove 2.8s ease infinite;
+      color:#1a1400;
+      font-size:.78rem;
+      font-weight:900;
+      padding:3px 10px;
+      border-radius:999px;
+      border:1px solid #fef9c3;
+      box-shadow:0 2px 10px rgba(250,204,21,.55);
+      letter-spacing:.4px;
+      user-select:none;
+    }
+    .pro-gold-badge.visible{display:inline-flex}
+    .pro-gold-badge.card-inline{display:inline-flex;font-size:.74rem;padding:2px 9px}
+    @keyframes goldShineMove{
+      0%{background-position:0% 50%}
+      50%{background-position:100% 50%}
+      100%{background-position:0% 50%}
+    }
 
     .bottom-ecg-wave{position:absolute;bottom:2px;left:0;width:100%;height:18px;pointer-events:none;z-index:1;opacity:.65}
     .bottom-ecg-wave svg{width:100%;height:100%;fill:none;stroke:#ffffff;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
@@ -123,7 +149,6 @@
       border:1.5px solid #ffffff;
     }
 
-    /* إبراز رقم ترتيب الحجز بشكل أكبر في الحساب والوصل */
     .queue-badge-lg{
       display:inline-flex;
       align-items:center;
@@ -310,8 +335,11 @@
             <button class="tool-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
           </div>
         </div>
-        <div class="logo" id="heroEcgLogo" onclick="handleSecretLogoTap()">
-          <svg viewBox="0 0 24 24"><polyline class="ecg" points="2 12 6 12 9 3 13 21 16 12 22 12"></polyline></svg>
+        <div class="logo-slot">
+          <span class="pro-gold-badge" id="headerProBadge">Pro</span>
+          <div class="logo" id="heroEcgLogo" onclick="handleSecretLogoTap()">
+            <svg viewBox="0 0 24 24"><polyline class="ecg" points="2 12 6 12 9 3 13 21 16 12 22 12"></polyline></svg>
+          </div>
         </div>
       </div>
 
@@ -793,9 +821,11 @@
           if (user) { window.currentProUser = user; await window.loadProDashboard(user.uid); }
           else { window.currentProUser = null; }
           window.updateHeaderAlertBadges();
+          window.updateHeaderProBadge();
         });
       } catch (err) {}
       window.updateHeaderAlertBadges();
+      window.updateHeaderProBadge();
       window.render();
     }
     setupFirebase();
@@ -825,7 +855,7 @@
         editingMedId = null,
         pendingOtpData = null;
 
-    /* صوت آلة ECG مستمر وحقيقي لحالة مستقرة داخل التطبيق فقط */
+    /* صوت آلة ECG مستمر وحقيقي لحالة مستقرة داخل التطبيق فقط (أبطأ قليلاً) */
     let ecgAudioCtx = null, ecgSoundInterval = null;
 
     function playStableEcgMonitorPulse() {
@@ -851,7 +881,7 @@
           filter.frequency.setValueAtTime(140, now + offset);
 
           gain.gain.setValueAtTime(0.0001, now + offset);
-          gain.gain.linearRampToValueAtTime(vol, now + offset + 0.02);
+          gain.gain.linearRampToValueAtTime(vol, now + offset + 0.025);
           gain.gain.exponentialRampToValueAtTime(0.0001, now + offset + dur);
 
           osc.connect(filter);
@@ -862,20 +892,20 @@
           osc.stop(now + offset + dur + 0.02);
         };
 
-        playThump(0, 68, 32, 0.36, 0.14);
-        playThump(0.19, 58, 28, 0.24, 0.12);
+        playThump(0, 66, 32, 0.34, 0.16);
+        playThump(0.22, 56, 28, 0.22, 0.14);
 
         const monitorTone = ecgAudioCtx.createOscillator();
         const toneGain = ecgAudioCtx.createGain();
         monitorTone.type = 'sine';
-        monitorTone.frequency.setValueAtTime(920, now + 0.03);
+        monitorTone.frequency.setValueAtTime(900, now + 0.03);
         toneGain.gain.setValueAtTime(0.0001, now + 0.03);
-        toneGain.gain.linearRampToValueAtTime(0.035, now + 0.045);
-        toneGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.14);
+        toneGain.gain.linearRampToValueAtTime(0.03, now + 0.05);
+        toneGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.16);
         monitorTone.connect(toneGain);
         toneGain.connect(ecgAudioCtx.destination);
         monitorTone.start(now + 0.03);
-        monitorTone.stop(now + 0.15);
+        monitorTone.stop(now + 0.17);
       } catch (_) {}
     }
 
@@ -884,15 +914,11 @@
         clearInterval(ecgSoundInterval);
         ecgSoundInterval = null;
       }
-      const logo = document.getElementById('heroEcgLogo');
       const admBtn = document.getElementById('adminEcgToggleBtn');
 
       if (adminConfig.ecgSoundEnabled && !document.hidden) {
         playStableEcgMonitorPulse();
-        ecgSoundInterval = setInterval(playStableEcgMonitorPulse, 850);
-        if (logo) logo.classList.add('ecg-sounding');
-      } else {
-        if (logo) logo.classList.remove('ecg-sounding');
+        ecgSoundInterval = setInterval(playStableEcgMonitorPulse, 1180);
       }
 
       if (admBtn) {
@@ -927,7 +953,6 @@
       }
     });
 
-    /* إشعارات بار الهاتف */
     async function triggerPhoneSystemNotification(title, body, tag = 'sehati-alert') {
       try {
         if (!('Notification' in window)) return;
@@ -1003,6 +1028,14 @@
         userBadge.textContent = unreadApprovedCount;
         userBadge.style.display = unreadApprovedCount > 0 ? 'inline-flex' : 'none';
       }
+    };
+
+    window.updateHeaderProBadge = function() {
+      const badge = document.getElementById('headerProBadge');
+      if (!badge) return;
+      const activePro = currentProProfile || localProSession;
+      const isSubscribedPro = Boolean(activePro && getSubscriptionInfo(activePro).isActive);
+      badge.classList.toggle('visible', isSubscribedPro);
     };
 
     const T = {
@@ -1407,6 +1440,7 @@
         await window.refreshMedicineRequestsCloud();
         updateMyApptsBadge();
         window.updateHeaderAlertBadges();
+        window.updateHeaderProBadge();
         window.render();
       } catch (e) {}
     };
@@ -1544,6 +1578,7 @@
 
       applyAdminConfigToUI();
       window.updateHeaderAlertBadges();
+      window.updateHeaderProBadge();
     }
 
     function setLang(l) {
@@ -1678,7 +1713,6 @@
       ctx.lineWidth = 2;
       ctx.strokeRect(52, 200, canvas.width - 104, 134);
 
-      /* رقم ترتيب الحجز كبير وواضح في الوصل */
       ctx.fillStyle = '#0f766e';
       ctx.font = '900 38px Tajawal, sans-serif';
       ctx.fillText(`رقم الترتيب: #${rank}`, canvas.width / 2, 256);
@@ -1870,6 +1904,7 @@
         document.getElementById('userProfileBox').style.display = 'none';
       }
       window.updateHeaderAlertBadges();
+      window.updateHeaderProBadge();
     }
 
     function sendUserOtp() {
@@ -2157,16 +2192,44 @@
       listEl.innerHTML = medicineRequests.map(r => renderMedRequestCardHtml(r)).join('');
     }
 
-    function getSortedDayAppointments(placeId, dateStr) {
-      return localAppointments
-        .filter(a => a.placeId === placeId && a.date === dateStr && a.status !== 'rejected')
-        .sort((a, b) => new Date(a.createdAt || 0) - new Date(b.createdAt || 0));
+    /* ترتيب الحجوزات الصحيح بدون تكرار رقم 1 لجميع المسجلين */
+    function getApptSortTimestamp(a) {
+      if (a && a.createdAt) {
+        const parsed = Date.parse(a.createdAt);
+        if (!Number.isNaN(parsed)) return parsed;
+      }
+      if (a && a.id) {
+        const match = String(a.id).match(/(\d{10,})/);
+        if (match) return Number(match[1]);
+      }
+      return 0;
     }
 
-    function getAppointmentQueueNumber(appt) {
-      const sameDayList = getSortedDayAppointments(appt.placeId, appt.date);
+    function getSortedDayAppointments(placeId, dateStr, sourceList = localAppointments) {
+      return (sourceList || [])
+        .filter(a => a && a.placeId === placeId && a.date === dateStr && a.status !== 'rejected')
+        .sort((a, b) => {
+          const diff = getApptSortTimestamp(a) - getApptSortTimestamp(b);
+          if (diff !== 0) return diff;
+          return String(a.id || '').localeCompare(String(b.id || ''));
+        });
+    }
+
+    function getAppointmentQueueNumber(appt, sourceList = localAppointments) {
+      if (!appt) return 1;
+      const sameDayList = getSortedDayAppointments(appt.placeId, appt.date, sourceList);
       const pos = sameDayList.findIndex(x => x.id === appt.id);
-      return pos >= 0 ? (pos + 1) : (sameDayList.length + 1);
+      if (pos >= 0) return pos + 1;
+
+      const samePlaceAll = (sourceList || [])
+        .filter(a => a && a.placeId === appt.placeId && a.status !== 'rejected')
+        .sort((a, b) => {
+          const diff = getApptSortTimestamp(a) - getApptSortTimestamp(b);
+          if (diff !== 0) return diff;
+          return String(a.id || '').localeCompare(String(b.id || ''));
+        });
+      const placePos = samePlaceAll.findIndex(x => x.id === appt.id);
+      return placePos >= 0 ? (placePos + 1) : (sameDayList.length + 1);
     }
 
     function updateBookQueuePreview() {
@@ -2207,7 +2270,7 @@
 
       const mine = localAppointments
         .filter(a => a.patientPhone === phone)
-        .sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
+        .sort((a, b) => getApptSortTimestamp(b) - getApptSortTimestamp(a));
 
       if (!mine.length) {
         listEl.innerHTML = `<p style="text-align:center;color:var(--muted);padding:16px;">${tr('noApptsFound')}</p>`;
@@ -2277,7 +2340,7 @@
       localStorage.setItem('sehati_last_patient_phone', phone);
 
       const appt = {
-        id: 'appt_' + Date.now() + '_' + Math.floor(Math.random() * 1000),
+        id: 'appt_' + Date.now() + '_' + Math.floor(Math.random() * 10000),
         userId: currentUserSession ? currentUserSession.id : '',
         placeId: selectedPlaceForBooking.id,
         placeName: getLocalizedField(selectedPlaceForBooking, 'nm'),
@@ -2419,6 +2482,7 @@
 
     function openProPortal() {
       markProBookingsAsChecked();
+      window.updateHeaderProBadge();
       document.getElementById('proModal').classList.add('open');
       if (window.currentProUser || localProSession) showProDashboard();
       else {
@@ -2477,6 +2541,7 @@
       if (window.fbReady) await window.fb.setDoc(window.fb.doc(window.fb.db, "health_places", uid), profileData);
       render();
       markProBookingsAsChecked();
+      window.updateHeaderProBadge();
       showProDashboard();
     }
 
@@ -2489,6 +2554,7 @@
           await window.refreshCloudData();
           await window.loadProDashboard(cred.user.uid);
           markProBookingsAsChecked();
+          window.updateHeaderProBadge();
           showProDashboard();
           return;
         } catch (err) { showToast(err.message); return; }
@@ -2499,6 +2565,7 @@
         localStorage.setItem('sehati_pro_session', JSON.stringify(found));
         currentProProfile = found;
         markProBookingsAsChecked();
+        window.updateHeaderProBadge();
         showProDashboard();
       }
     }
@@ -2507,6 +2574,7 @@
       const found = window.placesData.find(p => p.id === uid || p.ownerUid === uid);
       if (found) { currentProProfile = found; localProSession = found; }
       window.updateHeaderAlertBadges();
+      window.updateHeaderProBadge();
     };
 
     async function confirmAppointmentWithTime(apptId) {
@@ -2576,9 +2644,11 @@
       const prof = currentProProfile || localProSession;
       if (!prof) return;
 
+      const sub = getSubscriptionInfo(prof);
       const typeIcons = { d:'👨‍⚕️', p:'💊', c:'🏥', l:'🔬', g:'🦷', r:'🩻', h:'🏨' };
       const proIcon = typeIcons[prof.tp] || '🩺';
       const verBadge = prof.verified === true ? renderVerifiedBadgeHtml(tr('verifiedLbl')) : '';
+      const proTagHtml = sub.isActive ? `<span class="pro-gold-badge card-inline">Pro</span>` : '';
       const hasCoords = typeof prof.lat === 'number' && typeof prof.lng === 'number';
       const locText = hasCoords ? `${prof.lat}, ${prof.lng}` : tr('locNotSet');
 
@@ -2586,14 +2656,13 @@
         <div class="pro-hero-top">
           <div class="pro-avatar-circle">${proIcon}</div>
           <div class="pro-hero-meta">
-            <div class="pro-hero-name"><span>${getLocalizedField(prof, 'nm')}</span> ${verBadge}</div>
+            <div class="pro-hero-name"><span>${getLocalizedField(prof, 'nm')}</span> ${verBadge} ${proTagHtml}</div>
             <div class="pro-hero-spec">${getLocalizedField(prof, 'sp')}</div>
             <div class="pro-hero-loc">📍 ${getLocalizedField(prof, 'ad')} • ${locText}</div>
           </div>
         </div>
       `;
 
-      const sub = getSubscriptionInfo(prof);
       const subBox = document.getElementById('proSubStatusBox');
       const weekAlert = document.getElementById('proLastWeekAlert');
       const localeCode = lang === 'en' ? 'en-GB' : (lang === 'fr' ? 'fr-FR' : 'ar-DZ');
@@ -2646,15 +2715,26 @@
         try {
           const q = window.fb.query(window.fb.collection(window.fb.db, "appointments"), window.fb.where("placeId", "==", prof.id));
           const snap = await window.fb.getDocs(q);
-          myAppts = [];
-          snap.forEach(d => myAppts.push({ id: d.id, ...d.data() }));
+          const fetched = [];
+          snap.forEach(d => fetched.push({ id: d.id, ...d.data() }));
+          if (fetched.length > 0) {
+            myAppts = fetched;
+            const otherIds = new Set(fetched.map(x => x.id));
+            localAppointments = [...localAppointments.filter(x => x.placeId !== prof.id && !otherIds.has(x.id)), ...fetched];
+            localStorage.setItem('sehati_appointments', JSON.stringify(localAppointments));
+          }
         } catch (e) {}
       }
 
-      myAppts.sort((a, b) => {
-        if (a.date !== b.date) return String(a.date || '').localeCompare(String(b.date || ''));
-        return new Date(a.createdAt || 0) - new Date(b.createdAt || 0);
-      });
+      const activeSortedAppts = [...myAppts]
+        .filter(a => a.status !== 'rejected')
+        .sort((a, b) => {
+          const diff = getApptSortTimestamp(a) - getApptSortTimestamp(b);
+          if (diff !== 0) return diff;
+          return String(a.id || '').localeCompare(String(b.id || ''));
+        });
+
+      const displayList = [...myAppts].sort((a, b) => getApptSortTimestamp(b) - getApptSortTimestamp(a));
 
       const confirmedCount = myAppts.filter(a => a.status === 'confirmed').length;
       const pendingCount = myAppts.filter(a => a.status !== 'confirmed' && a.status !== 'rejected').length;
@@ -2667,12 +2747,16 @@
 
       document.getElementById('apptCount').textContent = myAppts.length;
       markProBookingsAsChecked();
+      window.updateHeaderProBadge();
       const listEl = document.getElementById('apptsList');
 
-      listEl.innerHTML = myAppts.length === 0
+      listEl.innerHTML = displayList.length === 0
         ? `<p style="text-align:center;color:var(--muted);padding:20px;">${tr('noProAppts')}</p>`
-        : myAppts.map(a => {
-            const rank = getAppointmentQueueNumber(a);
+        : displayList.map((a, idx) => {
+            const sameDayActive = getSortedDayAppointments(a.placeId, a.date, myAppts);
+            const dayIdx = sameDayActive.findIndex(x => x.id === a.id);
+            const rank = dayIdx >= 0 ? (dayIdx + 1) : (activeSortedAppts.findIndex(x => x.id === a.id) + 1 || (idx + 1));
+
             const isConfirmed = a.status === 'confirmed';
             const isRejected = a.status === 'rejected';
             const periodText = a.period === 'evening' ? tr('evening') : (a.period === 'morning' ? tr('morning') : a.period);
@@ -2685,7 +2769,7 @@
             return `
               <div class="appt-item">
                 <header>
-                  <span><span class="queue-badge-lg">#${rank}</span> 👤 ${a.patientName}</span>
+                  <span><span class="queue-badge-lg">${tr('rankLabel')}: #${rank}</span> 👤 ${a.patientName}</span>
                   ${badge}
                 </header>
                 <div>📅 <b>${a.date}</b> | 🕒 ${periodText} | 📝 ${a.note}</div>
@@ -2758,6 +2842,7 @@
       currentProProfile = null;
       localStorage.removeItem('sehati_pro_session');
       window.updateHeaderAlertBadges();
+      window.updateHeaderProBadge();
       closeModal('proModal');
       showToast(tr('toastLoggedOut'));
     }
@@ -2810,7 +2895,7 @@
         return `
           <div class="appt-item">
             <header>
-              <span>${acc.nm_ar} ${isVer ? renderVerifiedBadgeHtml(tr('verifiedLbl')) : ''}</span>
+              <span>${acc.nm_ar} ${isVer ? renderVerifiedBadgeHtml(tr('verifiedLbl')) : ''} ${sub.isActive ? `<span class="pro-gold-badge card-inline">Pro</span>` : ''}</span>
               <span class="status-badge ${sub.isActive ? 'status-active' : 'status-pending'}">${sub.isActive ? '✅' : '⏳'}</span>
             </header>
             <div>🩺 ${acc.sp_ar} | 📍 ${acc.ad_ar}</div>
@@ -2867,6 +2952,13 @@
       window.placesData = window.placesData.map(p => p.id === id ? { ...p, ...patch } : p);
       localPlaces = localPlaces.map(p => p.id === id ? { ...p, ...patch } : p);
       localStorage.setItem('sehati_pro_places', JSON.stringify(localPlaces));
+      if (localProSession && localProSession.id === id) {
+        localProSession = { ...localProSession, ...patch };
+        localStorage.setItem('sehati_pro_session', JSON.stringify(localProSession));
+      }
+      if (currentProProfile && currentProProfile.id === id) {
+        currentProProfile = { ...currentProProfile, ...patch };
+      }
 
       if (window.fbReady) {
         try { await window.fb.updateDoc(window.fb.doc(window.fb.db, "health_places", id), patch); } catch (e) {}
@@ -2874,6 +2966,7 @@
 
       render();
       renderAdminAccounts();
+      window.updateHeaderProBadge();
       showToast('✅');
     }
 
@@ -2881,9 +2974,17 @@
       window.placesData = window.placesData.map(p => p.id === id ? { ...p, approved: newStatus } : p);
       localPlaces = localPlaces.map(p => p.id === id ? { ...p, approved: newStatus } : p);
       localStorage.setItem('sehati_pro_places', JSON.stringify(localPlaces));
+      if (localProSession && localProSession.id === id) {
+        localProSession = { ...localProSession, approved: newStatus };
+        localStorage.setItem('sehati_pro_session', JSON.stringify(localProSession));
+      }
+      if (currentProProfile && currentProProfile.id === id) {
+        currentProProfile = { ...currentProProfile, approved: newStatus };
+      }
       if (window.fbReady) { try { await window.fb.updateDoc(window.fb.doc(window.fb.db, "health_places", id), { approved: newStatus }); } catch (e) {} }
       render();
       renderAdminAccounts();
+      window.updateHeaderProBadge();
       showToast('✅');
     }
 
@@ -2980,14 +3081,16 @@
               isFav = favs.includes(item.id),
               isFeat = item.feat === true,
               isVer = item.verified === true,
+              isProSub = getSubscriptionInfo(item).isActive,
               verBadge = isVer ? renderVerifiedBadgeHtml(tr('verifiedLbl')) : '',
+              proCardBadge = isProSub ? `<span class="pro-gold-badge card-inline">Pro</span>` : '',
               cardClasses = ['item-card', isFeat ? 'featured' : ''].filter(Boolean).join(' '),
               allowBook = item.canBook !== false && item.tp !== 'p' && item.tp !== 'h',
               hasPhone = item.ph && item.ph.trim().length > 3,
               mapLink = (typeof item.lat === 'number' && typeof item.lng === 'number') ? `https://maps.google.com/?q=${item.lat},${item.lng}` : `https://maps.google.com/?q=${encodeURIComponent(name + ' ' + addr + ' Algerie')}`,
               cols = [allowBook, hasPhone, true].filter(Boolean).length,
               gridCols = cols === 3 ? '1fr 1fr 1fr auto' : (cols === 2 ? '1fr 1fr auto' : '1fr auto');
-        return `<div class="${cardClasses}">${isFeat ? `<span class="badge-feat">${tr('feat')}</span>` : ''}<div class="item-title"><span>${name}</span>${verBadge}</div><div class="item-sub">${spec}</div>${srv ? `<div class="item-services">🩺 ${srv}</div>` : ''}<div class="item-meta"><span>📍 ${addr}</span><span><i class="dot-open"></i>🕒 ${hours}</span></div>${doctorName ? `<div class="item-doctor-footer">${doctorName}</div>` : ''}<div class="actions" style="grid-template-columns:${gridCols};">${allowBook ? `<button onclick="openBooking('${item.id}')" class="act-btn act-book">${tr('book')}</button>` : ''}${hasPhone ? `<a href="tel:${item.ph}" class="act-btn act-call">${tr('call')}</a>` : ''}<a href="${mapLink}" target="_blank" class="act-btn act-map">${tr('map')}</a><button onclick="toggleFav('${item.id}')" class="act-btn act-fav ${isFav ? 'saved' : ''}">${isFav ? '❤️' : '🤍'}</button></div></div>`;
+        return `<div class="${cardClasses}">${isFeat ? `<span class="badge-feat">${tr('feat')}</span>` : ''}<div class="item-title"><span>${name}</span>${verBadge}${proCardBadge}</div><div class="item-sub">${spec}</div>${srv ? `<div class="item-services">🩺 ${srv}</div>` : ''}<div class="item-meta"><span>📍 ${addr}</span><span><i class="dot-open"></i>🕒 ${hours}</span></div>${doctorName ? `<div class="item-doctor-footer">${doctorName}</div>` : ''}<div class="actions" style="grid-template-columns:${gridCols};">${allowBook ? `<button onclick="openBooking('${item.id}')" class="act-btn act-book">${tr('book')}</button>` : ''}${hasPhone ? `<a href="tel:${item.ph}" class="act-btn act-call">${tr('call')}</a>` : ''}<a href="${mapLink}" target="_blank" class="act-btn act-map">${tr('map')}</a><button onclick="toggleFav('${item.id}')" class="act-btn act-fav ${isFav ? 'saved' : ''}">${isFav ? '❤️' : '🤍'}</button></div></div>`;
       }).join('');
     };
 
@@ -3350,6 +3453,7 @@
     applyTranslationsToStaticUI();
     updateMyApptsBadge();
     window.updateHeaderAlertBadges();
+    window.updateHeaderProBadge();
     render();
     window.addEventListener('resize', () => updateCatIndicator(document.querySelector('.cat-pill.active')));
     setTimeout(() => updateCatIndicator(document.querySelector('.cat-pill.active')), 80);
