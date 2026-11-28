@@ -3676,7 +3676,7 @@
       }).join('');
     };
 
-    /* نظام الإعلانات المُصلَح والمتكامل */
+    /* نظام الإعلانات المُصلَح بالكامل (عرض فوري + إدارة آمنة + Firebase Storage/Firestore) */
     (function() {
       const adBox = document.getElementById("mainAdBox");
       const emptyPlaceholder = document.getElementById("adEmptyPlaceholder");
@@ -3702,23 +3702,29 @@
       if (!dotsBar && adBox) {
         dotsBar = document.createElement("div");
         dotsBar.id = "sehatiAdDots";
-        dotsBar.style.cssText = "position:absolute;top:8px;left:10px;z-index:4;display:flex;gap:5px;pointer-events:auto;";
+        dotsBar.style.cssText = "position:absolute;top:8px;left:10px;z-index:5;display:flex;gap:5px;pointer-events:auto;";
         adBox.appendChild(dotsBar);
       }
 
-      const cachedAds = safeJsonParse('sehati_ads_cache', []);
+      const cachedAds = safeJsonParse("sehati_ads_cache", []);
       let ads = Array.isArray(cachedAds) ? cachedAds : [];
-      let dur = 6, idx = 0, timer = null, isBusy = false, editAdIdx = -1;
+      let dur = Math.max(1, Number(ads[0]?.defaultDurationSec || ads[0]?.durationSec || 6) || 6);
+      let idx = 0, timer = null, isBusy = false, editAdIdx = -1;
       let adTapCount = 0, adTapTimer = null;
       window.sehatiAdsList = ads;
 
-      function isVideoFile(path, type) {
-        if (type === "video") return true;
-        const clean = String(path || "").split("?")[0];
-        return /\.(mp4|webm|ogg|mov|m4v)$/i.test(clean) || String(path || "").startsWith("data:video/");
+      function getAdMediaUrl(a) {
+        if (!a || typeof a !== "object") return "";
+        return String(a.url || a.media || a.video || a.image || "").trim();
       }
 
-      function clearAdStageClean() {
+      function isVideoAd(a, mediaUrl) {
+        if (a && a.mediaType === "video") return true;
+        const clean = String(mediaUrl || "").split("?")[0];
+        return /\.(mp4|webm|ogg|mov|m4v)$/i.test(clean) || String(mediaUrl || "").startsWith("data:video/");
+      }
+
+      function clearAdStage() {
         if (timer) { clearTimeout(timer); timer = null; }
         if (overlayEl) overlayEl.style.display = "none";
         if (emptyPlaceholder) emptyPlaceholder.style.display = "flex";
@@ -3731,19 +3737,20 @@
         if (descEl) descEl.textContent = "";
       }
 
-      function renderDots(count) {
+      function renderDots(total) {
         if (!dotsBar) return;
-        if (count <= 1) { dotsBar.innerHTML = ""; return; }
-        dotsBar.innerHTML = Array.from({ length: count }, (_, i) => `
-          <span data-dot="${i}" style="width:${i === idx ? '18px' : '7px'};height:7px;border-radius:99px;background:${i === idx ? '#facc15' : 'rgba(255,255,255,0.55)'};transition:all .25s;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.5);"></span>
+        if (total <= 1) { dotsBar.innerHTML = ""; return; }
+        dotsBar.innerHTML = Array.from({ length: total }, (_, i) => `
+          <span data-ad-dot="${i}" style="width:${i === idx ? '18px' : '7px'};height:7px;border-radius:999px;background:${i === idx ? '#facc15' : 'rgba(255,255,255,0.6)'};transition:all .2s;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.45);"></span>
         `).join("");
-        dotsBar.querySelectorAll("[data-dot]").forEach(dot => {
-          dot.onclick = (e) => {
-            e.stopPropagation();
-            idx = Number(dot.getAttribute("data-dot")) || 0;
-            drawAd();
-            loopAds();
-          };
+
+        dotsBar.querySelectorAll("[data-ad-dot]").forEach(el => {
+          el.addEventListener("click", (ev) => {
+            ev.stopPropagation();
+            idx = Number(el.getAttribute("data-ad-dot")) || 0;
+            drawCurrentAd();
+            scheduleNextAd();
+          });
         });
       }
 
@@ -3757,23 +3764,27 @@
         if (cancelEditB) cancelEditB.style.display = "none";
       }
 
+      function promptAdminLoginForAds() {
+        document.getElementById("secretPinBox").style.display = "block";
+        document.getElementById("adminDashboardView").style.display = "none";
+        document.getElementById("secretAdminModal").classList.add("open");
+        showToast(tr("adminAuthRequired"));
+      }
+
       window.openSehatiAdsManager = function() {
         if (!isAdminUnlocked) {
-          document.getElementById('secretPinBox').style.display = 'block';
-          document.getElementById('adminDashboardView').style.display = 'none';
-          document.getElementById('secretAdminModal').classList.add('open');
-          showToast(tr('adminAuthRequired'));
+          promptAdminLoginForAds();
           return;
         }
         if (secI) secI.value = dur;
         if (stE) stE.textContent = "";
         resetAdForm();
-        drawList();
+        renderAdsManageList();
         if (modal) modal.style.display = "block";
       };
 
-      if (closeB) closeB.onclick = () => { resetAdForm(); modal.style.display = "none"; };
-      if (cancelEditB) cancelEditB.onclick = () => { resetAdForm(); if (stE) stE.textContent = ""; };
+      if (closeB) closeB.addEventListener("click", () => { resetAdForm(); if (modal) modal.style.display = "none"; });
+      if (cancelEditB) cancelEditB.addEventListener("click", () => { resetAdForm(); if (stE) stE.textContent = ""; });
 
       if (adBox) {
         adBox.addEventListener("click", () => {
@@ -3786,113 +3797,122 @@
           }
           adTapTimer = setTimeout(() => {
             adTapCount = 0;
-            const currentAd = ads[idx];
-            if (currentAd && currentAd.link) {
-              window.open(currentAd.link, "_blank", "noopener");
+            const current = ads[idx];
+            if (current && current.link) {
+              try { window.open(current.link, "_blank", "noopener,noreferrer"); } catch (_) {}
             }
-          }, 450);
+          }, 420);
         });
       }
 
-      function compressImageFallback(file) {
+      function compressImageToDataUrl(file, maxWidth = 900, quality = 0.76) {
         return new Promise((resolve, reject) => {
           const reader = new FileReader();
           reader.onload = () => {
             const img = new Image();
             img.onload = () => {
               const canvas = document.createElement("canvas");
-              const maxW = 960;
-              const scale = img.width > maxW ? maxW / img.width : 1;
-              canvas.width = Math.round(img.width * scale);
-              canvas.height = Math.round(img.height * scale);
+              const scale = img.width > maxWidth ? maxWidth / img.width : 1;
+              canvas.width = Math.max(1, Math.round(img.width * scale));
+              canvas.height = Math.max(1, Math.round(img.height * scale));
               const ctx = canvas.getContext("2d");
               ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-              resolve(canvas.toDataURL("image/jpeg", 0.78));
+              resolve(canvas.toDataURL("image/jpeg", quality));
             };
             img.onerror = reject;
-            img.src = reader.result;
+            img.src = String(reader.result || "");
           };
           reader.onerror = reject;
           reader.readAsDataURL(file);
         });
       }
 
-      async function uploadAdMediaToFirebaseStorage(file, adId) {
-        const isVid = (file.type || "").startsWith("video/") || isVideoFile(file.name);
+      async function uploadAdFile(file, adId) {
+        const isVid = String(file.type || "").startsWith("video/") || isVideoAd({ mediaType: "" }, file.name);
         const mediaType = isVid ? "video" : "image";
 
         if (window.fbReady && window.fb.storage) {
           try {
-            const ext = (file.name.split(".").pop() || (isVid ? "mp4" : "jpg")).toLowerCase().replace(/[^a-z0-9]/g, "") || (isVid ? "mp4" : "jpg");
+            const rawExt = (file.name.split(".").pop() || (isVid ? "mp4" : "jpg")).toLowerCase().replace(/[^a-z0-9]/g, "");
+            const ext = rawExt || (isVid ? "mp4" : "jpg");
             const storagePath = `ads/${adId}/${Date.now()}.${ext}`;
             const storageRef = window.fb.ref(window.fb.storage, storagePath);
             await window.fb.uploadBytes(storageRef, file, { contentType: file.type || (isVid ? "video/mp4" : "image/jpeg") });
             const downloadUrl = await window.fb.getDownloadURL(storageRef);
             return { downloadUrl, storagePath, mediaType };
-          } catch (storageErr) {
-            if (isVid) throw new Error("تعذّر رفع الفيديو إلى Storage: " + (storageErr.message || ""));
-            const dataUrl = await compressImageFallback(file);
-            return { downloadUrl: dataUrl, storagePath: "", mediaType: "image" };
+          } catch (err) {
+            if (isVid) throw new Error("تعذّر رفع الفيديو إلى Firebase Storage: " + (err.message || ""));
+            const compressedUrl = await compressImageToDataUrl(file);
+            return { downloadUrl: compressedUrl, storagePath: "", mediaType: "image" };
           }
         }
 
         if (isVid) throw new Error("رفع الفيديو يتطلب اتصالاً بـ Firebase Storage");
-        const dataUrl = await compressImageFallback(file);
-        return { downloadUrl: dataUrl, storagePath: "", mediaType: "image" };
+        const compressedUrl = await compressImageToDataUrl(file);
+        return { downloadUrl: compressedUrl, storagePath: "", mediaType: "image" };
       }
 
-      async function removeStorageFileIfUnused(storagePath, remainingAds) {
+      async function cleanupUnusedStoragePath(storagePath, activeAds) {
         if (!window.fbReady || !window.fb.storage || !storagePath) return;
-        if (remainingAds.some(item => item && item.storagePath === storagePath)) return;
+        if ((activeAds || []).some(item => item && item.storagePath === storagePath)) return;
         try { await window.fb.deleteObject(window.fb.ref(window.fb.storage, storagePath)); } catch (_) {}
       }
 
-      async function syncAdsCollectionToCloud(nextAds, nextDur) {
+      async function persistAdsToFirestore(nextAds, nextDur) {
         if (!window.fbReady || !window.fb.db) return;
-        const snap = await window.fb.getDocs(window.fb.collection(window.fb.db, "ads"));
-        const nextIds = new Set(nextAds.map(x => x.id));
-        const batch = window.fb.writeBatch(window.fb.db);
-        snap.forEach(d => { if (!nextIds.has(d.id)) batch.delete(d.ref); });
-        nextAds.forEach((item, orderIndex) => {
-          batch.set(window.fb.doc(window.fb.db, "ads", item.id), { ...item, orderIndex, defaultDurationSec: nextDur }, { merge: true });
-        });
-        await batch.commit();
+        try {
+          const snap = await window.fb.getDocs(window.fb.collection(window.fb.db, "ads"));
+          const nextIds = new Set(nextAds.map(x => x.id));
+          const batch = window.fb.writeBatch(window.fb.db);
+          snap.forEach(d => { if (!nextIds.has(d.id)) batch.delete(d.ref); });
+          nextAds.forEach((item, orderIndex) => {
+            batch.set(window.fb.doc(window.fb.db, "ads", item.id), {
+              id: item.id, title: item.title || "", description: item.description || "", link: item.link || "",
+              url: item.url || "", storagePath: item.storagePath || "", image: item.image || "",
+              video: item.video || "", media: item.media || "", mediaType: item.mediaType || "image",
+              durationSec: Math.max(1, Number(item.durationSec || nextDur) || 6),
+              defaultDurationSec: Math.max(1, Number(nextDur) || 6),
+              orderIndex, updatedAt: item.updatedAt || new Date().toISOString()
+            }, { merge: true });
+          });
+          await batch.commit();
+        } catch (_) {}
       }
 
-      async function saveAll(nextAds, nextDur) {
-        if (!isAdminUnlocked) { showToast(tr('adminAuthRequired')); return; }
+      async function saveAdsState(nextAds, nextDur) {
+        if (!isAdminUnlocked) { promptAdminLoginForAds(); return; }
         const safeDur = Math.max(1, Number(nextDur) || 6);
-        ads = nextAds;
-        localStorage.setItem('sehati_ads_cache', JSON.stringify(ads));
-        window.sehatiAdsList = ads;
+        ads = Array.isArray(nextAds) ? nextAds : [];
         dur = safeDur;
         if (idx >= ads.length) idx = 0;
-        drawAd();
-        loopAds();
-        drawList();
-        await syncAdsCollectionToCloud(nextAds, safeDur);
+        try { localStorage.setItem("sehati_ads_cache", JSON.stringify(ads)); } catch (_) {}
+        window.sehatiAdsList = ads;
+        drawCurrentAd();
+        scheduleNextAd();
+        renderAdsManageList();
+        await persistAdsToFirestore(ads, safeDur);
       }
 
-      function drawAd() {
+      function drawCurrentAd() {
         updateGoldTickerState();
-        clearAdStageClean();
+        clearAdStage();
 
         const validAds = (ads || []).filter(a => {
           if (!a) return false;
-          const m = a.url || a.media || a.video || a.image || "";
-          const t = a.title || "";
-          const d = a.description || "";
-          return Boolean(String(m).trim() || String(t).trim() || String(d).trim());
+          const m = getAdMediaUrl(a);
+          const t = String(a.title || "").trim();
+          const d = String(a.description || "").trim();
+          return Boolean(m || t || d);
         });
 
         renderDots(validAds.length);
         if (!validAds.length) return;
         if (idx >= validAds.length) idx = 0;
 
-        const a = validAds[idx];
-        const mediaSrc = String(a.url || a.media || a.video || a.image || "").trim();
-        const titleTxt = String(a.title || "").trim();
-        const descTxt = String(a.description || "").trim();
+        const current = validAds[idx];
+        const mediaSrc = getAdMediaUrl(current);
+        const titleTxt = String(current.title || "").trim();
+        const descTxt = String(current.description || "").trim();
         const hasText = Boolean(titleTxt || descTxt);
 
         if (hasText) {
@@ -3902,21 +3922,21 @@
           if (descEl) descEl.textContent = descTxt;
         }
 
-        if (mediaSrc && isVideoFile(mediaSrc, a.mediaType)) {
+        if (mediaSrc && isVideoAd(current, mediaSrc) && vidEl) {
           if (emptyPlaceholder) emptyPlaceholder.style.display = "none";
           vidEl.muted = true;
           vidEl.playsInline = true;
           vidEl.setAttribute("muted", "");
           vidEl.setAttribute("playsinline", "");
-          vidEl.src = mediaSrc;
           vidEl.style.display = "block";
           vidEl.onerror = () => {
             vidEl.style.display = "none";
             if (!hasText && emptyPlaceholder) emptyPlaceholder.style.display = "flex";
           };
-          const p = vidEl.play();
-          if (p && typeof p.catch === "function") p.catch(() => {});
-        } else if (mediaSrc) {
+          vidEl.src = mediaSrc;
+          const playRes = vidEl.play();
+          if (playRes && typeof playRes.catch === "function") playRes.catch(() => {});
+        } else if (mediaSrc && imgEl) {
           if (emptyPlaceholder) emptyPlaceholder.style.display = "none";
           imgEl.style.display = "block";
           imgEl.onerror = () => {
@@ -3928,42 +3948,43 @@
         }
       }
 
-      function loopAds() {
+      function scheduleNextAd() {
         if (timer) { clearTimeout(timer); timer = null; }
         if (!ads || ads.length <= 1) return;
         const current = ads[idx] || {};
-        const s = Math.max(2, Number(current.durationSec || dur) || 6);
+        const sec = Math.max(2, Number(current.durationSec || dur) || 6);
         timer = setTimeout(() => {
           idx = (idx + 1) % ads.length;
-          drawAd();
-          loopAds();
-        }, s * 1000);
+          drawCurrentAd();
+          scheduleNextAd();
+        }, sec * 1000);
       }
 
-      function drawList() {
+      function renderAdsManageList() {
         if (!lstE) return;
         if (!ads.length) {
           lstE.innerHTML = `<div style="color:#90a4ae;text-align:center;padding:8px;">لا توجد إعلانات منشورة حالياً</div>`;
           return;
         }
         lstE.innerHTML = ads.map((a, i) => {
-          const mediaSrc = a.url || a.media || a.video || a.image || "";
-          const kind = isVideoFile(mediaSrc, a.mediaType) ? "🎬" : "🖼️";
+          const mediaSrc = getAdMediaUrl(a);
+          const icon = isVideoAd(a, mediaSrc) ? "🎬" : "🖼️";
+          const label = a.title || a.description || "إعلان";
           return `
             <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;background:#091815;border:1px solid #1f453e;border-radius:8px;padding:7px 9px;">
-              <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">#${i + 1} ${kind} ${a.title || a.description || "إعلان"} (${a.durationSec || dur}ث)</span>
+              <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">#${i + 1} ${icon} ${label} (${a.durationSec || dur}ث)</span>
               <div style="display:flex;align-items:center;gap:5px;flex-shrink:0;">
-                <button data-edit="${i}" type="button" style="background:#0284c7;color:#fff;border:none;border-radius:6px;padding:4px 9px;font-weight:bold;cursor:pointer;">تعديل</button>
-                <button data-del="${i}" type="button" style="background:#c62828;color:#fff;border:none;border-radius:6px;padding:4px 9px;font-weight:bold;cursor:pointer;">حذف</button>
+                <button data-ad-edit="${i}" type="button" style="background:#0284c7;color:#fff;border:none;border-radius:6px;padding:4px 9px;font-weight:bold;cursor:pointer;">تعديل</button>
+                <button data-ad-del="${i}" type="button" style="background:#c62828;color:#fff;border:none;border-radius:6px;padding:4px 9px;font-weight:bold;cursor:pointer;">حذف</button>
               </div>
             </div>
           `;
         }).join("");
 
-        lstE.querySelectorAll("button[data-edit]").forEach(b => {
-          b.onclick = () => {
+        lstE.querySelectorAll("button[data-ad-edit]").forEach(btn => {
+          btn.addEventListener("click", () => {
             if (isBusy) return;
-            const i = Number(b.getAttribute("data-edit"));
+            const i = Number(btn.getAttribute("data-ad-edit"));
             const target = ads[i];
             if (!target) return;
             editAdIdx = i;
@@ -3975,102 +3996,123 @@
             if (addB) addB.textContent = "حفظ تعديل الإعلان";
             if (cancelEditB) cancelEditB.style.display = "block";
             if (stE) stE.textContent = `جاري تعديل الإعلان #${i + 1}`;
-          };
+          });
         });
 
-        lstE.querySelectorAll("button[data-del]").forEach(b => {
-          b.onclick = async () => {
+        lstE.querySelectorAll("button[data-ad-del]").forEach(btn => {
+          btn.addEventListener("click", async () => {
             if (isBusy) return;
-            if (!isAdminUnlocked) { showToast(tr('adminAuthRequired')); return; }
+            if (!isAdminUnlocked) { promptAdminLoginForAds(); return; }
             isBusy = true;
-            lstE.querySelectorAll("button[data-del], button[data-edit]").forEach(btn => { btn.disabled = true; });
-            const i = Number(b.getAttribute("data-del"));
-            const removedAd = ads[i];
-            const removedStoragePath = removedAd ? (removedAd.storagePath || "") : "";
-            const filteredAds = ads.filter((_, x) => x !== i);
+            lstE.querySelectorAll("button[data-ad-del], button[data-ad-edit]").forEach(b => { b.disabled = true; });
+            const i = Number(btn.getAttribute("data-ad-del"));
+            const removed = ads[i];
+            const oldPath = removed ? String(removed.storagePath || "") : "";
+            const nextList = ads.filter((_, x) => x !== i);
             if (editAdIdx === i) resetAdForm();
             try {
               if (stE) stE.textContent = "⏳ جاري الحذف...";
-              await saveAll(filteredAds, secI.value || dur);
-              await removeStorageFileIfUnused(removedStoragePath, filteredAds);
+              await saveAdsState(nextList, secI?.value || dur);
+              await cleanupUnusedStoragePath(oldPath, nextList);
               if (stE) stE.textContent = "✅ تم حذف الإعلان بنجاح";
-            } catch (e) { if (stE) stE.textContent = "❌ " + (e.message || ""); }
-            finally {
+            } catch (err) {
+              if (stE) stE.textContent = "❌ " + (err.message || "تعذّر الحذف");
+            } finally {
               isBusy = false;
-              lstE.querySelectorAll("button[data-del], button[data-edit]").forEach(btn => { btn.disabled = false; });
+              lstE.querySelectorAll("button[data-ad-del], button[data-ad-edit]").forEach(b => { b.disabled = false; });
             }
-          };
+          });
         });
       }
 
       if (addB) {
-        addB.onclick = async () => {
+        addB.addEventListener("click", async () => {
           if (isBusy) return;
-          if (!isAdminUnlocked) { showToast(tr('adminAuthRequired')); return; }
+          if (!isAdminUnlocked) { promptAdminLoginForAds(); return; }
           isBusy = true;
           addB.disabled = true;
           try {
-            if (stE) stE.textContent = "⏳ جاري الرفع والحفظ...";
+            if (stE) stE.textContent = "⏳ جاري الرفع والنشر...";
             const isEditing = editAdIdx >= 0 && editAdIdx < ads.length;
             const prevAd = isEditing ? ads[editAdIdx] : null;
             const adId = prevAd?.id || ("ad_" + Date.now() + "_" + Math.floor(Math.random() * 1000));
 
-            let mediaUrl = prevAd ? (prevAd.url || prevAd.media || prevAd.video || prevAd.image || "") : "";
-            let storagePath = prevAd ? (prevAd.storagePath || "") : "";
-            let mediaType = prevAd ? (prevAd.mediaType || (isVideoFile(mediaUrl) ? "video" : "image")) : "image";
-            let oldStoragePathToClean = "";
+            let mediaUrl = prevAd ? getAdMediaUrl(prevAd) : "";
+            let storagePath = prevAd ? String(prevAd.storagePath || "") : "";
+            let mediaType = prevAd ? (prevAd.mediaType || (isVideoAd(prevAd, mediaUrl) ? "video" : "image")) : "image";
+            let oldStoragePath = "";
 
-            const f = filI.files && filI.files[0];
-            if (f) {
-              oldStoragePathToClean = storagePath;
-              const uploaded = await uploadAdMediaToFirebaseStorage(f, adId);
+            const chosenFile = filI && filI.files && filI.files[0];
+            if (chosenFile) {
+              oldStoragePath = storagePath;
+              const uploaded = await uploadAdFile(chosenFile, adId);
               mediaUrl = uploaded.downloadUrl;
               storagePath = uploaded.storagePath;
               mediaType = uploaded.mediaType;
             }
 
-            const titleVal = (titI?.value || "").trim();
-            const descVal = (desI?.value || "").trim();
-            const linkVal = (linkI?.value || "").trim();
+            const titleVal = String(titI?.value || "").trim();
+            const descVal = String(desI?.value || "").trim();
+            const linkVal = String(linkI?.value || "").trim();
+            const secVal = Math.max(1, Number(secI?.value || dur) || 6);
+
             if (!mediaUrl && !titleVal && !descVal) {
-              throw new Error("يرجى اختيار صورة/فيديو أو كتابة عنوان/وصف للإعلان");
+              throw new Error("يرجى اختيار صورة أو فيديو أو كتابة عنوان/وصف للإعلان");
             }
 
-            const updatedObj = {
-              id: adId, title: titleVal, description: descVal, link: linkVal, url: mediaUrl, storagePath,
-              image: mediaType === "image" ? mediaUrl : "", video: mediaType === "video" ? mediaUrl : "",
-              media: mediaUrl, mediaType, durationSec: Math.max(1, Number(secI?.value) || dur), updatedAt: new Date().toISOString()
+            const adObject = {
+              id: adId, title: titleVal, description: descVal, link: linkVal,
+              url: mediaUrl, storagePath, image: mediaType === "image" ? mediaUrl : "",
+              video: mediaType === "video" ? mediaUrl : "", media: mediaUrl, mediaType,
+              durationSec: secVal, defaultDurationSec: secVal, updatedAt: new Date().toISOString()
             };
 
-            const next = isEditing ? ads.map((item, x) => x === editAdIdx ? updatedObj : item) : [...ads, updatedObj];
-            await saveAll(next, secI?.value || dur);
-            if (oldStoragePathToClean) await removeStorageFileIfUnused(oldStoragePathToClean, next);
+            const nextList = isEditing
+              ? ads.map((item, x) => x === editAdIdx ? adObject : item)
+              : [...ads, adObject];
+
+            await saveAdsState(nextList, secVal);
+            if (oldStoragePath) await cleanupUnusedStoragePath(oldStoragePath, nextList);
             resetAdForm();
             if (stE) stE.textContent = "✅ تم نشر الإعلان بنجاح";
-          } catch (e) { if (stE) stE.textContent = "❌ " + (e.message || ""); }
-          finally { isBusy = false; addB.disabled = false; }
-        };
+          } catch (err) {
+            if (stE) stE.textContent = "❌ " + (err.message || "حدث خطأ أثناء نشر الإعلان");
+          } finally {
+            isBusy = false;
+            addB.disabled = false;
+          }
+        });
       }
 
       window.initStorageAdsSystem = async function() {
-        if (!window.fbReady || !window.fb.db) { drawAd(); loopAds(); return; }
+        drawCurrentAd();
+        scheduleNextAd();
+
+        if (!window.fbReady || !window.fb.db) return;
         try {
           const snap = await window.fb.getDocs(window.fb.collection(window.fb.db, "ads"));
           const loaded = [];
-          snap.forEach(d => loaded.push({ id: d.id, ...d.data() }));
+          snap.forEach(d => {
+            const data = d.data() || {};
+            loaded.push({ id: data.id || d.id, ...data });
+          });
           loaded.sort((a, b) => (Number(a.orderIndex ?? 999) - Number(b.orderIndex ?? 999)));
-          if (loaded.length && loaded[0].defaultDurationSec) dur = Math.max(1, Number(loaded[0].defaultDurationSec) || 6);
-          ads = loaded;
-          localStorage.setItem('sehati_ads_cache', JSON.stringify(ads));
+
+          if (loaded.length > 0) {
+            if (loaded[0].defaultDurationSec) dur = Math.max(1, Number(loaded[0].defaultDurationSec) || 6);
+            ads = loaded;
+            try { localStorage.setItem("sehati_ads_cache", JSON.stringify(ads)); } catch (_) {}
+          }
         } catch (_) {}
+
         window.sehatiAdsList = ads;
         idx = 0;
-        drawAd();
-        loopAds();
+        drawCurrentAd();
+        scheduleNextAd();
       };
 
-      drawAd();
-      loopAds();
+      drawCurrentAd();
+      scheduleNextAd();
     })();
 
     if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(() => {});
